@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
+import { Route as DiagnosticRouteImport } from './routes/diagnostic'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
@@ -17,6 +18,11 @@ import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 const ThankYouRoute = ThankYouRouteImport.update({
   id: '/thank-you',
   path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiagnosticRoute = DiagnosticRouteImport.update({
+  id: '/diagnostic',
+  path: '/diagnostic',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -38,12 +44,14 @@ const ProductSlugRoute = ProductSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
   '/product/$slug': typeof ProductSlugRoute
 }
@@ -51,20 +59,28 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/thank-you' | '/product/$slug'
+  fullPaths: '/' | '/admin' | '/diagnostic' | '/thank-you' | '/product/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/thank-you' | '/product/$slug'
-  id: '__root__' | '/' | '/admin' | '/thank-you' | '/product/$slug'
+  to: '/' | '/admin' | '/diagnostic' | '/thank-you' | '/product/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/diagnostic'
+    | '/thank-you'
+    | '/product/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  DiagnosticRoute: typeof DiagnosticRoute
   ThankYouRoute: typeof ThankYouRoute
   ProductSlugRoute: typeof ProductSlugRoute
 }
@@ -76,6 +92,13 @@ declare module '@tanstack/react-router' {
       path: '/thank-you'
       fullPath: '/thank-you'
       preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diagnostic': {
+      id: '/diagnostic'
+      path: '/diagnostic'
+      fullPath: '/diagnostic'
+      preLoaderRoute: typeof DiagnosticRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -105,6 +128,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  DiagnosticRoute: DiagnosticRoute,
   ThankYouRoute: ThankYouRoute,
   ProductSlugRoute: ProductSlugRoute,
 }
