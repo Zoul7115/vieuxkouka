@@ -1,17 +1,39 @@
+import { useEffect, useState, useCallback } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+
 export type Livreur = {
+  id: string;
   idx: number;
   name: string;
   whatsapp: string;
-  zone: string;
-  emoji: string;
+  zone: string | null;
+  emoji: string | null;
+  active: boolean;
 };
 
-export const LIVREURS: Livreur[] = [
-  { idx: 0, name: 'Boukary', whatsapp: '22670000001', zone: 'Ouagadougou Centre', emoji: '🛵' },
-  { idx: 1, name: 'Issouf', whatsapp: '22670000002', zone: 'Ouagadougou Nord', emoji: '🛵' },
-  { idx: 2, name: 'Salif', whatsapp: '22670000003', zone: 'Ouagadougou Sud', emoji: '🛵' },
-  { idx: 3, name: 'Adama', whatsapp: '22670000004', zone: 'Bobo-Dioulasso', emoji: '🛵' },
-];
+/** Hook: charge les livreurs depuis la BD avec rafraîchissement */
+export function useLivreurs() {
+  const [livreurs, setLivreurs] = useState<Livreur[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export const getLivreur = (idx: number | null | undefined) =>
-  idx == null ? null : LIVREURS.find((l) => l.idx === idx) || null;
+  const load = useCallback(async () => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('livreurs')
+      .select('*')
+      .order('idx', { ascending: true });
+    if (!error && data) setLivreurs(data as Livreur[]);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  return { livreurs, loading, reload: load };
+}
+
+export const getLivreur = (livreurs: Livreur[], idx: number | null | undefined) =>
+  idx == null ? null : livreurs.find((l) => l.idx === idx) || null;
+
+/** Format E.164 sans le + pour wa.me */
+export const cleanPhone = (raw: string | null | undefined) =>
+  (raw || '').replace(/\D/g, '');
