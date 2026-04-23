@@ -8,6 +8,7 @@ import { StatsTab } from '@/components/admin/StatsTab';
 import { StockTab } from '@/components/admin/StockTab';
 import { ComptaTab } from '@/components/admin/ComptaTab';
 import { LivreursTab } from '@/components/admin/LivreursTab';
+import { usePWAAdmin } from '@/hooks/usePWAAdmin';
 
 export const Route = createFileRoute('/admin')({
   head: () => ({ meta: [{ title: 'Admin — ShopAfrik' }] }),
@@ -124,11 +125,23 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     { k: 'stats', label: 'Stats', emoji: '📈' },
   ];
 
+  const { canInstall, install, permission, requestNotifications } = usePWAAdmin(true);
+
   return (
     <div className="min-h-screen bg-cream">
-      <header className="bg-vert text-white px-5 py-4 flex justify-between items-center sticky top-0 z-30 shadow-md">
+      <header className="bg-vert text-white px-5 py-4 flex justify-between items-center sticky top-0 z-30 shadow-md flex-wrap gap-2">
         <div className="font-extrabold">🌿 ShopAfrik Admin</div>
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-2 items-center flex-wrap">
+          {canInstall && (
+            <button onClick={install} className="text-xs bg-or text-vert font-extrabold px-3 py-1.5 rounded-lg hover:bg-or-light">
+              📲 Installer
+            </button>
+          )}
+          {permission !== 'granted' && (
+            <button onClick={requestNotifications} className="text-xs bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">
+              🔔 Notifs
+            </button>
+          )}
           <button onClick={load} className="text-sm bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">🔄</button>
           <Link to="/" className="text-white/80 text-sm hover:text-white">Boutique</Link>
           <button onClick={onLogout} className="text-sm bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">

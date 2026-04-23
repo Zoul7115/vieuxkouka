@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { formatFCFA } from '@/lib/products';
-import { LIVREURS } from '@/lib/livreurs';
+import { useLivreurs } from '@/lib/livreurs';
 
 type Order = {
   id: string;
@@ -21,6 +21,7 @@ const PERIODS = [
 
 export function ComptaTab({ orders }: { orders: Order[] }) {
   const [period, setPeriod] = useState('30d');
+  const { livreurs } = useLivreurs();
 
   const filtered = useMemo(() => {
     const days = PERIODS.find((p) => p.k === period)?.days || 30;
@@ -40,7 +41,7 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
 
   const parLivreur = useMemo(() => {
     const map: Record<number, { count: number; ca: number }> = {};
-    LIVREURS.forEach((l) => { map[l.idx] = { count: 0, ca: 0 }; });
+    livreurs.forEach((l) => { map[l.idx] = { count: 0, ca: 0 }; });
     totals.delivered.forEach((o) => {
       const idx = o.livreur_idx ?? -1;
       if (!map[idx]) map[idx] = { count: 0, ca: 0 };
@@ -48,7 +49,7 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
       map[idx].ca += o.product_price;
     });
     return map;
-  }, [totals.delivered]);
+  }, [totals.delivered, livreurs]);
 
   const exportCSV = () => {
     const headers = ['N° Commande', 'Date', 'Produit', 'Prix', 'Statut', 'Livreur'];
@@ -58,7 +59,7 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
       o.product_name,
       o.product_price,
       o.status,
-      LIVREURS.find((l) => l.idx === o.livreur_idx)?.name || '',
+      livreurs.find((l) => l.idx === o.livreur_idx)?.name || '',
     ]);
     const csv = [headers, ...rows].map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
     const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
@@ -98,12 +99,12 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
       <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
         <h3 className="font-extrabold text-vert mb-4">👥 Performance livreurs</h3>
         <div className="space-y-2">
-          {LIVREURS.map((l) => {
+          {livreurs.map((l) => {
             const v = parLivreur[l.idx] || { count: 0, ca: 0 };
             return (
-              <div key={l.idx} className="flex justify-between items-center border-b border-vert-bg/40 pb-2">
+              <div key={l.id} className="flex justify-between items-center border-b border-vert-bg/40 pb-2">
                 <div>
-                  <div className="font-bold">{l.emoji} {l.name}</div>
+                  <div className="font-bold">{l.emoji} {l.name}{!l.active && <span className="text-xs text-muted-foreground ml-2">(inactif)</span>}</div>
                   <div className="text-xs text-muted-foreground">{l.zone}</div>
                 </div>
                 <div className="text-right">

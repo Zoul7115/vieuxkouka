@@ -1,6 +1,12 @@
 export type Offer = {
   id: number;
   label: string;
+  /** Nombre total de sachets reçus (achetés + offerts) */
+  units: number;
+  /** Nombre de sachets payés */
+  paidUnits: number;
+  /** Nombre de sachets bonus / offerts */
+  bonusUnits: number;
   price: number;
   oldPrice: number;
   description: string;
@@ -24,9 +30,42 @@ export type Product = {
 };
 
 const standardOffers: Offer[] = [
-  { id: 1, label: '1 SACHET', price: 10000, oldPrice: 10000, description: '1 sachet — Pour commencer' },
-  { id: 2, label: '2 + 1 OFFERT', price: 20000, oldPrice: 30000, description: '2 achetés + 1 sachet GRATUIT', saving: '1 sachet GRATUIT offert !', badge: '🎁 1 OFFERT', recommended: true },
-  { id: 3, label: '3 + 2 OFFERTS', price: 27000, oldPrice: 50000, description: '3 achetés + 2 sachets GRATUITS', saving: '2 sachets GRATUITS offerts !', badge: '🔥 2 OFFERTS', bestValue: true },
+  {
+    id: 1,
+    label: '1 SACHET — DÉMARRAGE',
+    units: 1,
+    paidUnits: 1,
+    bonusUnits: 0,
+    price: 10000,
+    oldPrice: 10000,
+    description: '1 sachet — Pour démarrer le traitement',
+  },
+  {
+    id: 2,
+    label: '2 + 1 OFFERT — TRAITEMENT COMPLET',
+    units: 3,
+    paidUnits: 2,
+    bonusUnits: 1,
+    price: 20000,
+    oldPrice: 30000,
+    description: '2 achetés + 1 sachet GRATUIT — Cure complète',
+    saving: '1 sachet GRATUIT offert !',
+    badge: '🎁 1 OFFERT',
+    recommended: true,
+  },
+  {
+    id: 3,
+    label: '3 + 2 OFFERTS — CURE FAMILIALE',
+    units: 5,
+    paidUnits: 3,
+    bonusUnits: 2,
+    price: 27000,
+    oldPrice: 50000,
+    description: '3 achetés + 2 sachets GRATUITS — Pour toute la famille',
+    saving: '2 sachets GRATUITS offerts !',
+    badge: '🔥 PACK FAMILLE',
+    bestValue: true,
+  },
 ];
 
 export const KOUKA: Product = {
@@ -45,6 +84,12 @@ export const KOUKA: Product = {
 export const PRODUCTS: Product[] = [KOUKA];
 
 export const getProduct = (slug: string) => (slug === KOUKA.slug ? KOUKA : undefined);
+
+/** Retrouve une offre à partir du libellé stocké dans la commande */
+export const findOfferByLabel = (label: string | null | undefined): Offer | undefined => {
+  if (!label) return undefined;
+  return KOUKA.offers.find((o) => label.includes(o.label) || label === o.label);
+};
 
 export const COUNTRIES = [
   { code: 'BF', label: '🇧🇫 Burkina Faso', prefix: '+226' },

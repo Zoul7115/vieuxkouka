@@ -49,6 +49,42 @@ export type Database = {
           },
         ]
       }
+      livreurs: {
+        Row: {
+          active: boolean
+          created_at: string
+          emoji: string | null
+          id: string
+          idx: number
+          name: string
+          updated_at: string
+          whatsapp: string
+          zone: string | null
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          emoji?: string | null
+          id?: string
+          idx: number
+          name: string
+          updated_at?: string
+          whatsapp: string
+          zone?: string | null
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          emoji?: string | null
+          id?: string
+          idx?: number
+          name?: string
+          updated_at?: string
+          whatsapp?: string
+          zone?: string | null
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           ai_flags: string[] | null

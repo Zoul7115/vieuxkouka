@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { formatFCFA } from '@/lib/products';
-import { LIVREURS } from '@/lib/livreurs';
+import { useLivreurs, type Livreur } from '@/lib/livreurs';
+import { waClientUrl, waLivreurUrl } from '@/lib/whatsappMessages';
 
 export const STATUSES: Record<string, { label: string; cls: string }> = {
   pending: { label: 'En attente', cls: 'bg-[oklch(0.95_0.10_85)] text-[oklch(0.40_0.10_82)]' },
@@ -16,12 +17,14 @@ export type Order = {
   order_number: string;
   product_name: string;
   product_price: number;
+  offer_label: string | null;
   first_name: string | null;
   last_name: string | null;
   whatsapp: string | null;
   country: string | null;
   city: string | null;
   neighborhood?: string | null;
+  car_transport?: string | null;
   status: string;
   livreur_idx: number | null;
   created_at: string;
@@ -37,7 +40,9 @@ export function OrdersTab({
   onAssignLivreur: (id: string, livreurIdx: number | null) => void;
 }) {
   const [filter, setFilter] = useState<string>('all');
+  const { livreurs } = useLivreurs();
   const filtered = filter === 'all' ? orders : orders.filter((o) => o.status === filter);
+  const activeLivreurs = livreurs.filter((l) => l.active);
 
   return (
     <div>
@@ -58,7 +63,14 @@ export function OrdersTab({
 
       <div className="grid gap-3">
         {filtered.map((o) => (
-          <OrderCard key={o.id} order={o} onUpdateStatus={onUpdateStatus} onAssignLivreur={onAssignLivreur} />
+          <OrderCard
+            key={o.id}
+            order={o}
+            livreurs={livreurs}
+            activeLivreurs={activeLivreurs}
+            onUpdateStatus={onUpdateStatus}
+            onAssignLivreur={onAssignLivreur}
+          />
         ))}
       </div>
     </div>
@@ -80,19 +92,21 @@ function FilterBtn({ active, onClick, children }: { active: boolean; onClick: ()
 
 function OrderCard({
   order,
+  livreurs,
+  activeLivreurs,
   onUpdateStatus,
   onAssignLivreur,
 }: {
   order: Order;
+  livreurs: Livreur[];
+  activeLivreurs: Livreur[];
   onUpdateStatus: (id: string, status: string) => void;
   onAssignLivreur: (id: string, livreurIdx: number | null) => void;
 }) {
   const [open, setOpen] = useState(false);
   const status = STATUSES[order.status] || STATUSES.pending;
-  const livreur = LIVREURS.find((l) => l.idx === order.livreur_idx);
-  const waUrl = order.whatsapp
-    ? `https://wa.me/${order.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(`Bonjour ${order.first_name}, votre commande ${order.order_number} sur ShopAfrik`)}`
-    : '#';
+  const livreur = livreurs.find((l) => l.idx === order.livreur_idx);
+  const clientUrl = waClientUrl(order);
 
   return (
     <div className="bg-white rounded-2xl border-2 border-vert-bg overflow-hidden">
@@ -109,7 +123,7 @@ function OrderCard({
           <div className="text-sm text-foreground mt-1 truncate">
             {order.first_name} {order.last_name} · {order.city}
           </div>
-          <div className="text-xs text-muted-foreground truncate">{order.product_name}</div>
+          <div className="text-xs text-muted-foreground truncate">{order.offer_label || order.product_name}</div>
         </div>
         <div className="text-right shrink-0 ml-3">
           <div className="font-extrabold text-vert">{formatFCFA(order.product_price)}</div>
@@ -120,11 +134,36 @@ function OrderCard({
       {open && (
         <div className="border-t-2 border-vert-bg p-4 bg-cream-2/40 space-y-4">
           <div className="grid sm:grid-cols-2 gap-3 text-sm">
-            <div><span className="text-muted-foreground">WhatsApp :</span> <a className="text-vert-mid font-bold" href={waUrl} target="_blank" rel="noreferrer">{order.whatsapp}</a></div>
+            <div><span className="text-muted-foreground">WhatsApp :</span> <span className="font-bold">{order.whatsapp}</span></div>
             <div><span className="text-muted-foreground">Pays :</span> {order.country}</div>
             <div><span className="text-muted-foreground">Ville :</span> {order.city}</div>
-            {order.neighborhood && <div><span className="text-muted-foreground">Quartier :</span> {order.neighborhood}</div>}
-            <div><span className="text-muted-foreground">Date :</span> {new Date(order.created_at).toLocaleString('fr-FR')}</div>
+            {order.car_transport && <div><span className="text-muted-foreground">Transport :</span> {order.car_transport}</div>}
+            <div className="sm:col-span-2"><span className="text-muted-foreground">Date :</span> {new Date(order.created_at).toLocaleString('fr-FR')}</div>
+          </div>
+
+          {/* 3 boutons WhatsApp */}
+          <div className="grid sm:grid-cols-3 gap-2">
+            {clientUrl && (
+              <a
+                href={clientUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="bg-[#25D366] text-white text-center py-2.5 px-3 rounded-xl font-extrabold text-xs hover:bg-[#1da851] transition-colors"
+              >
+                💬 1. Confirmer client
+              </a>
+            )}
+            {activeLivreurs.slice(0, 2).map((l, i) => (
+              <a
+                key={l.id}
+                href={waLivreurUrl(order, l)}
+                target="_blank"
+                rel="noreferrer"
+                className="bg-vert-mid text-white text-center py-2.5 px-3 rounded-xl font-extrabold text-xs hover:bg-vert transition-colors"
+              >
+                🛵 {i + 2}. Notif {l.name.split(' ')[0]}
+              </a>
+            ))}
           </div>
 
           <div>
@@ -143,29 +182,18 @@ function OrderCard({
           </div>
 
           <div>
-            <div className="text-xs font-bold uppercase text-muted-foreground mb-2">Livreur</div>
+            <div className="text-xs font-bold uppercase text-muted-foreground mb-2">Assigner livreur</div>
             <select
               value={order.livreur_idx ?? ''}
               onChange={(e) => onAssignLivreur(order.id, e.target.value ? parseInt(e.target.value) : null)}
               className="text-sm border-2 border-vert-bg rounded-lg px-3 py-1.5 outline-none focus:border-vert-mid"
             >
               <option value="">— Non assigné —</option>
-              {LIVREURS.map((l) => (
-                <option key={l.idx} value={l.idx}>{l.emoji} {l.name} ({l.zone})</option>
+              {activeLivreurs.map((l) => (
+                <option key={l.id} value={l.idx}>{l.emoji} {l.name} ({l.zone})</option>
               ))}
             </select>
           </div>
-
-          {order.whatsapp && (
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="block bg-[#25D366] text-white text-center py-2.5 rounded-xl font-bold text-sm hover:bg-[#1da851] transition-colors"
-            >
-              💬 Contacter sur WhatsApp
-            </a>
-          )}
         </div>
       )}
     </div>
