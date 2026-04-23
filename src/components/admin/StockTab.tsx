@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { PRODUCTS } from '@/lib/products';
-import { LIVREURS } from '@/lib/livreurs';
+import { useLivreurs } from '@/lib/livreurs';
 import { toast } from 'sonner';
 
 type StockTx = {
@@ -15,13 +15,14 @@ type StockTx = {
 };
 
 export function StockTab() {
+  const { livreurs } = useLivreurs();
   const [txs, setTxs] = useState<StockTx[]>([]);
   const [loading, setLoading] = useState(true);
   const [form, setForm] = useState({
     produit: PRODUCTS[0].shortName,
     type: 'entree',
     quantite: 10,
-    livreur_idx: 0,
+    livreur_idx: 1,
     motif: '',
   });
 
@@ -39,12 +40,18 @@ export function StockTab() {
 
   useEffect(() => { load(); }, []);
 
-  // Calcul du stock par produit / livreur
+  // Sync default livreur once livreurs loaded
+  useEffect(() => {
+    if (livreurs.length > 0 && !livreurs.find((l) => l.idx === form.livreur_idx)) {
+      setForm((f) => ({ ...f, livreur_idx: livreurs[0].idx }));
+    }
+  }, [livreurs, form.livreur_idx]);
+
   const stockMatrix = useMemo(() => {
     const matrix: Record<string, Record<number, number>> = {};
     PRODUCTS.forEach((p) => {
       matrix[p.shortName] = {};
-      LIVREURS.forEach((l) => { matrix[p.shortName][l.idx] = 0; });
+      livreurs.forEach((l) => { matrix[p.shortName][l.idx] = 0; });
     });
     txs.forEach((t) => {
       if (!matrix[t.produit]) matrix[t.produit] = {};
@@ -54,7 +61,7 @@ export function StockTab() {
       matrix[t.produit][idx] += sign * t.quantite;
     });
     return matrix;
-  }, [txs]);
+  }, [txs, livreurs]);
 
   const submit = async () => {
     if (form.quantite <= 0) { toast.error('Quantité invalide'); return; }
@@ -71,29 +78,28 @@ export function StockTab() {
 
   return (
     <div className="space-y-5">
-      {/* Matrice stock */}
       <div className="bg-white rounded-2xl border-2 border-vert-bg p-5 overflow-x-auto">
         <h3 className="font-extrabold text-vert mb-4">📦 Stock par livreur</h3>
         <table className="w-full text-sm min-w-[500px]">
           <thead>
             <tr className="border-b-2 border-vert-bg">
               <th className="text-left py-2 px-2">Produit</th>
-              {LIVREURS.map((l) => (
-                <th key={l.idx} className="text-center py-2 px-2">{l.emoji} {l.name}</th>
+              {livreurs.map((l) => (
+                <th key={l.id} className="text-center py-2 px-2">{l.emoji} {l.name}</th>
               ))}
               <th className="text-right py-2 px-2">Total</th>
             </tr>
           </thead>
           <tbody>
             {PRODUCTS.map((p) => {
-              const total = LIVREURS.reduce((s, l) => s + (stockMatrix[p.shortName]?.[l.idx] || 0), 0);
+              const total = livreurs.reduce((s, l) => s + (stockMatrix[p.shortName]?.[l.idx] || 0), 0);
               return (
                 <tr key={p.slug} className="border-b border-vert-bg/50">
                   <td className="py-2 px-2 font-bold">{p.emoji} {p.shortName}</td>
-                  {LIVREURS.map((l) => {
+                  {livreurs.map((l) => {
                     const q = stockMatrix[p.shortName]?.[l.idx] || 0;
                     return (
-                      <td key={l.idx} className={`text-center py-2 px-2 font-extrabold ${q <= 0 ? 'text-rouge' : q < 5 ? 'text-[oklch(0.55_0.15_60)]' : 'text-vert'}`}>
+                      <td key={l.id} className={`text-center py-2 px-2 font-extrabold ${q <= 0 ? 'text-rouge' : q < 5 ? 'text-[oklch(0.55_0.15_60)]' : 'text-vert'}`}>
                         {q}
                       </td>
                     );
@@ -106,7 +112,6 @@ export function StockTab() {
         </table>
       </div>
 
-      {/* Form mouvement */}
       <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
         <h3 className="font-extrabold text-vert mb-4">➕ Nouveau mouvement</h3>
         <div className="grid sm:grid-cols-2 gap-3">
@@ -128,7 +133,7 @@ export function StockTab() {
           </Field>
           <Field label="Livreur">
             <select value={form.livreur_idx} onChange={(e) => setForm({ ...form, livreur_idx: parseInt(e.target.value) })} className="input">
-              {LIVREURS.map((l) => <option key={l.idx} value={l.idx}>{l.emoji} {l.name}</option>)}
+              {livreurs.map((l) => <option key={l.id} value={l.idx}>{l.emoji} {l.name}</option>)}
             </select>
           </Field>
           <Field label="Motif (optionnel)" full>
@@ -140,14 +145,13 @@ export function StockTab() {
         </button>
       </div>
 
-      {/* Historique */}
       <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
         <h3 className="font-extrabold text-vert mb-3">📜 Historique récent</h3>
         {loading && <div className="text-sm text-muted-foreground">Chargement…</div>}
         {!loading && txs.length === 0 && <div className="text-sm text-muted-foreground">Aucun mouvement</div>}
         <div className="space-y-2">
           {txs.slice(0, 20).map((t) => {
-            const livreur = LIVREURS.find((l) => l.idx === t.livreur_idx);
+            const livreur = livreurs.find((l) => l.idx === t.livreur_idx);
             const sign = t.type === 'entree' ? '+' : '-';
             const cls = t.type === 'entree' ? 'text-vert' : 'text-rouge';
             return (
