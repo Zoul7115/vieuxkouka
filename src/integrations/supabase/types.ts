@@ -14,7 +14,176 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      deliveries: {
+        Row: {
+          created_at: string | null
+          id: string
+          livreur_idx: number
+          notes: string | null
+          order_id: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          livreur_idx: number
+          notes?: string | null
+          order_id?: string | null
+          status: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          livreur_idx?: number
+          notes?: string | null
+          order_id?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deliveries_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          ai_flags: string[] | null
+          ai_score: number | null
+          car_transport: string | null
+          city: string | null
+          country: string | null
+          created_at: string | null
+          first_name: string | null
+          id: string
+          is_available: boolean | null
+          last_name: string | null
+          livreur_idx: number | null
+          neighborhood: string | null
+          notes: string | null
+          offer_label: string | null
+          order_number: string
+          product_name: string
+          product_price: number
+          product_slug: string | null
+          source: string | null
+          status: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          ai_flags?: string[] | null
+          ai_score?: number | null
+          car_transport?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          first_name?: string | null
+          id?: string
+          is_available?: boolean | null
+          last_name?: string | null
+          livreur_idx?: number | null
+          neighborhood?: string | null
+          notes?: string | null
+          offer_label?: string | null
+          order_number: string
+          product_name: string
+          product_price: number
+          product_slug?: string | null
+          source?: string | null
+          status?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          ai_flags?: string[] | null
+          ai_score?: number | null
+          car_transport?: string | null
+          city?: string | null
+          country?: string | null
+          created_at?: string | null
+          first_name?: string | null
+          id?: string
+          is_available?: boolean | null
+          last_name?: string | null
+          livreur_idx?: number | null
+          neighborhood?: string | null
+          notes?: string | null
+          offer_label?: string | null
+          order_number?: string
+          product_name?: string
+          product_price?: number
+          product_slug?: string | null
+          source?: string | null
+          status?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      stock_transactions: {
+        Row: {
+          created_at: string | null
+          id: string
+          livreur_idx: number | null
+          motif: string | null
+          produit: string
+          quantite: number
+          type: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          livreur_idx?: number | null
+          motif?: string | null
+          produit: string
+          quantite: number
+          type: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          livreur_idx?: number | null
+          motif?: string | null
+          produit?: string
+          quantite?: number
+          type?: string
+        }
+        Relationships: []
+      }
+      visits: {
+        Row: {
+          city: string | null
+          country: string | null
+          device: string | null
+          id: string
+          page: string | null
+          referrer: string | null
+          source: string | null
+          visited_at: string | null
+        }
+        Insert: {
+          city?: string | null
+          country?: string | null
+          device?: string | null
+          id?: string
+          page?: string | null
+          referrer?: string | null
+          source?: string | null
+          visited_at?: string | null
+        }
+        Update: {
+          city?: string | null
+          country?: string | null
+          device?: string | null
+          id?: string
+          page?: string | null
+          referrer?: string | null
+          source?: string | null
+          visited_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
