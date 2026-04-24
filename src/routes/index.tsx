@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { KOUKA } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
-import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
 import { Countdown } from '@/components/Countdown';
 import { ProductForm } from '@/components/ProductForm';
 import { FAQ } from '@/components/FAQ';
@@ -342,7 +341,6 @@ function HomePage() {
         </div>
       </footer>
 
-      <FloatingWhatsApp />
     </div>
   );
 }

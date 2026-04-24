@@ -68,6 +68,45 @@ const standardOffers: Offer[] = [
   },
 ];
 
+const siropOffers: Offer[] = [
+  {
+    id: 11,
+    label: '1 FLACON — DÉMARRAGE',
+    units: 1,
+    paidUnits: 1,
+    bonusUnits: 0,
+    price: 12000,
+    oldPrice: 20000,
+    description: '1 flacon — Traitement individuel',
+  },
+  {
+    id: 12,
+    label: '2 + 1 OFFERT — TRAITEMENT COMPLET',
+    units: 3,
+    paidUnits: 2,
+    bonusUnits: 1,
+    price: 25000,
+    oldPrice: 36000,
+    description: '2 achetés + 1 flacon GRATUIT — Traitement complet',
+    saving: 'Tu économises 11 000 FCFA',
+    badge: '⭐ POPULAIRE',
+    recommended: true,
+  },
+  {
+    id: 13,
+    label: '3 + 2 OFFERTS — CURE DE COUPLE',
+    units: 5,
+    paidUnits: 3,
+    bonusUnits: 2,
+    price: 30000,
+    oldPrice: 60000,
+    description: '3 achetés + 2 flacons GRATUITS — Famille ou cure totale',
+    saving: 'Tu économises 30 000 FCFA',
+    badge: '💎 MEILLEURE OFFRE',
+    bestValue: true,
+  },
+];
+
 export const KOUKA: Product = {
   slug: 'kouka',
   name: 'Poudre KOUKA du Vieux',
@@ -75,20 +114,33 @@ export const KOUKA: Product = {
   pathology: 'Hémorroïdes · Ulcères · Colopathie · Ballonnements · Gaz',
   emoji: '🌿',
   tagline: 'Hémorroïdes (koko), rectum qui sort, ulcères, brûlures d\'estomac, ballonnements, gaz, colopathie — traités à la racine en 1 à 2 semaines.',
-  heroImage: 'https://cdn.youcan.shop/stores/a76c79b31be4cda2922d7beba207931b/products/EDjfpxH9Yy2PTTBDXi88S5QwnTMzetV8Gd7bLrDF.webp',
+  heroImage: '/images/poudre-vieux-kouka-hero.png',
   metaTitle: 'Poudre KOUKA — Hémorroïdes, Ulcères, Colopathie & Ballonnements',
   metaDesc: 'La Poudre du Vieux KOUKA traite à la racine : hémorroïdes, ulcères, colopathie, ballonnements et gaz. Soulagement dès J3, guérison en 1 à 2 semaines. 100% naturel · Paiement à la livraison.',
   offers: standardOffers,
 };
 
-export const PRODUCTS: Product[] = [KOUKA];
+export const SIROP_KOUKA: Product = {
+  slug: 'sirop-kouka',
+  name: 'Sirop KOUKA',
+  shortName: 'Sirop KOUKA',
+  pathology: 'faiblesse sexuelle · érection molle · libido faible · éjaculation précoce',
+  emoji: '🍯',
+  tagline: 'Le Sirop du Vieux KOUKA redonne la vitalité, le désir et l’endurance dès les premiers jours.',
+  heroImage: '/images/kouka-flacon.png',
+  metaTitle: 'Sirop KOUKA — Vitalité, Libido et Performances',
+  metaDesc: 'Le Sirop du Vieux KOUKA aide contre la faiblesse sexuelle, l’éjaculation précoce et le manque de libido. Paiement à la livraison.',
+  offers: siropOffers,
+};
 
-export const getProduct = (slug: string) => (slug === KOUKA.slug ? KOUKA : undefined);
+export const PRODUCTS: Product[] = [KOUKA, SIROP_KOUKA];
+
+export const getProduct = (slug: string) => PRODUCTS.find((product) => product.slug === slug);
 
 /** Retrouve une offre à partir du libellé stocké dans la commande */
 export const findOfferByLabel = (label: string | null | undefined): Offer | undefined => {
   if (!label) return undefined;
-  return KOUKA.offers.find((o) => label.includes(o.label) || label === o.label);
+  return PRODUCTS.flatMap((product) => product.offers).find((o) => label.includes(o.label) || label === o.label);
 };
 
 export const COUNTRIES = [
