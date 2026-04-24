@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { ADMIN_WHATSAPP, formatFCFA } from '@/lib/products';
+import { formatFCFA } from '@/lib/products';
 
 export const Route = createFileRoute('/thank-you')({
   head: () => ({
@@ -35,11 +35,6 @@ function ThankYouPage() {
       (window as any).fbq('track', 'Purchase');
     }
   }, []);
-
-  const waText = order
-    ? `Bonjour, je viens de passer la commande ${order.orderNumber} (${order.productName}) — ${order.firstName}`
-    : 'Bonjour, je viens de passer une commande sur ShopAfrik';
-  const waUrl = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent(waText)}`;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-vert-bg to-background py-12">
@@ -85,15 +80,6 @@ function ThankYouPage() {
               </div>
             ))}
           </div>
-
-          <a
-            href={waUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="block w-full bg-[#25D366] text-white py-4 rounded-xl font-extrabold shadow-[0_6px_20px_rgba(37,211,102,0.4)] hover:-translate-y-0.5 transition-transform mb-3"
-          >
-            💬 Confirmer ma commande sur WhatsApp
-          </a>
 
           <Link to="/" className="text-vert-mid font-bold text-sm">
             ← Retour à la boutique
