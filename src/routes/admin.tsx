@@ -87,7 +87,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const load = async () => {
     setLoading(true);
     const [oRes, vRes] = await Promise.all([
-      supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(500),
+      supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(1000),
       supabase.from('visits').select('*').order('visited_at', { ascending: false }).limit(1000),
     ]);
     if (oRes.error) toast.error(oRes.error.message);
@@ -97,7 +97,15 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     setLoading(false);
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+    // Realtime: refresh on any order change (insert/update/delete)
+    const channel = supabase
+      .channel('admin-orders-stream')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => load())
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, []);
 
   const updateStatus = async (id: string, status: string) => {
     const { error } = await supabase.from('orders').update({ status }).eq('id', id);

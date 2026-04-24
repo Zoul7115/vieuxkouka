@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      daily_expenses: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          expense_date: string
+          id: string
+          label: string
+          notes: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          category?: string
+          created_at?: string
+          expense_date?: string
+          id?: string
+          label: string
+          notes?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          expense_date?: string
+          id?: string
+          label?: string
+          notes?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       deliveries: {
         Row: {
           created_at: string | null
