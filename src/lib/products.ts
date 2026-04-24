@@ -158,3 +158,19 @@ export const COUNTRIES = [
 export const ADMIN_WHATSAPP = '22658444818';
 
 export const formatFCFA = (n: number) => `${n.toLocaleString('fr-FR')} FCFA`;
+
+/** Coût d'achat unitaire (PA) par produit, en FCFA */
+export const PRODUCT_COSTS: Record<string, number> = {
+  KOUKA: 2000,
+  'Sirop KOUKA': 3000,
+};
+
+/** Coût livraison par commande livrée (FCFA) */
+export const DELIVERY_COST = 2000;
+
+/** Renvoie le PA total d'une commande livrée (PA unitaire × nombre d'unités, bonus inclus) */
+export function orderProductCost(productName: string, units: number): number {
+  const isSirop = /sirop/i.test(productName);
+  const pa = isSirop ? PRODUCT_COSTS['Sirop KOUKA'] : PRODUCT_COSTS['KOUKA'];
+  return pa * Math.max(1, units);
+}
