@@ -17,8 +17,35 @@ export function usePWAAdmin(enabled: boolean) {
   // Register SW
   useEffect(() => {
     if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
-    navigator.serviceWorker.register('/sw.js').then((reg) => {
+    navigator.serviceWorker.register('/sw.js').then(async (reg) => {
       swRef.current = reg;
+      // Envoyer la config Supabase au SW pour les checks en arrière-plan
+      const sendConfig = () => {
+        const target = reg.active || reg.waiting || reg.installing;
+        target?.postMessage({
+          type: 'CONFIG',
+          url: import.meta.env.VITE_SUPABASE_URL,
+          key: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          lastOrderTs: new Date().toISOString(),
+        });
+      };
+      if (reg.active) sendConfig();
+      else reg.addEventListener('updatefound', () => {
+        const sw = reg.installing;
+        sw?.addEventListener('statechange', () => { if (sw.state === 'activated') sendConfig(); });
+      });
+      // Tenter d'enregistrer un periodic sync (Chrome Android avec PWA installée)
+      try {
+        // @ts-expect-error periodicSync optional API
+        if (reg.periodicSync) {
+          // @ts-expect-error optional
+          const status = await navigator.permissions.query({ name: 'periodic-background-sync' });
+          if (status.state === 'granted') {
+            // @ts-expect-error periodicSync optional API
+            await reg.periodicSync.register('check-orders', { minInterval: 5 * 60 * 1000 });
+          }
+        }
+      } catch { /* not supported */ }
     }).catch(() => {});
     if (typeof Notification !== 'undefined') setPermission(Notification.permission);
     // Detect if already installed
