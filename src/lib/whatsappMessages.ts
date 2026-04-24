@@ -70,7 +70,10 @@ Merci pour votre confiance ! 🙏`;
 📦 Vous avez commandé *${sachetWord(order.product_name, paid)}* à *${formatFCFA(order.product_price)}*.${bonus > 0 ? `
 🎁 Nous allons vous offrir *${sachetWord(order.product_name, bonus)} bonus* pour un traitement plus complet.` : ''}
 
-🚍 Votre commande sera expédiée via *${transport}*. Nous vous contacterons dès qu'elle est déposée au car.
+🚍 Votre commande sera expédiée via *${transport}*.
+🧾 Après le dépôt du colis à la gare, nous allons vous envoyer le reçu du colis et vous allez faire le paiement.
+
+Merci de confirmer votre commande en répondant à ce message.
 
 Merci pour votre confiance ! 🙏`;
 }
@@ -101,7 +104,7 @@ _Merci de confirmer la réception 🙏_`;
 
 👤 *Client :* ${fullName}
 📞 *Tél :* ${phone}
-📦 *À expédier :* ${sachetWord(order.product_name, totalUnits)}
+📦 *${/sirop/i.test(order.product_name) ? 'Flacons' : 'Sachets'} à livrer :* ${sachetWord(order.product_name, totalUnits)}
 💰 *Prix à encaisser :* ${formatFCFA(order.product_price)}
 🚍 *Mode :* Expédition par car — *${transport}*
 📍 *Ville :* ${order.city || '—'}, ${order.country || ''}
