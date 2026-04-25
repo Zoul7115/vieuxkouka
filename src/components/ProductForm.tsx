@@ -1,14 +1,23 @@
 import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { OfferSelector } from './OfferSelector';
+import { PreFormWhatsApp } from './PreFormWhatsApp';
 import { COUNTRIES, formatFCFA, type Offer, type Product } from '@/lib/products';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+
+const BUMP_PRICE = 5000;
 
 export function ProductForm({ product }: { product: Product }) {
   const navigate = useNavigate();
   const recommended = product.offers.find((o) => o.recommended) || product.offers[0];
   const [offer, setOffer] = useState<Offer>(recommended);
+  const [bumpAccepted, setBumpAccepted] = useState(false);
+  // Bump dispo uniquement quand on n'est pas déjà sur la meilleure offre
+  const bumpAvailable = !offer.bestValue;
+  const finalPrice = offer.price + (bumpAccepted && bumpAvailable ? BUMP_PRICE : 0);
+  const finalUnits = offer.units + (bumpAccepted && bumpAvailable ? 1 : 0);
+  const productLabel = /sirop/i.test(product.name) ? 'flacon' : 'sachet';
   const [form, setForm] = useState({
     fullName: '',
     countryCode: 'BF',
@@ -52,12 +61,13 @@ export function ProductForm({ product }: { product: Product }) {
       const [first, ...rest] = form.fullName.trim().split(' ');
       const fullPhone = country.prefix + form.whatsapp.replace(/\s/g, '');
 
+      const bumpSuffix = bumpAccepted && bumpAvailable ? ` + 1 ${productLabel} BUMP` : '';
       const { error } = await supabase.from('orders').insert({
         order_number: orderNumber,
-        product_name: `${product.name} - ${offer.label}`,
-        product_price: offer.price,
+        product_name: `${product.name} - ${offer.label}${bumpSuffix}`,
+        product_price: finalPrice,
         product_slug: product.slug,
-        offer_label: offer.label,
+        offer_label: offer.label + bumpSuffix,
         first_name: first,
         last_name: rest.join(' '),
         whatsapp: fullPhone,
@@ -78,8 +88,8 @@ export function ProductForm({ product }: { product: Product }) {
           orderNumber,
           firstName: first,
           productName: product.name,
-          offerLabel: offer.label,
-          price: offer.price,
+          offerLabel: offer.label + bumpSuffix,
+          price: finalPrice,
           whatsapp: fullPhone,
           city: form.city,
         })
@@ -88,7 +98,7 @@ export function ProductForm({ product }: { product: Product }) {
       // Facebook Pixel
       if (typeof window !== 'undefined' && (window as any).fbq) {
         (window as any).fbq('track', 'Purchase', {
-          value: offer.price,
+          value: finalPrice,
           currency: 'XOF',
           content_name: product.name,
         });
