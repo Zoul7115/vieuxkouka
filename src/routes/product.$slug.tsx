@@ -28,57 +28,74 @@ function SiropPage() {
       <VisitTracker page="sirop-kouka" />
 
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🍯 Résultats dès les premiers jours · Livraison gratuite Ouaga · Paiement à la réception
+        🔥 Résultats dès la 2ᵉ nuit · 🤐 Livraison 100% discrète · 💵 Paiement à réception
       </div>
 
       <section className="bg-gradient-to-b from-vert-bg to-background py-12 border-b-2 border-vert-bg">
         <div className="container-kouka text-center">
           <span className="inline-block bg-rouge text-white text-xs font-bold uppercase px-4 py-1.5 rounded-full mb-4">
-            Vitalité · Désir · Endurance
+            🔒 Discret · Naturel · Garanti
           </span>
           <h1 className="text-vert mb-4">
-            Tu souffres en silence…<br />
-            <em className="text-rouge not-italic">mais la solution existe.</em>
+            Tu finis en 2 minutes ?<br />
+            <em className="text-rouge not-italic">Tiens 30 minutes dès la 2ᵉ nuit.</em>
           </h1>
           <p className="text-muted-foreground max-w-lg mx-auto mb-6 text-lg leading-relaxed">
-            Éjaculation précoce, érection molle, manque d’envie, faible libido féminine :
-            <strong> le Sirop du Vieux KOUKA aide à retrouver force, confiance et performances.</strong>
+            Éjaculation précoce, érection molle, désir en panne — tu n'es pas seul, et ce n'est <strong>pas dans ta tête</strong>.
+            <strong className="text-foreground"> Le Sirop du Vieux KOUKA réveille ta puissance naturelle</strong> avec 100% de plantes africaines. Ta femme va le remarquer. Toi aussi.
           </p>
-          <div className="max-w-[300px] mx-auto mb-6 rounded-2xl overflow-hidden border-2 border-vert-bg shadow-[0_8px_32px_rgba(46,125,50,0.25)]">
+          <div className="max-w-[300px] mx-auto mb-5 rounded-2xl overflow-hidden border-2 border-vert-bg shadow-[0_8px_32px_rgba(46,125,50,0.25)]">
             <img src={product.heroImage} alt={product.name} className="w-full block" />
           </div>
+
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground mb-5">
+            <span>✅ Effet dès J2</span>
+            <span>✅ 100% plantes</span>
+            <span>✅ Emballage neutre</span>
+            <span>✅ Remboursé si nul</span>
+          </div>
+
           <button
             onClick={() => document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' })}
-            className="w-full bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)]"
+            className="w-full bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform"
           >
-            🍯 COMMANDER LE SIROP KOUKA
+            🍯 JE COMMANDE — JE PAIE À RÉCEPTION
           </button>
+          <p className="text-sm text-muted-foreground mt-3">📦 Colis neutre · Personne ne sait ce qu'il y a dedans</p>
         </div>
       </section>
 
       <section className="sec bg-cream-2">
         <div className="container-kouka">
-          <h2 className="text-center mb-6">🚨 Tu te reconnais ici ?</h2>
+          <h2 className="text-center mb-2">Ce que tu vis <span className="text-rouge">en silence</span></h2>
+          <p className="text-center text-muted-foreground mb-6 text-sm">Lis honnêtement. Coche ce qui te concerne.</p>
           <div className="grid gap-4">
             {[
-              'Tu veux durer plus longtemps sans éjaculer trop vite',
-              'L’érection est molle ou absente au moment où il faut assurer',
-              'La libido a chuté et le désir n’est plus au rendez-vous',
-              'Tu veux retrouver confiance, puissance et endurance naturelle',
+              "Tu finis avant elle — souvent en 2 minutes ou moins. Tu détournes le regard après",
+              "L'érection ne tient pas. Au moment de pénétrer, ça baisse. Tu fais semblant que c'est rien",
+              "Tu n'as plus envie. Quand elle s'approche, tu inventes une excuse — fatigue, travail",
+              "Tu sens que ta femme se retient de te le dire. Le silence au lit devient pesant",
+              "Tu as essayé Viagra, gingembre, miel, autres trucs — soit ça ne marche pas, soit ça t'a rendu malade",
+              "Tu as peur qu'elle aille voir ailleurs. Tu sais que ça arrive autour de toi",
             ].map((item) => (
               <div key={item} className="bloc bloc-r">
-                <p className="font-bold text-muted-2">{item}</p>
+                <p className="font-bold text-muted-2">☐ {item}</p>
               </div>
             ))}
           </div>
+          <p className="text-center italic mt-6 text-muted-foreground max-w-lg mx-auto">
+            "Si tu as coché 2 cases ou plus, c'est que ton corps t'envoie un signal. Plus tu attends, plus c'est dur à inverser."
+          </p>
         </div>
       </section>
 
       <section className="sec bg-vert-bg">
         <div className="container-kouka">
-          <h2 className="text-center mb-3">🌿 La solution : Sirop du Vieux KOUKA</h2>
-          <p className="text-center text-muted-foreground mb-6">
-            Préparation traditionnelle africaine pour redonner vitalité, désir et résistance dès les 2 premiers jours.
+          <h2 className="text-center mb-3">🌿 Le Sirop du Vieux KOUKA</h2>
+          <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto">
+            Une formule traditionnelle africaine — racines et écorces récoltées au Burkina, Côte d'Ivoire et Bénin —
+            pour <strong>réveiller la circulation sanguine, prolonger l'érection</strong> et relancer la libido naturelle.
+            Pas un excitant chimique. Une vraie restauration de ta vitalité.
           </p>
           <div className="grid gap-4">
             <img src="/images/kouka-solution.png" alt="La solution existe — Sirop du Vieux KOUKA" className="rounded-2xl border-2 border-vert-bg" />
@@ -90,21 +107,28 @@ function SiropPage() {
 
       <section className="sec">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">⚡ Résultats dès les 2 premiers jours</h2>
+          <h2 className="text-center mb-2">⚡ Ce qui se passe <span className="text-vert">jour après jour</span></h2>
+          <p className="text-center text-muted-foreground text-sm">Résultats observés par +150 clients en 2024</p>
           <div className="grid gap-4 mt-6">
             {[
-              ['J1 à J2', 'Énergie sexuelle relancée', 'Le corps répond mieux, l’envie remonte et la confiance revient.'],
-              ['J3 à J5', 'Érections plus solides', 'Tu ressens plus de fermeté, plus de tenue et moins de stress pendant le rapport.'],
-              ['J6 à J10', 'Endurance renforcée', 'Tu tiens plus longtemps et tu retrouves une vraie satisfaction dans l’acte.'],
+              ['J1-J2', 'Le moteur redémarre', "Dès la 2ᵉ nuit : tu sens un afflux d'énergie en bas. L'envie revient toute seule, sans forcer."],
+              ['J3-J5', 'Érection ferme et durable', 'Tu rentres dur, tu restes dur. Plus de panique de "redescendre" au mauvais moment.'],
+              ['J6-J10', 'Tu tiens 20-30 minutes', "Le contrôle revient. Tu choisis quand finir — pas l'inverse. Ta femme commence à parler."],
+              ['J11-J15', 'Confiance totale retrouvée', "Tu redeviens l'homme que tu étais à 25 ans. Sans complexe. Sans pression. Sans pilule chimique."],
             ].map(([day, title, desc]) => (
               <div key={day} className="flex gap-4 py-4 border-b border-vert-bg last:border-b-0">
-                <div className="shrink-0 w-[76px] text-center rounded-xl py-2 px-1 bg-vert-mid text-white font-extrabold">{day}</div>
+                <div className="shrink-0 w-[76px] text-center rounded-xl py-2 px-1 bg-vert-mid text-white font-extrabold text-sm">{day}</div>
                 <div>
                   <div className="font-extrabold text-vert mb-1">{title}</div>
                   <div className="text-sm text-muted-foreground">{desc}</div>
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="bg-vert-bg border-2 border-vert-mid rounded-2xl p-5 text-center mt-7">
+            <p className="font-bold mb-1">🛡️ Garantie "Performant ou Remboursé"</p>
+            <p className="text-sm">Tu finis le flacon sans aucune amélioration ? <strong>Remboursement 100%, sans justification.</strong> Tu testes sans aucun risque.</p>
           </div>
         </div>
       </section>
