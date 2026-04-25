@@ -315,7 +315,33 @@ function HomePage() {
         </div>
       </section>
 
-      {/* LIVRAISON */}
+      {/* COMPARATIF */}
+      <section className="sec bg-vert-bg/30">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">Pourquoi KOUKA <span className="text-vert">plutôt qu'autre chose</span> ?</h2>
+          <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto">
+            Compare honnêtement avec les solutions classiques. Le choix devient évident.
+          </p>
+          <ComparisonTable
+            rows={[
+              { label: 'Coût total', kouka: '20 000 F', meds: '15 000 F/mois à vie', surgery: '200–500 000 F' },
+              { label: 'Traite la cause', kouka: '✅ Oui', meds: '❌ Calme', surgery: '⚠️ Parfois' },
+              { label: 'Effets secondaires', kouka: '✅ Aucun', meds: '⚠️ Foie / reins', surgery: '⚠️ Risques' },
+              { label: 'Rechute', kouka: '✅ Aucune', meds: '❌ Garantie', surgery: '⚠️ Possible' },
+              { label: 'Hospitalisation', kouka: '✅ Aucune', meds: 'Aucune', surgery: '❌ 3–7 jours' },
+              { label: 'Discrétion', kouka: '✅ 100%', meds: 'Pharmacie', surgery: '❌ Hôpital' },
+              { label: 'Garantie', kouka: '✅ Remboursé', meds: '❌ Non', surgery: '❌ Non' },
+            ]}
+            productLabel="🌿 KOUKA"
+          />
+          <div className="text-center mt-6">
+            <button onClick={scrollToOrder} className="bg-vert-mid text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.35)] hover:-translate-y-0.5 transition-transform">
+              🌿 Je choisis la solution naturelle
+            </button>
+          </div>
+        </div>
+      </section>
+
       <section className="sec bg-cream-2">
         <div className="container-kouka">
           <h2 className="text-center mb-6">Livraison <span className="text-vert">rapide dans tout le Burkina</span></h2>
