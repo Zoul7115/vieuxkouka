@@ -31,7 +31,7 @@ function HomePage() {
 
       {/* Bandeau urgence */}
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🌿 +200 clients guéris · Livraison gratuite Ouaga · Stock : <b className="text-[oklch(0.85_0.08_145)]">11</b> sachets
+        🌿 +200 guéris · Livraison gratuite Ouaga · ⏰ Stock restant : <b className="text-[oklch(0.85_0.08_145)]">11</b> sachets
       </div>
 
       {/* HERO */}
@@ -39,22 +39,22 @@ function HomePage() {
         <div className="container-kouka text-center">
           <div className="bg-[oklch(0.97_0.06_92)] border-2 border-or-light rounded-xl px-4 py-2.5 mb-5">
             <span className="text-[oklch(0.40_0.10_82)] font-bold">
-              🚀 Commande aujourd'hui → Livraison <strong className="text-vert">demain</strong> à Ouagadougou
+              🚀 Commande avant 17h → Livraison <strong className="text-vert">demain matin</strong> à Ouaga
             </span>
           </div>
 
           <span className="inline-block bg-vert-mid text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-4">
-            🌿 +200 clients guéris · 87% soulagés dès J3 · Satisfait ou remboursé
+            ⭐ +200 clients guéris · 87% soulagés dès J3
           </span>
 
           <h1 className="text-vert mb-4">
-            Tu souffres à chaque fois<br />que tu vas aux toilettes ?<br />
-            <em className="text-rouge not-italic">Ça va s'arrêter.</em>
+            Hémorroïdes, ulcères, ballonnements ?<br />
+            <em className="text-rouge not-italic">Soulagé en 3 jours. Guéri en 14.</em>
           </h1>
 
           <p className="text-muted-foreground max-w-lg mx-auto mb-6 text-lg leading-relaxed">
-            Hémorroïdes, ulcères, ballonnements, gaz, colopathie, rectum qui sort — depuis des années ?
-            <strong> La Poudre du Vieux KOUKA traite la cause profonde. Pas pour calmer. Pour guérir.</strong>
+            Tu saignes aux toilettes ? Ça brûle dans l'estomac ? Ton ventre gonfle après chaque repas ?
+            <strong className="text-foreground"> La Poudre du Vieux KOUKA traite la cause profonde — pas le symptôme.</strong> Plus de rechute. Plus de médicaments à vie.
           </p>
 
           <div className="max-w-[260px] mx-auto mb-5 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(46,125,50,0.25)] border-[3px] border-[oklch(0.85_0.06_145)]">
@@ -69,6 +69,12 @@ function HomePage() {
             ))}
           </div>
 
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground mb-5">
+            <span>✅ 100% plantes africaines</span>
+            <span>✅ Sans effets secondaires</span>
+            <span>✅ Garantie remboursée</span>
+          </div>
+
           <div className="mb-5">
             <Countdown />
           </div>
@@ -77,9 +83,9 @@ function HomePage() {
             onClick={scrollToOrder}
             className="w-full bg-vert-mid text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.35)] hover:-translate-y-0.5 transition-transform"
           >
-            🌿 COMMANDER — PAYER À LA LIVRAISON
+            🌿 JE COMMANDE — JE PAIE À LA LIVRAISON
           </button>
-          <p className="text-sm text-muted-foreground mt-3">📦 Livraison gratuite Ouaga · Paiement cash · Emballage discret</p>
+          <p className="text-sm text-muted-foreground mt-3">📦 Livraison gratuite Ouaga · 💵 Cash à réception · 🤐 Emballage 100% discret</p>
         </div>
       </section>
 
@@ -111,34 +117,34 @@ function HomePage() {
       {/* PROBLÈME */}
       <section className="sec bg-cream-2">
         <div className="container-kouka">
-          <h2 className="text-center mb-6">Ce que tu vis <span className="text-rouge">chaque jour</span></h2>
+          <h2 className="text-center mb-6">Tu vis ça <span className="text-rouge">tous les jours</span> ?</h2>
 
           <div className="bloc bloc-r">
-            <p className="text-rouge font-extrabold mb-3 text-lg">Reconnais-tu l'un de ces problèmes ?</p>
+            <p className="text-rouge font-extrabold mb-3 text-lg">Coche ce que tu vis en ce moment :</p>
             <ul className="ckl ckl-r">
-              <li>Aller aux toilettes est devenu une torture — tu saignes, tu souffres, tu évites</li>
-              <li>Après chaque repas, ça brûle dans l'estomac comme du feu — l'ulcère te ronge</li>
-              <li>Ton ventre gonfle, tu as des gaz permanents, tu te sens lourd tout le temps</li>
-              <li>Le rectum sort parfois et tu dois le remettre à la main — honte et douleur</li>
-              <li>Le côlon irritable te fait alterner diarrhée et constipation, sans prévenir</li>
-              <li>Tu as essayé des médicaments, des sirops, des injections — rien ne tient</li>
-              <li>Tu dépenses de l'argent chaque mois pour calmer, mais jamais pour guérir</li>
+              <li>Aller aux toilettes = torture. Tu saignes. Tu serres les dents. Tu repousses</li>
+              <li>Après chaque repas, ton estomac brûle comme du feu — l'ulcère te ronge de l'intérieur</li>
+              <li>Ton ventre gonfle, tu lâches des gaz toute la journée — la honte au bureau, en famille</li>
+              <li>Le rectum sort et tu dois le remettre à la main — tu n'oses en parler à personne</li>
+              <li>Diarrhée le matin, constipation le soir — ton côlon te trahit sans prévenir</li>
+              <li>Tu as dépensé des dizaines de milliers en médicaments — ça calme 3 jours, puis ça revient</li>
+              <li>Tu commences à avoir peur que ça empire — opération, perforation, hospitalisation…</li>
             </ul>
           </div>
 
           <div className="bloc bloc-or mt-5">
-            <p className="text-[oklch(0.40_0.10_82)] font-extrabold mb-3">⚠️ Si tu ne traites pas maintenant :</p>
+            <p className="text-[oklch(0.40_0.10_82)] font-extrabold mb-3">⚠️ Ce qui t'attend si tu ne fais rien :</p>
             <ul className="ckl">
-              <li>Les hémorroïdes évoluent vers une thrombose — opération chirurgicale urgente</li>
-              <li>L'ulcère non traité peut se perforer — urgence médicale gravissime</li>
-              <li>La colopathie chronique entraîne des carences et une fatigue permanente</li>
-              <li>Les ballonnements continus dérèglent ta flore intestinale en profondeur</li>
-              <li>Chaque année sans traitement, ça empire — jamais seul ça ne se résout</li>
+              <li>Hémorroïdes → thrombose → opération chirurgicale (coût : 200 000 à 500 000 FCFA)</li>
+              <li>Ulcère non traité → perforation → urgence vitale aux urgences</li>
+              <li>Colopathie chronique → carences, fatigue extrême, dépression digestive</li>
+              <li>Plus tu attends, plus le traitement devient long et difficile</li>
+              <li>Personne ne guérit "tout seul" — ces maladies progressent, jamais elles ne reculent</li>
             </ul>
           </div>
 
-          <p className="text-center italic mt-6 text-muted-foreground">
-            "Tu as tout essayé. Les médicaments calment 3 jours et ça revient. C'est parce que tu utilisais les mauvais outils."
+          <p className="text-center italic mt-6 text-muted-foreground max-w-lg mx-auto">
+            "Si les médicaments classiques fonctionnaient, tu serais déjà guéri. Le problème : ils calment la douleur sans toucher la cause. La Poudre KOUKA fait l'inverse."
           </p>
         </div>
       </section>
@@ -239,10 +245,10 @@ function HomePage() {
       {/* TÉMOIGNAGES */}
       <section className="sec">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">Ils ont essayé.</h2>
-          <p className="text-center mb-1">Voici leurs mots. Pas les nôtres.</p>
+          <h2 className="text-center mb-2">Ils ont essayé. <span className="text-vert">Ils sont guéris.</span></h2>
+          <p className="text-center mb-1 font-semibold">Voici leurs mots — pas les nôtres.</p>
           <p className="text-center text-muted-foreground mb-7 text-sm">
-            Messages WhatsApp réels · Audios originaux · Preuves de livraison vérifiables
+            🔒 Messages WhatsApp réels · Audios non montés · Reçus de livraison vérifiables
           </p>
 
           <div className="grid gap-4">
@@ -291,7 +297,8 @@ function HomePage() {
           </div>
 
           <div className="bg-vert-bg border-2 border-vert-mid rounded-2xl p-5 text-center mt-7">
-            <p>🛡️ <strong>Satisfait ou remboursé</strong> — Traitement complet sans résultats ? Remboursement intégral, sans question.</p>
+            <p className="font-bold mb-1">🛡️ Garantie "Guéri ou Remboursé"</p>
+            <p className="text-sm">Tu suis le traitement complet sans résultat ? <strong>On te rembourse 100% — sans question, sans débat.</strong> Tu n'as littéralement rien à perdre.</p>
           </div>
         </div>
       </section>
