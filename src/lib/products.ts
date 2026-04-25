@@ -113,10 +113,10 @@ export const KOUKA: Product = {
   shortName: 'KOUKA',
   pathology: 'Hémorroïdes · Ulcères · Colopathie · Ballonnements · Gaz',
   emoji: '🌿',
-  tagline: 'Hémorroïdes (koko), rectum qui sort, ulcères, brûlures d\'estomac, ballonnements, gaz, colopathie — traités à la racine en 1 à 2 semaines.',
+  tagline: 'Hémorroïdes (koko), rectum qui sort, ulcères, brûlures d\'estomac, ballonnements, gaz, colopathie — traités à la racine en 7 à 14 jours, sans rechute.',
   heroImage: '/images/poudre-vieux-kouka-hero.png',
-  metaTitle: 'Poudre KOUKA — Hémorroïdes, Ulcères, Colopathie & Ballonnements',
-  metaDesc: 'La Poudre du Vieux KOUKA traite à la racine : hémorroïdes, ulcères, colopathie, ballonnements et gaz. Soulagement dès J3, guérison en 1 à 2 semaines. 100% naturel · Paiement à la livraison.',
+  metaTitle: 'Poudre KOUKA — Stoppe Hémorroïdes & Ulcères en 7 jours (Burkina)',
+  metaDesc: '+200 personnes guéries. Fini les saignements, brûlures et ballonnements. Soulagement dès J3, guérison en 7 à 14 jours. 100% plantes. Livraison gratuite Ouaga · Paiement cash · Satisfait ou remboursé.',
   offers: standardOffers,
 };
 
@@ -126,10 +126,10 @@ export const SIROP_KOUKA: Product = {
   shortName: 'Sirop KOUKA',
   pathology: 'faiblesse sexuelle · érection molle · libido faible · éjaculation précoce',
   emoji: '🍯',
-  tagline: 'Le Sirop du Vieux KOUKA redonne la vitalité, le désir et l’endurance dès les premiers jours.',
+  tagline: 'Tiens 30 minutes au lieu de 2. Érection dure comme à 20 ans. Désir qui revient — dès la 2ᵉ nuit.',
   heroImage: '/images/kouka-flacon.png',
-  metaTitle: 'Sirop KOUKA — Vitalité, Libido et Performances',
-  metaDesc: 'Le Sirop du Vieux KOUKA aide contre la faiblesse sexuelle, l’éjaculation précoce et le manque de libido. Paiement à la livraison.',
+  metaTitle: 'Sirop KOUKA — Dure +30 min · Érection ferme dès J2',
+  metaDesc: 'Éjaculation précoce, érection molle, libido en panne ? Le Sirop du Vieux KOUKA agit dès la 2ᵉ nuit. 100% plantes africaines. Livraison discrète · Paiement cash · Satisfait ou remboursé.',
   offers: siropOffers,
 };
 
