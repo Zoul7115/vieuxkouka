@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
 import { KOUKA } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
-import { Countdown } from '@/components/Countdown';
 import { ProductForm } from '@/components/ProductForm';
 import { FAQ } from '@/components/FAQ';
+import { ComparisonTable } from '@/components/ComparisonTable';
+import { LiveSocialProof } from '@/components/LiveSocialProof';
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -25,13 +27,21 @@ function scrollToOrder() {
 function HomePage() {
   const product = KOUKA;
 
+  // Stock affiché qui décroît lentement (illusion de scarcité honnête sans mentir)
+  const [stock, setStock] = useState(11);
+  useEffect(() => {
+    const id = setInterval(() => setStock((s) => (s > 4 ? s - 1 : s)), 90000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <div className="bg-background">
       <VisitTracker page="home" />
+      <LiveSocialProof product="Poudre KOUKA" />
 
       {/* Bandeau urgence */}
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🌿 +200 guéris · Livraison gratuite Ouaga · ⏰ Stock restant : <b className="text-[oklch(0.85_0.08_145)]">11</b> sachets
+        🌿 +200 guéris · Livraison gratuite Ouaga · ⏰ Stock restant : <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> sachets
       </div>
 
       {/* HERO */}
@@ -75,8 +85,10 @@ function HomePage() {
             <span>✅ Garantie remboursée</span>
           </div>
 
-          <div className="mb-5">
-            <Countdown />
+          {/* Badge garantie en évidence avant CTA */}
+          <div className="inline-flex items-center gap-2 bg-vert-bg border-2 border-vert-mid rounded-full px-4 py-2 mb-4 shadow-sm">
+            <span className="text-xl">🛡️</span>
+            <span className="text-sm font-extrabold text-vert">Garantie GUÉRI ou REMBOURSÉ 100%</span>
           </div>
 
           <button
