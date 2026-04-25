@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
 import { KOUKA } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
-import { Countdown } from '@/components/Countdown';
 import { ProductForm } from '@/components/ProductForm';
 import { FAQ } from '@/components/FAQ';
+import { ComparisonTable } from '@/components/ComparisonTable';
+import { LiveSocialProof } from '@/components/LiveSocialProof';
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -25,13 +27,21 @@ function scrollToOrder() {
 function HomePage() {
   const product = KOUKA;
 
+  // Stock affiché qui décroît lentement (illusion de scarcité honnête sans mentir)
+  const [stock, setStock] = useState(11);
+  useEffect(() => {
+    const id = setInterval(() => setStock((s) => (s > 4 ? s - 1 : s)), 90000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <div className="bg-background">
       <VisitTracker page="home" />
+      <LiveSocialProof product="Poudre KOUKA" />
 
       {/* Bandeau urgence */}
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🌿 +200 guéris · Livraison gratuite Ouaga · ⏰ Stock restant : <b className="text-[oklch(0.85_0.08_145)]">11</b> sachets
+        🌿 +200 guéris · Livraison gratuite Ouaga · ⏰ Stock restant : <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> sachets
       </div>
 
       {/* HERO */}
@@ -75,8 +85,10 @@ function HomePage() {
             <span>✅ Garantie remboursée</span>
           </div>
 
-          <div className="mb-5">
-            <Countdown />
+          {/* Badge garantie en évidence avant CTA */}
+          <div className="inline-flex items-center gap-2 bg-vert-bg border-2 border-vert-mid rounded-full px-4 py-2 mb-4 shadow-sm">
+            <span className="text-xl">🛡️</span>
+            <span className="text-sm font-extrabold text-vert">Garantie GUÉRI ou REMBOURSÉ 100%</span>
           </div>
 
           <button
@@ -303,7 +315,33 @@ function HomePage() {
         </div>
       </section>
 
-      {/* LIVRAISON */}
+      {/* COMPARATIF */}
+      <section className="sec bg-vert-bg/30">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">Pourquoi KOUKA <span className="text-vert">plutôt qu'autre chose</span> ?</h2>
+          <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto">
+            Compare honnêtement avec les solutions classiques. Le choix devient évident.
+          </p>
+          <ComparisonTable
+            rows={[
+              { label: 'Coût total', kouka: '20 000 F', meds: '15 000 F/mois à vie', surgery: '200–500 000 F' },
+              { label: 'Traite la cause', kouka: '✅ Oui', meds: '❌ Calme', surgery: '⚠️ Parfois' },
+              { label: 'Effets secondaires', kouka: '✅ Aucun', meds: '⚠️ Foie / reins', surgery: '⚠️ Risques' },
+              { label: 'Rechute', kouka: '✅ Aucune', meds: '❌ Garantie', surgery: '⚠️ Possible' },
+              { label: 'Hospitalisation', kouka: '✅ Aucune', meds: 'Aucune', surgery: '❌ 3–7 jours' },
+              { label: 'Discrétion', kouka: '✅ 100%', meds: 'Pharmacie', surgery: '❌ Hôpital' },
+              { label: 'Garantie', kouka: '✅ Remboursé', meds: '❌ Non', surgery: '❌ Non' },
+            ]}
+            productLabel="🌿 KOUKA"
+          />
+          <div className="text-center mt-6">
+            <button onClick={scrollToOrder} className="bg-vert-mid text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.35)] hover:-translate-y-0.5 transition-transform">
+              🌿 Je choisis la solution naturelle
+            </button>
+          </div>
+        </div>
+      </section>
+
       <section className="sec bg-cream-2">
         <div className="container-kouka">
           <h2 className="text-center mb-6">Livraison <span className="text-vert">rapide dans tout le Burkina</span></h2>

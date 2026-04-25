@@ -1,14 +1,23 @@
 import { useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { OfferSelector } from './OfferSelector';
+import { PreFormWhatsApp } from './PreFormWhatsApp';
 import { COUNTRIES, formatFCFA, type Offer, type Product } from '@/lib/products';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+
+const BUMP_PRICE = 5000;
 
 export function ProductForm({ product }: { product: Product }) {
   const navigate = useNavigate();
   const recommended = product.offers.find((o) => o.recommended) || product.offers[0];
   const [offer, setOffer] = useState<Offer>(recommended);
+  const [bumpAccepted, setBumpAccepted] = useState(false);
+  // Bump dispo uniquement quand on n'est pas déjà sur la meilleure offre
+  const bumpAvailable = !offer.bestValue;
+  const finalPrice = offer.price + (bumpAccepted && bumpAvailable ? BUMP_PRICE : 0);
+  const finalUnits = offer.units + (bumpAccepted && bumpAvailable ? 1 : 0);
+  const productLabel = /sirop/i.test(product.name) ? 'flacon' : 'sachet';
   const [form, setForm] = useState({
     fullName: '',
     countryCode: 'BF',
@@ -52,12 +61,13 @@ export function ProductForm({ product }: { product: Product }) {
       const [first, ...rest] = form.fullName.trim().split(' ');
       const fullPhone = country.prefix + form.whatsapp.replace(/\s/g, '');
 
+      const bumpSuffix = bumpAccepted && bumpAvailable ? ` + 1 ${productLabel} BUMP` : '';
       const { error } = await supabase.from('orders').insert({
         order_number: orderNumber,
-        product_name: `${product.name} - ${offer.label}`,
-        product_price: offer.price,
+        product_name: `${product.name} - ${offer.label}${bumpSuffix}`,
+        product_price: finalPrice,
         product_slug: product.slug,
-        offer_label: offer.label,
+        offer_label: offer.label + bumpSuffix,
         first_name: first,
         last_name: rest.join(' '),
         whatsapp: fullPhone,
@@ -78,8 +88,8 @@ export function ProductForm({ product }: { product: Product }) {
           orderNumber,
           firstName: first,
           productName: product.name,
-          offerLabel: offer.label,
-          price: offer.price,
+          offerLabel: offer.label + bumpSuffix,
+          price: finalPrice,
           whatsapp: fullPhone,
           city: form.city,
         })
@@ -88,7 +98,7 @@ export function ProductForm({ product }: { product: Product }) {
       // Facebook Pixel
       if (typeof window !== 'undefined' && (window as any).fbq) {
         (window as any).fbq('track', 'Purchase', {
-          value: offer.price,
+          value: finalPrice,
           currency: 'XOF',
           content_name: product.name,
         });
@@ -119,21 +129,47 @@ export function ProductForm({ product }: { product: Product }) {
           Remplis le formulaire — on te contacte sous 2h sur WhatsApp pour confirmer ta livraison.
         </p>
 
-        <OfferSelector offers={product.offers} selectedId={offer.id} onSelect={setOffer} />
+        <OfferSelector offers={product.offers} selectedId={offer.id} onSelect={(o) => { setOffer(o); setBumpAccepted(false); }} />
 
-        <div className="bg-vert-bg border-2 border-[oklch(0.85_0.08_145)] rounded-xl px-4 py-3.5 mb-5 flex justify-between items-center flex-wrap gap-2">
+        {bumpAvailable && (
+          <label className="max-w-[480px] mx-auto mb-4 flex items-start gap-3 bg-[oklch(0.97_0.06_92)] border-2 border-dashed border-or rounded-xl p-3.5 cursor-pointer hover:bg-[oklch(0.95_0.08_92)] transition-colors">
+            <input
+              type="checkbox"
+              checked={bumpAccepted}
+              onChange={(e) => setBumpAccepted(e.target.checked)}
+              className="w-5 h-5 mt-0.5 accent-or"
+            />
+            <span className="text-sm text-foreground leading-relaxed flex-1">
+              🎁 <strong>OUI, j'ajoute 1 {productLabel} supplémentaire</strong> pour seulement
+              <strong className="text-rouge"> +{formatFCFA(BUMP_PRICE)}</strong>
+              <span className="block text-xs text-muted-foreground mt-0.5">
+                (Valeur réelle : {formatFCFA(/sirop/i.test(product.name) ? 12000 : 10000)} — économise{' '}
+                {formatFCFA((/sirop/i.test(product.name) ? 12000 : 10000) - BUMP_PRICE)})
+              </span>
+            </span>
+          </label>
+        )}
+
+        <div className="bg-vert-bg border-2 border-[oklch(0.85_0.08_145)] rounded-xl px-4 py-3.5 mb-5 flex justify-between items-center flex-wrap gap-2 max-w-[480px] mx-auto">
           <div>
-            <div className="text-sm text-muted-foreground font-semibold">Offre sélectionnée</div>
-            <div className="text-lg font-extrabold text-foreground">{offer.label}</div>
+            <div className="text-sm text-muted-foreground font-semibold">Total à payer</div>
+            <div className="text-lg font-extrabold text-foreground">
+              {finalUnits} {productLabel}{finalUnits > 1 ? 's' : ''} · {offer.label.split('—')[0].trim()}
+              {bumpAccepted && bumpAvailable && <span className="text-or"> +1 BUMP</span>}
+            </div>
           </div>
           <div className="text-right">
-            {offer.oldPrice > offer.price && (
-              <div className="text-sm text-muted-foreground line-through">{formatFCFA(offer.oldPrice)}</div>
+            {(offer.oldPrice + (bumpAccepted && bumpAvailable ? (/sirop/i.test(product.name) ? 12000 : 10000) : 0)) > finalPrice && (
+              <div className="text-sm text-muted-foreground line-through">
+                {formatFCFA(offer.oldPrice + (bumpAccepted && bumpAvailable ? (/sirop/i.test(product.name) ? 12000 : 10000) : 0))}
+              </div>
             )}
-            <div className="text-3xl font-extrabold text-vert leading-none">{formatFCFA(offer.price)}</div>
+            <div className="text-3xl font-extrabold text-vert leading-none">{formatFCFA(finalPrice)}</div>
             {offer.saving && <div className="text-xs text-rouge font-bold">🎁 {offer.saving}</div>}
           </div>
         </div>
+
+        <PreFormWhatsApp productName={product.name} />
 
         <div className="bg-white rounded-2xl p-6 sm:p-9 shadow-[0_8px_32px_rgba(0,0,0,0.12)] max-w-[480px] mx-auto">
           <Field label="Prénom & Nom" required error={errors.fullName}>
@@ -227,7 +263,7 @@ export function ProductForm({ product }: { product: Product }) {
             disabled={submitting}
             className="w-full p-5 bg-vert-mid text-white rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.4)] hover:bg-vert hover:-translate-y-0.5 transition-all disabled:opacity-55 disabled:cursor-not-allowed disabled:transform-none mt-2"
           >
-            {submitting ? '⏳ Envoi en cours…' : `🌿 COMMANDER — PAYER À LA LIVRAISON · ${formatFCFA(offer.price)}`}
+            {submitting ? '⏳ Envoi en cours…' : `🌿 COMMANDER — PAYER À LA LIVRAISON · ${formatFCFA(finalPrice)}`}
           </button>
         </div>
 

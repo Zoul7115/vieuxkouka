@@ -2,6 +2,8 @@ import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
+import { ComparisonTable } from '@/components/ComparisonTable';
+import { LiveSocialProof } from '@/components/LiveSocialProof';
 import { SIROP_KOUKA } from '@/lib/products';
 
 export const Route = createFileRoute('/product/$slug')({
@@ -26,15 +28,16 @@ function SiropPage() {
   return (
     <div className="bg-background">
       <VisitTracker page="sirop-kouka" />
+      <LiveSocialProof product="Sirop KOUKA" />
 
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🔥 Résultats dès la 2ᵉ nuit · 🤐 Livraison 100% discrète · 💵 Paiement à réception
+        🤐 100% discret · 🔥 Effet dès J2 · 💵 Paiement à la livraison
       </div>
 
       <section className="bg-gradient-to-b from-vert-bg to-background py-12 border-b-2 border-vert-bg">
         <div className="container-kouka text-center">
           <span className="inline-block bg-rouge text-white text-xs font-bold uppercase px-4 py-1.5 rounded-full mb-4">
-            🔒 Discret · Naturel · Garanti
+            🔒 100% discret · Naturel · Garanti
           </span>
           <h1 className="text-vert mb-4">
             Tu finis en 2 minutes ?<br />
@@ -44,6 +47,18 @@ function SiropPage() {
             Éjaculation précoce, érection molle, désir en panne — tu n'es pas seul, et ce n'est <strong>pas dans ta tête</strong>.
             <strong className="text-foreground"> Le Sirop du Vieux KOUKA réveille ta puissance naturelle</strong> avec 100% de plantes africaines. Ta femme va le remarquer. Toi aussi.
           </p>
+
+          {/* Réassurance ANONYMAT renforcée */}
+          <div className="max-w-md mx-auto bg-foreground text-white rounded-xl p-4 mb-5 text-left">
+            <div className="font-extrabold text-base mb-2 flex items-center gap-2">🤐 Personne ne saura. Promis.</div>
+            <ul className="text-sm space-y-1 text-white/90">
+              <li>✅ Colis <strong>neutre, sans logo, sans nom du produit</strong></li>
+              <li>✅ Le livreur ne sait <strong>pas ce qu'il y a dedans</strong></li>
+              <li>✅ Numéro WhatsApp <strong>jamais partagé</strong>, jamais revendu</li>
+              <li>✅ Aucun appel public — message discret seulement</li>
+            </ul>
+          </div>
+
           <div className="max-w-[300px] mx-auto mb-5 rounded-2xl overflow-hidden border-2 border-vert-bg shadow-[0_8px_32px_rgba(46,125,50,0.25)]">
             <img src={product.heroImage} alt={product.name} className="w-full block" />
           </div>
@@ -55,13 +70,18 @@ function SiropPage() {
             <span>✅ Remboursé si nul</span>
           </div>
 
+          <div className="inline-flex items-center gap-2 bg-vert-bg border-2 border-vert-mid rounded-full px-4 py-2 mb-4 shadow-sm">
+            <span className="text-xl">🛡️</span>
+            <span className="text-sm font-extrabold text-vert">Garantie PERFORMANT ou REMBOURSÉ 100%</span>
+          </div>
+
           <button
             onClick={() => document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' })}
             className="w-full bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform"
           >
             🍯 JE COMMANDE — JE PAIE À RÉCEPTION
           </button>
-          <p className="text-sm text-muted-foreground mt-3">📦 Colis neutre · Personne ne sait ce qu'il y a dedans</p>
+          <p className="text-sm text-muted-foreground mt-3">📦 Colis 100% neutre · Personne ne sait ce qu'il y a dedans</p>
         </div>
       </section>
 
@@ -129,6 +149,38 @@ function SiropPage() {
           <div className="bg-vert-bg border-2 border-vert-mid rounded-2xl p-5 text-center mt-7">
             <p className="font-bold mb-1">🛡️ Garantie "Performant ou Remboursé"</p>
             <p className="text-sm">Tu finis le flacon sans aucune amélioration ? <strong>Remboursement 100%, sans justification.</strong> Tu testes sans aucun risque.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* COMPARATIF */}
+      <section className="sec bg-cream-2">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">Pourquoi le Sirop KOUKA <span className="text-vert">plutôt que Viagra & co</span> ?</h2>
+          <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto">
+            Compare honnêtement. Tu vas comprendre pourquoi tant d'hommes basculent sur le naturel.
+          </p>
+          <ComparisonTable
+            rows={[
+              { label: 'Effet sur', kouka: 'Cause profonde', meds: 'Symptôme', surgery: 'Symptôme' },
+              { label: 'Durée d\'action', kouka: '15+ jours', meds: '4 heures', surgery: '4 heures' },
+              { label: 'Effets secondaires', kouka: '✅ Aucun', meds: '⚠️ Maux de tête, cœur', surgery: '⚠️ Bouffées' },
+              { label: 'Risque cœur', kouka: '✅ Zéro', meds: '❌ Réel', surgery: '❌ Réel' },
+              { label: 'Discrétion', kouka: '✅ 100%', meds: 'Pharmacie', surgery: 'Pharmacie' },
+              { label: 'Désir / libido', kouka: '✅ Restauré', meds: '❌ Mécanique', surgery: '❌ Mécanique' },
+              { label: 'Garantie', kouka: '✅ Remboursé', meds: '❌ Non', surgery: '❌ Non' },
+            ]}
+            productLabel="🍯 Sirop KOUKA"
+            medsLabel="Viagra & co"
+            surgeryLabel="Pompes/gadgets"
+          />
+          <div className="text-center mt-6">
+            <button
+              onClick={() => document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform"
+            >
+              🍯 Je veux le Sirop KOUKA
+            </button>
           </div>
         </div>
       </section>
