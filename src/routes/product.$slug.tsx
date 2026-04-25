@@ -153,6 +153,36 @@ function SiropPage() {
         </div>
       </section>
 
+      {/* COMPARATIF */}
+      <section className="sec bg-cream-2">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">Pourquoi le Sirop KOUKA <span className="text-vert">plutôt que Viagra & co</span> ?</h2>
+          <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto">
+            Compare honnêtement. Tu vas comprendre pourquoi tant d'hommes basculent sur le naturel.
+          </p>
+          <ComparisonTable
+            rows={[
+              { label: 'Effet sur', kouka: 'Cause profonde', meds: 'Symptôme', surgery: 'Symptôme' },
+              { label: 'Durée d\'action', kouka: '15+ jours', meds: '4 heures', surgery: '4 heures' },
+              { label: 'Effets secondaires', kouka: '✅ Aucun', meds: '⚠️ Maux de tête, cœur', surgery: '⚠️ Bouffées' },
+              { label: 'Risque cœur', kouka: '✅ Zéro', meds: '❌ Réel', surgery: '❌ Réel' },
+              { label: 'Discrétion', kouka: '✅ 100%', meds: 'Pharmacie', surgery: 'Pharmacie' },
+              { label: 'Désir / libido', kouka: '✅ Restauré', meds: '❌ Mécanique', surgery: '❌ Mécanique' },
+              { label: 'Garantie', kouka: '✅ Remboursé', meds: '❌ Non', surgery: '❌ Non' },
+            ]}
+            productLabel="🍯 Sirop KOUKA"
+          />
+          <div className="text-center mt-6">
+            <button
+              onClick={() => document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform"
+            >
+              🍯 Je veux le Sirop KOUKA
+            </button>
+          </div>
+        </div>
+      </section>
+
       <ProductForm product={product} />
 
       <section className="sec">
