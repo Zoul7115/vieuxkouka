@@ -171,6 +171,8 @@ function SiropPage() {
               { label: 'Garantie', kouka: '✅ Remboursé', meds: '❌ Non', surgery: '❌ Non' },
             ]}
             productLabel="🍯 Sirop KOUKA"
+            medsLabel="Viagra & co"
+            surgeryLabel="Pompes/gadgets"
           />
           <div className="text-center mt-6">
             <button

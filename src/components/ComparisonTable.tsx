@@ -1,6 +1,16 @@
 type Row = { label: string; kouka: string; meds: string; surgery: string };
 
-export function ComparisonTable({ rows, productLabel = 'KOUKA' }: { rows: Row[]; productLabel?: string }) {
+export function ComparisonTable({
+  rows,
+  productLabel = 'KOUKA',
+  medsLabel = 'Médicaments',
+  surgeryLabel = 'Opération',
+}: {
+  rows: Row[];
+  productLabel?: string;
+  medsLabel?: string;
+  surgeryLabel?: string;
+}) {
   return (
     <div className="bloc overflow-x-auto p-0">
       <table className="w-full text-sm border-collapse min-w-[520px]">
@@ -8,8 +18,8 @@ export function ComparisonTable({ rows, productLabel = 'KOUKA' }: { rows: Row[];
           <tr className="bg-vert text-white">
             <th className="text-left px-3 py-3 font-bold">Critère</th>
             <th className="px-3 py-3 font-extrabold bg-vert-mid">{productLabel}</th>
-            <th className="px-3 py-3 font-bold">Médicaments</th>
-            <th className="px-3 py-3 font-bold">Opération</th>
+            <th className="px-3 py-3 font-bold">{medsLabel}</th>
+            <th className="px-3 py-3 font-bold">{surgeryLabel}</th>
           </tr>
         </thead>
         <tbody>
