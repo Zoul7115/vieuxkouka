@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { formatFCFA } from '@/lib/products';
 import { toast } from 'sonner';
@@ -9,6 +9,7 @@ import { StockTab } from '@/components/admin/StockTab';
 import { ComptaTab } from '@/components/admin/ComptaTab';
 import { LivreursTab } from '@/components/admin/LivreursTab';
 import { usePWAAdmin } from '@/hooks/usePWAAdmin';
+import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
 
 export const Route = createFileRoute('/admin')({
   head: () => ({ meta: [{ title: 'Admin — ShopAfrik' }] }),
@@ -83,47 +84,73 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [visits, setVisits] = useState<Visit[]>([]);
   const [tab, setTab] = useState<Tab>('orders');
   const [loading, setLoading] = useState(true);
+  const [period, setPeriod] = useState<PeriodKey>('today');
+  const [customFrom, setCustomFrom] = useState('');
+  const [customTo, setCustomTo] = useState('');
 
-  const load = async () => {
-    setLoading(true);
-    const [oRes, vRes] = await Promise.all([
-      supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(1000),
-      supabase.from('visits').select('*').order('visited_at', { ascending: false }).limit(1000),
-    ]);
-    if (oRes.error) toast.error(oRes.error.message);
-    else setOrders((oRes.data || []) as Order[]);
-    if (vRes.error) toast.error(vRes.error.message);
-    else setVisits((vRes.data || []) as Visit[]);
-    setLoading(false);
+  const load = async (silent = false) => {
+    if (!silent) setLoading(true);
+    try {
+      const [oRes, vRes] = await Promise.all([
+        supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(1000),
+        supabase.from('visits').select('*').order('visited_at', { ascending: false }).limit(1000),
+      ]);
+      if (oRes.error) console.error('orders load error', oRes.error);
+      else setOrders((oRes.data || []) as Order[]);
+      if (vRes.error) console.error('visits load error', vRes.error);
+      else setVisits((vRes.data || []) as Visit[]);
+    } catch (err) {
+      console.error('admin load failed', err);
+      if (!silent) toast.error('Erreur chargement — nouvelle tentative…');
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     load();
-    // Realtime: refresh on any order change (insert/update/delete)
+    // Realtime: refresh on any order change
     const channel = supabase
       .channel('admin-orders-stream')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => load())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => load(true))
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'stock_transactions' }, () => load(true))
       .subscribe();
-    return () => { supabase.removeChannel(channel); };
+    // Polling de secours toutes les 12s (en cas d'écart Realtime)
+    const itv = window.setInterval(() => load(true), 12000);
+    // Refresh quand l'onglet redevient visible
+    const onVis = () => { if (document.visibilityState === 'visible') load(true); };
+    document.addEventListener('visibilitychange', onVis);
+    return () => {
+      supabase.removeChannel(channel);
+      window.clearInterval(itv);
+      document.removeEventListener('visibilitychange', onVis);
+    };
   }, []);
 
   const updateStatus = async (id: string, status: string) => {
     const { error } = await supabase.from('orders').update({ status }).eq('id', id);
     if (error) toast.error(error.message);
-    else { toast.success(`Statut mis à jour`); load(); }
+    else { toast.success(`Statut mis à jour`); load(true); }
   };
 
   const assignLivreur = async (id: string, livreurIdx: number | null) => {
     const { error } = await supabase.from('orders').update({ livreur_idx: livreurIdx }).eq('id', id);
     if (error) toast.error(error.message);
-    else { toast.success('Livreur mis à jour'); load(); }
+    else { toast.success('Livreur mis à jour'); load(true); }
   };
 
-  const kpi = {
-    total: orders.length,
-    ca: orders.filter((o) => o.status === 'delivered').reduce((s, o) => s + o.product_price, 0),
-    pending: orders.filter((o) => o.status === 'pending').length,
-  };
+  // KPI scopés à la période choisie
+  const kpi = useMemo(() => {
+    const inPeriod = filterByPeriod(orders, period, 'created_at', customFrom, customTo);
+    const delivered = inPeriod.filter((o) => o.status === 'delivered');
+    const pending = inPeriod.filter((o) => o.status === 'pending');
+    return {
+      total: inPeriod.length,
+      ca: delivered.reduce((s, o) => s + o.product_price, 0),
+      pending: pending.length,
+      delivered: delivered.length,
+    };
+  }, [orders, period, customFrom, customTo]);
 
   const TABS: { k: Tab; label: string; emoji: string }[] = [
     { k: 'orders', label: 'Commandes', emoji: '📦' },
@@ -134,6 +161,17 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   ];
 
   const { canInstall, install, permission, requestNotifications } = usePWAAdmin(true);
+
+  // Auto-prompt notif au login si non accordé
+  useEffect(() => {
+    if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
+      // léger délai pour ne pas être agressif
+      const t = setTimeout(() => requestNotifications(), 800);
+      return () => clearTimeout(t);
+    }
+  }, [requestNotifications]);
+
+  const periodLabel = PERIODS.find((p) => p.k === period)?.label || '';
 
   return (
     <div className="min-h-screen bg-cream">
@@ -150,7 +188,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               🔔 Notifs
             </button>
           )}
-          <button onClick={load} className="text-sm bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">🔄</button>
+          <button onClick={() => load()} className="text-sm bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">🔄</button>
           <Link to="/" className="text-white/80 text-sm hover:text-white">Boutique</Link>
           <button onClick={onLogout} className="text-sm bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">
             Déconnexion
@@ -159,11 +197,33 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       </header>
 
       <main className="max-w-6xl mx-auto p-5">
-        {/* KPI résumé */}
+        {/* Sélecteur période */}
+        <div className="mb-3 flex flex-wrap items-center gap-2">
+          {PERIODS.map((p) => (
+            <button
+              key={p.k}
+              onClick={() => setPeriod(p.k)}
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors ${
+                period === p.k ? 'bg-vert text-white' : 'bg-white border-2 border-vert-bg text-muted-foreground hover:border-vert-mid'
+              }`}
+            >
+              {p.label}
+            </button>
+          ))}
+          {period === 'custom' && (
+            <div className="flex items-center gap-1.5 bg-white border-2 border-vert-bg rounded-full px-2 py-1">
+              <input type="date" value={customFrom} onChange={(e) => setCustomFrom(e.target.value)} className="text-xs outline-none bg-transparent" />
+              <span className="text-xs text-muted-foreground">→</span>
+              <input type="date" value={customTo} onChange={(e) => setCustomTo(e.target.value)} className="text-xs outline-none bg-transparent" />
+            </div>
+          )}
+        </div>
+
+        {/* KPI résumé scopé période */}
         <div className="bg-gradient-to-br from-rouge to-[oklch(0.40_0.20_28)] text-white rounded-2xl p-6 mb-5">
-          <div className="text-sm opacity-90 font-semibold">Chiffre d'affaires livré</div>
+          <div className="text-sm opacity-90 font-semibold">CA livré · {periodLabel}</div>
           <div className="text-4xl font-extrabold mt-1">{formatFCFA(kpi.ca)}</div>
-          <div className="text-sm opacity-90 mt-1">{kpi.total} commandes · {kpi.pending} en attente</div>
+          <div className="text-sm opacity-90 mt-1">{kpi.total} commandes · {kpi.delivered} livrées · {kpi.pending} en attente</div>
         </div>
 
         {/* Tabs */}
@@ -181,12 +241,12 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           ))}
         </div>
 
-        {loading && <div className="text-center py-10 text-muted-foreground">Chargement…</div>}
+        {loading && orders.length === 0 && <div className="text-center py-10 text-muted-foreground">Chargement…</div>}
 
-        {!loading && (
+        {(!loading || orders.length > 0) && (
           <>
             {tab === 'orders' && <OrdersTab orders={orders} onUpdateStatus={updateStatus} onAssignLivreur={assignLivreur} />}
-            {tab === 'livreurs' && <LivreursTab orders={orders} onChange={load} />}
+            {tab === 'livreurs' && <LivreursTab orders={orders} onChange={() => load(true)} />}
             {tab === 'stock' && <StockTab />}
             {tab === 'compta' && <ComptaTab orders={orders} />}
             {tab === 'stats' && <StatsTab orders={orders} visits={visits} />}

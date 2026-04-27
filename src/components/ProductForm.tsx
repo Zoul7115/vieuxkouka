@@ -4,6 +4,7 @@ import { OfferSelector } from './OfferSelector';
 import { PreFormWhatsApp } from './PreFormWhatsApp';
 import { COUNTRIES, formatFCFA, type Offer, type Product } from '@/lib/products';
 import { supabase } from '@/integrations/supabase/client';
+import { trackFB } from '@/lib/facebookPixel';
 import { toast } from 'sonner';
 
 const BUMP_PRICE = 5000;
@@ -13,6 +14,7 @@ export function ProductForm({ product }: { product: Product }) {
   const recommended = product.offers.find((o) => o.recommended) || product.offers[0];
   const [offer, setOffer] = useState<Offer>(recommended);
   const [bumpAccepted, setBumpAccepted] = useState(false);
+  const [checkoutFired, setCheckoutFired] = useState(false);
   // Bump dispo uniquement quand on n'est pas déjà sur la meilleure offre
   const bumpAvailable = !offer.bestValue;
   const finalPrice = offer.price + (bumpAccepted && bumpAvailable ? BUMP_PRICE : 0);
@@ -35,6 +37,10 @@ export function ProductForm({ product }: { product: Product }) {
   const update = (k: string, v: string | boolean) => {
     setForm((f) => ({ ...f, [k]: v }));
     setErrors((e) => ({ ...e, [k]: '' }));
+    if (!checkoutFired) {
+      setCheckoutFired(true);
+      trackFB('InitiateCheckout', { value: finalPrice, currency: 'XOF', content_name: product.name });
+    }
   };
 
   const validate = () => {
@@ -95,14 +101,20 @@ export function ProductForm({ product }: { product: Product }) {
         })
       );
 
-      // Facebook Pixel
-      if (typeof window !== 'undefined' && (window as any).fbq) {
-        (window as any).fbq('track', 'Purchase', {
-          value: finalPrice,
-          currency: 'XOF',
-          content_name: product.name,
-        });
-      }
+      // Facebook Pixel + CAPI (event dédupliqué)
+      trackFB('Purchase', {
+        value: finalPrice,
+        currency: 'XOF',
+        content_name: product.name,
+      }, {
+        phone: fullPhone,
+        country: country.label.replace(/^.{1,4}\s/, ''),
+        city: form.city,
+      });
+      // Lead pour les campagnes optimisées Lead
+      trackFB('Lead', { value: finalPrice, currency: 'XOF', content_name: product.name }, {
+        phone: fullPhone, country: country.label.replace(/^.{1,4}\s/, ''), city: form.city,
+      });
 
       navigate({ to: '/thank-you' });
     } catch (err: any) {
@@ -129,7 +141,10 @@ export function ProductForm({ product }: { product: Product }) {
           Remplis le formulaire — on te contacte sous 2h sur WhatsApp pour confirmer ta livraison.
         </p>
 
-        <OfferSelector offers={product.offers} selectedId={offer.id} onSelect={(o) => { setOffer(o); setBumpAccepted(false); }} />
+        <OfferSelector offers={product.offers} selectedId={offer.id} onSelect={(o) => {
+          setOffer(o); setBumpAccepted(false);
+          trackFB('AddToCart', { value: o.price, currency: 'XOF', content_name: `${product.name} · ${o.label}` });
+        }} />
 
         {bumpAvailable && (
           <label className="max-w-[480px] mx-auto mb-4 flex items-start gap-3 bg-[oklch(0.97_0.06_92)] border-2 border-dashed border-or rounded-xl p-3.5 cursor-pointer hover:bg-[oklch(0.95_0.08_92)] transition-colors">

@@ -3,6 +3,7 @@ import { DELIVERY_COST, findOfferByLabel, formatFCFA, orderProductCost } from '@
 import { useLivreurs } from '@/lib/livreurs';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
 
 type Order = {
   id: string;
@@ -32,15 +33,10 @@ const CATEGORIES = [
 
 const USD_TO_FCFA = 655;
 
-const PERIODS = [
-  { k: '7d', label: '7 jours', days: 7 },
-  { k: '30d', label: '30 jours', days: 30 },
-  { k: '90d', label: '90 jours', days: 90 },
-  { k: 'all', label: 'Tout', days: 99999 },
-];
-
 export function ComptaTab({ orders }: { orders: Order[] }) {
-  const [period, setPeriod] = useState('30d');
+  const [period, setPeriod] = useState<PeriodKey>('30d');
+  const [customFrom, setCustomFrom] = useState('');
+  const [customTo, setCustomTo] = useState('');
   const { livreurs } = useLivreurs();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [form, setForm] = useState({
@@ -65,17 +61,15 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
 
   useEffect(() => { loadExpenses(); }, []);
 
-  const filtered = useMemo(() => {
-    const days = PERIODS.find((p) => p.k === period)?.days || 30;
-    const cutoff = Date.now() - days * 24 * 3600 * 1000;
-    return orders.filter((o) => new Date(o.created_at).getTime() >= cutoff);
-  }, [orders, period]);
+  const filtered = useMemo(
+    () => filterByPeriod(orders, period, 'created_at', customFrom, customTo),
+    [orders, period, customFrom, customTo],
+  );
 
-  const filteredExpenses = useMemo(() => {
-    const days = PERIODS.find((p) => p.k === period)?.days || 30;
-    const cutoff = Date.now() - days * 24 * 3600 * 1000;
-    return expenses.filter((e) => new Date(e.expense_date).getTime() >= cutoff);
-  }, [expenses, period]);
+  const filteredExpenses = useMemo(
+    () => filterByPeriod(expenses, period, 'expense_date', customFrom, customTo),
+    [expenses, period, customFrom, customTo],
+  );
 
   const totals = useMemo(() => {
     const delivered = filtered.filter((o) => o.status === 'delivered');
@@ -178,13 +172,20 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
           <button
             key={p.k}
             onClick={() => setPeriod(p.k)}
-            className={`px-3.5 py-1.5 rounded-full text-sm font-bold ${
+            className={`px-3 py-1.5 rounded-full text-xs font-bold ${
               period === p.k ? 'bg-vert-mid text-white' : 'bg-white border-2 border-vert-bg text-muted-foreground'
             }`}
           >
             {p.label}
           </button>
         ))}
+        {period === 'custom' && (
+          <div className="flex items-center gap-1.5 bg-white border-2 border-vert-bg rounded-full px-2 py-1">
+            <input type="date" value={customFrom} onChange={(e) => setCustomFrom(e.target.value)} className="text-xs outline-none bg-transparent" />
+            <span className="text-xs text-muted-foreground">→</span>
+            <input type="date" value={customTo} onChange={(e) => setCustomTo(e.target.value)} className="text-xs outline-none bg-transparent" />
+          </div>
+        )}
         <button onClick={exportCSV} className="ml-auto bg-vert text-white px-4 py-2 rounded-xl text-sm font-extrabold hover:bg-vert-mid">
           📥 Export CSV
         </button>
