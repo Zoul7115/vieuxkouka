@@ -31,9 +31,7 @@ function ThankYouPage() {
         /* ignore */
       }
     }
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'Purchase');
-    }
+    // Note: l'événement Purchase est déclenché côté ProductForm (Pixel + CAPI dédupliqués)
   }, []);
 
   return (
