@@ -3,6 +3,7 @@ import { DELIVERY_COST, findOfferByLabel, formatFCFA, orderProductCost } from '@
 import { useLivreurs } from '@/lib/livreurs';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
 
 type Order = {
   id: string;
@@ -40,7 +41,9 @@ const PERIODS = [
 ];
 
 export function ComptaTab({ orders }: { orders: Order[] }) {
-  const [period, setPeriod] = useState('30d');
+  const [period, setPeriod] = useState<PeriodKey>('30d');
+  const [customFrom, setCustomFrom] = useState('');
+  const [customTo, setCustomTo] = useState('');
   const { livreurs } = useLivreurs();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [form, setForm] = useState({
@@ -65,17 +68,15 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
 
   useEffect(() => { loadExpenses(); }, []);
 
-  const filtered = useMemo(() => {
-    const days = PERIODS.find((p) => p.k === period)?.days || 30;
-    const cutoff = Date.now() - days * 24 * 3600 * 1000;
-    return orders.filter((o) => new Date(o.created_at).getTime() >= cutoff);
-  }, [orders, period]);
+  const filtered = useMemo(
+    () => filterByPeriod(orders, period, 'created_at', customFrom, customTo),
+    [orders, period, customFrom, customTo],
+  );
 
-  const filteredExpenses = useMemo(() => {
-    const days = PERIODS.find((p) => p.k === period)?.days || 30;
-    const cutoff = Date.now() - days * 24 * 3600 * 1000;
-    return expenses.filter((e) => new Date(e.expense_date).getTime() >= cutoff);
-  }, [expenses, period]);
+  const filteredExpenses = useMemo(
+    () => filterByPeriod(expenses, period, 'expense_date', customFrom, customTo),
+    [expenses, period, customFrom, customTo],
+  );
 
   const totals = useMemo(() => {
     const delivered = filtered.filter((o) => o.status === 'delivered');
