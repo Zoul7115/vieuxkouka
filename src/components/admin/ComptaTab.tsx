@@ -172,13 +172,20 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
           <button
             key={p.k}
             onClick={() => setPeriod(p.k)}
-            className={`px-3.5 py-1.5 rounded-full text-sm font-bold ${
+            className={`px-3 py-1.5 rounded-full text-xs font-bold ${
               period === p.k ? 'bg-vert-mid text-white' : 'bg-white border-2 border-vert-bg text-muted-foreground'
             }`}
           >
             {p.label}
           </button>
         ))}
+        {period === 'custom' && (
+          <div className="flex items-center gap-1.5 bg-white border-2 border-vert-bg rounded-full px-2 py-1">
+            <input type="date" value={customFrom} onChange={(e) => setCustomFrom(e.target.value)} className="text-xs outline-none bg-transparent" />
+            <span className="text-xs text-muted-foreground">→</span>
+            <input type="date" value={customTo} onChange={(e) => setCustomTo(e.target.value)} className="text-xs outline-none bg-transparent" />
+          </div>
+        )}
         <button onClick={exportCSV} className="ml-auto bg-vert text-white px-4 py-2 rounded-xl text-sm font-extrabold hover:bg-vert-mid">
           📥 Export CSV
         </button>
