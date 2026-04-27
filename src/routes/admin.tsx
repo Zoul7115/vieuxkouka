@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { formatFCFA } from '@/lib/products';
 import { toast } from 'sonner';
@@ -9,6 +9,7 @@ import { StockTab } from '@/components/admin/StockTab';
 import { ComptaTab } from '@/components/admin/ComptaTab';
 import { LivreursTab } from '@/components/admin/LivreursTab';
 import { usePWAAdmin } from '@/hooks/usePWAAdmin';
+import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
 
 export const Route = createFileRoute('/admin')({
   head: () => ({ meta: [{ title: 'Admin — ShopAfrik' }] }),
