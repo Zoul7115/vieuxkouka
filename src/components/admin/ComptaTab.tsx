@@ -33,13 +33,6 @@ const CATEGORIES = [
 
 const USD_TO_FCFA = 655;
 
-const PERIODS = [
-  { k: '7d', label: '7 jours', days: 7 },
-  { k: '30d', label: '30 jours', days: 30 },
-  { k: '90d', label: '90 jours', days: 90 },
-  { k: 'all', label: 'Tout', days: 99999 },
-];
-
 export function ComptaTab({ orders }: { orders: Order[] }) {
   const [period, setPeriod] = useState<PeriodKey>('30d');
   const [customFrom, setCustomFrom] = useState('');
