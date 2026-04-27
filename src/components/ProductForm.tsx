@@ -4,6 +4,7 @@ import { OfferSelector } from './OfferSelector';
 import { PreFormWhatsApp } from './PreFormWhatsApp';
 import { COUNTRIES, formatFCFA, type Offer, type Product } from '@/lib/products';
 import { supabase } from '@/integrations/supabase/client';
+import { trackFB } from '@/lib/facebookPixel';
 import { toast } from 'sonner';
 
 const BUMP_PRICE = 5000;
@@ -95,14 +96,20 @@ export function ProductForm({ product }: { product: Product }) {
         })
       );
 
-      // Facebook Pixel
-      if (typeof window !== 'undefined' && (window as any).fbq) {
-        (window as any).fbq('track', 'Purchase', {
-          value: finalPrice,
-          currency: 'XOF',
-          content_name: product.name,
-        });
-      }
+      // Facebook Pixel + CAPI (event dédupliqué)
+      trackFB('Purchase', {
+        value: finalPrice,
+        currency: 'XOF',
+        content_name: product.name,
+      }, {
+        phone: fullPhone,
+        country: country.label.replace(/^.{1,4}\s/, ''),
+        city: form.city,
+      });
+      // Lead pour les campagnes optimisées Lead
+      trackFB('Lead', { value: finalPrice, currency: 'XOF', content_name: product.name }, {
+        phone: fullPhone, country: country.label.replace(/^.{1,4}\s/, ''), city: form.city,
+      });
 
       navigate({ to: '/thank-you' });
     } catch (err: any) {
