@@ -8,6 +8,7 @@ import { trackFB } from '@/lib/facebookPixel';
 import { toast } from 'sonner';
 
 const BUMP_PRICE = 5000;
+const SHIPPING_FEE = 1000; // Frais d'expédition hors Ouagadougou
 
 export function ProductForm({ product }: { product: Product }) {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export function ProductForm({ product }: { product: Product }) {
   const [checkoutFired, setCheckoutFired] = useState(false);
   // Bump dispo uniquement quand on n'est pas déjà sur la meilleure offre
   const bumpAvailable = !offer.bestValue;
-  const finalPrice = offer.price + (bumpAccepted && bumpAvailable ? BUMP_PRICE : 0);
+  const productPrice = offer.price + (bumpAccepted && bumpAvailable ? BUMP_PRICE : 0);
   const finalUnits = offer.units + (bumpAccepted && bumpAvailable ? 1 : 0);
   const productLabel = /sirop/i.test(product.name) ? 'flacon' : 'sachet';
   const [form, setForm] = useState({
