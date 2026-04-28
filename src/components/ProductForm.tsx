@@ -310,6 +310,22 @@ export function ProductForm({ product }: { product: Product }) {
           </label>
           {errors.available && <div className="text-rouge text-sm mb-3">{errors.available}</div>}
 
+          {/* Trust markers JUSTE avant le CTA — lève les dernières objections */}
+          <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
+            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+              <span>💵</span><span>Tu paies SEULEMENT à la livraison</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+              <span>📦</span><span>Colis neutre, 100% discret</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+              <span>🛡️</span><span>Remboursé si pas satisfait</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+              <span>📞</span><span>Appel WhatsApp sous 2h</span>
+            </div>
+          </div>
+
           <button
             onClick={submit}
             disabled={submitting}
@@ -317,6 +333,9 @@ export function ProductForm({ product }: { product: Product }) {
           >
             {submitting ? '⏳ Envoi en cours…' : `🌿 COMMANDER — PAYER À LA LIVRAISON · ${formatFCFA(finalPrice)}`}
           </button>
+          <p className="text-center text-xs text-muted-foreground mt-2 font-semibold">
+            🔒 Tes infos restent confidentielles · Aucun débit en ligne
+          </p>
         </div>
 
         <div className="flex gap-2 justify-center flex-wrap mt-4">
