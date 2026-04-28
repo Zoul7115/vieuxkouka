@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { OfferSelector } from './OfferSelector';
 import { PreFormWhatsApp } from './PreFormWhatsApp';
@@ -34,8 +34,42 @@ export function ProductForm({ product }: { product: Product }) {
 
   const country = COUNTRIES.find((c) => c.code === form.countryCode) || COUNTRIES[0];
 
+  // Restaure brouillon de formulaire (récupération abandon)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('kouka_form_draft');
+      if (!raw) return;
+      const draft = JSON.parse(raw);
+      if (draft && (draft.fullName || draft.whatsapp || draft.city)) {
+        setForm((f) => ({
+          ...f,
+          fullName: draft.fullName || f.fullName,
+          whatsapp: draft.whatsapp || f.whatsapp,
+          city: draft.city || f.city,
+          countryCode: draft.countryCode || f.countryCode,
+        }));
+      }
+    } catch {}
+  }, []);
+
   const update = (k: string, v: string | boolean) => {
-    setForm((f) => ({ ...f, [k]: v }));
+    setForm((f) => {
+      const next = { ...f, [k]: v };
+      // Sauvegarde brouillon
+      try {
+        localStorage.setItem(
+          'kouka_form_draft',
+          JSON.stringify({
+            fullName: next.fullName,
+            whatsapp: next.whatsapp,
+            city: next.city,
+            countryCode: next.countryCode,
+            ts: Date.now(),
+          }),
+        );
+      } catch {}
+      return next;
+    });
     setErrors((e) => ({ ...e, [k]: '' }));
     if (!checkoutFired) {
       setCheckoutFired(true);
@@ -87,6 +121,9 @@ export function ProductForm({ product }: { product: Product }) {
       });
 
       if (error) throw error;
+
+      // Nettoie le brouillon abandon
+      try { localStorage.removeItem('kouka_form_draft'); } catch {}
 
       sessionStorage.setItem(
         'kouka_last_order',
@@ -273,6 +310,22 @@ export function ProductForm({ product }: { product: Product }) {
           </label>
           {errors.available && <div className="text-rouge text-sm mb-3">{errors.available}</div>}
 
+          {/* Trust markers JUSTE avant le CTA — lève les dernières objections */}
+          <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
+            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+              <span>💵</span><span>Tu paies SEULEMENT à la livraison</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+              <span>📦</span><span>Colis neutre, 100% discret</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+              <span>🛡️</span><span>Remboursé si pas satisfait</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+              <span>📞</span><span>Appel WhatsApp sous 2h</span>
+            </div>
+          </div>
+
           <button
             onClick={submit}
             disabled={submitting}
@@ -280,6 +333,9 @@ export function ProductForm({ product }: { product: Product }) {
           >
             {submitting ? '⏳ Envoi en cours…' : `🌿 COMMANDER — PAYER À LA LIVRAISON · ${formatFCFA(finalPrice)}`}
           </button>
+          <p className="text-center text-xs text-muted-foreground mt-2 font-semibold">
+            🔒 Tes infos restent confidentielles · Aucun débit en ligne
+          </p>
         </div>
 
         <div className="flex gap-2 justify-center flex-wrap mt-4">
