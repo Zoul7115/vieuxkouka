@@ -34,6 +34,8 @@ export function ProductForm({ product }: { product: Product }) {
   const [submitting, setSubmitting] = useState(false);
 
   const country = COUNTRIES.find((c) => c.code === form.countryCode) || COUNTRIES[0];
+  const shippingFee = form.horsOuaga ? SHIPPING_FEE : 0;
+  const finalPrice = productPrice + shippingFee;
 
   // Restaure brouillon de formulaire (récupération abandon)
   useEffect(() => {
@@ -203,23 +205,41 @@ export function ProductForm({ product }: { product: Product }) {
           </label>
         )}
 
-        <div className="bg-vert-bg border-2 border-[oklch(0.85_0.08_145)] rounded-xl px-4 py-3.5 mb-5 flex justify-between items-center flex-wrap gap-2 max-w-[480px] mx-auto">
-          <div>
-            <div className="text-sm text-muted-foreground font-semibold">Total à payer</div>
-            <div className="text-lg font-extrabold text-foreground">
-              {finalUnits} {productLabel}{finalUnits > 1 ? 's' : ''} · {offer.label.split('—')[0].trim()}
-              {bumpAccepted && bumpAvailable && <span className="text-or"> +1 BUMP</span>}
+        <div className="bg-vert-bg border-2 border-[oklch(0.85_0.08_145)] rounded-xl px-4 py-3.5 mb-5 max-w-[480px] mx-auto">
+          <div className="flex justify-between items-center flex-wrap gap-2">
+            <div>
+              <div className="text-sm text-muted-foreground font-semibold">Sous-total produit</div>
+              <div className="text-base font-extrabold text-foreground">
+                {finalUnits} {productLabel}{finalUnits > 1 ? 's' : ''} · {offer.label.split('—')[0].trim()}
+                {bumpAccepted && bumpAvailable && <span className="text-or"> +1 BUMP</span>}
+              </div>
+            </div>
+            <div className="text-right">
+              {(offer.oldPrice + (bumpAccepted && bumpAvailable ? (/sirop/i.test(product.name) ? 12000 : 10000) : 0)) > productPrice && (
+                <div className="text-sm text-muted-foreground line-through">
+                  {formatFCFA(offer.oldPrice + (bumpAccepted && bumpAvailable ? (/sirop/i.test(product.name) ? 12000 : 10000) : 0))}
+                </div>
+              )}
+              <div className="text-2xl font-extrabold text-vert leading-none">{formatFCFA(productPrice)}</div>
+              {offer.saving && <div className="text-xs text-rouge font-bold">🎁 {offer.saving}</div>}
             </div>
           </div>
-          <div className="text-right">
-            {(offer.oldPrice + (bumpAccepted && bumpAvailable ? (/sirop/i.test(product.name) ? 12000 : 10000) : 0)) > finalPrice && (
-              <div className="text-sm text-muted-foreground line-through">
-                {formatFCFA(offer.oldPrice + (bumpAccepted && bumpAvailable ? (/sirop/i.test(product.name) ? 12000 : 10000) : 0))}
+
+          {shippingFee > 0 && (
+            <>
+              <div className="flex justify-between items-center mt-3 pt-3 border-t border-dashed border-or">
+                <div className="text-sm font-semibold text-foreground">
+                  🚍 Frais d'expédition
+                  <div className="text-xs text-muted-foreground font-normal">Hors Ouagadougou — par car de transport</div>
+                </div>
+                <div className="text-base font-extrabold text-or">+{formatFCFA(shippingFee)}</div>
               </div>
-            )}
-            <div className="text-3xl font-extrabold text-vert leading-none">{formatFCFA(finalPrice)}</div>
-            {offer.saving && <div className="text-xs text-rouge font-bold">🎁 {offer.saving}</div>}
-          </div>
+              <div className="flex justify-between items-center mt-3 pt-3 border-t-2 border-vert-mid">
+                <div className="text-base font-extrabold text-foreground">TOTAL À PAYER</div>
+                <div className="text-3xl font-extrabold text-vert leading-none">{formatFCFA(finalPrice)}</div>
+              </div>
+            </>
+          )}
         </div>
 
         <PreFormWhatsApp productName={product.name} />
