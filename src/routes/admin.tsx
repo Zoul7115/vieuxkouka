@@ -164,7 +164,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     { k: 'stats', label: 'Stats', emoji: '📈' },
   ];
 
-  const { canInstall, install, permission, requestNotifications } = usePWAAdmin(true);
+  const { canInstall, install, permission, requestNotifications, testAlert } = usePWAAdmin(true);
 
   // Auto-prompt notif au login si non accordé
   useEffect(() => {
@@ -190,6 +190,11 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           {permission !== 'granted' && (
             <button onClick={requestNotifications} className="text-xs bg-or text-vert font-extrabold px-3 py-1.5 rounded-lg hover:bg-or-light">
               🔔 Activer son + notifs
+            </button>
+          )}
+          {permission === 'granted' && (
+            <button onClick={testAlert} className="text-xs bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">
+              🔊 Test
             </button>
           )}
           <button onClick={() => load()} className="text-sm bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">🔄</button>
