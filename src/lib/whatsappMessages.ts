@@ -71,7 +71,8 @@ Merci pour votre confiance ! 🙏`;
 🎁 Nous allons vous offrir *${sachetWord(order.product_name, bonus)} bonus* pour un traitement plus complet.` : ''}
 
 🚍 Votre commande sera expédiée via *${transport}*.
-🧾 Après le dépôt du colis à la gare, nous allons vous envoyer le reçu du colis et vous allez faire le paiement.
+💰 *Frais d'expédition : 1 000 FCFA à votre charge*, à régler directement à la gare au moment de récupérer votre colis (en plus du prix du produit).
+🧾 Après le dépôt du colis à la gare, nous allons vous envoyer le reçu du colis et vous allez faire le paiement du produit.
 
 Merci de confirmer votre commande en répondant à ce message.
 

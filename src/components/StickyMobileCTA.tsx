@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export function StickyMobileCTA({ label = '🌿 COMMANDER MAINTENANT', price }: { label?: string; price?: string }) {
+export function StickyMobileCTA({ label = '🌿 COMMANDER MAINTENANT', price: _price }: { label?: string; price?: string }) {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -28,7 +28,6 @@ export function StickyMobileCTA({ label = '🌿 COMMANDER MAINTENANT', price }: 
         className="w-full bg-rouge text-white py-3.5 rounded-xl text-base font-extrabold shadow-md active:scale-95 transition-transform flex items-center justify-center gap-2"
       >
         <span>{label}</span>
-        {price && <span className="bg-white/20 px-2 py-0.5 rounded text-sm">{price}</span>}
       </button>
       <div className="text-center text-[10px] text-muted-foreground mt-1 font-semibold">
         💵 Paiement à la livraison · 🛡️ Remboursé si insatisfait
