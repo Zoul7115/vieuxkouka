@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { OfferSelector } from './OfferSelector';
 import { PreFormWhatsApp } from './PreFormWhatsApp';
@@ -34,8 +34,42 @@ export function ProductForm({ product }: { product: Product }) {
 
   const country = COUNTRIES.find((c) => c.code === form.countryCode) || COUNTRIES[0];
 
+  // Restaure brouillon de formulaire (récupération abandon)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('kouka_form_draft');
+      if (!raw) return;
+      const draft = JSON.parse(raw);
+      if (draft && (draft.fullName || draft.whatsapp || draft.city)) {
+        setForm((f) => ({
+          ...f,
+          fullName: draft.fullName || f.fullName,
+          whatsapp: draft.whatsapp || f.whatsapp,
+          city: draft.city || f.city,
+          countryCode: draft.countryCode || f.countryCode,
+        }));
+      }
+    } catch {}
+  }, []);
+
   const update = (k: string, v: string | boolean) => {
-    setForm((f) => ({ ...f, [k]: v }));
+    setForm((f) => {
+      const next = { ...f, [k]: v };
+      // Sauvegarde brouillon
+      try {
+        localStorage.setItem(
+          'kouka_form_draft',
+          JSON.stringify({
+            fullName: next.fullName,
+            whatsapp: next.whatsapp,
+            city: next.city,
+            countryCode: next.countryCode,
+            ts: Date.now(),
+          }),
+        );
+      } catch {}
+      return next;
+    });
     setErrors((e) => ({ ...e, [k]: '' }));
     if (!checkoutFired) {
       setCheckoutFired(true);
@@ -87,6 +121,9 @@ export function ProductForm({ product }: { product: Product }) {
       });
 
       if (error) throw error;
+
+      // Nettoie le brouillon abandon
+      try { localStorage.removeItem('kouka_form_draft'); } catch {}
 
       sessionStorage.setItem(
         'kouka_last_order',
