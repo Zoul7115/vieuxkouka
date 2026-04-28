@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -13,6 +13,40 @@ export function usePWAAdmin(enabled: boolean) {
   const [installed, setInstalled] = useState(false);
   const [permission, setPermission] = useState<NotificationPermission>('default');
   const swRef = useRef<ServiceWorkerRegistration | null>(null);
+  const audioRef = useRef<AudioContext | null>(null);
+
+  const unlockSound = useCallback(async () => {
+    try {
+      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = audioRef.current || new AudioCtx();
+      audioRef.current = ctx;
+      if (ctx.state === 'suspended') await ctx.resume();
+    } catch { /* audio not available */ }
+  }, []);
+
+  const playAlertSound = useCallback(() => {
+    try {
+      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      const ctx = audioRef.current || (AudioCtx ? new AudioCtx() : null);
+      if (!ctx) return;
+      audioRef.current = ctx;
+      const now = ctx.currentTime;
+      [0, 0.18, 0.36].forEach((offset) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, now + offset);
+        gain.gain.setValueAtTime(0.0001, now + offset);
+        gain.gain.exponentialRampToValueAtTime(0.18, now + offset + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + offset + 0.14);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + offset);
+        osc.stop(now + offset + 0.15);
+      });
+    } catch { /* ignore sound failures */ }
+  }, []);
 
   // Register SW
   useEffect(() => {
@@ -77,15 +111,17 @@ export function usePWAAdmin(enabled: boolean) {
           const body = `${o.first_name || 'Client'} · ${o.city || ''} · ${o.product_price?.toLocaleString('fr-FR') || ''} FCFA`;
           // Toast in-app
           toast.success(title, { description: body });
-          // Système notification
+          // Son + notification système
+          playAlertSound();
           notify(title, body, swRef.current);
         }
       )
       .subscribe();
     return () => { supabase.removeChannel(channel); };
-  }, [enabled]);
+  }, [enabled, playAlertSound]);
 
   const install = async () => {
+    await unlockSound();
     if (!installPrompt) {
       toast.info('Pour installer : menu navigateur > "Installer / Ajouter à l\'écran d\'accueil"');
       return;
@@ -99,7 +135,8 @@ export function usePWAAdmin(enabled: boolean) {
     setInstallPrompt(null);
   };
 
-  const requestNotifications = async () => {
+  const requestNotifications = useCallback(async () => {
+    await unlockSound();
     if (typeof Notification === 'undefined') {
       toast.error('Notifications non supportées sur ce navigateur');
       return;
@@ -112,7 +149,14 @@ export function usePWAAdmin(enabled: boolean) {
     } else {
       toast.error('Notifications refusées');
     }
-  };
+  }, [unlockSound]);
+
+  const testAlert = useCallback(async () => {
+    await unlockSound();
+    playAlertSound();
+    notify('🌿 Test notification KOUKA', 'Le son et les notifications admin sont prêts.', swRef.current);
+    toast.success('Alerte test envoyée');
+  }, [playAlertSound, unlockSound]);
 
   return {
     canInstall: !!installPrompt && !installed,
@@ -120,6 +164,7 @@ export function usePWAAdmin(enabled: boolean) {
     install,
     permission,
     requestNotifications,
+    testAlert,
   };
 }
 
