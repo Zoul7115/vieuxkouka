@@ -1,11 +1,16 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
-import { KOUKA } from '@/lib/products';
+import { KOUKA, formatFCFA } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ProductForm } from '@/components/ProductForm';
 import { FAQ } from '@/components/FAQ';
 import { ComparisonTable } from '@/components/ComparisonTable';
 import { LiveSocialProof } from '@/components/LiveSocialProof';
+import { StickyMobileCTA } from '@/components/StickyMobileCTA';
+import { MiniDiagnostic } from '@/components/MiniDiagnostic';
+import { UrgencyTimer } from '@/components/UrgencyTimer';
+import { ExitIntentPopup } from '@/components/ExitIntentPopup';
+import { AbandonRecovery } from '@/components/AbandonRecovery';
+import { useDynamicStock } from '@/hooks/useDynamicStock';
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -26,18 +31,15 @@ function scrollToOrder() {
 
 function HomePage() {
   const product = KOUKA;
-
-  // Stock affiché qui décroît lentement (illusion de scarcité honnête sans mentir)
-  const [stock, setStock] = useState(11);
-  useEffect(() => {
-    const id = setInterval(() => setStock((s) => (s > 4 ? s - 1 : s)), 90000);
-    return () => clearInterval(id);
-  }, []);
+  const stock = useDynamicStock('kouka', 18);
 
   return (
-    <div className="bg-background">
+    <div className="bg-background pb-16 md:pb-0">
       <VisitTracker page="home" />
       <LiveSocialProof product="Poudre KOUKA" />
+      <StickyMobileCTA label="🌿 COMMANDER — Paiement livraison" price={formatFCFA(product.offers.find(o => o.recommended)?.price || product.offers[0].price)} />
+      <ExitIntentPopup productName="Poudre KOUKA" />
+      <AbandonRecovery productName="Poudre KOUKA" />
 
       {/* Bandeau urgence */}
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
