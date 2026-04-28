@@ -151,12 +151,20 @@ export function usePWAAdmin(enabled: boolean) {
     }
   }, [unlockSound]);
 
+  const testAlert = useCallback(async () => {
+    await unlockSound();
+    playAlertSound();
+    notify('🌿 Test notification KOUKA', 'Le son et les notifications admin sont prêts.', swRef.current);
+    toast.success('Alerte test envoyée');
+  }, [playAlertSound, unlockSound]);
+
   return {
     canInstall: !!installPrompt && !installed,
     installed,
     install,
     permission,
     requestNotifications,
+    testAlert,
   };
 }
 
