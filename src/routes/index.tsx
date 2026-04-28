@@ -1,16 +1,25 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { KOUKA, formatFCFA } from '@/lib/products';
+import { createFileRoute } from '@tanstack/react-router';
+import { KOUKA } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ProductForm } from '@/components/ProductForm';
-import { FAQ } from '@/components/FAQ';
 import { ComparisonTable } from '@/components/ComparisonTable';
 import { LiveSocialProof } from '@/components/LiveSocialProof';
-import { StickyMobileCTA } from '@/components/StickyMobileCTA';
 import { MiniDiagnostic } from '@/components/MiniDiagnostic';
 import { UrgencyTimer } from '@/components/UrgencyTimer';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import { AbandonRecovery } from '@/components/AbandonRecovery';
-import { useDynamicStock } from '@/hooks/useDynamicStock';
+
+import { StoryHeader } from '@/components/story/StoryHeader';
+import { StoryAnnouncement } from '@/components/story/StoryAnnouncement';
+import { StoryHero } from '@/components/story/StoryHero';
+import { StoryUSPBar } from '@/components/story/StoryUSPBar';
+import { StoryFeaturedRow } from '@/components/story/StoryFeaturedRow';
+import { StoryIconGrid } from '@/components/story/StoryIconGrid';
+import { StoryReviews } from '@/components/story/StoryReviews';
+import { StoryFAQ } from '@/components/story/StoryFAQ';
+import { StoryGuarantee } from '@/components/story/StoryGuarantee';
+import { StoryAtcSticky } from '@/components/story/StoryAtcSticky';
+import { StoryFooter } from '@/components/story/StoryFooter';
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -25,276 +34,212 @@ export const Route = createFileRoute('/')({
   component: HomePage,
 });
 
-function scrollToOrder() {
-  document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' });
-}
-
 function HomePage() {
   const product = KOUKA;
-  const stock = useDynamicStock('kouka', 18);
 
   return (
-    <div className="bg-background pb-16 md:pb-0">
+    <div className="bg-background pb-24 md:pb-20">
       <VisitTracker page="home" />
       <LiveSocialProof product="Poudre KOUKA" />
-      <StickyMobileCTA label="🌿 COMMANDER — Paiement livraison" price={formatFCFA(product.offers.find(o => o.recommended)?.price || product.offers[0].price)} />
       <ExitIntentPopup productName="Poudre KOUKA" />
       <AbandonRecovery productName="Poudre KOUKA" />
+      <StoryAtcSticky product={product} ctaLabel="Commander" tone="vert" />
 
-      {/* Bandeau urgence */}
-      <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🌿 +200 guéris · Livraison gratuite Ouaga · ⏰ Stock restant : <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> sachets
-      </div>
+      {/* HEADER */}
+      <StoryAnnouncement />
+      <StoryHeader brand="🌿 KOUKA Thérapies" />
 
-      {/* HERO */}
-      <section className="bg-gradient-to-b from-vert-bg to-background py-12 border-b-[3px] border-[oklch(0.85_0.06_145)]">
-        <div className="container-kouka text-center">
-          <div className="bg-[oklch(0.97_0.06_92)] border-2 border-or-light rounded-xl px-4 py-2.5 mb-5">
-            <span className="text-[oklch(0.40_0.10_82)] font-bold">
-              🚀 Commande avant 17h → Livraison <strong className="text-vert">demain matin</strong> à Ouaga
-            </span>
-          </div>
+      {/* HERO produit (galerie + infos + CTA) */}
+      <StoryHero
+        product={product}
+        gallery={[
+          product.heroImage,
+          '/images/kouka-solution.png',
+          '/images/kouka-banner-investissement.png',
+          '/images/kouka-temoignages.webp',
+          '/images/vieux-kouka.jpg',
+        ]}
+        rating={{ stars: 4.9, count: 217 }}
+        subtitle="Hémorroïdes, ulcères, ballonnements, colopathie : la formule ancestrale du Vieux KOUKA traite la cause profonde — pas le symptôme. Soulagement dès J3, guérison en 7 à 14 jours. 100% plantes africaines."
+        bullets={[
+          '+200 personnes guéries au Burkina Faso',
+          '87% soulagés dès le 3ᵉ jour',
+          'Sans effets secondaires · Sans rechute',
+          'Livraison gratuite Ouaga · Paiement à la livraison',
+        ]}
+        ctaLabel="🌿 Commander — Paiement à la livraison"
+      />
 
-          <span className="inline-block bg-vert-mid text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-4">
-            ⭐ +200 clients guéris · 87% soulagés dès J3
-          </span>
+      {/* USP bar */}
+      <StoryUSPBar />
 
-          <h1 className="text-vert mb-4">
-            Hémorroïdes, ulcères, ballonnements ?<br />
-            <em className="text-rouge not-italic">Soulagé en 3 jours. Guéri en 14.</em>
-          </h1>
+      {/* 5 PATHOLOGIES */}
+      <StoryIconGrid
+        eyebrow="Une formule, plusieurs maux"
+        title="UN seul produit · 5 pathologies digestives"
+        subtitle="La Poudre du Vieux KOUKA agit sur tout le système digestif. Une formule unique, plusieurs maux soulagés."
+        cols={5}
+        bg="cream"
+        items={[
+          { icon: '🩸', title: 'Hémorroïdes', desc: 'Saignements, douleurs, koko' },
+          { icon: '🔥', title: 'Ulcères', desc: "Brûlures d'estomac, gastrite" },
+          { icon: '💨', title: 'Ballonnements', desc: 'Ventre gonflé, lourd' },
+          { icon: '🌀', title: 'Colopathie', desc: 'Côlon irritable, transit' },
+          { icon: '😤', title: 'Gaz chroniques', desc: 'Fermentations, pets' },
+        ]}
+      />
 
-          <p className="text-muted-foreground max-w-lg mx-auto mb-6 text-lg leading-relaxed">
-            Tu saignes aux toilettes ? Ça brûle dans l'estomac ? Ton ventre gonfle après chaque repas ?
-            <strong className="text-foreground"> La Poudre du Vieux KOUKA traite la cause profonde — pas le symptôme.</strong> Plus de rechute. Plus de médicaments à vie.
-          </p>
+      {/* PROBLÈME — featured row */}
+      <StoryFeaturedRow
+        eyebrow="Tu vis ça tous les jours ?"
+        title="Et si tu ne fais rien… ça s'aggrave."
+        image="/images/kouka-solution.png"
+        imageAlt="Personne souffrante"
+        bg="white"
+        reverse
+      >
+        <ul className="ckl ckl-r">
+          <li>Aller aux toilettes = torture. Tu saignes. Tu serres les dents.</li>
+          <li>Après chaque repas, ton estomac brûle comme du feu — l'ulcère te ronge.</li>
+          <li>Ton ventre gonfle, tu lâches des gaz toute la journée — la honte au bureau, en famille.</li>
+          <li>Le rectum sort et tu dois le remettre à la main — tu n'oses en parler à personne.</li>
+          <li>Tu as dépensé des dizaines de milliers en médicaments — ça calme 3 jours, puis ça revient.</li>
+        </ul>
+        <p className="text-rouge font-bold mt-3">
+          ⚠️ Hémorroïdes → thrombose → opération chirurgicale (200 000 à 500 000 FCFA). Plus tu attends, plus c'est grave.
+        </p>
+      </StoryFeaturedRow>
 
-          <div className="max-w-[260px] mx-auto mb-5 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(46,125,50,0.25)] border-[3px] border-[oklch(0.85_0.06_145)]">
-            <img src={product.heroImage} alt={product.name} className="w-full block" />
-          </div>
-
-          <div className="flex flex-wrap gap-2 justify-center mb-5">
-            {['🩸 Hémorroïdes', '🔥 Ulcères', '💨 Ballonnements & Gaz', '🌀 Colopathie', '😣 Rectum qui sort'].map((t) => (
-              <span key={t} className="bg-white border-2 border-vert-bg text-muted-foreground px-3.5 py-1.5 rounded-full text-sm font-semibold">
-                {t}
-              </span>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground mb-5">
-            <span>✅ 100% plantes africaines</span>
-            <span>✅ Sans effets secondaires</span>
-            <span>✅ Garantie remboursée</span>
-          </div>
-
-          {/* Badge garantie en évidence avant CTA */}
-          <div className="inline-flex items-center gap-2 bg-vert-bg border-2 border-vert-mid rounded-full px-4 py-2 mb-4 shadow-sm">
-            <span className="text-xl">🛡️</span>
-            <span className="text-sm font-extrabold text-vert">Garantie GUÉRI ou REMBOURSÉ 100%</span>
-          </div>
-
-          <button
-            onClick={scrollToOrder}
-            className="w-full bg-vert-mid text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.35)] hover:-translate-y-0.5 transition-transform"
-          >
-            🌿 JE COMMANDE — JE PAIE À LA LIVRAISON
-          </button>
-          <p className="text-sm text-muted-foreground mt-3">📦 Livraison gratuite Ouaga · 💵 Cash à réception · 🤐 Emballage 100% discret</p>
-        </div>
-      </section>
-
-      {/* UN SEUL PRODUIT — 5 PATHOLOGIES */}
-      <section className="sec bg-vert-bg/40">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">UN seul produit · <span className="text-vert">5 pathologies digestives</span></h2>
-          <p className="text-center text-muted-foreground mb-7 max-w-lg mx-auto">
-            La Poudre du Vieux KOUKA agit sur tout le système digestif. Une formule unique, plusieurs maux soulagés.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-            {[
-              { i: '🩸', t: 'Hémorroïdes', d: 'Saignements, douleurs, koko' },
-              { i: '🔥', t: 'Ulcères', d: 'Brûlures d\'estomac, gastrite' },
-              { i: '💨', t: 'Ballonnements', d: 'Ventre gonflé, lourd' },
-              { i: '🌀', t: 'Colopathie', d: 'Côlon irritable, transit' },
-              { i: '😤', t: 'Gaz chroniques', d: 'Fermentations, pets' },
-            ].map((x) => (
-              <div key={x.t} className="bg-white border-2 border-vert-bg rounded-xl p-4 text-center">
-                <div className="text-3xl mb-2">{x.i}</div>
-                <div className="font-extrabold text-vert text-sm">{x.t}</div>
-                <div className="text-xs text-muted-foreground mt-1">{x.d}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PROBLÈME */}
-      <section className="sec bg-cream-2">
-        <div className="container-kouka">
-          <h2 className="text-center mb-6">Tu vis ça <span className="text-rouge">tous les jours</span> ?</h2>
-
-          <div className="bloc bloc-r">
-            <p className="text-rouge font-extrabold mb-3 text-lg">Coche ce que tu vis en ce moment :</p>
-            <ul className="ckl ckl-r">
-              <li>Aller aux toilettes = torture. Tu saignes. Tu serres les dents. Tu repousses</li>
-              <li>Après chaque repas, ton estomac brûle comme du feu — l'ulcère te ronge de l'intérieur</li>
-              <li>Ton ventre gonfle, tu lâches des gaz toute la journée — la honte au bureau, en famille</li>
-              <li>Le rectum sort et tu dois le remettre à la main — tu n'oses en parler à personne</li>
-              <li>Diarrhée le matin, constipation le soir — ton côlon te trahit sans prévenir</li>
-              <li>Tu as dépensé des dizaines de milliers en médicaments — ça calme 3 jours, puis ça revient</li>
-              <li>Tu commences à avoir peur que ça empire — opération, perforation, hospitalisation…</li>
-            </ul>
-          </div>
-
-          <div className="bloc bloc-or mt-5">
-            <p className="text-[oklch(0.40_0.10_82)] font-extrabold mb-3">⚠️ Ce qui t'attend si tu ne fais rien :</p>
-            <ul className="ckl">
-              <li>Hémorroïdes → thrombose → opération chirurgicale (coût : 200 000 à 500 000 FCFA)</li>
-              <li>Ulcère non traité → perforation → urgence vitale aux urgences</li>
-              <li>Colopathie chronique → carences, fatigue extrême, dépression digestive</li>
-              <li>Plus tu attends, plus le traitement devient long et difficile</li>
-              <li>Personne ne guérit "tout seul" — ces maladies progressent, jamais elles ne reculent</li>
-            </ul>
-          </div>
-
-          <p className="text-center italic mt-6 text-muted-foreground max-w-lg mx-auto">
-            "Si les médicaments classiques fonctionnaient, tu serais déjà guéri. Le problème : ils calment la douleur sans toucher la cause. La Poudre KOUKA fait l'inverse."
-          </p>
-        </div>
-      </section>
-
-      {/* SOLUTION */}
-      <section className="sec bg-vert-bg">
-        <div className="container-kouka">
-          <h2 className="text-center mb-3">La solution : <span className="text-vert">{product.name}</span></h2>
-          <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto">
-            Un savoir ancestral africain transmis de génération en génération. Trois plantes récoltées dans trois pays.
-            Une formule unique qui ne calme pas — qui traite à la racine.
-          </p>
-
-          <div className="bloc bloc-or p-0 overflow-hidden">
-            <img src="/images/vieux-kouka.jpg" alt="Le Vieux KOUKA" className="w-full max-h-80 object-cover" />
-            <div className="p-5">
-              <h3 className="text-or mb-1">📖 Vieux KOUKA</h3>
-              <p className="text-xs text-muted-foreground font-semibold mb-3">
-                Thérapeute traditionnel · Burkina Faso · +60 ans de pratique
-              </p>
-              <p className="italic text-muted-foreground leading-relaxed">
-                "Kouka est un guérisseur traditionnel de la région des Kuilsés, héritier d'un savoir transmis par
-                son grand-père il y a plus de 60 ans. Sa formule est le fruit de
-                <strong className="not-italic"> trois plantes récoltées manuellement dans trois pays différents</strong>
-                — chacune choisie pour une action précise sur le système digestif."
-              </p>
-            </div>
-          </div>
-
-          <div className="bloc mt-5">
-            <h3 className="text-vert mb-3">🌍 Plantes récoltées dans 3 pays africains</h3>
-            <div className="flex flex-wrap gap-2">
-              {['🇧🇫 Burkina Faso', '🇨🇮 Côte d\'Ivoire', '🇧🇯 Bénin'].map((t) => (
-                <span key={t} className="bg-vert-bg border-2 border-[oklch(0.80_0.10_145)] text-vert px-3.5 py-1.5 rounded-full font-bold text-sm">
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="bloc mt-4">
-            <h3 className="text-vert mb-3">Ce que la poudre fait concrètement</h3>
-            <ul className="ckl">
-              <li><strong>Élimine l'inflammation hémorroïdale</strong> — les saignements stoppent, la douleur disparaît</li>
-              <li><strong>Répare la muqueuse gastrique</strong> — les ulcères se referment naturellement</li>
-              <li><strong>Nettoie l'intestin en profondeur</strong> — élimine les fermentations et les gaz chroniques</li>
-              <li><strong>Régule le transit</strong> — colopathie et constipation disparaissent progressivement</li>
-              <li><strong>Apaise les ballonnements</strong> — le ventre se dégonfle, les gaz s'évacuent normalement</li>
-              <li><strong>Renforce la paroi intestinale</strong> — le rectum reprend sa position normale</li>
-              <li><strong>Traite à la racine</strong> — pas de dépendance, pas de traitement à vie</li>
-            </ul>
-          </div>
-
-          <div className="text-center mt-7">
-            <button onClick={scrollToOrder} className="bg-vert-mid text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.35)] hover:-translate-y-0.5 transition-transform">
-              🌿 Je veux la {product.shortName}
-            </button>
-          </div>
-        </div>
-      </section>
+      {/* SOLUTION — featured row */}
+      <StoryFeaturedRow
+        eyebrow="La solution ancestrale"
+        title="Le Vieux KOUKA — Maître guérisseur depuis 60 ans"
+        image="/images/vieux-kouka.jpg"
+        imageAlt="Le Vieux KOUKA, thérapeute traditionnel du Burkina Faso"
+        bg="cream"
+      >
+        <p>
+          <strong>Vieux KOUKA</strong> est un thérapeute traditionnel de la région des Kuilsés, héritier d'un savoir transmis par
+          son grand-père il y a plus de 60 ans.
+        </p>
+        <p>
+          Sa formule est le fruit de <strong>trois plantes récoltées manuellement dans trois pays différents</strong> —
+          🇧🇫 Burkina Faso · 🇨🇮 Côte d'Ivoire · 🇧🇯 Bénin — chacune choisie pour une action précise sur le système digestif.
+        </p>
+        <ul className="ckl mt-3">
+          <li>Élimine l'inflammation hémorroïdale</li>
+          <li>Répare la muqueuse gastrique (ulcères)</li>
+          <li>Nettoie l'intestin en profondeur</li>
+          <li>Régule le transit · apaise les ballonnements</li>
+          <li>Traite à la racine — pas de dépendance</li>
+        </ul>
+      </StoryFeaturedRow>
 
       {/* TIMELINE */}
-      <section className="sec bg-cream-2">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Ce qui se passe <span className="text-vert">semaine par semaine</span></h2>
-          <p className="text-center text-muted-foreground mb-7">Les résultats que tu vas vivre avec le traitement complet</p>
-
-          <div className="grid">
+      <section className="bg-white border-b border-[oklch(0.92_0.02_130)]">
+        <div className="container-story py-14 md:py-16">
+          <div className="text-center mb-10">
+            <div className="story-eyebrow mb-2">Résultats jour après jour</div>
+            <h2 className="story-h2 mb-2">Ce qui se passe semaine par semaine</h2>
+            <p className="text-muted-foreground">Les résultats que tu vas vivre avec le traitement complet.</p>
+          </div>
+          <div className="grid md:grid-cols-4 gap-4">
             {[
-              { d: 'J 1', s: 'à J3', t: 'Premier soulagement', desc: "Les brûlures de l'ulcère diminuent. Les ballonnements s'apaisent. La zone hémorroïdale est moins enflammée." },
-              { d: 'J 4', s: 'à J7', t: 'Saignements qui s\'arrêtent', desc: 'Les saignements stoppent. Le transit se régularise. Les gaz et fermentations disparaissent.' },
-              { d: 'J 8', s: 'à J14', t: 'Guérison profonde', desc: "L'ulcère se referme. Les hémorroïdes se résorbent. Le rectum reprend sa position naturelle. Le côlon est apaisé." },
-              { d: 'FIN', s: 'résultat', t: 'Totalement guéri', desc: '"Je suis totalement guéri" — comme nos clients te le disent. Pas de rechute.' },
+              { d: 'J1-J3', t: 'Premier soulagement', desc: "Brûlures qui diminuent. Ballonnements qui s'apaisent. Zone hémorroïdale moins enflammée." },
+              { d: 'J4-J7', t: "Saignements qui s'arrêtent", desc: 'Le transit se régularise. Les gaz et fermentations disparaissent.' },
+              { d: 'J8-J14', t: 'Guérison profonde', desc: "L'ulcère se referme. Les hémorroïdes se résorbent. Le côlon est apaisé." },
+              { d: 'FIN', t: 'Totalement guéri', desc: '"Je suis totalement guéri" — comme nos clients te le disent. Pas de rechute.' },
             ].map((x, i) => (
-              <div key={i} className={`flex gap-4 py-5 ${i < 3 ? 'border-b-2 border-vert-bg' : ''}`}>
-                <div className={`shrink-0 w-[76px] text-center rounded-xl py-2.5 px-1.5 ${x.d === 'FIN' ? 'bg-[oklch(0.85_0.08_145)]' : 'bg-vert-mid'}`}>
-                  <span className={`block text-2xl font-extrabold leading-none ${x.d === 'FIN' ? 'text-vert' : 'text-white'}`}>
-                    {x.d}
-                  </span>
-                  <span className={`text-[10px] uppercase ${x.d === 'FIN' ? 'text-muted-foreground' : 'text-white/85'}`}>
-                    {x.s}
-                  </span>
+              <div key={i} className="story-card p-5 relative">
+                <div className={`inline-block px-3 py-1 rounded-full text-xs font-extrabold mb-3 ${
+                  x.d === 'FIN' ? 'bg-vert text-white' : 'bg-vert-bg text-vert'
+                }`}>
+                  {x.d}
                 </div>
-                <div className="flex-1">
-                  <div className="font-extrabold text-vert mb-1">{x.t}</div>
-                  <div className="text-sm text-muted-foreground leading-relaxed">{x.desc}</div>
-                </div>
+                <div className="font-extrabold text-foreground mb-1">{x.t}</div>
+                <p className="text-sm text-muted-foreground leading-relaxed">{x.desc}</p>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="bloc bloc-ok mt-5">
-            <p><strong>Effets secondaires ?</strong> Zéro. Racines et écorces africaines 100% naturelles.</p>
+      {/* COMPARATIF */}
+      <section className="bg-cream-2 border-b border-[oklch(0.92_0.02_130)]">
+        <div className="container-story py-14 md:py-16">
+          <div className="text-center mb-8">
+            <div className="story-eyebrow mb-2">Comparatif honnête</div>
+            <h2 className="story-h2 mb-2">Pourquoi KOUKA plutôt qu'autre chose ?</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Compare avec les solutions classiques. Le choix devient évident.
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto">
+            <ComparisonTable
+              rows={[
+                { label: 'Coût total', kouka: '20 000 F', meds: '15 000 F/mois à vie', surgery: '200–500 000 F' },
+                { label: 'Traite la cause', kouka: '✅ Oui', meds: '❌ Calme', surgery: '⚠️ Parfois' },
+                { label: 'Effets secondaires', kouka: '✅ Aucun', meds: '⚠️ Foie / reins', surgery: '⚠️ Risques' },
+                { label: 'Rechute', kouka: '✅ Aucune', meds: '❌ Garantie', surgery: '⚠️ Possible' },
+                { label: 'Discrétion', kouka: '✅ 100%', meds: 'Pharmacie', surgery: '❌ Hôpital' },
+                { label: 'Garantie', kouka: '✅ Remboursé', meds: '❌ Non', surgery: '❌ Non' },
+              ]}
+              productLabel="🌿 KOUKA"
+            />
           </div>
         </div>
       </section>
 
       {/* TÉMOIGNAGES */}
-      <section className="sec">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Ils ont essayé. <span className="text-vert">Ils sont guéris.</span></h2>
-          <p className="text-center mb-1 font-semibold">Voici leurs mots — pas les nôtres.</p>
-          <p className="text-center text-muted-foreground mb-7 text-sm">
-            🔒 Messages WhatsApp réels · Audios non montés · Reçus de livraison vérifiables
-          </p>
+      <StoryReviews
+        rating={4.9}
+        count={217}
+        reviews={[
+          {
+            name: 'Client WhatsApp · Ouaga',
+            stars: 5,
+            title: 'Totalement guéri',
+            text: "Je viens te remercier vraiment. Maintenant je suis totalement guéri, les ballonnements sont finis, je fais correctement les selles, le rectum aussi ne sort plus.",
+          },
+          {
+            name: 'Client WhatsApp · Bobo',
+            stars: 5,
+            title: 'Je vais commander encore',
+            text: "Ton produit est vraiment efficace, j'ai suivi le traitement complet. Actuellement je ne souffre plus. Je recommande vraiment ce produit. 🙏",
+          },
+          {
+            name: 'Client WhatsApp · Koudougou',
+            stars: 5,
+            title: 'Ma santé s\'est améliorée',
+            text: "Je prenais plusieurs médicaments, mais depuis ce traitement naturel, ma santé s'est améliorée et je me sens plus en forme.",
+          },
+        ]}
+      />
 
-          <div className="grid gap-4">
-            {[
-              { txt: "Bonsoir, je viens te remercier vraiment. Maintenant suis totalement guéri, les ballonnements sont finis, je fais correctement les selles, le rectum aussi ne sort plus.", auth: 'Client WhatsApp · Traitement complet' },
-              { txt: "Ton produit est vraiment efficace, j'ai suivi le traitement complet. Actuellement je ne souffre plus. Je recommande vraiment ce produit. Je vais commander encore 🙏", auth: 'Client WhatsApp · Renouvellement' },
-              { txt: "Je prenais plusieurs médicaments, mais depuis ce traitement naturel, ma santé s'est améliorée et je me sens plus en forme.", auth: 'Client WhatsApp' },
-            ].map((t, i) => (
-              <div key={i} className="bg-white rounded-2xl p-5 border-2 border-vert-bg shadow-sm">
-                <div className="text-or-light text-lg mb-2">★★★★★</div>
-                <p className="italic text-muted-foreground leading-relaxed mb-3">"{t.txt}"</p>
-                <div className="text-xs text-muted-foreground font-bold">{t.auth}</div>
-              </div>
-            ))}
+      {/* PREUVES — galerie */}
+      <section className="bg-white border-b border-[oklch(0.92_0.02_130)]">
+        <div className="container-story py-12 md:py-16">
+          <div className="text-center mb-8">
+            <div className="story-eyebrow mb-2">Preuves réelles</div>
+            <h2 className="story-h2 mb-2">📱 Messages WhatsApp & livraisons vérifiées</h2>
+            <p className="text-muted-foreground">Captures non modifiées de nos clients.</p>
           </div>
-
-          <p className="text-center text-sm text-muted-foreground font-bold my-6">
-            📱 Vrais messages WhatsApp de nos clients — non modifiés
-          </p>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-              <img key={n} loading="lazy" src={`/images/temo-wa${n}.webp`} alt={`Témoignage WhatsApp ${n}`} className="rounded-xl border-2 border-vert-bg w-full" />
+              <img
+                key={n}
+                loading="lazy"
+                src={`/images/temo-wa${n}.webp`}
+                alt={`Témoignage WhatsApp ${n}`}
+                className="rounded-xl border border-[oklch(0.92_0.02_130)] w-full"
+              />
             ))}
           </div>
 
-          <p className="text-center text-sm text-muted-foreground font-bold mt-7 mb-3">
-            🎙️ Messages audio originaux de nos clients
-          </p>
-          <div className="grid gap-3">
+          <div className="grid md:grid-cols-2 gap-4 mt-10">
             {[1, 2, 3, 4].map((n) => (
-              <div key={n} className="bg-white rounded-2xl p-5 border-2 border-vert-bg shadow-sm">
-                <div className="font-bold text-vert mb-2">Témoignage audio {n}</div>
+              <div key={n} className="story-card p-5">
+                <div className="font-extrabold text-vert mb-2">🎙️ Témoignage audio {n}</div>
                 <audio controls preload="none" className="w-full">
                   <source src={`/audio/temoignage${n}.opus`} type="audio/ogg; codecs=opus" />
                 </audio>
@@ -302,123 +247,82 @@ function HomePage() {
             ))}
           </div>
 
-          <p className="text-center text-sm text-muted-foreground font-bold mt-7 mb-3">
-            📦 Preuves de livraison
-          </p>
-          <div className="grid grid-cols-2 gap-3">
-            <img loading="lazy" src="/images/preuve4.jpg" alt="Reçu Rakieta" className="rounded-xl border-2 border-vert-bg" />
-            <img loading="lazy" src="/images/preuve5.jpg" alt="Reçu TSR" className="rounded-xl border-2 border-vert-bg" />
-          </div>
-
-          <div className="bg-vert-bg border-2 border-vert-mid rounded-2xl p-5 text-center mt-7">
-            <p className="font-bold mb-1">🛡️ Garantie "Guéri ou Remboursé"</p>
-            <p className="text-sm">Tu suis le traitement complet sans résultat ? <strong>On te rembourse 100% — sans question, sans débat.</strong> Tu n'as littéralement rien à perdre.</p>
+          <div className="grid grid-cols-2 gap-3 mt-8 max-w-xl mx-auto">
+            <img loading="lazy" src="/images/preuve4.jpg" alt="Reçu Rakieta" className="rounded-xl border border-[oklch(0.92_0.02_130)]" />
+            <img loading="lazy" src="/images/preuve5.jpg" alt="Reçu TSR" className="rounded-xl border border-[oklch(0.92_0.02_130)]" />
           </div>
         </div>
       </section>
 
-      {/* COMPARATIF */}
-      <section className="sec bg-vert-bg/30">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Pourquoi KOUKA <span className="text-vert">plutôt qu'autre chose</span> ?</h2>
-          <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto">
-            Compare honnêtement avec les solutions classiques. Le choix devient évident.
-          </p>
-          <ComparisonTable
-            rows={[
-              { label: 'Coût total', kouka: '20 000 F', meds: '15 000 F/mois à vie', surgery: '200–500 000 F' },
-              { label: 'Traite la cause', kouka: '✅ Oui', meds: '❌ Calme', surgery: '⚠️ Parfois' },
-              { label: 'Effets secondaires', kouka: '✅ Aucun', meds: '⚠️ Foie / reins', surgery: '⚠️ Risques' },
-              { label: 'Rechute', kouka: '✅ Aucune', meds: '❌ Garantie', surgery: '⚠️ Possible' },
-              { label: 'Hospitalisation', kouka: '✅ Aucune', meds: 'Aucune', surgery: '❌ 3–7 jours' },
-              { label: 'Discrétion', kouka: '✅ 100%', meds: 'Pharmacie', surgery: '❌ Hôpital' },
-              { label: 'Garantie', kouka: '✅ Remboursé', meds: '❌ Non', surgery: '❌ Non' },
-            ]}
-            productLabel="🌿 KOUKA"
-          />
-          <div className="text-center mt-6">
-            <button onClick={scrollToOrder} className="bg-vert-mid text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.35)] hover:-translate-y-0.5 transition-transform">
-              🌿 Je choisis la solution naturelle
-            </button>
+      {/* GARANTIE */}
+      <StoryGuarantee
+        title='Garantie "Guéri ou Remboursé"'
+        text="Tu suis le traitement complet sans aucun résultat ? On te rembourse 100% — sans question, sans débat. Tu n'as littéralement rien à perdre."
+      />
+
+      {/* MINI-DIAGNOSTIC */}
+      <section className="bg-white border-b border-[oklch(0.92_0.02_130)]">
+        <div className="container-story-narrow py-14 md:py-16">
+          <div className="text-center mb-8">
+            <div className="story-eyebrow mb-2">Conseil personnalisé</div>
+            <h2 className="story-h2 mb-2">Quelle cure te convient ?</h2>
+            <p className="text-muted-foreground">3 questions · réponse personnalisée en 30 secondes.</p>
           </div>
-        </div>
-      </section>
-
-      <section className="sec bg-cream-2">
-        <div className="container-kouka">
-          <h2 className="text-center mb-6">Livraison <span className="text-vert">rapide dans tout le Burkina</span></h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {[
-              { i: '🏙️', t: 'Ouagadougou', d: 'Livraison gratuite' },
-              { i: '🇧🇫', t: 'Burkina Faso', d: '1 000 FCFA' },
-              { i: '🇧🇯', t: 'Bénin', d: '1 500 FCFA' },
-              { i: '💵', t: 'Paiement', d: 'Cash à la livraison' },
-            ].map((x) => (
-              <div key={x.t} className="bg-white border-2 border-vert-bg rounded-xl p-4 text-center shadow-sm">
-                <span className="block text-3xl mb-2">{x.i}</span>
-                <div className="font-extrabold text-foreground">{x.t}</div>
-                <div className="text-sm text-muted-foreground">{x.d}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="sec">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Tes questions</h2>
-          <p className="text-center text-muted-foreground">Les vraies réponses sans détours</p>
-          <FAQ />
-        </div>
-      </section>
-
-      {/* MINI-DIAGNOSTIC personnalise l'offre */}
-      <section className="sec bg-cream-2">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Quelle <span className="text-vert">cure te convient</span> ?</h2>
-          <p className="text-center text-muted-foreground mb-6 text-sm">3 questions · réponse personnalisée</p>
           <MiniDiagnostic
             questions={[
-              {
-                q: 'Depuis combien de temps tu souffres ?',
-                options: ['Moins de 3 mois', 'Entre 3 mois et 1 an', 'Plus d\'1 an', 'Plus de 3 ans'],
-              },
-              {
-                q: 'Combien de personnes dans ta famille ont aussi des soucis digestifs ?',
-                options: ['Juste moi', '1 personne (conjoint/parent)', '2-3 personnes', 'Plus de 3'],
-              },
-              {
-                q: 'Tu as déjà essayé d\'autres traitements ?',
-                options: ['Oui, beaucoup — sans résultat', 'Oui, un peu', 'Pas encore'],
-              },
+              { q: 'Depuis combien de temps tu souffres ?', options: ['Moins de 3 mois', 'Entre 3 mois et 1 an', "Plus d'1 an", 'Plus de 3 ans'] },
+              { q: 'Combien de personnes dans ta famille ont aussi des soucis digestifs ?', options: ['Juste moi', '1 personne', '2-3 personnes', 'Plus de 3'] },
+              { q: "Tu as déjà essayé d'autres traitements ?", options: ['Oui, beaucoup — sans résultat', 'Oui, un peu', 'Pas encore'] },
             ]}
             recommendation={(a) => {
-              // Famille → pack 5 ; Chronique long → pack 3 ; sinon démarrage 2+1
               if (a[1] >= 2) return { offerHint: 'Cure FAMILIALE 3+2 (27 000 FCFA)', message: 'Plusieurs personnes concernées : prends le pack famille pour traiter tout le monde et économiser 23 000 FCFA.' };
-              if (a[0] >= 2) return { offerHint: 'Traitement COMPLET 2+1 (20 000 FCFA)', message: 'Souffrance ancienne : il faut un traitement complet pour traiter à la racine et éviter la rechute.' };
-              return { offerHint: 'Traitement COMPLET 2+1 (20 000 FCFA)', message: 'C\'est l\'offre la plus choisie : 1 sachet OFFERT, traitement complet garanti.' };
+              if (a[0] >= 2) return { offerHint: 'Traitement COMPLET 2+1 (20 000 FCFA)', message: 'Souffrance ancienne : il faut un traitement complet pour traiter à la racine.' };
+              return { offerHint: 'Traitement COMPLET 2+1 (20 000 FCFA)', message: "L'offre la plus choisie : 1 sachet OFFERT, traitement complet garanti." };
             }}
           />
         </div>
       </section>
 
-      {/* URGENCY TIMER + FORMULAIRE */}
-      <div className="container-kouka pt-8"><UrgencyTimer /></div>
+      {/* FAQ */}
+      <StoryFAQ
+        items={[
+          {
+            q: "Est-ce que je paie à la commande ou à la livraison ?",
+            a: 'Tu paies UNIQUEMENT à la livraison, en cash, à notre livreur (Ouagadougou) ou à la gare de transport (hors Ouaga). Aucun paiement en ligne, aucun acompte.',
+          },
+          {
+            q: 'Combien de temps pour la livraison ?',
+            a: 'À Ouagadougou : 24h après confirmation WhatsApp. Hors Ouaga : 48h à 72h selon la compagnie de transport choisie.',
+          },
+          {
+            q: 'Est-ce vraiment efficace ?',
+            a: '+200 clients guéris au Burkina Faso. Soulagement observé dès J3 dans 87% des cas, guérison complète en 7 à 14 jours pour le traitement complet. Si tu n\'as aucun résultat, on te rembourse à 100%.',
+          },
+          {
+            q: 'Y a-t-il des effets secondaires ?',
+            a: 'Aucun. La poudre est composée de 3 plantes africaines 100% naturelles, récoltées à la main et sans produit chimique. Compatible avec la plupart des traitements en cours, mais demande conseil à ton médecin si grossesse ou maladie chronique.',
+          },
+          {
+            q: 'Le colis est-il discret ?',
+            a: 'Oui, totalement. Emballage neutre sans logo ni mention du contenu. Le livreur lui-même ne sait pas ce qu\'il livre. Personne ne saura.',
+          },
+          {
+            q: 'Que se passe-t-il si je ne suis pas satisfait ?',
+            a: 'Tu suis le traitement complet et tu n\'observes aucune amélioration ? Contacte-nous sur WhatsApp, on te rembourse 100% sans aucune question.',
+          },
+        ]}
+      />
+
+      {/* URGENCY + FORMULAIRE */}
+      <section className="bg-vert-bg/40 border-b border-[oklch(0.92_0.02_130)]">
+        <div className="container-story-narrow pt-10">
+          <UrgencyTimer />
+        </div>
+      </section>
       <ProductForm product={product} />
 
-      <footer className="bg-vert text-white text-center py-8 text-sm">
-        <div className="container-kouka">
-          <div className="font-extrabold mb-2">🌿 KOUKA Thérapies</div>
-          <p className="opacity-80 mb-4">Savoir ancestral · Burkina Faso · Afrique de l'Ouest</p>
-          <div className="flex justify-center gap-4 text-xs">
-            <Link to="/diagnostic" className="text-white/70 hover:text-white">Diagnostic gratuit</Link>
-            <span className="text-white/30">·</span>
-            <Link to="/admin" className="text-white/60 hover:text-white">Espace admin</Link>
-          </div>
-        </div>
-      </footer>
-
+      {/* FOOTER */}
+      <StoryFooter />
     </div>
   );
 }
