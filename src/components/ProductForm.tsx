@@ -304,7 +304,7 @@ export function ProductForm({ product }: { product: Product }) {
             <span className="text-base text-muted-foreground leading-relaxed">
               📦 <strong>Je suis en dehors de Ouagadougou</strong> — expédition par car de transport
               <span className="block text-sm text-rouge font-bold mt-1">
-                ⚠️ Frais d'expédition : <strong>1 000 FCFA</strong> à votre charge (à payer à la gare en récupérant le colis)
+                ⚠️ +1 000 FCFA de frais d'expédition seront ajoutés à votre commande
               </span>
             </span>
           </label>
