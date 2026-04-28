@@ -61,18 +61,21 @@ export function buildClientMessage(order: WAOrder): string {
 Merci pour votre confiance ! 🙏`;
   }
 
-  // Hors Ouaga
+  // Hors Ouaga — le product_price stocké en BDD inclut déjà les 1000 FCFA
   const transport = order.car_transport || 'votre car de transport';
+  const productOnly = Math.max(0, order.product_price - 1000);
   return `Bonjour *${fullName}* 🌿
 
 ✅ Votre commande de la *${productLabel(order.product_name)}* contre ${pathologyLabel(order.product_name)} a bien été reçue !
 
-📦 Vous avez commandé *${sachetWord(order.product_name, paid)}* à *${formatFCFA(order.product_price)}*.${bonus > 0 ? `
+📦 Vous avez commandé *${sachetWord(order.product_name, paid)}* à *${formatFCFA(productOnly)}*.${bonus > 0 ? `
 🎁 Nous allons vous offrir *${sachetWord(order.product_name, bonus)} bonus* pour un traitement plus complet.` : ''}
 
 🚍 Votre commande sera expédiée via *${transport}*.
-💰 *Frais d'expédition : 1 000 FCFA à votre charge*, à régler directement à la gare au moment de récupérer votre colis (en plus du prix du produit).
-🧾 Après le dépôt du colis à la gare, nous allons vous envoyer le reçu du colis et vous allez faire le paiement du produit.
+💰 *Frais d'expédition : 1 000 FCFA* (déjà inclus dans le total).
+
+🧾 *TOTAL À PAYER : ${formatFCFA(order.product_price)}* (produit + expédition)
+Après le dépôt du colis à la gare, nous allons vous envoyer le reçu et vous ferez le paiement complet.
 
 Merci de confirmer votre commande en répondant à ce message.
 
