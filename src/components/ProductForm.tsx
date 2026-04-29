@@ -89,7 +89,6 @@ export function ProductForm({ product }: { product: Product }) {
     const tel = form.whatsapp.replace(/\s/g, '');
     if (!/^[0-9]{6,12}$/.test(tel)) e.whatsapp = 'Numéro invalide';
     if (form.horsOuaga && !form.carTransport.trim()) e.carTransport = 'Indiquez la compagnie + ville';
-    if (!form.available) e.available = 'Confirmation obligatoire';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
