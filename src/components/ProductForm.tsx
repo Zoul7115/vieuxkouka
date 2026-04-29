@@ -28,8 +28,9 @@ export function ProductForm({ product }: { product: Product }) {
     city: '',
     horsOuaga: false,
     carTransport: '',
-    available: false,
+    available: true, // pré-coché : remplir le form = être disponible
   });
+  const [showCountry, setShowCountry] = useState(false); // masqué par défaut (95% Burkina)
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
 
