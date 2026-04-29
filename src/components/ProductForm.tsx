@@ -28,8 +28,9 @@ export function ProductForm({ product }: { product: Product }) {
     city: '',
     horsOuaga: false,
     carTransport: '',
-    available: false,
+    available: true, // pré-coché : remplir le form = être disponible
   });
+  const [showCountry, setShowCountry] = useState(false); // masqué par défaut (95% Burkina)
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
 
@@ -88,7 +89,6 @@ export function ProductForm({ product }: { product: Product }) {
     const tel = form.whatsapp.replace(/\s/g, '');
     if (!/^[0-9]{6,12}$/.test(tel)) e.whatsapp = 'Numéro invalide';
     if (form.horsOuaga && !form.carTransport.trim()) e.carTransport = 'Indiquez la compagnie + ville';
-    if (!form.available) e.available = 'Confirmation obligatoire';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -255,19 +255,27 @@ export function ProductForm({ product }: { product: Product }) {
             />
           </Field>
 
-          <Field label="Pays" required error={errors.countryCode}>
-            <select
-              value={form.countryCode}
-              onChange={(e) => update('countryCode', e.target.value)}
-              className={inputCls(errors.countryCode) + ' appearance-none'}
-            >
-              {COUNTRIES.map((c) => (
-                <option key={c.code} value={c.code}>
-                  {c.label}
-                </option>
-              ))}
-            </select>
-          </Field>
+          {/* Pays — masqué par défaut, affichable via lien (95% Burkina) */}
+          {showCountry ? (
+            <Field label="Pays" required error={errors.countryCode}>
+              <select
+                value={form.countryCode}
+                onChange={(e) => update('countryCode', e.target.value)}
+                className={inputCls(errors.countryCode) + ' appearance-none'}
+              >
+                {COUNTRIES.map((c) => (
+                  <option key={c.code} value={c.code}>{c.label}</option>
+                ))}
+              </select>
+            </Field>
+          ) : (
+            <div className="mb-4 text-xs text-muted-foreground">
+              📍 Pays : <strong className="text-foreground">{country.label}</strong> ·{' '}
+              <button type="button" onClick={() => setShowCountry(true)} className="text-vert font-bold underline">
+                Changer
+              </button>
+            </div>
+          )}
 
           <Field label="WhatsApp" required error={errors.whatsapp}>
             <div className="flex gap-2">
@@ -320,19 +328,6 @@ export function ProductForm({ product }: { product: Product }) {
               />
             </Field>
           )}
-
-          <label className="flex items-start gap-3 cursor-pointer mb-2">
-            <input
-              type="checkbox"
-              checked={form.available}
-              onChange={(e) => update('available', e.target.checked)}
-              className="w-5 h-5 mt-0.5 accent-vert-mid"
-            />
-            <span className="text-base text-muted-foreground leading-relaxed">
-              <strong>Je suis disponible</strong> pour recevoir ma commande dans les <strong>24h</strong> et suis joignable sur WhatsApp.
-            </span>
-          </label>
-          {errors.available && <div className="text-rouge text-sm mb-3">{errors.available}</div>}
 
           {/* Trust markers JUSTE avant le CTA — lève les dernières objections */}
           <div className="grid grid-cols-2 gap-2 mb-3 text-xs">

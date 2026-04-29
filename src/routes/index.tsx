@@ -67,7 +67,7 @@ function HomePage() {
           'Sans effets secondaires · Sans rechute',
           'Livraison gratuite Ouaga · Paiement à la livraison',
         ]}
-        ctaLabel="🌿 Commander — Paiement à la livraison"
+        ctaLabel="⚡ Commander en 30 sec — Paie à la livraison"
       />
 
       {/* USP bar */}
