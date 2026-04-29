@@ -82,7 +82,7 @@ function SiropPage() {
           'Désir et confiance qui reviennent naturellement',
           'Colis 100% neutre · Personne ne saura',
         ]}
-        ctaLabel="🍯 Commander discrètement — Paie à la livraison"
+        ctaLabel="⚡ Commander discrètement — 30 sec"
         ctaTone="rouge"
       />
 
