@@ -19,20 +19,63 @@ type Visit = {
   visited_at: string | null;
 };
 
-export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] }) {
+const SOURCE_EMOJI: Record<string, string> = {
+  Facebook: '📘',
+  WhatsApp: '🟢',
+  Google: '🔍',
+  TikTok: '🎵',
+  Instagram: '📸',
+  YouTube: '▶️',
+  Direct: '🌐',
+  Autre: '🔗',
+  Inconnu: '❓',
+};
+
+function normSource(s: string | null | undefined): string {
+  if (!s) return 'Inconnu';
+  const v = s.trim();
+  if (!v) return 'Inconnu';
+  const low = v.toLowerCase();
+  if (low === 'fb' || low.includes('facebook')) return 'Facebook';
+  if (low.includes('whatsapp') || low === 'wa') return 'WhatsApp';
+  if (low.includes('google')) return 'Google';
+  if (low.includes('tiktok')) return 'TikTok';
+  if (low.includes('insta')) return 'Instagram';
+  if (low.includes('youtube') || low === 'yt') return 'YouTube';
+  if (low === 'direct') return 'Direct';
+  if (v.length <= 3) return 'Autre';
+  return v.charAt(0).toUpperCase() + v.slice(1);
+}
+
+export function StatsTab({
+  orders,
+  visits,
+  visitsTotal,
+  visitsToday,
+}: {
+  orders: Order[];
+  visits: Visit[];
+  visitsTotal: number;
+  visitsToday: number;
+}) {
   const stats = useMemo(() => {
     const delivered = orders.filter((o) => o.status === 'delivered');
     const ca = delivered.reduce((s, o) => s + o.product_price, 0);
-    const conversion = visits.length > 0 ? (orders.length / visits.length) * 100 : 0;
+    const conversion = visitsTotal > 0 ? (orders.length / visitsTotal) * 100 : 0;
 
-    // Par pays
+    // Taux de livraison = livrées / (livrées + en attente + en cours valides)
+    // On exclut les commandes annulées/refusées du dénominateur
+    const validOrders = orders.filter(
+      (o) => !['cancelled', 'refused', 'rejected'].includes((o.status || '').toLowerCase())
+    );
+    const deliveryRate = validOrders.length > 0 ? (delivered.length / validOrders.length) * 100 : 0;
+
     const byCountry = orders.reduce<Record<string, number>>((acc, o) => {
       const k = o.country || 'N/A';
       acc[k] = (acc[k] || 0) + 1;
       return acc;
     }, {});
 
-    // Par produit
     const byProduct = orders.reduce<Record<string, { count: number; ca: number }>>((acc, o) => {
       const k = o.product_name;
       if (!acc[k]) acc[k] = { count: 0, ca: 0 };
@@ -41,7 +84,14 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
       return acc;
     }, {});
 
-    // 7 derniers jours
+    // Source de trafic (échantillon récent)
+    const bySource = visits.reduce<Record<string, number>>((acc, v) => {
+      const k = normSource(v.source);
+      acc[k] = (acc[k] || 0) + 1;
+      return acc;
+    }, {});
+    const sourceTotal = Object.values(bySource).reduce((s, n) => s + n, 0);
+
     const days: { day: string; count: number }[] = [];
     for (let i = 6; i >= 0; i--) {
       const d = new Date();
@@ -52,15 +102,37 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
     }
     const maxDay = Math.max(1, ...days.map((d) => d.count));
 
-    return { ca, conversion, byCountry, byProduct, days, maxDay, deliveredCount: delivered.length };
-  }, [orders, visits]);
+    return {
+      ca,
+      conversion,
+      byCountry,
+      byProduct,
+      bySource,
+      sourceTotal,
+      days,
+      maxDay,
+      deliveredCount: delivered.length,
+      deliveryRate,
+      pendingCount: validOrders.length - delivered.length,
+    };
+  }, [orders, visits, visitsTotal]);
 
   return (
     <div className="space-y-5">
-      <div className="grid sm:grid-cols-3 gap-3">
-        <KpiBox label="CA Livré" value={formatFCFA(stats.ca)} sub={`${stats.deliveredCount} commandes`} />
-        <KpiBox label="Visites" value={visits.length.toString()} sub="Total tracké" />
-        <KpiBox label="Conversion" value={`${stats.conversion.toFixed(1)}%`} sub="Commandes / Visites" />
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <KpiBox label="Visites aujourd'hui" value={visitsToday.toLocaleString('fr-FR')} sub="Depuis 00h00" highlight />
+        <KpiBox label="Visites total" value={visitsTotal.toLocaleString('fr-FR')} sub="Toutes périodes" />
+        <KpiBox label="Conversion" value={`${stats.conversion.toFixed(2)}%`} sub={`${orders.length} cmds / ${visitsTotal} visites`} />
+        <KpiBox
+          label="Taux de livraison"
+          value={`${stats.deliveryRate.toFixed(1)}%`}
+          sub={`${stats.deliveredCount} livrées · ${stats.pendingCount} à livrer`}
+        />
+      </div>
+
+      <div className="grid sm:grid-cols-2 gap-3">
+        <KpiBox label="CA Livré (total)" value={formatFCFA(stats.ca)} sub={`${stats.deliveredCount} commandes livrées`} />
+        <KpiBox label="Commandes total" value={orders.length.toString()} sub="Toutes périodes" />
       </div>
 
       <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
@@ -76,6 +148,41 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
               <div className="text-[10px] text-muted-foreground">{d.day}</div>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
+        <h3 className="font-extrabold text-vert mb-3">🎯 Sources de trafic</h3>
+        <div className="text-xs text-muted-foreground mb-3">
+          Sur les {stats.sourceTotal.toLocaleString('fr-FR')} dernières visites trackées
+        </div>
+        <div className="space-y-2">
+          {Object.entries(stats.bySource)
+            .sort((a, b) => b[1] - a[1])
+            .map(([k, v]) => {
+              const pct = stats.sourceTotal > 0 ? (v / stats.sourceTotal) * 100 : 0;
+              return (
+                <div key={k}>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="font-bold">
+                      {SOURCE_EMOJI[k] || '🔗'} {k}
+                    </span>
+                    <span className="text-vert font-extrabold">
+                      {v.toLocaleString('fr-FR')} <span className="text-muted-foreground font-normal">· {pct.toFixed(1)}%</span>
+                    </span>
+                  </div>
+                  <div className="h-2 bg-vert-bg/40 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-vert to-vert-mid rounded-full"
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          {Object.keys(stats.bySource).length === 0 && (
+            <div className="text-sm text-muted-foreground">Aucune visite trackée</div>
+          )}
         </div>
       </div>
 
@@ -117,12 +224,16 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
   );
 }
 
-function KpiBox({ label, value, sub }: { label: string; value: string; sub: string }) {
+function KpiBox({ label, value, sub, highlight }: { label: string; value: string; sub: string; highlight?: boolean }) {
   return (
-    <div className="bg-white rounded-2xl border-2 border-vert-bg p-4">
-      <div className="text-xs font-bold uppercase text-muted-foreground">{label}</div>
-      <div className="text-2xl font-extrabold text-vert mt-1">{value}</div>
-      <div className="text-xs text-muted-foreground mt-0.5">{sub}</div>
+    <div
+      className={`rounded-2xl border-2 p-4 ${
+        highlight ? 'bg-gradient-to-br from-vert to-vert-mid text-white border-vert' : 'bg-white border-vert-bg'
+      }`}
+    >
+      <div className={`text-xs font-bold uppercase ${highlight ? 'text-white/80' : 'text-muted-foreground'}`}>{label}</div>
+      <div className={`text-2xl font-extrabold mt-1 ${highlight ? 'text-white' : 'text-vert'}`}>{value}</div>
+      <div className={`text-xs mt-0.5 ${highlight ? 'text-white/80' : 'text-muted-foreground'}`}>{sub}</div>
     </div>
   );
 }
