@@ -61,7 +61,7 @@ async function subscribeWebPush(reg: ServiceWorkerRegistration): Promise<boolean
     if (!publicKey) return false;
     const sub = await reg.pushManager.subscribe({
       userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(publicKey),
+      applicationServerKey: urlBase64ToUint8Array(publicKey).buffer as ArrayBuffer,
     });
     const p256dh = arrayBufferToBase64(sub.getKey('p256dh'))
       .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
