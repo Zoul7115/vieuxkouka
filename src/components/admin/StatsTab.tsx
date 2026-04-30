@@ -65,15 +65,14 @@ export function StatsTab({
 
     // Taux de livraison
     // Numérateur   : commandes effectivement livrées (status = 'delivered')
-    // Dénominateur : livrées + en cours valides (en attente / en cours / suivi)
-    // Exclu        : annulées, refusées, rejetées (ne comptent pas dans le calcul)
+    // Dénominateur : TOUTES les commandes reçues sur la boutique (annulées comprises)
     const CANCELLED_STATUSES = ['cancelled', 'canceled', 'annulee', 'annulée', 'refused', 'refusee', 'refusée', 'rejected'];
     const isCancelled = (s: string | null | undefined) =>
       CANCELLED_STATUSES.includes((s || '').toLowerCase().trim());
 
     const cancelledOrders = orders.filter((o) => isCancelled(o.status));
     const inProgressOrders = orders.filter((o) => !isCancelled(o.status) && o.status !== 'delivered');
-    const denom = delivered.length + inProgressOrders.length; // = total - annulées
+    const denom = orders.length; // toutes les commandes reçues
     const deliveryRate = denom > 0 ? (delivered.length / denom) * 100 : 0;
 
     const byCountry = orders.reduce<Record<string, number>>((acc, o) => {
