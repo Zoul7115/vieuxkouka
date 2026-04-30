@@ -150,6 +150,87 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
 
   return (
     <div className="space-y-5">
+      {/* Résumé par livreur — par période */}
+      <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h3 className="font-extrabold text-vert">💼 Résumé livreurs · {periodLabel}</h3>
+          <div className="text-[10px] text-muted-foreground">Frais livraison : {formatFCFA(DELIVERY_COST)} / commande</div>
+        </div>
+
+        {/* Sélecteur période */}
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {PERIODS.map((p) => (
+            <button
+              key={p.k}
+              onClick={() => setPeriod(p.k)}
+              className={`px-2.5 py-1 rounded-full text-[11px] font-bold transition-colors ${
+                period === p.k ? 'bg-vert text-white' : 'bg-cream-2 text-muted-foreground hover:bg-vert-bg'
+              }`}
+            >
+              {p.label}
+            </button>
+          ))}
+          {period === 'custom' && (
+            <div className="flex items-center gap-1 bg-cream-2 rounded-full px-2 py-0.5">
+              <input type="date" value={customFrom} onChange={(e) => setCustomFrom(e.target.value)} className="text-[11px] outline-none bg-transparent" />
+              <span className="text-[11px] text-muted-foreground">→</span>
+              <input type="date" value={customTo} onChange={(e) => setCustomTo(e.target.value)} className="text-[11px] outline-none bg-transparent" />
+            </div>
+          )}
+        </div>
+
+        {/* Tableau résumé */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-[10px] uppercase text-muted-foreground border-b-2 border-vert-bg">
+                <th className="text-left py-2 px-1">Livreur</th>
+                <th className="text-right py-2 px-1">Livraisons</th>
+                <th className="text-right py-2 px-1">Pièces</th>
+                <th className="text-right py-2 px-1">CA</th>
+                <th className="text-right py-2 px-1">Frais livr.</th>
+                <th className="text-right py-2 px-1">Net à encaisser</th>
+              </tr>
+            </thead>
+            <tbody>
+              {livreurs.map((l) => {
+                const s = periodSummary.map[l.idx] || { deliveries: 0, pieces: 0, ca: 0, deliveryFees: 0, net: 0 };
+                if (s.deliveries === 0) return null;
+                return (
+                  <tr key={l.id} className="border-b border-vert-bg/40">
+                    <td className="py-2 px-1 font-bold text-vert">{l.emoji} {l.name}</td>
+                    <td className="text-right py-2 px-1">{s.deliveries}</td>
+                    <td className="text-right py-2 px-1">{s.pieces}</td>
+                    <td className="text-right py-2 px-1 font-bold">{formatFCFA(s.ca)}</td>
+                    <td className="text-right py-2 px-1 text-rouge">−{formatFCFA(s.deliveryFees)}</td>
+                    <td className="text-right py-2 px-1 font-extrabold text-vert">{formatFCFA(s.net)}</td>
+                  </tr>
+                );
+              })}
+              {periodSummary.totals.deliveries === 0 && (
+                <tr>
+                  <td colSpan={6} className="py-4 text-center text-muted-foreground text-sm">
+                    Aucune livraison sur cette période
+                  </td>
+                </tr>
+              )}
+            </tbody>
+            {periodSummary.totals.deliveries > 0 && (
+              <tfoot>
+                <tr className="bg-vert-bg/40 font-extrabold">
+                  <td className="py-2 px-1 text-vert">TOTAL</td>
+                  <td className="text-right py-2 px-1">{periodSummary.totals.deliveries}</td>
+                  <td className="text-right py-2 px-1">{periodSummary.totals.pieces}</td>
+                  <td className="text-right py-2 px-1">{formatFCFA(periodSummary.totals.ca)}</td>
+                  <td className="text-right py-2 px-1 text-rouge">−{formatFCFA(periodSummary.totals.deliveryFees)}</td>
+                  <td className="text-right py-2 px-1 text-vert">{formatFCFA(periodSummary.totals.net)}</td>
+                </tr>
+              </tfoot>
+            )}
+          </table>
+        </div>
+      </div>
+
       {/* Cartes livreurs */}
       <div className="grid sm:grid-cols-2 gap-3">
         {livreurs.map((l) => {
