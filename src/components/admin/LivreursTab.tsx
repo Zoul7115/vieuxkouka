@@ -254,6 +254,10 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
                   </div>
                   <input value={editForm.whatsapp} onChange={(e) => setEditForm({ ...editForm, whatsapp: e.target.value })} placeholder="22670000000" className="w-full px-3 py-1.5 border-2 border-vert-bg rounded-lg" />
                   <input value={editForm.zone} onChange={(e) => setEditForm({ ...editForm, zone: e.target.value })} placeholder="Zone" className="w-full px-3 py-1.5 border-2 border-vert-bg rounded-lg" />
+                  <label className="block">
+                    <span className="text-[10px] uppercase font-bold text-muted-foreground">Frais livraison par défaut (FCFA)</span>
+                    <input type="number" min="0" value={editForm.delivery_fee} onChange={(e) => setEditForm({ ...editForm, delivery_fee: e.target.value })} placeholder="2000" className="w-full px-3 py-1.5 border-2 border-vert-bg rounded-lg mt-1" />
+                  </label>
                   <div className="flex gap-2">
                     <button onClick={() => saveEdit(l.id)} className="flex-1 bg-vert text-white py-1.5 rounded-lg font-bold text-sm">💾 Sauver</button>
                     <button onClick={() => setEditId(null)} className="flex-1 bg-cream-2 text-vert py-1.5 rounded-lg font-bold text-sm">Annuler</button>
