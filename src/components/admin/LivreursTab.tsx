@@ -1,14 +1,16 @@
 import { useMemo, useState } from 'react';
 import { useLivreurs, type Livreur } from '@/lib/livreurs';
-import { formatFCFA } from '@/lib/products';
+import { formatFCFA, DELIVERY_COST } from '@/lib/products';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
 
 type Order = {
   id: string;
   order_number: string;
   product_name: string;
   product_price: number;
+  offer_label?: string | null;
   first_name: string | null;
   last_name: string | null;
   whatsapp: string | null;
@@ -17,6 +19,17 @@ type Order = {
   livreur_idx: number | null;
   created_at: string;
 };
+
+/** Calcule le nombre de pièces d'une commande à partir de l'offre/label (réplique de la fonction SQL) */
+function unitsForOrder(o: { offer_label?: string | null; product_name: string }): number {
+  const label = (o.offer_label || o.product_name || '').toLowerCase();
+  let units = 1;
+  if (/3\s*\+\s*2/.test(label)) units = 5;
+  else if (/2\s*\+\s*1/.test(label)) units = 3;
+  else if (/1\s*(sachet|flacon)|démarrage|demarrage/.test(label)) units = 1;
+  if (/bump/i.test(label)) units += 1;
+  return units;
+}
 
 export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: () => void }) {
   const { livreurs, reload } = useLivreurs();
