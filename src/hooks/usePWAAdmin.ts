@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { subscribeToPush } from '@/lib/webPush';
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -14,40 +13,6 @@ export function usePWAAdmin(enabled: boolean) {
   const [installed, setInstalled] = useState(false);
   const [permission, setPermission] = useState<NotificationPermission>('default');
   const swRef = useRef<ServiceWorkerRegistration | null>(null);
-  const audioRef = useRef<AudioContext | null>(null);
-
-  const unlockSound = useCallback(async () => {
-    try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-      if (!AudioCtx) return;
-      const ctx = audioRef.current || new AudioCtx();
-      audioRef.current = ctx;
-      if (ctx.state === 'suspended') await ctx.resume();
-    } catch { /* audio not available */ }
-  }, []);
-
-  const playAlertSound = useCallback(() => {
-    try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-      const ctx = audioRef.current || (AudioCtx ? new AudioCtx() : null);
-      if (!ctx) return;
-      audioRef.current = ctx;
-      const now = ctx.currentTime;
-      [0, 0.18, 0.36].forEach((offset) => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, now + offset);
-        gain.gain.setValueAtTime(0.0001, now + offset);
-        gain.gain.exponentialRampToValueAtTime(0.18, now + offset + 0.015);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + offset + 0.14);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now + offset);
-        osc.stop(now + offset + 0.15);
-      });
-    } catch { /* ignore sound failures */ }
-  }, []);
 
   // Register SW
   useEffect(() => {
@@ -69,10 +34,6 @@ export function usePWAAdmin(enabled: boolean) {
         const sw = reg.installing;
         sw?.addEventListener('statechange', () => { if (sw.state === 'activated') sendConfig(); });
       });
-      // Si la permission est déjà accordée, on s'assure que le push est bien enregistré
-      if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-        try { await subscribeToPush(reg); } catch { /* silent */ }
-      }
       // Tenter d'enregistrer un periodic sync (Chrome Android avec PWA installée)
       try {
         // @ts-expect-error periodicSync optional API
@@ -116,17 +77,15 @@ export function usePWAAdmin(enabled: boolean) {
           const body = `${o.first_name || 'Client'} · ${o.city || ''} · ${o.product_price?.toLocaleString('fr-FR') || ''} FCFA`;
           // Toast in-app
           toast.success(title, { description: body });
-          // Son + notification système
-          playAlertSound();
+          // Système notification
           notify(title, body, swRef.current);
         }
       )
       .subscribe();
     return () => { supabase.removeChannel(channel); };
-  }, [enabled, playAlertSound]);
+  }, [enabled]);
 
   const install = async () => {
-    await unlockSound();
     if (!installPrompt) {
       toast.info('Pour installer : menu navigateur > "Installer / Ajouter à l\'écran d\'accueil"');
       return;
@@ -140,8 +99,7 @@ export function usePWAAdmin(enabled: boolean) {
     setInstallPrompt(null);
   };
 
-  const requestNotifications = useCallback(async () => {
-    await unlockSound();
+  const requestNotifications = async () => {
     if (typeof Notification === 'undefined') {
       toast.error('Notifications non supportées sur ce navigateur');
       return;
@@ -149,28 +107,12 @@ export function usePWAAdmin(enabled: boolean) {
     const p = await Notification.requestPermission();
     setPermission(p);
     if (p === 'granted') {
-      // Enregistrer le push pour recevoir les notifs même app fermée
-      try {
-        const reg = swRef.current || (await navigator.serviceWorker.ready);
-        const ok = await subscribeToPush(reg);
-        if (ok) toast.success('🔔 Notifications push activées (même app fermée)');
-        else toast.success('Notifications activées (premier plan uniquement)');
-      } catch (e) {
-        console.error('push subscribe error', e);
-        toast.success('Notifications activées (premier plan uniquement)');
-      }
+      toast.success('Notifications activées !');
       notify('🌿 Notifications actives', 'Vous serez alerté à chaque nouvelle commande.', swRef.current);
     } else {
       toast.error('Notifications refusées');
     }
-  }, [unlockSound]);
-
-  const testAlert = useCallback(async () => {
-    await unlockSound();
-    playAlertSound();
-    notify('🌿 Test notification KOUKA', 'Le son et les notifications admin sont prêts.', swRef.current);
-    toast.success('Alerte test envoyée');
-  }, [playAlertSound, unlockSound]);
+  };
 
   return {
     canInstall: !!installPrompt && !installed,
@@ -178,7 +120,6 @@ export function usePWAAdmin(enabled: boolean) {
     install,
     permission,
     requestNotifications,
-    testAlert,
   };
 }
 

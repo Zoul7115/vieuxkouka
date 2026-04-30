@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
-import { formatFCFA, PRODUCTS, PRODUCT_COSTS } from '@/lib/products';
-import { supabase } from '@/integrations/supabase/client';
+import { useMemo } from 'react';
+import { formatFCFA } from '@/lib/products';
 
 type Order = {
   id: string;
@@ -20,87 +19,20 @@ type Visit = {
   visited_at: string | null;
 };
 
-type StockTx = {
-  produit: string;
-  type: string;
-  quantite: number;
-};
-
-/** Normalise les sources brutes (an, fb, Facebook, FACEBOOK…) vers un libellé propre */
-function normalizeSource(raw: string | null | undefined): string {
-  const s = (raw || '').toLowerCase().trim();
-  if (!s) return 'Direct';
-  if (s === 'fb' || s.includes('facebook')) return 'Facebook';
-  if (s === 'ig' || s.includes('instagram')) return 'Instagram';
-  if (s.includes('whatsapp') || s === 'wa') return 'WhatsApp';
-  if (s.includes('google')) return 'Google';
-  if (s.includes('tiktok') || s === 'tt') return 'TikTok';
-  if (s.includes('youtube') || s === 'yt') return 'YouTube';
-  if (s === 'direct') return 'Direct';
-  if (s === 'an' || s === 'autre') return 'Autre';
-  // Fallback : garde la valeur brute capitalisée
-  return raw!.charAt(0).toUpperCase() + raw!.slice(1);
-}
-
 export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] }) {
-  const [visitsTotal, setVisitsTotal] = useState<number | null>(null);
-  const [visitsToday, setVisitsToday] = useState<number | null>(null);
-  const [sourceCounts, setSourceCounts] = useState<Record<string, number>>({});
-  const [stockTxs, setStockTxs] = useState<StockTx[]>([]);
-
-  // Compteurs visites + agrégat par source (vue exhaustive, pas limitée à 1000)
-  useEffect(() => {
-    let mounted = true;
-
-    const loadCounts = async () => {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
-      const [{ count: total }, { count: todayCount }, allSources] = await Promise.all([
-        supabase.from('visits').select('id', { count: 'exact', head: true }),
-        supabase
-          .from('visits')
-          .select('id', { count: 'exact', head: true })
-          .gte('visited_at', today.toISOString()),
-        // On lit toutes les sources (paginé par lots de 1000)
-        fetchAllSources(),
-      ]);
-
-      if (!mounted) return;
-      setVisitsTotal(total ?? 0);
-      setVisitsToday(todayCount ?? 0);
-      setSourceCounts(allSources);
-    };
-
-    const loadStock = async () => {
-      const { data } = await supabase
-        .from('stock_transactions')
-        .select('produit, type, quantite')
-        .limit(5000);
-      if (!mounted) return;
-      setStockTxs((data || []) as StockTx[]);
-    };
-
-    loadCounts();
-    loadStock();
-  }, []);
-
   const stats = useMemo(() => {
     const delivered = orders.filter((o) => o.status === 'delivered');
-    const cancelled = orders.filter((o) => o.status === 'cancelled');
-    const upcoming = orders.filter((o) => o.status === 'pending' || o.status === 'suivi');
     const ca = delivered.reduce((s, o) => s + o.product_price, 0);
-    const totalVisits = visitsTotal ?? visits.length;
-    const conversion = totalVisits > 0 ? (orders.length / totalVisits) * 100 : 0;
-    // Taux de livraison = livrées / TOUTES les commandes reçues (annulées incluses)
-    const deliveryRate = orders.length > 0 ? (delivered.length / orders.length) * 100 : 0;
+    const conversion = visits.length > 0 ? (orders.length / visits.length) * 100 : 0;
 
+    // Par pays
     const byCountry = orders.reduce<Record<string, number>>((acc, o) => {
       const k = o.country || 'N/A';
       acc[k] = (acc[k] || 0) + 1;
       return acc;
     }, {});
 
+    // Par produit
     const byProduct = orders.reduce<Record<string, { count: number; ca: number }>>((acc, o) => {
       const k = o.product_name;
       if (!acc[k]) acc[k] = { count: 0, ca: 0 };
@@ -109,6 +41,7 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
       return acc;
     }, {});
 
+    // 7 derniers jours
     const days: { day: string; count: number }[] = [];
     for (let i = 6; i >= 0; i--) {
       const d = new Date();
@@ -119,51 +52,15 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
     }
     const maxDay = Math.max(1, ...days.map((d) => d.count));
 
-    return { ca, conversion, byCountry, byProduct, days, maxDay, deliveredCount: delivered.length, totalVisits, deliveryRate, upcomingCount: upcoming.length, cancelledCount: cancelled.length };
-  }, [orders, visits, visitsTotal]);
-
-  // Sources groupées + normalisées
-  const sources = useMemo(() => {
-    const grouped: Record<string, number> = {};
-    Object.entries(sourceCounts).forEach(([raw, n]) => {
-      const k = normalizeSource(raw);
-      grouped[k] = (grouped[k] || 0) + n;
-    });
-    return Object.entries(grouped).sort((a, b) => b[1] - a[1]);
-  }, [sourceCounts]);
-
-  const sourcesTotal = sources.reduce((s, [, n]) => s + n, 0);
-
-  // Stock par produit (matrix → quantité totale par produit) + valeur d'achat
-  const stockByProduct = useMemo(() => {
-    const qty: Record<string, number> = {};
-    PRODUCTS.forEach((p) => { qty[p.shortName] = 0; });
-    stockTxs.forEach((t) => {
-      if (qty[t.produit] == null) qty[t.produit] = 0;
-      qty[t.produit] += (t.type === 'entree' ? 1 : -1) * t.quantite;
-    });
-    return PRODUCTS.map((p) => {
-      const q = Math.max(0, qty[p.shortName] || 0);
-      const pa = PRODUCT_COSTS[p.shortName] ?? 0;
-      return { name: p.shortName, emoji: p.emoji, qty: q, pa, value: q * pa };
-    });
-  }, [stockTxs]);
-
-  const stockTotalValue = stockByProduct.reduce((s, r) => s + r.value, 0);
-  const stockTotalQty = stockByProduct.reduce((s, r) => s + r.qty, 0);
+    return { ca, conversion, byCountry, byProduct, days, maxDay, deliveredCount: delivered.length };
+  }, [orders, visits]);
 
   return (
     <div className="space-y-5">
       <div className="grid sm:grid-cols-3 gap-3">
         <KpiBox label="CA Livré" value={formatFCFA(stats.ca)} sub={`${stats.deliveredCount} commandes`} />
-        <KpiBox label="Visites total" value={(visitsTotal ?? '…').toString()} sub="Depuis le début" />
-        <KpiBox label="Visites aujourd'hui" value={(visitsToday ?? '…').toString()} sub="Mises à jour temps réel" />
-      </div>
-
-      <div className="grid sm:grid-cols-3 gap-3">
-        <KpiBox label="Conversion globale" value={`${stats.conversion.toFixed(2)}%`} sub={`${orders.length} cmd / ${stats.totalVisits} visites`} />
-        <KpiBox label="Taux de livraison" value={`${stats.deliveryRate.toFixed(1)}%`} sub={`${stats.deliveredCount} livrées / ${orders.length} reçues · ${stats.cancelledCount} annulées · ${stats.upcomingCount} en cours`} />
-        <KpiBox label="Valeur stock totale" value={formatFCFA(stockTotalValue)} sub={`${stockTotalQty} unités en stock`} />
+        <KpiBox label="Visites" value={visits.length.toString()} sub="Total tracké" />
+        <KpiBox label="Conversion" value={`${stats.conversion.toFixed(1)}%`} sub="Commandes / Visites" />
       </div>
 
       <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
@@ -181,30 +78,6 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
           ))}
         </div>
       </div>
-
-      {/* Sources de trafic */}
-      <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
-        <h3 className="font-extrabold text-vert mb-3">🚦 Sources de trafic</h3>
-        {sources.length === 0 && <div className="text-sm text-muted-foreground">Chargement…</div>}
-        <div className="space-y-2">
-          {sources.map(([name, n]) => {
-            const pct = sourcesTotal > 0 ? (n / sourcesTotal) * 100 : 0;
-            return (
-              <div key={name}>
-                <div className="flex justify-between text-sm mb-0.5">
-                  <span className="font-bold">{name}</span>
-                  <span className="text-muted-foreground">{n} · {pct.toFixed(1)}%</span>
-                </div>
-                <div className="h-2 bg-vert-bg rounded-full overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-vert to-vert-mid" style={{ width: `${pct}%` }} />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Le tableau détaillé du coût total du stock se trouve dans l'onglet Stock */}
 
       <div className="grid sm:grid-cols-2 gap-3">
         <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
@@ -242,28 +115,6 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
       </div>
     </div>
   );
-}
-
-/** Récupère toutes les sources en paginant par lots de 1000 (limite Supabase) */
-async function fetchAllSources(): Promise<Record<string, number>> {
-  const counts: Record<string, number> = {};
-  const pageSize = 1000;
-  let from = 0;
-  // Garde-fou : max 50 pages = 50k lignes
-  for (let i = 0; i < 50; i++) {
-    const { data, error } = await supabase
-      .from('visits')
-      .select('source')
-      .range(from, from + pageSize - 1);
-    if (error || !data || data.length === 0) break;
-    for (const row of data) {
-      const k = (row as { source: string | null }).source || 'Direct';
-      counts[k] = (counts[k] || 0) + 1;
-    }
-    if (data.length < pageSize) break;
-    from += pageSize;
-  }
-  return counts;
 }
 
 function KpiBox({ label, value, sub }: { label: string; value: string; sub: string }) {

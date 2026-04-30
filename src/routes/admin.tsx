@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { formatFCFA } from '@/lib/products';
 import { toast } from 'sonner';
@@ -88,28 +88,24 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [customFrom, setCustomFrom] = useState('');
   const [customTo, setCustomTo] = useState('');
 
-  const load = useCallback(async (silent = false, attempt = 1) => {
+  const load = async (silent = false) => {
     if (!silent) setLoading(true);
     try {
       const [oRes, vRes] = await Promise.all([
-        supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(2000),
-        supabase.from('visits').select('*').order('visited_at', { ascending: false }).limit(5000),
+        supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(1000),
+        supabase.from('visits').select('*').order('visited_at', { ascending: false }).limit(1000),
       ]);
-      if (oRes.error) throw oRes.error;
+      if (oRes.error) console.error('orders load error', oRes.error);
       else setOrders((oRes.data || []) as Order[]);
-      if (vRes.error) throw vRes.error;
+      if (vRes.error) console.error('visits load error', vRes.error);
       else setVisits((vRes.data || []) as Visit[]);
     } catch (err) {
       console.error('admin load failed', err);
-      if (attempt < 4) {
-        window.setTimeout(() => load(silent, attempt + 1), attempt * 650);
-        return;
-      }
-      if (!silent) toast.error('Erreur chargement — appuie sur 🔄 si besoin');
+      if (!silent) toast.error('Erreur chargement — nouvelle tentative…');
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     load();
@@ -129,7 +125,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       window.clearInterval(itv);
       document.removeEventListener('visibilitychange', onVis);
     };
-  }, [load]);
+  }, []);
 
   const updateStatus = async (id: string, status: string) => {
     const { error } = await supabase.from('orders').update({ status }).eq('id', id);
@@ -164,7 +160,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     { k: 'stats', label: 'Stats', emoji: '📈' },
   ];
 
-  const { canInstall, install, permission, requestNotifications, testAlert } = usePWAAdmin(true);
+  const { canInstall, install, permission, requestNotifications } = usePWAAdmin(true);
 
   // Auto-prompt notif au login si non accordé
   useEffect(() => {
@@ -188,13 +184,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             </button>
           )}
           {permission !== 'granted' && (
-            <button onClick={requestNotifications} className="text-xs bg-or text-vert font-extrabold px-3 py-1.5 rounded-lg hover:bg-or-light">
-              🔔 Activer son + notifs
-            </button>
-          )}
-          {permission === 'granted' && (
-            <button onClick={testAlert} className="text-xs bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">
-              🔊 Test
+            <button onClick={requestNotifications} className="text-xs bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">
+              🔔 Notifs
             </button>
           )}
           <button onClick={() => load()} className="text-sm bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">🔄</button>

@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { PRODUCTS, PRODUCT_COSTS, formatFCFA } from '@/lib/products';
+import { PRODUCTS } from '@/lib/products';
 import { useLivreurs } from '@/lib/livreurs';
 import { toast } from 'sonner';
 
@@ -26,26 +26,19 @@ export function StockTab() {
     motif: '',
   });
 
-  const load = useCallback(async () => {
+  const load = async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('stock_transactions')
       .select('*')
       .order('created_at', { ascending: false })
-      .limit(1000);
+      .limit(100);
     if (error) toast.error(error.message);
     else setTxs((data || []) as StockTx[]);
     setLoading(false);
-  }, []);
+  };
 
-  useEffect(() => {
-    load();
-    const channel = supabase
-      .channel('stock-tab-live')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'stock_transactions' }, () => load())
-      .subscribe();
-    return () => { supabase.removeChannel(channel); };
-  }, [load]);
+  useEffect(() => { load(); }, []);
 
   // Sync default livreur once livreurs loaded
   useEffect(() => {
@@ -69,24 +62,6 @@ export function StockTab() {
     });
     return matrix;
   }, [txs, livreurs]);
-
-  // Total par produit (toutes lignes confondues) + valeur d'achat
-  const productTotals = useMemo(() => {
-    const qty: Record<string, number> = {};
-    PRODUCTS.forEach((p) => { qty[p.shortName] = 0; });
-    txs.forEach((t) => {
-      if (qty[t.produit] == null) qty[t.produit] = 0;
-      qty[t.produit] += (t.type === 'entree' ? 1 : -1) * t.quantite;
-    });
-    const rows = PRODUCTS.map((p) => {
-      const q = Math.max(0, qty[p.shortName] || 0);
-      const pa = PRODUCT_COSTS[p.shortName] ?? 0;
-      return { name: p.shortName, emoji: p.emoji, qty: q, pa, value: q * pa };
-    });
-    const totalQty = rows.reduce((s, r) => s + r.qty, 0);
-    const totalValue = rows.reduce((s, r) => s + r.value, 0);
-    return { rows, totalQty, totalValue };
-  }, [txs]);
 
   const submit = async () => {
     if (form.quantite <= 0) { toast.error('Quantité invalide'); return; }
@@ -133,37 +108,6 @@ export function StockTab() {
                 </tr>
               );
             })}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Coût total du stock par produit */}
-      <div className="bg-white rounded-2xl border-2 border-vert-bg p-5 overflow-x-auto">
-        <h3 className="font-extrabold text-vert mb-4">💰 Coût total du stock</h3>
-        <table className="w-full text-sm min-w-[420px]">
-          <thead>
-            <tr className="border-b-2 border-vert-bg">
-              <th className="text-left py-2 px-2">Produit</th>
-              <th className="text-right py-2 px-2">Qté</th>
-              <th className="text-right py-2 px-2">PA unitaire</th>
-              <th className="text-right py-2 px-2">Valeur stock</th>
-            </tr>
-          </thead>
-          <tbody>
-            {productTotals.rows.map((r) => (
-              <tr key={r.name} className="border-b border-vert-bg/50">
-                <td className="py-2 px-2 font-bold">{r.emoji} {r.name}</td>
-                <td className="text-right py-2 px-2 font-extrabold">{r.qty}</td>
-                <td className="text-right py-2 px-2 text-muted-foreground">{formatFCFA(r.pa)}</td>
-                <td className="text-right py-2 px-2 font-extrabold text-vert">{formatFCFA(r.value)}</td>
-              </tr>
-            ))}
-            <tr className="bg-vert-bg/40">
-              <td className="py-2 px-2 font-extrabold">TOTAL GÉNÉRAL</td>
-              <td className="text-right py-2 px-2 font-extrabold">{productTotals.totalQty}</td>
-              <td></td>
-              <td className="text-right py-2 px-2 font-extrabold text-vert">{formatFCFA(productTotals.totalValue)}</td>
-            </tr>
           </tbody>
         </table>
       </div>
