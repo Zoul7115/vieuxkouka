@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { OfferSelector } from './OfferSelector';
 import { PreFormWhatsApp } from './PreFormWhatsApp';
@@ -8,6 +8,7 @@ import { trackFB } from '@/lib/facebookPixel';
 import { toast } from 'sonner';
 
 const BUMP_PRICE = 5000;
+const SHIPPING_FEE = 1000; // Frais d'expédition hors Ouagadougou
 
 export function ProductForm({ product }: { product: Product }) {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export function ProductForm({ product }: { product: Product }) {
   const [checkoutFired, setCheckoutFired] = useState(false);
   // Bump dispo uniquement quand on n'est pas déjà sur la meilleure offre
   const bumpAvailable = !offer.bestValue;
-  const finalPrice = offer.price + (bumpAccepted && bumpAvailable ? BUMP_PRICE : 0);
+  const productPrice = offer.price + (bumpAccepted && bumpAvailable ? BUMP_PRICE : 0);
   const finalUnits = offer.units + (bumpAccepted && bumpAvailable ? 1 : 0);
   const productLabel = /sirop/i.test(product.name) ? 'flacon' : 'sachet';
   const [form, setForm] = useState({
@@ -33,9 +34,45 @@ export function ProductForm({ product }: { product: Product }) {
   const [submitting, setSubmitting] = useState(false);
 
   const country = COUNTRIES.find((c) => c.code === form.countryCode) || COUNTRIES[0];
+  const shippingFee = form.horsOuaga ? SHIPPING_FEE : 0;
+  const finalPrice = productPrice + shippingFee;
+
+  // Restaure brouillon de formulaire (récupération abandon)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('kouka_form_draft');
+      if (!raw) return;
+      const draft = JSON.parse(raw);
+      if (draft && (draft.fullName || draft.whatsapp || draft.city)) {
+        setForm((f) => ({
+          ...f,
+          fullName: draft.fullName || f.fullName,
+          whatsapp: draft.whatsapp || f.whatsapp,
+          city: draft.city || f.city,
+          countryCode: draft.countryCode || f.countryCode,
+        }));
+      }
+    } catch {}
+  }, []);
 
   const update = (k: string, v: string | boolean) => {
-    setForm((f) => ({ ...f, [k]: v }));
+    setForm((f) => {
+      const next = { ...f, [k]: v };
+      // Sauvegarde brouillon
+      try {
+        localStorage.setItem(
+          'kouka_form_draft',
+          JSON.stringify({
+            fullName: next.fullName,
+            whatsapp: next.whatsapp,
+            city: next.city,
+            countryCode: next.countryCode,
+            ts: Date.now(),
+          }),
+        );
+      } catch {}
+      return next;
+    });
     setErrors((e) => ({ ...e, [k]: '' }));
     if (!checkoutFired) {
       setCheckoutFired(true);
@@ -87,6 +124,9 @@ export function ProductForm({ product }: { product: Product }) {
       });
 
       if (error) throw error;
+
+      // Nettoie le brouillon abandon
+      try { localStorage.removeItem('kouka_form_draft'); } catch {}
 
       sessionStorage.setItem(
         'kouka_last_order',
@@ -165,23 +205,41 @@ export function ProductForm({ product }: { product: Product }) {
           </label>
         )}
 
-        <div className="bg-vert-bg border-2 border-[oklch(0.85_0.08_145)] rounded-xl px-4 py-3.5 mb-5 flex justify-between items-center flex-wrap gap-2 max-w-[480px] mx-auto">
-          <div>
-            <div className="text-sm text-muted-foreground font-semibold">Total à payer</div>
-            <div className="text-lg font-extrabold text-foreground">
-              {finalUnits} {productLabel}{finalUnits > 1 ? 's' : ''} · {offer.label.split('—')[0].trim()}
-              {bumpAccepted && bumpAvailable && <span className="text-or"> +1 BUMP</span>}
+        <div className="bg-vert-bg border-2 border-[oklch(0.85_0.08_145)] rounded-xl px-4 py-3.5 mb-5 max-w-[480px] mx-auto">
+          <div className="flex justify-between items-center flex-wrap gap-2">
+            <div>
+              <div className="text-sm text-muted-foreground font-semibold">Sous-total produit</div>
+              <div className="text-base font-extrabold text-foreground">
+                {finalUnits} {productLabel}{finalUnits > 1 ? 's' : ''} · {offer.label.split('—')[0].trim()}
+                {bumpAccepted && bumpAvailable && <span className="text-or"> +1 BUMP</span>}
+              </div>
+            </div>
+            <div className="text-right">
+              {(offer.oldPrice + (bumpAccepted && bumpAvailable ? (/sirop/i.test(product.name) ? 12000 : 10000) : 0)) > productPrice && (
+                <div className="text-sm text-muted-foreground line-through">
+                  {formatFCFA(offer.oldPrice + (bumpAccepted && bumpAvailable ? (/sirop/i.test(product.name) ? 12000 : 10000) : 0))}
+                </div>
+              )}
+              <div className="text-2xl font-extrabold text-vert leading-none">{formatFCFA(productPrice)}</div>
+              {offer.saving && <div className="text-xs text-rouge font-bold">🎁 {offer.saving}</div>}
             </div>
           </div>
-          <div className="text-right">
-            {(offer.oldPrice + (bumpAccepted && bumpAvailable ? (/sirop/i.test(product.name) ? 12000 : 10000) : 0)) > finalPrice && (
-              <div className="text-sm text-muted-foreground line-through">
-                {formatFCFA(offer.oldPrice + (bumpAccepted && bumpAvailable ? (/sirop/i.test(product.name) ? 12000 : 10000) : 0))}
+
+          {shippingFee > 0 && (
+            <>
+              <div className="flex justify-between items-center mt-3 pt-3 border-t border-dashed border-or">
+                <div className="text-sm font-semibold text-foreground">
+                  🚍 Frais d'expédition
+                  <div className="text-xs text-muted-foreground font-normal">Hors Ouagadougou — par car de transport</div>
+                </div>
+                <div className="text-base font-extrabold text-or">+{formatFCFA(shippingFee)}</div>
               </div>
-            )}
-            <div className="text-3xl font-extrabold text-vert leading-none">{formatFCFA(finalPrice)}</div>
-            {offer.saving && <div className="text-xs text-rouge font-bold">🎁 {offer.saving}</div>}
-          </div>
+              <div className="flex justify-between items-center mt-3 pt-3 border-t-2 border-vert-mid">
+                <div className="text-base font-extrabold text-foreground">TOTAL À PAYER</div>
+                <div className="text-3xl font-extrabold text-vert leading-none">{formatFCFA(finalPrice)}</div>
+              </div>
+            </>
+          )}
         </div>
 
         <PreFormWhatsApp productName={product.name} />
@@ -245,6 +303,9 @@ export function ProductForm({ product }: { product: Product }) {
             />
             <span className="text-base text-muted-foreground leading-relaxed">
               📦 <strong>Je suis en dehors de Ouagadougou</strong> — expédition par car de transport
+              <span className="block text-sm text-rouge font-bold mt-1">
+                ⚠️ +1 000 FCFA de frais d'expédition seront ajoutés à votre commande
+              </span>
             </span>
           </label>
 
@@ -273,6 +334,22 @@ export function ProductForm({ product }: { product: Product }) {
           </label>
           {errors.available && <div className="text-rouge text-sm mb-3">{errors.available}</div>}
 
+          {/* Trust markers JUSTE avant le CTA — lève les dernières objections */}
+          <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
+            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+              <span>💵</span><span>Tu paies SEULEMENT à la livraison</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+              <span>📦</span><span>Colis neutre, 100% discret</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+              <span>🛡️</span><span>Remboursé si pas satisfait</span>
+            </div>
+            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+              <span>📞</span><span>Appel WhatsApp sous 2h</span>
+            </div>
+          </div>
+
           <button
             onClick={submit}
             disabled={submitting}
@@ -280,6 +357,9 @@ export function ProductForm({ product }: { product: Product }) {
           >
             {submitting ? '⏳ Envoi en cours…' : `🌿 COMMANDER — PAYER À LA LIVRAISON · ${formatFCFA(finalPrice)}`}
           </button>
+          <p className="text-center text-xs text-muted-foreground mt-2 font-semibold">
+            🔒 Tes infos restent confidentielles · Aucun débit en ligne
+          </p>
         </div>
 
         <div className="flex gap-2 justify-center flex-wrap mt-4">

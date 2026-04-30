@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { PRODUCTS } from '@/lib/products';
 import { useLivreurs } from '@/lib/livreurs';
@@ -26,19 +26,26 @@ export function StockTab() {
     motif: '',
   });
 
-  const load = async () => {
+  const load = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('stock_transactions')
       .select('*')
       .order('created_at', { ascending: false })
-      .limit(100);
+      .limit(1000);
     if (error) toast.error(error.message);
     else setTxs((data || []) as StockTx[]);
     setLoading(false);
-  };
+  }, []);
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+    const channel = supabase
+      .channel('stock-tab-live')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'stock_transactions' }, () => load())
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [load]);
 
   // Sync default livreur once livreurs loaded
   useEffect(() => {

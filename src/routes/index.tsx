@@ -1,11 +1,16 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
-import { KOUKA } from '@/lib/products';
+import { KOUKA, formatFCFA } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ProductForm } from '@/components/ProductForm';
 import { FAQ } from '@/components/FAQ';
 import { ComparisonTable } from '@/components/ComparisonTable';
 import { LiveSocialProof } from '@/components/LiveSocialProof';
+import { StickyMobileCTA } from '@/components/StickyMobileCTA';
+import { MiniDiagnostic } from '@/components/MiniDiagnostic';
+import { UrgencyTimer } from '@/components/UrgencyTimer';
+import { ExitIntentPopup } from '@/components/ExitIntentPopup';
+import { AbandonRecovery } from '@/components/AbandonRecovery';
+import { useDynamicStock } from '@/hooks/useDynamicStock';
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -26,18 +31,15 @@ function scrollToOrder() {
 
 function HomePage() {
   const product = KOUKA;
-
-  // Stock affiché qui décroît lentement (illusion de scarcité honnête sans mentir)
-  const [stock, setStock] = useState(11);
-  useEffect(() => {
-    const id = setInterval(() => setStock((s) => (s > 4 ? s - 1 : s)), 90000);
-    return () => clearInterval(id);
-  }, []);
+  const stock = useDynamicStock('kouka', 18);
 
   return (
-    <div className="bg-background">
+    <div className="bg-background pb-16 md:pb-0">
       <VisitTracker page="home" />
       <LiveSocialProof product="Poudre KOUKA" />
+      <StickyMobileCTA label="🌿 COMMANDER — Paiement livraison" price={formatFCFA(product.offers.find(o => o.recommended)?.price || product.offers[0].price)} />
+      <ExitIntentPopup productName="Poudre KOUKA" />
+      <AbandonRecovery productName="Poudre KOUKA" />
 
       {/* Bandeau urgence */}
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
@@ -371,7 +373,38 @@ function HomePage() {
         </div>
       </section>
 
-      {/* FORMULAIRE */}
+      {/* MINI-DIAGNOSTIC personnalise l'offre */}
+      <section className="sec bg-cream-2">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">Quelle <span className="text-vert">cure te convient</span> ?</h2>
+          <p className="text-center text-muted-foreground mb-6 text-sm">3 questions · réponse personnalisée</p>
+          <MiniDiagnostic
+            questions={[
+              {
+                q: 'Depuis combien de temps tu souffres ?',
+                options: ['Moins de 3 mois', 'Entre 3 mois et 1 an', 'Plus d\'1 an', 'Plus de 3 ans'],
+              },
+              {
+                q: 'Combien de personnes dans ta famille ont aussi des soucis digestifs ?',
+                options: ['Juste moi', '1 personne (conjoint/parent)', '2-3 personnes', 'Plus de 3'],
+              },
+              {
+                q: 'Tu as déjà essayé d\'autres traitements ?',
+                options: ['Oui, beaucoup — sans résultat', 'Oui, un peu', 'Pas encore'],
+              },
+            ]}
+            recommendation={(a) => {
+              // Famille → pack 5 ; Chronique long → pack 3 ; sinon démarrage 2+1
+              if (a[1] >= 2) return { offerHint: 'Cure FAMILIALE 3+2 (27 000 FCFA)', message: 'Plusieurs personnes concernées : prends le pack famille pour traiter tout le monde et économiser 23 000 FCFA.' };
+              if (a[0] >= 2) return { offerHint: 'Traitement COMPLET 2+1 (20 000 FCFA)', message: 'Souffrance ancienne : il faut un traitement complet pour traiter à la racine et éviter la rechute.' };
+              return { offerHint: 'Traitement COMPLET 2+1 (20 000 FCFA)', message: 'C\'est l\'offre la plus choisie : 1 sachet OFFERT, traitement complet garanti.' };
+            }}
+          />
+        </div>
+      </section>
+
+      {/* URGENCY TIMER + FORMULAIRE */}
+      <div className="container-kouka pt-8"><UrgencyTimer /></div>
       <ProductForm product={product} />
 
       <footer className="bg-vert text-white text-center py-8 text-sm">
