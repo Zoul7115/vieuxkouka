@@ -1,5 +1,5 @@
 // Service worker — KOUKA Admin (notifications + background polling)
-const CACHE = 'kouka-admin-v3';
+const CACHE = 'kouka-admin-v4';
 const SHELL = ['/admin', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 let SUPABASE_URL = '';
