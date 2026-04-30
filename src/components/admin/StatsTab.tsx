@@ -87,9 +87,16 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
 
   const stats = useMemo(() => {
     const delivered = orders.filter((o) => o.status === 'delivered');
+    const cancelled = orders.filter((o) => o.status === 'cancelled');
+    // Commandes "qui seront livrées" : pending + suivi (en cours), hors annulées
+    const upcoming = orders.filter((o) => o.status === 'pending' || o.status === 'suivi');
     const ca = delivered.reduce((s, o) => s + o.product_price, 0);
     const totalVisits = visitsTotal ?? visits.length;
     const conversion = totalVisits > 0 ? (orders.length / totalVisits) * 100 : 0;
+    // Taux de livraison = livrées / (livrées + en cours)
+    // = % des commandes valides (non annulées) qui finissent livrées ou le seront
+    const deliveryBase = delivered.length + upcoming.length;
+    const deliveryRate = deliveryBase > 0 ? (delivered.length / deliveryBase) * 100 : 0;
 
     const byCountry = orders.reduce<Record<string, number>>((acc, o) => {
       const k = o.country || 'N/A';
