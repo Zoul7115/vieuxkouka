@@ -70,6 +70,24 @@ export function StockTab() {
     return matrix;
   }, [txs, livreurs]);
 
+  // Total par produit (toutes lignes confondues) + valeur d'achat
+  const productTotals = useMemo(() => {
+    const qty: Record<string, number> = {};
+    PRODUCTS.forEach((p) => { qty[p.shortName] = 0; });
+    txs.forEach((t) => {
+      if (qty[t.produit] == null) qty[t.produit] = 0;
+      qty[t.produit] += (t.type === 'entree' ? 1 : -1) * t.quantite;
+    });
+    const rows = PRODUCTS.map((p) => {
+      const q = Math.max(0, qty[p.shortName] || 0);
+      const pa = PRODUCT_COSTS[p.shortName] ?? 0;
+      return { name: p.shortName, emoji: p.emoji, qty: q, pa, value: q * pa };
+    });
+    const totalQty = rows.reduce((s, r) => s + r.qty, 0);
+    const totalValue = rows.reduce((s, r) => s + r.value, 0);
+    return { rows, totalQty, totalValue };
+  }, [txs]);
+
   const submit = async () => {
     if (form.quantite <= 0) { toast.error('Quantité invalide'); return; }
     const { error } = await supabase.from('stock_transactions').insert({
