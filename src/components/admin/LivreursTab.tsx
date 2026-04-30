@@ -89,7 +89,7 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
 
   const startEdit = (l: Livreur) => {
     setEditId(l.id);
-    setEditForm({ name: l.name, whatsapp: l.whatsapp, zone: l.zone || '', emoji: l.emoji || '🛵' });
+    setEditForm({ name: l.name, whatsapp: l.whatsapp, zone: l.zone || '', emoji: l.emoji || '🛵', delivery_fee: String(l.delivery_fee ?? 2000) });
   };
 
   const saveEdit = async (id: string) => {
@@ -97,11 +97,13 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
       toast.error('Nom et WhatsApp obligatoires');
       return;
     }
+    const fee = Math.max(0, parseInt(editForm.delivery_fee, 10) || 0);
     const { error } = await supabase.from('livreurs').update({
       name: editForm.name.trim(),
       whatsapp: editForm.whatsapp.replace(/\D/g, ''),
       zone: editForm.zone.trim() || null,
       emoji: editForm.emoji,
+      delivery_fee: fee,
     }).eq('id', id);
     if (error) toast.error(error.message);
     else { toast.success('Livreur mis à jour'); setEditId(null); reload(); }
