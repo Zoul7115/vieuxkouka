@@ -58,9 +58,9 @@ self.addEventListener('message', (event) => {
   }
 });
 
-// Push réel (si Web Push branché plus tard)
+// Push réel (Web Push via VAPID)
 self.addEventListener('push', (event) => {
-  let payload = { title: '🌿 Nouvelle commande KOUKA', body: 'Ouvre l\'admin pour voir' };
+  let payload = { title: '🌿 Nouvelle commande KOUKA', body: 'Ouvre l\'admin pour voir', tag: 'push-' + Date.now(), url: '/admin' };
   try { if (event.data) payload = { ...payload, ...event.data.json() }; } catch {}
   event.waitUntil(self.registration.showNotification(payload.title, {
     body: payload.body,
@@ -68,8 +68,9 @@ self.addEventListener('push', (event) => {
     badge: '/icons/icon-192.png',
     vibrate: [200, 100, 200, 100, 400],
     requireInteraction: true,
-    tag: 'push-' + Date.now(),
-    data: { url: '/admin' },
+    renotify: true,
+    tag: payload.tag,
+    data: { url: payload.url || '/admin' },
   }));
 });
 
