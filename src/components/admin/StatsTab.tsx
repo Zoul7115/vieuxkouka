@@ -133,7 +133,7 @@ export function StatsTab({
         <KpiBox
           label="Taux de livraison"
           value={`${stats.deliveryRate.toFixed(1)}%`}
-          sub={`${stats.deliveredCount}/${stats.denomCount} (annulées exclues)`}
+          sub={`${stats.deliveredCount}/${stats.denomCount} commandes reçues`}
         />
       </div>
 
