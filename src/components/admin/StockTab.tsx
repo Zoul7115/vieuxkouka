@@ -137,6 +137,37 @@ export function StockTab() {
         </table>
       </div>
 
+      {/* Coût total du stock par produit */}
+      <div className="bg-white rounded-2xl border-2 border-vert-bg p-5 overflow-x-auto">
+        <h3 className="font-extrabold text-vert mb-4">💰 Coût total du stock</h3>
+        <table className="w-full text-sm min-w-[420px]">
+          <thead>
+            <tr className="border-b-2 border-vert-bg">
+              <th className="text-left py-2 px-2">Produit</th>
+              <th className="text-right py-2 px-2">Qté</th>
+              <th className="text-right py-2 px-2">PA unitaire</th>
+              <th className="text-right py-2 px-2">Valeur stock</th>
+            </tr>
+          </thead>
+          <tbody>
+            {productTotals.rows.map((r) => (
+              <tr key={r.name} className="border-b border-vert-bg/50">
+                <td className="py-2 px-2 font-bold">{r.emoji} {r.name}</td>
+                <td className="text-right py-2 px-2 font-extrabold">{r.qty}</td>
+                <td className="text-right py-2 px-2 text-muted-foreground">{formatFCFA(r.pa)}</td>
+                <td className="text-right py-2 px-2 font-extrabold text-vert">{formatFCFA(r.value)}</td>
+              </tr>
+            ))}
+            <tr className="bg-vert-bg/40">
+              <td className="py-2 px-2 font-extrabold">TOTAL GÉNÉRAL</td>
+              <td className="text-right py-2 px-2 font-extrabold">{productTotals.totalQty}</td>
+              <td></td>
+              <td className="text-right py-2 px-2 font-extrabold text-vert">{formatFCFA(productTotals.totalValue)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
         <h3 className="font-extrabold text-vert mb-4">➕ Nouveau mouvement</h3>
         <div className="grid sm:grid-cols-2 gap-3">
