@@ -86,7 +86,7 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
       const units = offer?.units ?? 1;
       return s + orderProductCost(o.product_name, units);
     }, 0);
-    const coutLivraison = delivered.length * DELIVERY_COST;
+    const coutLivraison = delivered.reduce((s, o) => s + effectiveDeliveryFee(livreurs, o), 0);
 
     // Dépenses manuelles (pub, appels, autres)
     const depPub = filteredExpenses.filter((e) => e.category === 'pub').reduce((s, e) => s + e.amount, 0);
