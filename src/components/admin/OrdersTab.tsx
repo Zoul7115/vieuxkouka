@@ -29,6 +29,7 @@ export type Order = {
   car_transport?: string | null;
   status: string;
   livreur_idx: number | null;
+  delivery_fee?: number | null;
   created_at: string;
 };
 
