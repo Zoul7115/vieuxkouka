@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { subscribeToPush } from '@/lib/webPush';
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -144,7 +145,16 @@ export function usePWAAdmin(enabled: boolean) {
     const p = await Notification.requestPermission();
     setPermission(p);
     if (p === 'granted') {
-      toast.success('Notifications activées !');
+      // Enregistrer le push pour recevoir les notifs même app fermée
+      try {
+        const reg = swRef.current || (await navigator.serviceWorker.ready);
+        const ok = await subscribeToPush(reg);
+        if (ok) toast.success('🔔 Notifications push activées (même app fermée)');
+        else toast.success('Notifications activées (premier plan uniquement)');
+      } catch (e) {
+        console.error('push subscribe error', e);
+        toast.success('Notifications activées (premier plan uniquement)');
+      }
       notify('🌿 Notifications actives', 'Vous serez alerté à chaque nouvelle commande.', swRef.current);
     } else {
       toast.error('Notifications refusées');
