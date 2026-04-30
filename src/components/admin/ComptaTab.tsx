@@ -103,7 +103,7 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
       coutProduits, coutLivraison, depPub, depAppel, depAutre, depManuelles,
       totalCharges, benefice, marge,
     };
-  }, [filtered, filteredExpenses]);
+  }, [filtered, filteredExpenses, livreurs]);
 
   const parLivreur = useMemo(() => {
     const map: Record<number, { count: number; ca: number }> = {};
