@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
-import { useLivreurs, type Livreur } from '@/lib/livreurs';
-import { formatFCFA, DELIVERY_COST } from '@/lib/products';
+import { useLivreurs, effectiveDeliveryFee, type Livreur } from '@/lib/livreurs';
+import { formatFCFA } from '@/lib/products';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
