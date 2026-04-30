@@ -37,6 +37,9 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
   const [editForm, setEditForm] = useState({ name: '', whatsapp: '', zone: '', emoji: '🛵' });
   const [adding, setAdding] = useState(false);
   const [newLivreur, setNewLivreur] = useState({ name: '', whatsapp: '', zone: '', emoji: '🛵' });
+  const [period, setPeriod] = useState<PeriodKey>('today');
+  const [customFrom, setCustomFrom] = useState('');
+  const [customTo, setCustomTo] = useState('');
 
   const stats = useMemo(() => {
     const map: Record<number, { total: number; delivered: number; cancelled: number; pending: number; ca: number }> = {};
@@ -51,6 +54,26 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
     });
     return map;
   }, [orders, livreurs]);
+
+  // Résumé par livreur sur la période choisie (uniquement commandes livrées)
+  const periodSummary = useMemo(() => {
+    const inPeriod = filterByPeriod(orders, period, 'created_at', customFrom, customTo);
+    const map: Record<number, { deliveries: number; pieces: number; ca: number; deliveryFees: number; net: number }> = {};
+    livreurs.forEach((l) => { map[l.idx] = { deliveries: 0, pieces: 0, ca: 0, deliveryFees: 0, net: 0 }; });
+    const totals = { deliveries: 0, pieces: 0, ca: 0, deliveryFees: 0, net: 0 };
+    inPeriod.forEach((o) => {
+      if (o.status !== 'delivered' || o.livreur_idx == null || !map[o.livreur_idx]) return;
+      const u = unitsForOrder(o);
+      const fee = DELIVERY_COST;
+      const net = o.product_price - fee;
+      const s = map[o.livreur_idx];
+      s.deliveries += 1; s.pieces += u; s.ca += o.product_price; s.deliveryFees += fee; s.net += net;
+      totals.deliveries += 1; totals.pieces += u; totals.ca += o.product_price; totals.deliveryFees += fee; totals.net += net;
+    });
+    return { map, totals };
+  }, [orders, livreurs, period, customFrom, customTo]);
+
+  const periodLabel = PERIODS.find((p) => p.k === period)?.label || '';
 
   const unassigned = orders.filter((o) => o.livreur_idx == null && o.status !== 'cancelled' && o.status !== 'delivered');
 
