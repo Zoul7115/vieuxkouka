@@ -122,7 +122,7 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
     }
     const maxDay = Math.max(1, ...days.map((d) => d.count));
 
-    return { ca, conversion, byCountry, byProduct, days, maxDay, deliveredCount: delivered.length, totalVisits };
+    return { ca, conversion, byCountry, byProduct, days, maxDay, deliveredCount: delivered.length, totalVisits, deliveryRate, upcomingCount: upcoming.length, cancelledCount: cancelled.length };
   }, [orders, visits, visitsTotal]);
 
   // Sources groupées + normalisées
