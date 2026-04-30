@@ -35,9 +35,9 @@ function unitsForOrder(o: { offer_label?: string | null; product_name: string })
 export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: () => void }) {
   const { livreurs, reload } = useLivreurs();
   const [editId, setEditId] = useState<string | null>(null);
-  const [editForm, setEditForm] = useState({ name: '', whatsapp: '', zone: '', emoji: '🛵' });
+  const [editForm, setEditForm] = useState({ name: '', whatsapp: '', zone: '', emoji: '🛵', delivery_fee: '2000' });
   const [adding, setAdding] = useState(false);
-  const [newLivreur, setNewLivreur] = useState({ name: '', whatsapp: '', zone: '', emoji: '🛵' });
+  const [newLivreur, setNewLivreur] = useState({ name: '', whatsapp: '', zone: '', emoji: '🛵', delivery_fee: '2000' });
   const [period, setPeriod] = useState<PeriodKey>('today');
   const [customFrom, setCustomFrom] = useState('');
   const [customTo, setCustomTo] = useState('');
