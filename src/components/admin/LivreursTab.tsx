@@ -269,6 +269,7 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
                     <div className="min-w-0">
                       <div className="font-extrabold text-vert text-lg truncate">{l.emoji} {l.name}</div>
                       <div className="text-xs text-muted-foreground">{l.zone || '—'} · +{l.whatsapp}</div>
+                      <div className="text-[10px] text-muted-foreground">Frais livraison : <span className="font-bold text-vert">{formatFCFA(l.delivery_fee ?? 2000)}</span></div>
                     </div>
                     <div className="flex flex-col gap-1 items-end shrink-0">
                       <a href={waUrl} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white text-xs px-3 py-1 rounded-full font-bold hover:bg-[#1da851]">
