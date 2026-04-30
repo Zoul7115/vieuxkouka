@@ -155,7 +155,7 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
       <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
           <h3 className="font-extrabold text-vert">💼 Résumé livreurs · {periodLabel}</h3>
-          <div className="text-[10px] text-muted-foreground">Frais livraison : {formatFCFA(DELIVERY_COST)} / commande</div>
+          <div className="text-[10px] text-muted-foreground">Frais livraison : variables par livreur / commande</div>
         </div>
 
         {/* Sélecteur période */}
