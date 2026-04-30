@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { DELIVERY_COST, findOfferByLabel, formatFCFA, orderProductCost } from '@/lib/products';
-import { useLivreurs } from '@/lib/livreurs';
+import { findOfferByLabel, formatFCFA, orderProductCost } from '@/lib/products';
+import { useLivreurs, effectiveDeliveryFee } from '@/lib/livreurs';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
