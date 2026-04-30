@@ -82,6 +82,8 @@ function AdminPage() {
 function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [orders, setOrders] = useState<Order[]>([]);
   const [visits, setVisits] = useState<Visit[]>([]);
+  const [visitsTotal, setVisitsTotal] = useState(0);
+  const [visitsToday, setVisitsToday] = useState(0);
   const [tab, setTab] = useState<Tab>('orders');
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState<PeriodKey>('today');
@@ -91,14 +93,21 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const load = useCallback(async (silent = false, attempt = 1) => {
     if (!silent) setLoading(true);
     try {
-      const [oRes, vRes] = await Promise.all([
-        supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(1000),
-        supabase.from('visits').select('*').order('visited_at', { ascending: false }).limit(1000),
+      const startToday = new Date();
+      startToday.setHours(0, 0, 0, 0);
+      const [oRes, vRes, vTotalRes, vTodayRes] = await Promise.all([
+        supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(2000),
+        // On garde un échantillon récent pour les graphiques (7 derniers jours, par pays/source)
+        supabase.from('visits').select('*').order('visited_at', { ascending: false }).limit(2000),
+        supabase.from('visits').select('id', { count: 'exact', head: true }),
+        supabase.from('visits').select('id', { count: 'exact', head: true }).gte('visited_at', startToday.toISOString()),
       ]);
       if (oRes.error) throw oRes.error;
       else setOrders((oRes.data || []) as Order[]);
       if (vRes.error) throw vRes.error;
       else setVisits((vRes.data || []) as Visit[]);
+      if (!vTotalRes.error) setVisitsTotal(vTotalRes.count || 0);
+      if (!vTodayRes.error) setVisitsToday(vTodayRes.count || 0);
     } catch (err) {
       console.error('admin load failed', err);
       if (attempt < 4) {
