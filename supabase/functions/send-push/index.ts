@@ -31,10 +31,11 @@ Deno.serve(async (req) => {
     const firstName = body.first_name || "Client";
     const city = body.city || "";
     const product = body.product_name || "";
-    const price = body.product_price || 0;
+    const price = Number(body.product_price || 0);
+    const priceFmt = new Intl.NumberFormat("fr-FR").format(price) + " FCFA";
 
     const title = `🌿 Nouvelle commande ${orderNumber}`;
-    const message = `${firstName} · ${city} · ${product} · ${price.toLocaleString("fr-FR")} FCFA`;
+    const message = `${product ? product + "\n" : ""}${firstName}${city ? " · " + city : ""} · ${priceFmt}`;
 
     const { data: subs, error } = await supabase
       .from("push_subscriptions")
@@ -50,6 +51,13 @@ Deno.serve(async (req) => {
       body: message,
       tag: `order-${orderNumber || Date.now()}`,
       url: "/admin",
+      product,
+      price: priceFmt,
+      orderNumber,
+      actions: [
+        { action: "open-admin", title: "📋 Ouvrir admin" },
+        { action: "dismiss", title: "✖ Fermer" },
+      ],
     });
 
     let sent = 0;

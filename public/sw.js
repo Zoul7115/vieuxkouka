@@ -1,5 +1,5 @@
 // Service worker — KOUKA Admin (Web Push + notifications)
-const CACHE = 'kouka-admin-v4';
+const CACHE = 'kouka-admin-v5';
 const SHELL = ['/admin', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 let SUPABASE_URL = '';
@@ -64,15 +64,20 @@ self.addEventListener('push', (event) => {
   try { if (event.data) payload = { ...payload, ...event.data.json() }; } catch {
     try { payload.body = event.data ? event.data.text() : payload.body; } catch {}
   }
+  const actions = Array.isArray(payload.actions) && payload.actions.length
+    ? payload.actions
+    : [{ action: 'open-admin', title: '📋 Ouvrir admin' }, { action: 'dismiss', title: '✖ Fermer' }];
   event.waitUntil(self.registration.showNotification(payload.title, {
     body: payload.body,
     icon: '/icons/icon-192.png',
     badge: '/icons/icon-192.png',
+    image: payload.image,
     vibrate: [300, 150, 300, 150, 500],
     requireInteraction: true,
     tag: payload.tag,
     renotify: true,
-    data: { url: payload.url || '/admin' },
+    actions,
+    data: { url: payload.url || '/admin', orderNumber: payload.orderNumber, product: payload.product, price: payload.price },
   }));
 });
 
@@ -122,12 +127,14 @@ async function checkNewOrders() {
 
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
+  if (event.action === 'dismiss') return;
+  const url = (event.notification.data && event.notification.data.url) || '/admin';
   event.waitUntil(
-    self.clients.matchAll({ type: 'window' }).then((list) => {
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
       for (const client of list) {
         if (client.url.includes('/admin') && 'focus' in client) return client.focus();
       }
-      return self.clients.openWindow('/admin');
+      return self.clients.openWindow(url);
     })
   );
 });
