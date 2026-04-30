@@ -320,6 +320,7 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
               <input value={newLivreur.name} onChange={(e) => setNewLivreur({ ...newLivreur, name: e.target.value })} placeholder="Nom complet" className="px-3 py-2 border-2 border-vert-bg rounded-lg" />
               <input value={newLivreur.whatsapp} onChange={(e) => setNewLivreur({ ...newLivreur, whatsapp: e.target.value })} placeholder="22670000000" className="px-3 py-2 border-2 border-vert-bg rounded-lg" />
               <input value={newLivreur.zone} onChange={(e) => setNewLivreur({ ...newLivreur, zone: e.target.value })} placeholder="Zone (Ouagadougou…)" className="px-3 py-2 border-2 border-vert-bg rounded-lg" />
+              <input type="number" min="0" value={newLivreur.delivery_fee} onChange={(e) => setNewLivreur({ ...newLivreur, delivery_fee: e.target.value })} placeholder="Frais livraison (2000)" className="px-3 py-2 border-2 border-vert-bg rounded-lg sm:col-span-2" />
             </div>
             <div className="flex gap-2">
               <button onClick={addLivreur} className="flex-1 bg-vert text-white py-2 rounded-xl font-extrabold">Ajouter</button>
