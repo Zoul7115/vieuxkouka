@@ -210,6 +210,39 @@ function OrderCard({
               ))}
             </select>
           </div>
+
+          <div>
+            <div className="text-xs font-bold uppercase text-muted-foreground mb-2">Frais de livraison</div>
+            <div className="flex flex-wrap items-center gap-2">
+              <input
+                type="number"
+                min="0"
+                value={feeInput}
+                onChange={(e) => setFeeInput(e.target.value)}
+                placeholder={`Défaut livreur : ${formatFCFA(livreur?.delivery_fee ?? 2000)}`}
+                className="text-sm border-2 border-vert-bg rounded-lg px-3 py-1.5 outline-none focus:border-vert-mid w-44"
+              />
+              <button
+                onClick={saveFee}
+                disabled={savingFee}
+                className="text-xs px-3 py-1.5 rounded-full font-extrabold bg-vert-mid text-white hover:bg-vert disabled:opacity-50"
+              >
+                {savingFee ? '…' : '💾 Enregistrer'}
+              </button>
+              {order.delivery_fee != null && (
+                <button
+                  onClick={() => { setFeeInput(''); }}
+                  className="text-xs px-3 py-1.5 rounded-full font-bold bg-cream-2 text-vert"
+                  title="Vider pour utiliser le défaut du livreur"
+                >
+                  ↺ Défaut
+                </button>
+              )}
+              <span className="text-xs text-muted-foreground">
+                Effectif : <span className="font-bold text-rouge">−{formatFCFA(effFee)}</span> · Net à encaisser : <span className="font-extrabold text-vert">{formatFCFA(net)}</span>
+              </span>
+            </div>
+          </div>
         </div>
       )}
     </div>
