@@ -267,7 +267,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             {tab === 'livreurs' && <LivreursTab orders={orders} onChange={() => load(true)} />}
             {tab === 'stock' && <StockTab />}
             {tab === 'compta' && <ComptaTab orders={orders} />}
-            {tab === 'stats' && <StatsTab orders={orders} visits={visits} />}
+            {tab === 'stats' && <StatsTab orders={orders} visits={visits} visitsTotal={visitsTotal} visitsToday={visitsToday} />}
           </>
         )}
       </main>
