@@ -69,6 +69,10 @@ export function usePWAAdmin(enabled: boolean) {
         const sw = reg.installing;
         sw?.addEventListener('statechange', () => { if (sw.state === 'activated') sendConfig(); });
       });
+      // Si la permission est déjà accordée, on s'assure que le push est bien enregistré
+      if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+        try { await subscribeToPush(reg); } catch { /* silent */ }
+      }
       // Tenter d'enregistrer un periodic sync (Chrome Android avec PWA installée)
       try {
         // @ts-expect-error periodicSync optional API
