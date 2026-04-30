@@ -63,12 +63,18 @@ export function StatsTab({
     const ca = delivered.reduce((s, o) => s + o.product_price, 0);
     const conversion = visitsTotal > 0 ? (orders.length / visitsTotal) * 100 : 0;
 
-    // Taux de livraison = livrées / (livrées + en attente + en cours valides)
-    // On exclut les commandes annulées/refusées du dénominateur
-    const validOrders = orders.filter(
-      (o) => !['cancelled', 'refused', 'rejected'].includes((o.status || '').toLowerCase())
-    );
-    const deliveryRate = validOrders.length > 0 ? (delivered.length / validOrders.length) * 100 : 0;
+    // Taux de livraison
+    // Numérateur   : commandes effectivement livrées (status = 'delivered')
+    // Dénominateur : livrées + en cours valides (en attente / en cours / suivi)
+    // Exclu        : annulées, refusées, rejetées (ne comptent pas dans le calcul)
+    const CANCELLED_STATUSES = ['cancelled', 'canceled', 'annulee', 'annulée', 'refused', 'refusee', 'refusée', 'rejected'];
+    const isCancelled = (s: string | null | undefined) =>
+      CANCELLED_STATUSES.includes((s || '').toLowerCase().trim());
+
+    const cancelledOrders = orders.filter((o) => isCancelled(o.status));
+    const inProgressOrders = orders.filter((o) => !isCancelled(o.status) && o.status !== 'delivered');
+    const denom = delivered.length + inProgressOrders.length; // = total - annulées
+    const deliveryRate = denom > 0 ? (delivered.length / denom) * 100 : 0;
 
     const byCountry = orders.reduce<Record<string, number>>((acc, o) => {
       const k = o.country || 'N/A';
