@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { DELIVERY_COST, findOfferByLabel, formatFCFA, orderProductCost } from '@/lib/products';
-import { useLivreurs } from '@/lib/livreurs';
+import { findOfferByLabel, formatFCFA, orderProductCost } from '@/lib/products';
+import { useLivreurs, effectiveDeliveryFee } from '@/lib/livreurs';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
@@ -13,6 +13,7 @@ type Order = {
   offer_label?: string | null;
   status: string;
   livreur_idx: number | null;
+  delivery_fee?: number | null;
   created_at: string;
 };
 
@@ -85,7 +86,7 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
       const units = offer?.units ?? 1;
       return s + orderProductCost(o.product_name, units);
     }, 0);
-    const coutLivraison = delivered.length * DELIVERY_COST;
+    const coutLivraison = delivered.reduce((s, o) => s + effectiveDeliveryFee(livreurs, o), 0);
 
     // Dépenses manuelles (pub, appels, autres)
     const depPub = filteredExpenses.filter((e) => e.category === 'pub').reduce((s, e) => s + e.amount, 0);
@@ -102,7 +103,7 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
       coutProduits, coutLivraison, depPub, depAppel, depAutre, depManuelles,
       totalCharges, benefice, marge,
     };
-  }, [filtered, filteredExpenses]);
+  }, [filtered, filteredExpenses, livreurs]);
 
   const parLivreur = useMemo(() => {
     const map: Record<number, { count: number; ca: number }> = {};

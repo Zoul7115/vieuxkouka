@@ -9,6 +9,17 @@ export type Livreur = {
   zone: string | null;
   emoji: string | null;
   active: boolean;
+  delivery_fee: number;
+};
+
+/** Frais de livraison effectifs pour une commande (override commande > défaut livreur > 2000) */
+export const effectiveDeliveryFee = (
+  livreurs: Livreur[],
+  order: { livreur_idx: number | null | undefined; delivery_fee?: number | null },
+): number => {
+  if (typeof order.delivery_fee === 'number') return order.delivery_fee;
+  const l = order.livreur_idx == null ? null : livreurs.find((x) => x.idx === order.livreur_idx);
+  return l?.delivery_fee ?? 2000;
 };
 
 /** Hook: charge les livreurs depuis la BD avec rafraîchissement */

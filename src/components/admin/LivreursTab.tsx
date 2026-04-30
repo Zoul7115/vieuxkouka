@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
-import { useLivreurs, type Livreur } from '@/lib/livreurs';
-import { formatFCFA, DELIVERY_COST } from '@/lib/products';
+import { useLivreurs, effectiveDeliveryFee, type Livreur } from '@/lib/livreurs';
+import { formatFCFA } from '@/lib/products';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
@@ -17,6 +17,7 @@ type Order = {
   city: string | null;
   status: string;
   livreur_idx: number | null;
+  delivery_fee?: number | null;
   created_at: string;
 };
 
@@ -34,9 +35,9 @@ function unitsForOrder(o: { offer_label?: string | null; product_name: string })
 export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: () => void }) {
   const { livreurs, reload } = useLivreurs();
   const [editId, setEditId] = useState<string | null>(null);
-  const [editForm, setEditForm] = useState({ name: '', whatsapp: '', zone: '', emoji: '🛵' });
+  const [editForm, setEditForm] = useState({ name: '', whatsapp: '', zone: '', emoji: '🛵', delivery_fee: '2000' });
   const [adding, setAdding] = useState(false);
-  const [newLivreur, setNewLivreur] = useState({ name: '', whatsapp: '', zone: '', emoji: '🛵' });
+  const [newLivreur, setNewLivreur] = useState({ name: '', whatsapp: '', zone: '', emoji: '🛵', delivery_fee: '2000' });
   const [period, setPeriod] = useState<PeriodKey>('today');
   const [customFrom, setCustomFrom] = useState('');
   const [customTo, setCustomTo] = useState('');
@@ -64,7 +65,7 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
     inPeriod.forEach((o) => {
       if (o.status !== 'delivered' || o.livreur_idx == null || !map[o.livreur_idx]) return;
       const u = unitsForOrder(o);
-      const fee = DELIVERY_COST;
+      const fee = effectiveDeliveryFee(livreurs, o);
       const net = o.product_price - fee;
       const s = map[o.livreur_idx];
       s.deliveries += 1; s.pieces += u; s.ca += o.product_price; s.deliveryFees += fee; s.net += net;
@@ -88,7 +89,7 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
 
   const startEdit = (l: Livreur) => {
     setEditId(l.id);
-    setEditForm({ name: l.name, whatsapp: l.whatsapp, zone: l.zone || '', emoji: l.emoji || '🛵' });
+    setEditForm({ name: l.name, whatsapp: l.whatsapp, zone: l.zone || '', emoji: l.emoji || '🛵', delivery_fee: String(l.delivery_fee ?? 2000) });
   };
 
   const saveEdit = async (id: string) => {
@@ -96,11 +97,13 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
       toast.error('Nom et WhatsApp obligatoires');
       return;
     }
+    const fee = Math.max(0, parseInt(editForm.delivery_fee, 10) || 0);
     const { error } = await supabase.from('livreurs').update({
       name: editForm.name.trim(),
       whatsapp: editForm.whatsapp.replace(/\D/g, ''),
       zone: editForm.zone.trim() || null,
       emoji: editForm.emoji,
+      delivery_fee: fee,
     }).eq('id', id);
     if (error) toast.error(error.message);
     else { toast.success('Livreur mis à jour'); setEditId(null); reload(); }
@@ -118,19 +121,21 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
       return;
     }
     const nextIdx = livreurs.length > 0 ? Math.max(...livreurs.map((l) => l.idx)) + 1 : 1;
+    const fee = Math.max(0, parseInt(newLivreur.delivery_fee, 10) || 0);
     const { error } = await supabase.from('livreurs').insert({
       idx: nextIdx,
       name: newLivreur.name.trim(),
       whatsapp: newLivreur.whatsapp.replace(/\D/g, ''),
       zone: newLivreur.zone.trim() || null,
       emoji: newLivreur.emoji,
+      delivery_fee: fee,
       active: true,
     });
     if (error) toast.error(error.message);
     else {
       toast.success('Livreur ajouté');
       setAdding(false);
-      setNewLivreur({ name: '', whatsapp: '', zone: '', emoji: '🛵' });
+      setNewLivreur({ name: '', whatsapp: '', zone: '', emoji: '🛵', delivery_fee: '2000' });
       reload();
     }
   };
@@ -154,7 +159,7 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
       <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
           <h3 className="font-extrabold text-vert">💼 Résumé livreurs · {periodLabel}</h3>
-          <div className="text-[10px] text-muted-foreground">Frais livraison : {formatFCFA(DELIVERY_COST)} / commande</div>
+          <div className="text-[10px] text-muted-foreground">Frais livraison : variables par livreur / commande</div>
         </div>
 
         {/* Sélecteur période */}
@@ -249,6 +254,10 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
                   </div>
                   <input value={editForm.whatsapp} onChange={(e) => setEditForm({ ...editForm, whatsapp: e.target.value })} placeholder="22670000000" className="w-full px-3 py-1.5 border-2 border-vert-bg rounded-lg" />
                   <input value={editForm.zone} onChange={(e) => setEditForm({ ...editForm, zone: e.target.value })} placeholder="Zone" className="w-full px-3 py-1.5 border-2 border-vert-bg rounded-lg" />
+                  <label className="block">
+                    <span className="text-[10px] uppercase font-bold text-muted-foreground">Frais livraison par défaut (FCFA)</span>
+                    <input type="number" min="0" value={editForm.delivery_fee} onChange={(e) => setEditForm({ ...editForm, delivery_fee: e.target.value })} placeholder="2000" className="w-full px-3 py-1.5 border-2 border-vert-bg rounded-lg mt-1" />
+                  </label>
                   <div className="flex gap-2">
                     <button onClick={() => saveEdit(l.id)} className="flex-1 bg-vert text-white py-1.5 rounded-lg font-bold text-sm">💾 Sauver</button>
                     <button onClick={() => setEditId(null)} className="flex-1 bg-cream-2 text-vert py-1.5 rounded-lg font-bold text-sm">Annuler</button>
@@ -260,6 +269,7 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
                     <div className="min-w-0">
                       <div className="font-extrabold text-vert text-lg truncate">{l.emoji} {l.name}</div>
                       <div className="text-xs text-muted-foreground">{l.zone || '—'} · +{l.whatsapp}</div>
+                      <div className="text-[10px] text-muted-foreground">Frais livraison : <span className="font-bold text-vert">{formatFCFA(l.delivery_fee ?? 2000)}</span></div>
                     </div>
                     <div className="flex flex-col gap-1 items-end shrink-0">
                       <a href={waUrl} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white text-xs px-3 py-1 rounded-full font-bold hover:bg-[#1da851]">
@@ -310,6 +320,7 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
               <input value={newLivreur.name} onChange={(e) => setNewLivreur({ ...newLivreur, name: e.target.value })} placeholder="Nom complet" className="px-3 py-2 border-2 border-vert-bg rounded-lg" />
               <input value={newLivreur.whatsapp} onChange={(e) => setNewLivreur({ ...newLivreur, whatsapp: e.target.value })} placeholder="22670000000" className="px-3 py-2 border-2 border-vert-bg rounded-lg" />
               <input value={newLivreur.zone} onChange={(e) => setNewLivreur({ ...newLivreur, zone: e.target.value })} placeholder="Zone (Ouagadougou…)" className="px-3 py-2 border-2 border-vert-bg rounded-lg" />
+              <input type="number" min="0" value={newLivreur.delivery_fee} onChange={(e) => setNewLivreur({ ...newLivreur, delivery_fee: e.target.value })} placeholder="Frais livraison (2000)" className="px-3 py-2 border-2 border-vert-bg rounded-lg sm:col-span-2" />
             </div>
             <div className="flex gap-2">
               <button onClick={addLivreur} className="flex-1 bg-vert text-white py-2 rounded-xl font-extrabold">Ajouter</button>

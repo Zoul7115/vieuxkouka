@@ -86,6 +86,7 @@ export type Database = {
         Row: {
           active: boolean
           created_at: string
+          delivery_fee: number
           emoji: string | null
           id: string
           idx: number
@@ -97,6 +98,7 @@ export type Database = {
         Insert: {
           active?: boolean
           created_at?: string
+          delivery_fee?: number
           emoji?: string | null
           id?: string
           idx: number
@@ -108,6 +110,7 @@ export type Database = {
         Update: {
           active?: boolean
           created_at?: string
+          delivery_fee?: number
           emoji?: string | null
           id?: string
           idx?: number
@@ -126,6 +129,7 @@ export type Database = {
           city: string | null
           country: string | null
           created_at: string | null
+          delivery_fee: number | null
           first_name: string | null
           id: string
           is_available: boolean | null
@@ -149,6 +153,7 @@ export type Database = {
           city?: string | null
           country?: string | null
           created_at?: string | null
+          delivery_fee?: number | null
           first_name?: string | null
           id?: string
           is_available?: boolean | null
@@ -172,6 +177,7 @@ export type Database = {
           city?: string | null
           country?: string | null
           created_at?: string | null
+          delivery_fee?: number | null
           first_name?: string | null
           id?: string
           is_available?: boolean | null
