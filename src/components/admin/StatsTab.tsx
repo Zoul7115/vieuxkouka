@@ -63,12 +63,18 @@ export function StatsTab({
     const ca = delivered.reduce((s, o) => s + o.product_price, 0);
     const conversion = visitsTotal > 0 ? (orders.length / visitsTotal) * 100 : 0;
 
-    // Taux de livraison = livrées / (livrées + en attente + en cours valides)
-    // On exclut les commandes annulées/refusées du dénominateur
-    const validOrders = orders.filter(
-      (o) => !['cancelled', 'refused', 'rejected'].includes((o.status || '').toLowerCase())
-    );
-    const deliveryRate = validOrders.length > 0 ? (delivered.length / validOrders.length) * 100 : 0;
+    // Taux de livraison
+    // Numérateur   : commandes effectivement livrées (status = 'delivered')
+    // Dénominateur : livrées + en cours valides (en attente / en cours / suivi)
+    // Exclu        : annulées, refusées, rejetées (ne comptent pas dans le calcul)
+    const CANCELLED_STATUSES = ['cancelled', 'canceled', 'annulee', 'annulée', 'refused', 'refusee', 'refusée', 'rejected'];
+    const isCancelled = (s: string | null | undefined) =>
+      CANCELLED_STATUSES.includes((s || '').toLowerCase().trim());
+
+    const cancelledOrders = orders.filter((o) => isCancelled(o.status));
+    const inProgressOrders = orders.filter((o) => !isCancelled(o.status) && o.status !== 'delivered');
+    const denom = delivered.length + inProgressOrders.length; // = total - annulées
+    const deliveryRate = denom > 0 ? (delivered.length / denom) * 100 : 0;
 
     const byCountry = orders.reduce<Record<string, number>>((acc, o) => {
       const k = o.country || 'N/A';
@@ -113,7 +119,9 @@ export function StatsTab({
       maxDay,
       deliveredCount: delivered.length,
       deliveryRate,
-      pendingCount: validOrders.length - delivered.length,
+      inProgressCount: inProgressOrders.length,
+      cancelledCount: cancelledOrders.length,
+      denomCount: denom,
     };
   }, [orders, visits, visitsTotal]);
 
@@ -126,13 +134,61 @@ export function StatsTab({
         <KpiBox
           label="Taux de livraison"
           value={`${stats.deliveryRate.toFixed(1)}%`}
-          sub={`${stats.deliveredCount} livrées · ${stats.pendingCount} à livrer`}
+          sub={`${stats.deliveredCount}/${stats.denomCount} (annulées exclues)`}
         />
       </div>
 
       <div className="grid sm:grid-cols-2 gap-3">
         <KpiBox label="CA Livré (total)" value={formatFCFA(stats.ca)} sub={`${stats.deliveredCount} commandes livrées`} />
         <KpiBox label="Commandes total" value={orders.length.toString()} sub="Toutes périodes" />
+      </div>
+
+      {/* Détail du taux de livraison */}
+      <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-extrabold text-vert">🚚 Détail du taux de livraison</h3>
+          <span className="text-2xl font-extrabold text-vert">{stats.deliveryRate.toFixed(1)}%</span>
+        </div>
+        <div className="text-xs text-muted-foreground mb-3">
+          Formule : <strong>livrées ÷ (livrées + en cours valides)</strong> — les commandes annulées sont exclues du calcul.
+        </div>
+        <div className="h-3 bg-vert-bg/40 rounded-full overflow-hidden flex mb-4">
+          {stats.denomCount > 0 && (
+            <>
+              <div
+                className="h-full bg-vert"
+                style={{ width: `${(stats.deliveredCount / stats.denomCount) * 100}%` }}
+                title={`${stats.deliveredCount} livrées`}
+              />
+              <div
+                className="h-full bg-[oklch(0.75_0.15_75)]"
+                style={{ width: `${(stats.inProgressCount / stats.denomCount) * 100}%` }}
+                title={`${stats.inProgressCount} en cours`}
+              />
+            </>
+          )}
+        </div>
+        <div className="grid grid-cols-3 gap-2 text-center">
+          <div className="bg-vert/10 rounded-xl p-3">
+            <div className="text-xs font-bold uppercase text-vert">✅ Livrées</div>
+            <div className="text-xl font-extrabold text-vert mt-1">{stats.deliveredCount}</div>
+            <div className="text-[11px] text-muted-foreground">comptées au numérateur</div>
+          </div>
+          <div className="bg-[oklch(0.95_0.05_75)] rounded-xl p-3">
+            <div className="text-xs font-bold uppercase text-[oklch(0.45_0.15_60)]">⏳ En cours valides</div>
+            <div className="text-xl font-extrabold text-[oklch(0.45_0.15_60)] mt-1">{stats.inProgressCount}</div>
+            <div className="text-[11px] text-muted-foreground">en attente / suivi</div>
+          </div>
+          <div className="bg-rouge/10 rounded-xl p-3">
+            <div className="text-xs font-bold uppercase text-rouge">❌ Annulées</div>
+            <div className="text-xl font-extrabold text-rouge mt-1">{stats.cancelledCount}</div>
+            <div className="text-[11px] text-muted-foreground">exclues du calcul</div>
+          </div>
+        </div>
+        <div className="text-xs text-muted-foreground mt-3 text-right">
+          Base de calcul : <strong>{stats.denomCount}</strong> commandes valides ·
+          Total brut : {orders.length}
+        </div>
       </div>
 
       <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
