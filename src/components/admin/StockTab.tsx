@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { PRODUCTS } from '@/lib/products';
+import { PRODUCTS, PRODUCT_COSTS, formatFCFA } from '@/lib/products';
 import { useLivreurs } from '@/lib/livreurs';
 import { toast } from 'sonner';
 
