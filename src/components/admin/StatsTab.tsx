@@ -119,7 +119,9 @@ export function StatsTab({
       maxDay,
       deliveredCount: delivered.length,
       deliveryRate,
-      pendingCount: validOrders.length - delivered.length,
+      inProgressCount: inProgressOrders.length,
+      cancelledCount: cancelledOrders.length,
+      denomCount: denom,
     };
   }, [orders, visits, visitsTotal]);
 
