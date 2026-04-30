@@ -2,6 +2,89 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
+// Clé publique VAPID — doit correspondre au secret VAPID_PUBLIC_KEY de l'edge function send-push
+const VAPID_PUBLIC_KEY =
+  'BIuS9oQB_sBzPJWPEUyZxPiH4_HZeZPGc0lIH8pgaPbI3z3LpnCNs5QQCkdLuOqhxKOMkY9zdXt4iKxHLQR4z6w';
+
+function urlBase64ToUint8Array(base64String: string): Uint8Array {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const raw = window.atob(base64);
+  const out = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
+  return out;
+}
+
+function arrayBufferToBase64(buffer: ArrayBuffer | null): string {
+  if (!buffer) return '';
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
+  return window.btoa(binary);
+}
+
+async function getVapidPublicKey(): Promise<string | null> {
+  try {
+    const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-push`;
+    const res = await fetch(url, { method: 'GET' });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json.publicKey || null;
+  } catch {
+    return null;
+  }
+}
+
+async function subscribeWebPush(reg: ServiceWorkerRegistration): Promise<boolean> {
+  try {
+    if (!('PushManager' in window)) return false;
+    const existing = await reg.pushManager.getSubscription();
+    if (existing) {
+      // Re-sync l'enregistrement en DB (idempotent par endpoint)
+      const json = existing.toJSON() as { endpoint?: string; keys?: { p256dh?: string; auth?: string } };
+      if (json.endpoint && json.keys?.p256dh && json.keys?.auth) {
+        await supabase.from('push_subscriptions').upsert(
+          {
+            endpoint: json.endpoint,
+            p256dh: json.keys.p256dh,
+            auth: json.keys.auth,
+            user_agent: navigator.userAgent,
+            label: 'admin',
+            last_used_at: new Date().toISOString(),
+          },
+          { onConflict: 'endpoint' }
+        );
+      }
+      return true;
+    }
+    const publicKey = await getVapidPublicKey();
+    if (!publicKey) return false;
+    const sub = await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(publicKey).buffer as ArrayBuffer,
+    });
+    const p256dh = arrayBufferToBase64(sub.getKey('p256dh'))
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    const auth = arrayBufferToBase64(sub.getKey('auth'))
+      .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    await supabase.from('push_subscriptions').upsert(
+      {
+        endpoint: sub.endpoint,
+        p256dh,
+        auth,
+        user_agent: navigator.userAgent,
+        label: 'admin',
+        last_used_at: new Date().toISOString(),
+      },
+      { onConflict: 'endpoint' }
+    );
+    return true;
+  } catch (e) {
+    console.warn('subscribeWebPush failed', e);
+    return false;
+  }
+}
+
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
@@ -80,6 +163,10 @@ export function usePWAAdmin(enabled: boolean) {
           }
         }
       } catch { /* not supported */ }
+      // Si la permission est déjà accordée, on (ré)enregistre la souscription Web Push
+      if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+        subscribeWebPush(reg).catch(() => {});
+      }
     }).catch(() => {});
     if (typeof Notification !== 'undefined') setPermission(Notification.permission);
     // Detect if already installed
@@ -146,6 +233,12 @@ export function usePWAAdmin(enabled: boolean) {
     if (p === 'granted') {
       toast.success('Notifications activées !');
       notify('🌿 Notifications actives', 'Vous serez alerté à chaque nouvelle commande.', swRef.current);
+      // Souscrire au Web Push pour recevoir les notifs même app fermée / écran verrouillé
+      if (swRef.current) {
+        const ok = await subscribeWebPush(swRef.current);
+        if (ok) toast.success('Push réel actif (fonctionne app fermée 📱)');
+        else toast.message('Push réel non activé', { description: 'Tu recevras quand même les notifs si l\'app est ouverte.' });
+      }
     } else {
       toast.error('Notifications refusées');
     }

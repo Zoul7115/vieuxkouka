@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { PRODUCTS } from '@/lib/products';
+import { PRODUCTS, PRODUCT_COSTS, formatFCFA } from '@/lib/products';
 import { useLivreurs } from '@/lib/livreurs';
 import { toast } from 'sonner';
 
@@ -83,11 +83,38 @@ export function StockTab() {
     else { toast.success('Mouvement enregistré'); load(); }
   };
 
+  // Totaux globaux pour la valeur d'inventaire
+  const inventoryRows = PRODUCTS.map((p) => {
+    const totalUnits = livreurs.reduce((s, l) => s + (stockMatrix[p.shortName]?.[l.idx] || 0), 0);
+    const pa = PRODUCT_COSTS[p.shortName] ?? 0;
+    return { product: p, totalUnits, pa, value: totalUnits * pa };
+  });
+  const grandTotalUnits = inventoryRows.reduce((s, r) => s + r.totalUnits, 0);
+  const grandTotalValue = inventoryRows.reduce((s, r) => s + r.value, 0);
+
   return (
     <div className="space-y-5">
+      {/* Valeur globale du stock */}
+      <div className="bg-gradient-to-br from-vert to-vert-mid text-white rounded-2xl p-5">
+        <div className="text-sm opacity-90 font-semibold">💎 Valeur totale du stock (PA)</div>
+        <div className="text-3xl font-extrabold mt-1">{formatFCFA(grandTotalValue)}</div>
+        <div className="text-sm opacity-90 mt-1">{grandTotalUnits} unités au total chez tous les livreurs</div>
+        <div className="grid sm:grid-cols-2 gap-2 mt-4">
+          {inventoryRows.map((r) => (
+            <div key={r.product.slug} className="bg-white/15 rounded-xl px-3 py-2">
+              <div className="text-xs opacity-90">{r.product.emoji} {r.product.shortName}</div>
+              <div className="text-lg font-extrabold">{formatFCFA(r.value)}</div>
+              <div className="text-[11px] opacity-80">
+                {r.totalUnits} unités × {formatFCFA(r.pa)} PA
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="bg-white rounded-2xl border-2 border-vert-bg p-5 overflow-x-auto">
         <h3 className="font-extrabold text-vert mb-4">📦 Stock par livreur</h3>
-        <table className="w-full text-sm min-w-[500px]">
+        <table className="w-full text-sm min-w-[600px]">
           <thead>
             <tr className="border-b-2 border-vert-bg">
               <th className="text-left py-2 px-2">Produit</th>
@@ -95,11 +122,14 @@ export function StockTab() {
                 <th key={l.id} className="text-center py-2 px-2">{l.emoji} {l.name}</th>
               ))}
               <th className="text-right py-2 px-2">Total</th>
+              <th className="text-right py-2 px-2">Coût (PA)</th>
             </tr>
           </thead>
           <tbody>
             {PRODUCTS.map((p) => {
               const total = livreurs.reduce((s, l) => s + (stockMatrix[p.shortName]?.[l.idx] || 0), 0);
+              const pa = PRODUCT_COSTS[p.shortName] ?? 0;
+              const cost = total * pa;
               return (
                 <tr key={p.slug} className="border-b border-vert-bg/50">
                   <td className="py-2 px-2 font-bold">{p.emoji} {p.shortName}</td>
@@ -112,9 +142,20 @@ export function StockTab() {
                     );
                   })}
                   <td className="text-right py-2 px-2 font-extrabold text-vert">{total}</td>
+                  <td className="text-right py-2 px-2 font-extrabold text-vert">{formatFCFA(cost)}</td>
                 </tr>
               );
             })}
+            <tr className="bg-vert-bg/40">
+              <td className="py-2 px-2 font-extrabold text-vert">TOTAL</td>
+              {livreurs.map((l) => (
+                <td key={l.id} className="text-center py-2 px-2 font-extrabold text-vert">
+                  {PRODUCTS.reduce((s, p) => s + (stockMatrix[p.shortName]?.[l.idx] || 0), 0)}
+                </td>
+              ))}
+              <td className="text-right py-2 px-2 font-extrabold text-vert">{grandTotalUnits}</td>
+              <td className="text-right py-2 px-2 font-extrabold text-vert">{formatFCFA(grandTotalValue)}</td>
+            </tr>
           </tbody>
         </table>
       </div>
