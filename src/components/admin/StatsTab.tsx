@@ -163,8 +163,9 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
         <KpiBox label="Visites aujourd'hui" value={(visitsToday ?? '…').toString()} sub="Mises à jour temps réel" />
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-3">
+      <div className="grid sm:grid-cols-3 gap-3">
         <KpiBox label="Conversion globale" value={`${stats.conversion.toFixed(2)}%`} sub={`${orders.length} cmd / ${stats.totalVisits} visites`} />
+        <KpiBox label="Taux de livraison" value={`${stats.deliveryRate.toFixed(1)}%`} sub={`${stats.deliveredCount} livrées / ${stats.deliveredCount + stats.upcomingCount} valides · ${stats.cancelledCount} annulées`} />
         <KpiBox label="Valeur stock totale" value={formatFCFA(stockTotalValue)} sub={`${stockTotalQty} unités en stock`} />
       </div>
 
