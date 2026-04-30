@@ -163,6 +163,10 @@ export function usePWAAdmin(enabled: boolean) {
           }
         }
       } catch { /* not supported */ }
+      // Si la permission est déjà accordée, on (ré)enregistre la souscription Web Push
+      if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+        subscribeWebPush(reg).catch(() => {});
+      }
     }).catch(() => {});
     if (typeof Notification !== 'undefined') setPermission(Notification.permission);
     // Detect if already installed
