@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { subscribeToPush } from '@/lib/webPush';
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -68,6 +69,10 @@ export function usePWAAdmin(enabled: boolean) {
         const sw = reg.installing;
         sw?.addEventListener('statechange', () => { if (sw.state === 'activated') sendConfig(); });
       });
+      // Si la permission est déjà accordée, on s'assure que le push est bien enregistré
+      if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+        try { await subscribeToPush(reg); } catch { /* silent */ }
+      }
       // Tenter d'enregistrer un periodic sync (Chrome Android avec PWA installée)
       try {
         // @ts-expect-error periodicSync optional API
@@ -144,7 +149,16 @@ export function usePWAAdmin(enabled: boolean) {
     const p = await Notification.requestPermission();
     setPermission(p);
     if (p === 'granted') {
-      toast.success('Notifications activées !');
+      // Enregistrer le push pour recevoir les notifs même app fermée
+      try {
+        const reg = swRef.current || (await navigator.serviceWorker.ready);
+        const ok = await subscribeToPush(reg);
+        if (ok) toast.success('🔔 Notifications push activées (même app fermée)');
+        else toast.success('Notifications activées (premier plan uniquement)');
+      } catch (e) {
+        console.error('push subscribe error', e);
+        toast.success('Notifications activées (premier plan uniquement)');
+      }
       notify('🌿 Notifications actives', 'Vous serez alerté à chaque nouvelle commande.', swRef.current);
     } else {
       toast.error('Notifications refusées');
