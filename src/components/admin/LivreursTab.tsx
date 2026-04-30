@@ -121,19 +121,21 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
       return;
     }
     const nextIdx = livreurs.length > 0 ? Math.max(...livreurs.map((l) => l.idx)) + 1 : 1;
+    const fee = Math.max(0, parseInt(newLivreur.delivery_fee, 10) || 0);
     const { error } = await supabase.from('livreurs').insert({
       idx: nextIdx,
       name: newLivreur.name.trim(),
       whatsapp: newLivreur.whatsapp.replace(/\D/g, ''),
       zone: newLivreur.zone.trim() || null,
       emoji: newLivreur.emoji,
+      delivery_fee: fee,
       active: true,
     });
     if (error) toast.error(error.message);
     else {
       toast.success('Livreur ajouté');
       setAdding(false);
-      setNewLivreur({ name: '', whatsapp: '', zone: '', emoji: '🛵' });
+      setNewLivreur({ name: '', whatsapp: '', zone: '', emoji: '🛵', delivery_fee: '2000' });
       reload();
     }
   };
