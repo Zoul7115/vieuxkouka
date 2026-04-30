@@ -1,5 +1,5 @@
-// Service worker — KOUKA Admin (notifications + background polling)
-const CACHE = 'kouka-admin-v3';
+// Service worker — KOUKA Admin (Web Push + notifications)
+const CACHE = 'kouka-admin-v4';
 const SHELL = ['/admin', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 let SUPABASE_URL = '';
@@ -58,18 +58,21 @@ self.addEventListener('message', (event) => {
   }
 });
 
-// Push réel (si Web Push branché plus tard)
+// Push réel (envoyé par l'edge function send-push)
 self.addEventListener('push', (event) => {
-  let payload = { title: '🌿 Nouvelle commande KOUKA', body: 'Ouvre l\'admin pour voir' };
-  try { if (event.data) payload = { ...payload, ...event.data.json() }; } catch {}
+  let payload = { title: '🌿 Nouvelle commande KOUKA', body: 'Ouvre l\'admin pour voir', tag: 'push-' + Date.now(), url: '/admin' };
+  try { if (event.data) payload = { ...payload, ...event.data.json() }; } catch {
+    try { payload.body = event.data ? event.data.text() : payload.body; } catch {}
+  }
   event.waitUntil(self.registration.showNotification(payload.title, {
     body: payload.body,
     icon: '/icons/icon-192.png',
     badge: '/icons/icon-192.png',
-    vibrate: [200, 100, 200, 100, 400],
+    vibrate: [300, 150, 300, 150, 500],
     requireInteraction: true,
-    tag: 'push-' + Date.now(),
-    data: { url: '/admin' },
+    tag: payload.tag,
+    renotify: true,
+    data: { url: payload.url || '/admin' },
   }));
 });
 
