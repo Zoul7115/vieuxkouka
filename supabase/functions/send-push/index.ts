@@ -26,6 +26,13 @@ const admin = createClient(SUPABASE_URL, SERVICE_ROLE);
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
 
+  // GET → renvoie la clé publique VAPID pour permettre la souscription côté navigateur
+  if (req.method === 'GET') {
+    return new Response(JSON.stringify({ publicKey: VAPID_PUBLIC }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+
   try {
     const body = await req.json().catch(() => ({}));
     const orderNumber = body.order_number || '';
