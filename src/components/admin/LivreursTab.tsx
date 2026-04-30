@@ -65,7 +65,7 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
     inPeriod.forEach((o) => {
       if (o.status !== 'delivered' || o.livreur_idx == null || !map[o.livreur_idx]) return;
       const u = unitsForOrder(o);
-      const fee = DELIVERY_COST;
+      const fee = effectiveDeliveryFee(livreurs, o);
       const net = o.product_price - fee;
       const s = map[o.livreur_idx];
       s.deliveries += 1; s.pieces += u; s.ca += o.product_price; s.deliveryFees += fee; s.net += net;
