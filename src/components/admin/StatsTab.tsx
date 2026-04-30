@@ -204,36 +204,7 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
         </div>
       </div>
 
-      {/* Coût du stock par produit */}
-      <div className="bg-white rounded-2xl border-2 border-vert-bg p-5 overflow-x-auto">
-        <h3 className="font-extrabold text-vert mb-3">💰 Coût total du stock</h3>
-        <table className="w-full text-sm min-w-[420px]">
-          <thead>
-            <tr className="border-b-2 border-vert-bg">
-              <th className="text-left py-2 px-2">Produit</th>
-              <th className="text-right py-2 px-2">Qté</th>
-              <th className="text-right py-2 px-2">PA unitaire</th>
-              <th className="text-right py-2 px-2">Valeur stock</th>
-            </tr>
-          </thead>
-          <tbody>
-            {stockByProduct.map((r) => (
-              <tr key={r.name} className="border-b border-vert-bg/50">
-                <td className="py-2 px-2 font-bold">{r.emoji} {r.name}</td>
-                <td className="text-right py-2 px-2">{r.qty}</td>
-                <td className="text-right py-2 px-2 text-muted-foreground">{formatFCFA(r.pa)}</td>
-                <td className="text-right py-2 px-2 font-extrabold text-vert">{formatFCFA(r.value)}</td>
-              </tr>
-            ))}
-            <tr className="bg-vert-bg/40">
-              <td className="py-2 px-2 font-extrabold">TOTAL</td>
-              <td className="text-right py-2 px-2 font-extrabold">{stockTotalQty}</td>
-              <td></td>
-              <td className="text-right py-2 px-2 font-extrabold text-vert">{formatFCFA(stockTotalValue)}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {/* Le tableau détaillé du coût total du stock se trouve dans l'onglet Stock */}
 
       <div className="grid sm:grid-cols-2 gap-3">
         <div className="bg-white rounded-2xl border-2 border-vert-bg p-5">
