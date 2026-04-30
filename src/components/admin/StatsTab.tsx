@@ -88,15 +88,12 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
   const stats = useMemo(() => {
     const delivered = orders.filter((o) => o.status === 'delivered');
     const cancelled = orders.filter((o) => o.status === 'cancelled');
-    // Commandes "qui seront livrées" : pending + suivi (en cours), hors annulées
     const upcoming = orders.filter((o) => o.status === 'pending' || o.status === 'suivi');
     const ca = delivered.reduce((s, o) => s + o.product_price, 0);
     const totalVisits = visitsTotal ?? visits.length;
     const conversion = totalVisits > 0 ? (orders.length / totalVisits) * 100 : 0;
-    // Taux de livraison = livrées / (livrées + en cours)
-    // = % des commandes valides (non annulées) qui finissent livrées ou le seront
-    const deliveryBase = delivered.length + upcoming.length;
-    const deliveryRate = deliveryBase > 0 ? (delivered.length / deliveryBase) * 100 : 0;
+    // Taux de livraison = livrées / TOUTES les commandes reçues (annulées incluses)
+    const deliveryRate = orders.length > 0 ? (delivered.length / orders.length) * 100 : 0;
 
     const byCountry = orders.reduce<Record<string, number>>((acc, o) => {
       const k = o.country || 'N/A';
@@ -165,7 +162,7 @@ export function StatsTab({ orders, visits }: { orders: Order[]; visits: Visit[] 
 
       <div className="grid sm:grid-cols-3 gap-3">
         <KpiBox label="Conversion globale" value={`${stats.conversion.toFixed(2)}%`} sub={`${orders.length} cmd / ${stats.totalVisits} visites`} />
-        <KpiBox label="Taux de livraison" value={`${stats.deliveryRate.toFixed(1)}%`} sub={`${stats.deliveredCount} livrées / ${stats.deliveredCount + stats.upcomingCount} valides · ${stats.cancelledCount} annulées`} />
+        <KpiBox label="Taux de livraison" value={`${stats.deliveryRate.toFixed(1)}%`} sub={`${stats.deliveredCount} livrées / ${orders.length} reçues · ${stats.cancelledCount} annulées · ${stats.upcomingCount} en cours`} />
         <KpiBox label="Valeur stock totale" value={formatFCFA(stockTotalValue)} sub={`${stockTotalQty} unités en stock`} />
       </div>
 
