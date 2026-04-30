@@ -233,6 +233,12 @@ export function usePWAAdmin(enabled: boolean) {
     if (p === 'granted') {
       toast.success('Notifications activées !');
       notify('🌿 Notifications actives', 'Vous serez alerté à chaque nouvelle commande.', swRef.current);
+      // Souscrire au Web Push pour recevoir les notifs même app fermée / écran verrouillé
+      if (swRef.current) {
+        const ok = await subscribeWebPush(swRef.current);
+        if (ok) toast.success('Push réel actif (fonctionne app fermée 📱)');
+        else toast.message('Push réel non activé', { description: 'Tu recevras quand même les notifs si l\'app est ouverte.' });
+      }
     } else {
       toast.error('Notifications refusées');
     }
