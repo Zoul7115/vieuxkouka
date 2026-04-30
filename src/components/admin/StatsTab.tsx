@@ -65,15 +65,14 @@ export function StatsTab({
 
     // Taux de livraison
     // Numérateur   : commandes effectivement livrées (status = 'delivered')
-    // Dénominateur : livrées + en cours valides (en attente / en cours / suivi)
-    // Exclu        : annulées, refusées, rejetées (ne comptent pas dans le calcul)
+    // Dénominateur : TOUTES les commandes reçues sur la boutique (annulées comprises)
     const CANCELLED_STATUSES = ['cancelled', 'canceled', 'annulee', 'annulée', 'refused', 'refusee', 'refusée', 'rejected'];
     const isCancelled = (s: string | null | undefined) =>
       CANCELLED_STATUSES.includes((s || '').toLowerCase().trim());
 
     const cancelledOrders = orders.filter((o) => isCancelled(o.status));
     const inProgressOrders = orders.filter((o) => !isCancelled(o.status) && o.status !== 'delivered');
-    const denom = delivered.length + inProgressOrders.length; // = total - annulées
+    const denom = orders.length; // toutes les commandes reçues
     const deliveryRate = denom > 0 ? (delivered.length / denom) * 100 : 0;
 
     const byCountry = orders.reduce<Record<string, number>>((acc, o) => {
@@ -134,7 +133,7 @@ export function StatsTab({
         <KpiBox
           label="Taux de livraison"
           value={`${stats.deliveryRate.toFixed(1)}%`}
-          sub={`${stats.deliveredCount}/${stats.denomCount} (annulées exclues)`}
+          sub={`${stats.deliveredCount}/${stats.denomCount} commandes reçues`}
         />
       </div>
 
@@ -150,7 +149,7 @@ export function StatsTab({
           <span className="text-2xl font-extrabold text-vert">{stats.deliveryRate.toFixed(1)}%</span>
         </div>
         <div className="text-xs text-muted-foreground mb-3">
-          Formule : <strong>livrées ÷ (livrées + en cours valides)</strong> — les commandes annulées sont exclues du calcul.
+          Formule : <strong>livrées ÷ total des commandes reçues</strong> (annulées comprises).
         </div>
         <div className="h-3 bg-vert-bg/40 rounded-full overflow-hidden flex mb-4">
           {stats.denomCount > 0 && (
@@ -165,6 +164,11 @@ export function StatsTab({
                 style={{ width: `${(stats.inProgressCount / stats.denomCount) * 100}%` }}
                 title={`${stats.inProgressCount} en cours`}
               />
+              <div
+                className="h-full bg-rouge"
+                style={{ width: `${(stats.cancelledCount / stats.denomCount) * 100}%` }}
+                title={`${stats.cancelledCount} annulées`}
+              />
             </>
           )}
         </div>
@@ -172,22 +176,21 @@ export function StatsTab({
           <div className="bg-vert/10 rounded-xl p-3">
             <div className="text-xs font-bold uppercase text-vert">✅ Livrées</div>
             <div className="text-xl font-extrabold text-vert mt-1">{stats.deliveredCount}</div>
-            <div className="text-[11px] text-muted-foreground">comptées au numérateur</div>
+            <div className="text-[11px] text-muted-foreground">au numérateur</div>
           </div>
           <div className="bg-[oklch(0.95_0.05_75)] rounded-xl p-3">
-            <div className="text-xs font-bold uppercase text-[oklch(0.45_0.15_60)]">⏳ En cours valides</div>
+            <div className="text-xs font-bold uppercase text-[oklch(0.45_0.15_60)]">⏳ En cours</div>
             <div className="text-xl font-extrabold text-[oklch(0.45_0.15_60)] mt-1">{stats.inProgressCount}</div>
             <div className="text-[11px] text-muted-foreground">en attente / suivi</div>
           </div>
           <div className="bg-rouge/10 rounded-xl p-3">
             <div className="text-xs font-bold uppercase text-rouge">❌ Annulées</div>
             <div className="text-xl font-extrabold text-rouge mt-1">{stats.cancelledCount}</div>
-            <div className="text-[11px] text-muted-foreground">exclues du calcul</div>
+            <div className="text-[11px] text-muted-foreground">incluses au dénominateur</div>
           </div>
         </div>
         <div className="text-xs text-muted-foreground mt-3 text-right">
-          Base de calcul : <strong>{stats.denomCount}</strong> commandes valides ·
-          Total brut : {orders.length}
+          Total commandes reçues : <strong>{stats.denomCount}</strong>
         </div>
       </div>
 
