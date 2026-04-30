@@ -92,8 +92,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     if (!silent) setLoading(true);
     try {
       const [oRes, vRes] = await Promise.all([
-        supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(1000),
-        supabase.from('visits').select('*').order('visited_at', { ascending: false }).limit(1000),
+        supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(2000),
+        supabase.from('visits').select('*').order('visited_at', { ascending: false }).limit(5000),
       ]);
       if (oRes.error) throw oRes.error;
       else setOrders((oRes.data || []) as Order[]);
