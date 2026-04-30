@@ -107,9 +107,22 @@ function OrderCard({
   onAssignLivreur: (id: string, livreurIdx: number | null) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [feeInput, setFeeInput] = useState<string>(order.delivery_fee != null ? String(order.delivery_fee) : '');
+  const [savingFee, setSavingFee] = useState(false);
   const status = STATUSES[order.status] || STATUSES.pending;
   const livreur = livreurs.find((l) => l.idx === order.livreur_idx);
   const clientUrl = waClientUrl(order);
+  const effFee = effectiveDeliveryFee(livreurs, order);
+  const net = order.product_price - effFee;
+
+  const saveFee = async () => {
+    setSavingFee(true);
+    const value = feeInput.trim() === '' ? null : Math.max(0, parseInt(feeInput, 10) || 0);
+    const { error } = await supabase.from('orders').update({ delivery_fee: value }).eq('id', order.id);
+    setSavingFee(false);
+    if (error) toast.error(error.message);
+    else toast.success(value == null ? 'Frais réinitialisés (défaut livreur)' : `Frais : ${formatFCFA(value)}`);
+  };
 
   return (
     <div className="bg-white rounded-2xl border-2 border-vert-bg overflow-hidden">
