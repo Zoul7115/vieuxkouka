@@ -8,6 +8,7 @@ import { StatsTab } from '@/components/admin/StatsTab';
 import { StockTab } from '@/components/admin/StockTab';
 import { ComptaTab } from '@/components/admin/ComptaTab';
 import { LivreursTab } from '@/components/admin/LivreursTab';
+import { NotifDiagnostic } from '@/components/admin/NotifDiagnostic';
 import { usePWAAdmin } from '@/hooks/usePWAAdmin';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
 
@@ -236,6 +237,9 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             </div>
           )}
         </div>
+
+        {/* Diagnostic notifications */}
+        <NotifDiagnostic />
 
         {/* KPI résumé scopé période */}
         <div className="bg-gradient-to-br from-rouge to-[oklch(0.40_0.20_28)] text-white rounded-2xl p-6 mb-5">
