@@ -23,7 +23,6 @@ function computeOrderScore(input: {
   countryPrefix: string;
   fullName: string;
   city: string;
-  addressDetail: string;
   deliverySlot: string;
   cashConfirmed: boolean;
   hourLocal: number;
@@ -35,7 +34,6 @@ function computeOrderScore(input: {
   const parts = input.fullName.trim().split(/\s+/).filter(Boolean);
   if (parts.length >= 2 && parts[0].length >= 2 && parts[1].length >= 2) score += 8;
   if (input.city.trim().length >= 3) score += 5;
-  if (input.addressDetail.trim().length >= 15) score += 10;
   if (input.deliverySlot) score += 5;
   if (input.cashConfirmed) score += 8;
   if (input.hourLocal >= 6 && input.hourLocal <= 23) score += 3;
@@ -60,7 +58,6 @@ export function ProductForm({ product }: { product: Product }) {
     countryCode: 'BF',
     whatsapp: '',
     city: '',
-    addressDetail: '',
     deliverySlot: '',
     
     horsOuaga: false,
@@ -123,8 +120,6 @@ export function ProductForm({ product }: { product: Product }) {
     if (!form.fullName.trim()) e.fullName = 'Obligatoire';
     if (form.fullName.trim().split(/\s+/).filter(Boolean).length < 2) e.fullName = 'Indique ton prénom ET ton nom';
     if (!form.city.trim()) e.city = 'Obligatoire';
-    if (!form.addressDetail.trim()) e.addressDetail = 'Indique un repère (boutique, école, mosquée…) pour le livreur';
-    if (form.addressDetail.trim().length < 10) e.addressDetail = 'Trop court — décris un vrai repère visible';
     if (!form.deliverySlot) e.deliverySlot = 'Choisis ton créneau préféré';
     if (!form.countryCode) e.countryCode = 'Obligatoire';
     const tel = form.whatsapp.replace(/\s/g, '');
@@ -156,7 +151,6 @@ export function ProductForm({ product }: { product: Product }) {
         countryPrefix: country.prefix,
         fullName: form.fullName,
         city: form.city,
-        addressDetail: form.addressDetail,
         deliverySlot: form.deliverySlot,
         cashConfirmed: form.cashConfirmed,
         hourLocal: new Date().getHours(),
@@ -175,7 +169,6 @@ export function ProductForm({ product }: { product: Product }) {
         whatsapp: fullPhone,
         country: country.label.replace(/^.{1,4}\s/, ''),
         city: form.city,
-        address_detail: form.addressDetail,
         delivery_slot: form.deliverySlot,
         
         cash_confirmed: form.cashConfirmed,
@@ -201,8 +194,7 @@ export function ProductForm({ product }: { product: Product }) {
           price: finalPrice,
           whatsapp: fullPhone,
           city: form.city,
-          addressDetail: form.addressDetail,
-          deliverySlot: form.deliverySlot,
+            deliverySlot: form.deliverySlot,
         })
       );
 
@@ -356,21 +348,6 @@ export function ProductForm({ product }: { product: Product }) {
               onChange={(e) => update('city', e.target.value)}
               placeholder="Ouagadougou / Tanghin"
               className={inputCls(errors.city)}
-            />
-          </Field>
-
-          <Field
-            label="Adresse précise — repère visible"
-            required
-            error={errors.addressDetail}
-            hint="Ex: 'En face boutique Wend-Panga' ou 'à côté école Sankara, maison portail bleu'"
-          >
-            <input
-              type="text"
-              value={form.addressDetail}
-              onChange={(e) => update('addressDetail', e.target.value)}
-              placeholder="En face de la mosquée centrale, maison à porte verte"
-              className={inputCls(errors.addressDetail)}
             />
           </Field>
 
