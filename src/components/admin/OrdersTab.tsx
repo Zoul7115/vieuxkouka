@@ -154,10 +154,26 @@ function OrderCard({
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-extrabold text-vert">{order.order_number}</span>
             <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${status.cls}`}>{status.label}</span>
+            <span className={`text-xs px-2 py-0.5 rounded-full font-extrabold ${scoreBadge(order.ai_score).cls}`} title="Score qualité commande (auto)">
+              {scoreBadge(order.ai_score).label}
+            </span>
+            {order.confirmed_via_whatsapp_at && (
+              <span className="text-xs px-2 py-0.5 rounded-full font-bold bg-[#25D366] text-white" title="Client a cliqué le bouton WhatsApp post-commande">
+                ✅ WA
+              </span>
+            )}
+            {order.cash_confirmed && (
+              <span className="text-xs px-2 py-0.5 rounded-full font-bold bg-vert-bg text-vert" title="Cash confirmé prêt par le client">
+                💵
+              </span>
+            )}
             {livreur && <span className="text-xs px-2 py-0.5 rounded-full font-bold bg-cream-2 text-vert">{livreur.emoji} {livreur.name}</span>}
           </div>
           <div className="text-sm text-foreground mt-1 truncate">
             {order.first_name} {order.last_name} · {order.city}
+            {order.delivery_slot && SLOT_LABELS[order.delivery_slot] && (
+              <span className="text-xs text-muted-foreground ml-1">· {SLOT_LABELS[order.delivery_slot]}</span>
+            )}
           </div>
           <div className="text-xs text-muted-foreground truncate">{order.offer_label || order.product_name}</div>
         </div>
@@ -171,8 +187,11 @@ function OrderCard({
         <div className="border-t-2 border-vert-bg p-4 bg-cream-2/40 space-y-4">
           <div className="grid sm:grid-cols-2 gap-3 text-sm">
             <div><span className="text-muted-foreground">WhatsApp :</span> <span className="font-bold">{order.whatsapp}</span></div>
+            {order.secondary_contact && <div><span className="text-muted-foreground">Secours :</span> <span className="font-bold">{order.secondary_contact}</span></div>}
             <div><span className="text-muted-foreground">Pays :</span> {order.country}</div>
             <div><span className="text-muted-foreground">Ville :</span> {order.city}</div>
+            {order.address_detail && <div className="sm:col-span-2"><span className="text-muted-foreground">📍 Adresse :</span> <span className="font-bold">{order.address_detail}</span></div>}
+            {order.delivery_slot && <div><span className="text-muted-foreground">🕐 Créneau :</span> <span className="font-bold">{SLOT_LABELS[order.delivery_slot] || order.delivery_slot}</span></div>}
             {order.car_transport && <div><span className="text-muted-foreground">Transport :</span> {order.car_transport}</div>}
             <div className="sm:col-span-2"><span className="text-muted-foreground">Date :</span> {new Date(order.created_at).toLocaleString('fr-FR')}</div>
           </div>
