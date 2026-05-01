@@ -205,6 +205,8 @@ export function ProductForm({ product }: { product: Product }) {
           price: finalPrice,
           whatsapp: fullPhone,
           city: form.city,
+          addressDetail: form.addressDetail,
+          deliverySlot: form.deliverySlot,
         })
       );
 
