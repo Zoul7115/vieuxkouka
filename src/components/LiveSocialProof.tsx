@@ -3,11 +3,13 @@ import { supabase } from '@/integrations/supabase/client';
 
 type ProofItem = { name: string; product: string; mins: number };
 
-// Fallback (si pas de commandes récentes en BDD) — pondéré BF
+// Fallback (si pas de commandes récentes en BDD) — pondéré BF + ouverture CI
 const NAMES_FALLBACK = [
   'Awa de Bobo', 'Ibrahim de Ouaga', 'Salif de Koudougou', 'Fatim de Banfora',
   'Moussa de Kaya', 'Aminata de Tenkodogo', 'Issouf de Fada', 'Rasmata de Pô',
   'Boukary de Dori', 'Karim de Ouahigouya',
+  'Konan d\'Abidjan', 'Aïcha de Cocody', 'Yao de Yopougon', 'Mariam de Marcory',
+  'Bakary de Treichville', 'Fanta de Bouaké',
 ];
 
 // Anonymise un prénom : "Ibrahim" -> "Ibrahim", "I." si trop court

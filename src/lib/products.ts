@@ -145,15 +145,24 @@ export const findOfferByLabel = (label: string | null | undefined): Offer | unde
 
 export const COUNTRIES = [
   { code: 'BF', label: '🇧🇫 Burkina Faso', prefix: '+226' },
+  { code: 'CI', label: '🇨🇮 Côte d\'Ivoire', prefix: '+225' },
   { code: 'BJ', label: '🇧🇯 Bénin', prefix: '+229' },
   { code: 'SN', label: '🇸🇳 Sénégal', prefix: '+221' },
-  { code: 'CI', label: '🇨🇮 Côte d\'Ivoire', prefix: '+225' },
   { code: 'ML', label: '🇲🇱 Mali', prefix: '+223' },
   { code: 'TG', label: '🇹🇬 Togo', prefix: '+228' },
   { code: 'NE', label: '🇳🇪 Niger', prefix: '+227' },
   { code: 'GN', label: '🇬🇳 Guinée', prefix: '+224' },
   { code: 'OTHER', label: '🌍 Autre', prefix: '+' },
 ];
+
+/** Frais de livraison par pays/zone (FCFA), affichés sur les pages de vente */
+export const DELIVERY_PRICES: Record<string, { label: string; amount: number; note?: string }> = {
+  BF_OUAGA: { label: '🏙️ Ouagadougou', amount: 0, note: 'Livraison gratuite' },
+  BF_OTHER: { label: '🇧🇫 Burkina (autres villes)', amount: 1000, note: 'Par car de transport' },
+  CI_ABIDJAN: { label: '🇨🇮 Abidjan', amount: 2000, note: 'Livraison 24-48h' },
+  CI_OTHER: { label: '🇨🇮 Côte d\'Ivoire (autres villes)', amount: 3000, note: 'Par compagnie de transport' },
+  BJ: { label: '🇧🇯 Bénin', amount: 1500 },
+};
 
 export const ADMIN_WHATSAPP = '22658444818';
 
