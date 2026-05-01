@@ -10,6 +10,40 @@ import { toast } from 'sonner';
 const BUMP_PRICE = 5000;
 const SHIPPING_FEE = 1000; // Frais d'expédition hors Ouagadougou
 
+const DELIVERY_SLOTS = [
+  { v: 'morning', l: '🌅 Matin (8h-12h)' },
+  { v: 'noon', l: '☀️ Midi (12h-14h)' },
+  { v: 'afternoon', l: '🌤️ Après-midi (14h-17h)' },
+  { v: 'evening', l: '🌙 Soir (17h-20h)' },
+];
+
+/** Score de qualité d'une commande (0-100) — aide l'admin à prioriser ses appels */
+function computeOrderScore(input: {
+  whatsapp: string;
+  countryPrefix: string;
+  fullName: string;
+  city: string;
+  addressDetail: string;
+  deliverySlot: string;
+  cashConfirmed: boolean;
+  hourLocal: number;
+  hasReferrer: boolean;
+}): number {
+  let score = 50;
+  if (/^[0-9]{6,12}$/.test(input.whatsapp.replace(/\s/g, ''))) score += 8;
+  if (input.countryPrefix === '+226' && input.whatsapp.replace(/\s/g, '').length === 8) score += 5;
+  const parts = input.fullName.trim().split(/\s+/).filter(Boolean);
+  if (parts.length >= 2 && parts[0].length >= 2 && parts[1].length >= 2) score += 8;
+  if (input.city.trim().length >= 3) score += 5;
+  if (input.addressDetail.trim().length >= 15) score += 10;
+  if (input.deliverySlot) score += 5;
+  if (input.cashConfirmed) score += 8;
+  if (input.hourLocal >= 6 && input.hourLocal <= 23) score += 3;
+  else score -= 10;
+  if (input.hasReferrer) score += 3;
+  return Math.max(0, Math.min(100, score));
+}
+
 export function ProductForm({ product }: { product: Product }) {
   const navigate = useNavigate();
   const recommended = product.offers.find((o) => o.recommended) || product.offers[0];
@@ -26,9 +60,13 @@ export function ProductForm({ product }: { product: Product }) {
     countryCode: 'BF',
     whatsapp: '',
     city: '',
+    addressDetail: '',
+    deliverySlot: '',
+    secondaryContact: '',
     horsOuaga: false,
     carTransport: '',
     available: false,
+    cashConfirmed: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
