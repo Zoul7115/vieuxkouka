@@ -517,11 +517,13 @@ function Field({
   label,
   required,
   error,
+  hint,
   children,
 }: {
   label: string;
   required?: boolean;
   error?: string;
+  hint?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -529,6 +531,7 @@ function Field({
       <label className="block text-sm font-bold text-muted-foreground mb-1.5">
         {label} {required && <span className="text-rouge">*</span>}
       </label>
+      {hint && <div className="text-xs text-muted-foreground mb-1.5 italic">{hint}</div>}
       {children}
       {error && <div className="text-rouge text-sm mt-1.5">{error}</div>}
     </div>
