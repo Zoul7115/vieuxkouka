@@ -194,14 +194,14 @@ function HomePage() {
           <div className="bloc mt-5">
             <h3 className="text-vert mb-3">🌍 Plantes récoltées dans 3 pays africains</h3>
             <div className="flex flex-wrap gap-2">
-              {['🇧🇫 Burkina Faso', '🇨🇮 Côte d\'Ivoire', '🇧🇯 Bénin'].map((t) => (
+              {['🇧🇫 Burkina Faso', '🇧🇯 Bénin', '🇬🇭 Ghana'].map((t) => (
                 <span key={t} className="bg-vert-bg border-2 border-[oklch(0.80_0.10_145)] text-vert px-3.5 py-1.5 rounded-full font-bold text-sm">
                   {t}
                 </span>
               ))}
             </div>
             <p className="text-xs text-muted-foreground mt-3">
-              ✈️ <strong>Déjà livré à</strong> Ouagadougou, Bobo, Abidjan, Cocody, Yopougon, Marcory, Cotonou…
+              ✈️ <strong>Déjà livré à</strong> Ouagadougou, Bobo, Koudougou, Banfora, Ouahigouya, Kaya, Tenkodogo, Fada, Dédougou, Houndé…
             </p>
           </div>
 
@@ -352,15 +352,13 @@ function HomePage() {
 
       <section className="sec bg-cream-2">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">Livraison <span className="text-vert">Burkina · Côte d'Ivoire</span></h2>
-          <p className="text-center text-sm text-muted-foreground mb-6">Paiement cash à la livraison · partout en Afrique de l'Ouest</p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <h2 className="text-center mb-2">Livraison <span className="text-vert">partout au Burkina Faso</span></h2>
+          <p className="text-center text-sm text-muted-foreground mb-6">Paiement cash à la livraison · Ouaga & toutes les villes</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {[
               { i: '🏙️', t: 'Ouagadougou', d: 'Livraison gratuite' },
-              { i: '🇧🇫', t: 'Burkina (autres)', d: '1 000 FCFA · car' },
-              { i: '🇨🇮', t: 'Abidjan', d: '2 000 FCFA · 24-48h' },
-              { i: '🇨🇮', t: 'Côte d\'Ivoire', d: '3 000 FCFA · car' },
-              { i: '🇧🇯', t: 'Bénin', d: '1 500 FCFA' },
+              { i: '🇧🇫', t: 'Burkina (autres villes)', d: '1 000 FCFA · par car' },
+              { i: '⏱️', t: 'Délai', d: '24-72h selon la ville' },
               { i: '💵', t: 'Paiement', d: 'Cash à la livraison' },
               { i: '📦', t: 'Emballage', d: 'Discret · sans logo' },
               { i: '🛡️', t: 'Garantie', d: 'Remboursé si pas satisfait' },
