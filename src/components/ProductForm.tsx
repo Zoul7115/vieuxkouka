@@ -121,12 +121,17 @@ export function ProductForm({ product }: { product: Product }) {
   const validate = () => {
     const e: Record<string, string> = {};
     if (!form.fullName.trim()) e.fullName = 'Obligatoire';
+    if (form.fullName.trim().split(/\s+/).filter(Boolean).length < 2) e.fullName = 'Indique ton prénom ET ton nom';
     if (!form.city.trim()) e.city = 'Obligatoire';
+    if (!form.addressDetail.trim()) e.addressDetail = 'Indique un repère (boutique, école, mosquée…) pour le livreur';
+    if (form.addressDetail.trim().length < 10) e.addressDetail = 'Trop court — décris un vrai repère visible';
+    if (!form.deliverySlot) e.deliverySlot = 'Choisis ton créneau préféré';
     if (!form.countryCode) e.countryCode = 'Obligatoire';
     const tel = form.whatsapp.replace(/\s/g, '');
     if (!/^[0-9]{6,12}$/.test(tel)) e.whatsapp = 'Numéro invalide';
     if (form.horsOuaga && !form.carTransport.trim()) e.carTransport = 'Indiquez la compagnie + ville';
     if (!form.available) e.available = 'Confirmation obligatoire';
+    if (!form.cashConfirmed) e.cashConfirmed = 'Confirme que tu auras le cash prêt';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -134,6 +139,11 @@ export function ProductForm({ product }: { product: Product }) {
   const submit = async () => {
     if (!validate()) {
       toast.error('Merci de compléter tous les champs.');
+      // Scroll vers la 1ère erreur
+      setTimeout(() => {
+        const el = document.querySelector('.border-rouge');
+        el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
       return;
     }
     setSubmitting(true);
@@ -141,6 +151,21 @@ export function ProductForm({ product }: { product: Product }) {
       const orderNumber = `KOUKA-${Date.now().toString(36).toUpperCase()}`;
       const [first, ...rest] = form.fullName.trim().split(' ');
       const fullPhone = country.prefix + form.whatsapp.replace(/\s/g, '');
+      const fullSecondary = form.secondaryContact.trim()
+        ? country.prefix + form.secondaryContact.replace(/\s/g, '')
+        : null;
+
+      const aiScore = computeOrderScore({
+        whatsapp: form.whatsapp,
+        countryPrefix: country.prefix,
+        fullName: form.fullName,
+        city: form.city,
+        addressDetail: form.addressDetail,
+        deliverySlot: form.deliverySlot,
+        cashConfirmed: form.cashConfirmed,
+        hourLocal: new Date().getHours(),
+        hasReferrer: typeof document !== 'undefined' && !!document.referrer,
+      });
 
       const bumpSuffix = bumpAccepted && bumpAvailable ? ` + 1 ${productLabel} BUMP` : '';
       const { error } = await supabase.from('orders').insert({
@@ -154,10 +179,14 @@ export function ProductForm({ product }: { product: Product }) {
         whatsapp: fullPhone,
         country: country.label.replace(/^.{1,4}\s/, ''),
         city: form.city,
+        address_detail: form.addressDetail,
+        delivery_slot: form.deliverySlot,
+        secondary_contact: fullSecondary,
+        cash_confirmed: form.cashConfirmed,
         car_transport: form.horsOuaga ? form.carTransport : null,
         is_available: form.available,
         status: 'pending',
-        ai_score: 80,
+        ai_score: aiScore,
         source: typeof document !== 'undefined' ? document.referrer || 'Direct' : 'Direct',
       });
 
