@@ -97,6 +97,8 @@ function SiropPage() {
         </div>
       </section>
 
+      <LiveStatsBar />
+
       <section className="sec bg-cream-2">
         <div className="container-kouka">
           <h2 className="text-center mb-2">Ce que tu vis <span className="text-rouge">en silence</span></h2>
