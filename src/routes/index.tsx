@@ -104,6 +104,9 @@ function HomePage() {
         </div>
       </section>
 
+      {/* PREUVE SOCIALE LIVE — vraies stats BDD */}
+      <LiveStatsBar />
+
       {/* UN SEUL PRODUIT — 5 PATHOLOGIES */}
       <section className="sec bg-vert-bg/40">
         <div className="container-kouka">
