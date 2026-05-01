@@ -151,10 +151,6 @@ export function ProductForm({ product }: { product: Product }) {
       const orderNumber = `KOUKA-${Date.now().toString(36).toUpperCase()}`;
       const [first, ...rest] = form.fullName.trim().split(' ');
       const fullPhone = country.prefix + form.whatsapp.replace(/\s/g, '');
-      const fullSecondary = form.secondaryContact.trim()
-        ? country.prefix + form.secondaryContact.replace(/\s/g, '')
-        : null;
-
       const aiScore = computeOrderScore({
         whatsapp: form.whatsapp,
         countryPrefix: country.prefix,
@@ -394,21 +390,6 @@ export function ProductForm({ product }: { product: Product }) {
                   {s.l}
                 </button>
               ))}
-            </div>
-          </Field>
-
-          <Field label="2e numéro de secours (recommandé)" error={errors.secondaryContact} hint="Si on n'arrive pas à te joindre — un proche, conjoint, voisin">
-            <div className="flex gap-2">
-              <div className="px-3.5 py-3.5 bg-cream-2 border-2 border-vert-bg rounded-xl font-bold min-w-[72px] text-center">
-                {country.prefix}
-              </div>
-              <input
-                type="tel"
-                value={form.secondaryContact}
-                onChange={(e) => update('secondaryContact', e.target.value)}
-                placeholder="Optionnel mais recommandé"
-                className={inputCls(errors.secondaryContact) + ' flex-1'}
-              />
             </div>
           </Field>
 
