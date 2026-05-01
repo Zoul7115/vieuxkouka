@@ -31,7 +31,27 @@ export type Order = {
   livreur_idx: number | null;
   delivery_fee?: number | null;
   created_at: string;
+  ai_score?: number | null;
+  address_detail?: string | null;
+  delivery_slot?: string | null;
+  secondary_contact?: string | null;
+  cash_confirmed?: boolean | null;
+  confirmed_via_whatsapp_at?: string | null;
 };
+
+const SLOT_LABELS: Record<string, string> = {
+  morning: '🌅 Matin',
+  noon: '☀️ Midi',
+  afternoon: '🌤️ Après-midi',
+  evening: '🌙 Soir',
+};
+
+function scoreBadge(score: number | null | undefined) {
+  const s = score ?? 50;
+  if (s >= 85) return { cls: 'bg-vert-bg text-vert', label: `🟢 ${s}` };
+  if (s >= 70) return { cls: 'bg-[oklch(0.95_0.10_85)] text-[oklch(0.40_0.10_82)]', label: `🟡 ${s}` };
+  return { cls: 'bg-rouge-light text-rouge', label: `🔴 ${s}` };
+}
 
 export function OrdersTab({
   orders,
