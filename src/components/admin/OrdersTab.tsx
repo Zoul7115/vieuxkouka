@@ -187,7 +187,7 @@ function OrderCard({
         <div className="border-t-2 border-vert-bg p-4 bg-cream-2/40 space-y-4">
           <div className="grid sm:grid-cols-2 gap-3 text-sm">
             <div><span className="text-muted-foreground">WhatsApp :</span> <span className="font-bold">{order.whatsapp}</span></div>
-            {order.secondary_contact && <div><span className="text-muted-foreground">Secours :</span> <span className="font-bold">{order.secondary_contact}</span></div>}
+            
             <div><span className="text-muted-foreground">Pays :</span> {order.country}</div>
             <div><span className="text-muted-foreground">Ville :</span> {order.city}</div>
             {order.address_detail && <div className="sm:col-span-2"><span className="text-muted-foreground">📍 Adresse :</span> <span className="font-bold">{order.address_detail}</span></div>}

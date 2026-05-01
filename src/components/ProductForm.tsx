@@ -62,7 +62,7 @@ export function ProductForm({ product }: { product: Product }) {
     city: '',
     addressDetail: '',
     deliverySlot: '',
-    secondaryContact: '',
+    
     horsOuaga: false,
     carTransport: '',
     available: false,
@@ -181,7 +181,7 @@ export function ProductForm({ product }: { product: Product }) {
         city: form.city,
         address_detail: form.addressDetail,
         delivery_slot: form.deliverySlot,
-        secondary_contact: fullSecondary,
+        
         cash_confirmed: form.cashConfirmed,
         car_transport: form.horsOuaga ? form.carTransport : null,
         is_available: form.available,
