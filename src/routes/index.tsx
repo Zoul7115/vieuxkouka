@@ -176,8 +176,11 @@ function HomePage() {
             <img src="/images/vieux-kouka.jpg" alt="Le Vieux KOUKA" className="w-full max-h-80 object-cover" />
             <div className="p-5">
               <h3 className="text-or mb-1">📖 Vieux KOUKA</h3>
-              <p className="text-xs text-muted-foreground font-semibold mb-3">
-                Thérapeute traditionnel · Burkina Faso · +60 ans de pratique
+              <p className="text-xs text-muted-foreground font-semibold mb-1">
+                Thérapeute traditionnel · +60 ans de pratique
+              </p>
+              <p className="text-sm text-vert font-bold mb-3">
+                📍 Région des Kuilsés · Burkina Faso 🇧🇫
               </p>
               <p className="italic text-muted-foreground leading-relaxed">
                 "Kouka est un guérisseur traditionnel de la région des Kuilsés, héritier d'un savoir transmis par
@@ -197,6 +200,9 @@ function HomePage() {
                 </span>
               ))}
             </div>
+            <p className="text-xs text-muted-foreground mt-3">
+              ✈️ <strong>Déjà livré à</strong> Ouagadougou, Bobo, Abidjan, Cocody, Yopougon, Marcory, Cotonou…
+            </p>
           </div>
 
           <div className="bloc mt-4">
@@ -346,18 +352,23 @@ function HomePage() {
 
       <section className="sec bg-cream-2">
         <div className="container-kouka">
-          <h2 className="text-center mb-6">Livraison <span className="text-vert">rapide dans tout le Burkina</span></h2>
+          <h2 className="text-center mb-2">Livraison <span className="text-vert">Burkina · Côte d'Ivoire</span></h2>
+          <p className="text-center text-sm text-muted-foreground mb-6">Paiement cash à la livraison · partout en Afrique de l'Ouest</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { i: '🏙️', t: 'Ouagadougou', d: 'Livraison gratuite' },
-              { i: '🇧🇫', t: 'Burkina Faso', d: '1 000 FCFA' },
+              { i: '🇧🇫', t: 'Burkina (autres)', d: '1 000 FCFA · car' },
+              { i: '🇨🇮', t: 'Abidjan', d: '2 000 FCFA · 24-48h' },
+              { i: '🇨🇮', t: 'Côte d\'Ivoire', d: '3 000 FCFA · car' },
               { i: '🇧🇯', t: 'Bénin', d: '1 500 FCFA' },
               { i: '💵', t: 'Paiement', d: 'Cash à la livraison' },
+              { i: '📦', t: 'Emballage', d: 'Discret · sans logo' },
+              { i: '🛡️', t: 'Garantie', d: 'Remboursé si pas satisfait' },
             ].map((x) => (
               <div key={x.t} className="bg-white border-2 border-vert-bg rounded-xl p-4 text-center shadow-sm">
                 <span className="block text-3xl mb-2">{x.i}</span>
-                <div className="font-extrabold text-foreground">{x.t}</div>
-                <div className="text-sm text-muted-foreground">{x.d}</div>
+                <div className="font-extrabold text-foreground text-sm">{x.t}</div>
+                <div className="text-xs text-muted-foreground">{x.d}</div>
               </div>
             ))}
           </div>
