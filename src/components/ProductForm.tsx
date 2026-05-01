@@ -363,6 +363,55 @@ export function ProductForm({ product }: { product: Product }) {
             />
           </Field>
 
+          <Field
+            label="Adresse précise — repère visible"
+            required
+            error={errors.addressDetail}
+            hint="Ex: 'En face boutique Wend-Panga' ou 'à côté école Sankara, maison portail bleu'"
+          >
+            <input
+              type="text"
+              value={form.addressDetail}
+              onChange={(e) => update('addressDetail', e.target.value)}
+              placeholder="En face de la mosquée centrale, maison à porte verte"
+              className={inputCls(errors.addressDetail)}
+            />
+          </Field>
+
+          <Field label="Quand veux-tu être livré ?" required error={errors.deliverySlot}>
+            <div className="grid grid-cols-2 gap-2">
+              {DELIVERY_SLOTS.map((s) => (
+                <button
+                  key={s.v}
+                  type="button"
+                  onClick={() => update('deliverySlot', s.v)}
+                  className={`px-3 py-2.5 rounded-xl text-sm font-bold border-2 transition-colors ${
+                    form.deliverySlot === s.v
+                      ? 'bg-vert-mid text-white border-vert-mid'
+                      : 'bg-white border-vert-bg text-muted-foreground hover:border-vert-mid'
+                  }`}
+                >
+                  {s.l}
+                </button>
+              ))}
+            </div>
+          </Field>
+
+          <Field label="2e numéro de secours (recommandé)" error={errors.secondaryContact} hint="Si on n'arrive pas à te joindre — un proche, conjoint, voisin">
+            <div className="flex gap-2">
+              <div className="px-3.5 py-3.5 bg-cream-2 border-2 border-vert-bg rounded-xl font-bold min-w-[72px] text-center">
+                {country.prefix}
+              </div>
+              <input
+                type="tel"
+                value={form.secondaryContact}
+                onChange={(e) => update('secondaryContact', e.target.value)}
+                placeholder="Optionnel mais recommandé"
+                className={inputCls(errors.secondaryContact) + ' flex-1'}
+              />
+            </div>
+          </Field>
+
           <label className="flex items-start gap-3 bg-[oklch(0.97_0.06_92)] border-2 border-or-light rounded-xl p-3.5 mb-3 cursor-pointer">
             <input
               type="checkbox"
@@ -398,10 +447,23 @@ export function ProductForm({ product }: { product: Product }) {
               className="w-5 h-5 mt-0.5 accent-vert-mid"
             />
             <span className="text-base text-muted-foreground leading-relaxed">
-              <strong>Je suis disponible</strong> pour recevoir ma commande dans les <strong>24h</strong> et suis joignable sur WhatsApp.
+              <strong>Je suis disponible</strong> pour recevoir ma commande dans les <strong>24-48h</strong> et joignable sur WhatsApp.
             </span>
           </label>
           {errors.available && <div className="text-rouge text-sm mb-3">{errors.available}</div>}
+
+          <label className="flex items-start gap-3 cursor-pointer mb-2 bg-vert-bg/40 border-2 border-vert-bg rounded-xl p-3">
+            <input
+              type="checkbox"
+              checked={form.cashConfirmed}
+              onChange={(e) => update('cashConfirmed', e.target.checked)}
+              className="w-5 h-5 mt-0.5 accent-vert-mid"
+            />
+            <span className="text-base text-foreground leading-relaxed">
+              💵 <strong>Je confirme que j'aurai bien {formatFCFA(finalPrice)} en cash</strong> prêts le jour de la livraison.
+            </span>
+          </label>
+          {errors.cashConfirmed && <div className="text-rouge text-sm mb-3">{errors.cashConfirmed}</div>}
 
           {/* Trust markers JUSTE avant le CTA — lève les dernières objections */}
           <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
