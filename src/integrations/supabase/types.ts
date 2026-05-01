@@ -123,13 +123,17 @@ export type Database = {
       }
       orders: {
         Row: {
+          address_detail: string | null
           ai_flags: string[] | null
           ai_score: number | null
           car_transport: string | null
+          cash_confirmed: boolean | null
           city: string | null
+          confirmed_via_whatsapp_at: string | null
           country: string | null
           created_at: string | null
           delivery_fee: number | null
+          delivery_slot: string | null
           first_name: string | null
           id: string
           is_available: boolean | null
@@ -142,18 +146,23 @@ export type Database = {
           product_name: string
           product_price: number
           product_slug: string | null
+          secondary_contact: string | null
           source: string | null
           status: string | null
           whatsapp: string | null
         }
         Insert: {
+          address_detail?: string | null
           ai_flags?: string[] | null
           ai_score?: number | null
           car_transport?: string | null
+          cash_confirmed?: boolean | null
           city?: string | null
+          confirmed_via_whatsapp_at?: string | null
           country?: string | null
           created_at?: string | null
           delivery_fee?: number | null
+          delivery_slot?: string | null
           first_name?: string | null
           id?: string
           is_available?: boolean | null
@@ -166,18 +175,23 @@ export type Database = {
           product_name: string
           product_price: number
           product_slug?: string | null
+          secondary_contact?: string | null
           source?: string | null
           status?: string | null
           whatsapp?: string | null
         }
         Update: {
+          address_detail?: string | null
           ai_flags?: string[] | null
           ai_score?: number | null
           car_transport?: string | null
+          cash_confirmed?: boolean | null
           city?: string | null
+          confirmed_via_whatsapp_at?: string | null
           country?: string | null
           created_at?: string | null
           delivery_fee?: number | null
+          delivery_slot?: string | null
           first_name?: string | null
           id?: string
           is_available?: boolean | null
@@ -190,6 +204,7 @@ export type Database = {
           product_name?: string
           product_price?: number
           product_slug?: string | null
+          secondary_contact?: string | null
           source?: string | null
           status?: string | null
           whatsapp?: string | null

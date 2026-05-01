@@ -92,15 +92,36 @@ export function LiveSocialProof({ product = 'Poudre KOUKA' }: { product?: string
     };
   }, [product]);
 
-  // Cycle d'affichage
+  // Cycle d'affichage avec déduplication par session
   useEffect(() => {
     if (items.length === 0) return;
     let timer: ReturnType<typeof setTimeout>;
-    let idx = 0;
+
+    // Charge les items déjà vus dans cette session
+    let seen: string[] = [];
+    try {
+      seen = JSON.parse(sessionStorage.getItem('kouka_proof_seen') || '[]');
+    } catch {}
+
+    const pickNext = (): ProofItem | null => {
+      // Filtre les items pas encore vus
+      const available = items.filter((i) => !seen.includes(i.name));
+      // Si tout a été vu, on reset (mais on garde l'ordre random)
+      if (available.length === 0) {
+        seen = [];
+        sessionStorage.setItem('kouka_proof_seen', '[]');
+        return items[Math.floor(Math.random() * items.length)] || null;
+      }
+      const next = available[Math.floor(Math.random() * available.length)];
+      seen.push(next.name);
+      try { sessionStorage.setItem('kouka_proof_seen', JSON.stringify(seen.slice(-30))); } catch {}
+      return next;
+    };
 
     const cycle = () => {
-      setCurrent(items[idx % items.length]);
-      idx++;
+      const next = pickNext();
+      if (!next) return;
+      setCurrent(next);
       setShow(true);
       timer = setTimeout(() => {
         setShow(false);

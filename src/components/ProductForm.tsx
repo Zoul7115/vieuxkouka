@@ -10,6 +10,40 @@ import { toast } from 'sonner';
 const BUMP_PRICE = 5000;
 const SHIPPING_FEE = 1000; // Frais d'expédition hors Ouagadougou
 
+const DELIVERY_SLOTS = [
+  { v: 'morning', l: '🌅 Matin (8h-12h)' },
+  { v: 'noon', l: '☀️ Midi (12h-14h)' },
+  { v: 'afternoon', l: '🌤️ Après-midi (14h-17h)' },
+  { v: 'evening', l: '🌙 Soir (17h-20h)' },
+];
+
+/** Score de qualité d'une commande (0-100) — aide l'admin à prioriser ses appels */
+function computeOrderScore(input: {
+  whatsapp: string;
+  countryPrefix: string;
+  fullName: string;
+  city: string;
+  addressDetail: string;
+  deliverySlot: string;
+  cashConfirmed: boolean;
+  hourLocal: number;
+  hasReferrer: boolean;
+}): number {
+  let score = 50;
+  if (/^[0-9]{6,12}$/.test(input.whatsapp.replace(/\s/g, ''))) score += 8;
+  if (input.countryPrefix === '+226' && input.whatsapp.replace(/\s/g, '').length === 8) score += 5;
+  const parts = input.fullName.trim().split(/\s+/).filter(Boolean);
+  if (parts.length >= 2 && parts[0].length >= 2 && parts[1].length >= 2) score += 8;
+  if (input.city.trim().length >= 3) score += 5;
+  if (input.addressDetail.trim().length >= 15) score += 10;
+  if (input.deliverySlot) score += 5;
+  if (input.cashConfirmed) score += 8;
+  if (input.hourLocal >= 6 && input.hourLocal <= 23) score += 3;
+  else score -= 10;
+  if (input.hasReferrer) score += 3;
+  return Math.max(0, Math.min(100, score));
+}
+
 export function ProductForm({ product }: { product: Product }) {
   const navigate = useNavigate();
   const recommended = product.offers.find((o) => o.recommended) || product.offers[0];
@@ -26,9 +60,13 @@ export function ProductForm({ product }: { product: Product }) {
     countryCode: 'BF',
     whatsapp: '',
     city: '',
+    addressDetail: '',
+    deliverySlot: '',
+    secondaryContact: '',
     horsOuaga: false,
     carTransport: '',
     available: false,
+    cashConfirmed: false,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -83,12 +121,17 @@ export function ProductForm({ product }: { product: Product }) {
   const validate = () => {
     const e: Record<string, string> = {};
     if (!form.fullName.trim()) e.fullName = 'Obligatoire';
+    if (form.fullName.trim().split(/\s+/).filter(Boolean).length < 2) e.fullName = 'Indique ton prénom ET ton nom';
     if (!form.city.trim()) e.city = 'Obligatoire';
+    if (!form.addressDetail.trim()) e.addressDetail = 'Indique un repère (boutique, école, mosquée…) pour le livreur';
+    if (form.addressDetail.trim().length < 10) e.addressDetail = 'Trop court — décris un vrai repère visible';
+    if (!form.deliverySlot) e.deliverySlot = 'Choisis ton créneau préféré';
     if (!form.countryCode) e.countryCode = 'Obligatoire';
     const tel = form.whatsapp.replace(/\s/g, '');
     if (!/^[0-9]{6,12}$/.test(tel)) e.whatsapp = 'Numéro invalide';
     if (form.horsOuaga && !form.carTransport.trim()) e.carTransport = 'Indiquez la compagnie + ville';
     if (!form.available) e.available = 'Confirmation obligatoire';
+    if (!form.cashConfirmed) e.cashConfirmed = 'Confirme que tu auras le cash prêt';
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -96,6 +139,11 @@ export function ProductForm({ product }: { product: Product }) {
   const submit = async () => {
     if (!validate()) {
       toast.error('Merci de compléter tous les champs.');
+      // Scroll vers la 1ère erreur
+      setTimeout(() => {
+        const el = document.querySelector('.border-rouge');
+        el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
       return;
     }
     setSubmitting(true);
@@ -103,6 +151,21 @@ export function ProductForm({ product }: { product: Product }) {
       const orderNumber = `KOUKA-${Date.now().toString(36).toUpperCase()}`;
       const [first, ...rest] = form.fullName.trim().split(' ');
       const fullPhone = country.prefix + form.whatsapp.replace(/\s/g, '');
+      const fullSecondary = form.secondaryContact.trim()
+        ? country.prefix + form.secondaryContact.replace(/\s/g, '')
+        : null;
+
+      const aiScore = computeOrderScore({
+        whatsapp: form.whatsapp,
+        countryPrefix: country.prefix,
+        fullName: form.fullName,
+        city: form.city,
+        addressDetail: form.addressDetail,
+        deliverySlot: form.deliverySlot,
+        cashConfirmed: form.cashConfirmed,
+        hourLocal: new Date().getHours(),
+        hasReferrer: typeof document !== 'undefined' && !!document.referrer,
+      });
 
       const bumpSuffix = bumpAccepted && bumpAvailable ? ` + 1 ${productLabel} BUMP` : '';
       const { error } = await supabase.from('orders').insert({
@@ -116,10 +179,14 @@ export function ProductForm({ product }: { product: Product }) {
         whatsapp: fullPhone,
         country: country.label.replace(/^.{1,4}\s/, ''),
         city: form.city,
+        address_detail: form.addressDetail,
+        delivery_slot: form.deliverySlot,
+        secondary_contact: fullSecondary,
+        cash_confirmed: form.cashConfirmed,
         car_transport: form.horsOuaga ? form.carTransport : null,
         is_available: form.available,
         status: 'pending',
-        ai_score: 80,
+        ai_score: aiScore,
         source: typeof document !== 'undefined' ? document.referrer || 'Direct' : 'Direct',
       });
 
@@ -138,6 +205,8 @@ export function ProductForm({ product }: { product: Product }) {
           price: finalPrice,
           whatsapp: fullPhone,
           city: form.city,
+          addressDetail: form.addressDetail,
+          deliverySlot: form.deliverySlot,
         })
       );
 
@@ -294,6 +363,55 @@ export function ProductForm({ product }: { product: Product }) {
             />
           </Field>
 
+          <Field
+            label="Adresse précise — repère visible"
+            required
+            error={errors.addressDetail}
+            hint="Ex: 'En face boutique Wend-Panga' ou 'à côté école Sankara, maison portail bleu'"
+          >
+            <input
+              type="text"
+              value={form.addressDetail}
+              onChange={(e) => update('addressDetail', e.target.value)}
+              placeholder="En face de la mosquée centrale, maison à porte verte"
+              className={inputCls(errors.addressDetail)}
+            />
+          </Field>
+
+          <Field label="Quand veux-tu être livré ?" required error={errors.deliverySlot}>
+            <div className="grid grid-cols-2 gap-2">
+              {DELIVERY_SLOTS.map((s) => (
+                <button
+                  key={s.v}
+                  type="button"
+                  onClick={() => update('deliverySlot', s.v)}
+                  className={`px-3 py-2.5 rounded-xl text-sm font-bold border-2 transition-colors ${
+                    form.deliverySlot === s.v
+                      ? 'bg-vert-mid text-white border-vert-mid'
+                      : 'bg-white border-vert-bg text-muted-foreground hover:border-vert-mid'
+                  }`}
+                >
+                  {s.l}
+                </button>
+              ))}
+            </div>
+          </Field>
+
+          <Field label="2e numéro de secours (recommandé)" error={errors.secondaryContact} hint="Si on n'arrive pas à te joindre — un proche, conjoint, voisin">
+            <div className="flex gap-2">
+              <div className="px-3.5 py-3.5 bg-cream-2 border-2 border-vert-bg rounded-xl font-bold min-w-[72px] text-center">
+                {country.prefix}
+              </div>
+              <input
+                type="tel"
+                value={form.secondaryContact}
+                onChange={(e) => update('secondaryContact', e.target.value)}
+                placeholder="Optionnel mais recommandé"
+                className={inputCls(errors.secondaryContact) + ' flex-1'}
+              />
+            </div>
+          </Field>
+
           <label className="flex items-start gap-3 bg-[oklch(0.97_0.06_92)] border-2 border-or-light rounded-xl p-3.5 mb-3 cursor-pointer">
             <input
               type="checkbox"
@@ -329,10 +447,23 @@ export function ProductForm({ product }: { product: Product }) {
               className="w-5 h-5 mt-0.5 accent-vert-mid"
             />
             <span className="text-base text-muted-foreground leading-relaxed">
-              <strong>Je suis disponible</strong> pour recevoir ma commande dans les <strong>24h</strong> et suis joignable sur WhatsApp.
+              <strong>Je suis disponible</strong> pour recevoir ma commande dans les <strong>24-48h</strong> et joignable sur WhatsApp.
             </span>
           </label>
           {errors.available && <div className="text-rouge text-sm mb-3">{errors.available}</div>}
+
+          <label className="flex items-start gap-3 cursor-pointer mb-2 bg-vert-bg/40 border-2 border-vert-bg rounded-xl p-3">
+            <input
+              type="checkbox"
+              checked={form.cashConfirmed}
+              onChange={(e) => update('cashConfirmed', e.target.checked)}
+              className="w-5 h-5 mt-0.5 accent-vert-mid"
+            />
+            <span className="text-base text-foreground leading-relaxed">
+              💵 <strong>Je confirme que j'aurai bien {formatFCFA(finalPrice)} en cash</strong> prêts le jour de la livraison.
+            </span>
+          </label>
+          {errors.cashConfirmed && <div className="text-rouge text-sm mb-3">{errors.cashConfirmed}</div>}
 
           {/* Trust markers JUSTE avant le CTA — lève les dernières objections */}
           <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
@@ -386,11 +517,13 @@ function Field({
   label,
   required,
   error,
+  hint,
   children,
 }: {
   label: string;
   required?: boolean;
   error?: string;
+  hint?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -398,6 +531,7 @@ function Field({
       <label className="block text-sm font-bold text-muted-foreground mb-1.5">
         {label} {required && <span className="text-rouge">*</span>}
       </label>
+      {hint && <div className="text-xs text-muted-foreground mb-1.5 italic">{hint}</div>}
       {children}
       {error && <div className="text-rouge text-sm mt-1.5">{error}</div>}
     </div>

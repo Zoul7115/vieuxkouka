@@ -11,6 +11,7 @@ import { UrgencyTimer } from '@/components/UrgencyTimer';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import { AbandonRecovery } from '@/components/AbandonRecovery';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
+import { LiveStatsBar } from '@/components/LiveStatsBar';
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -102,6 +103,9 @@ function HomePage() {
           <p className="text-sm text-muted-foreground mt-3">📦 Livraison gratuite Ouaga · 💵 Cash à réception · 🤐 Emballage 100% discret</p>
         </div>
       </section>
+
+      {/* PREUVE SOCIALE LIVE — vraies stats BDD */}
+      <LiveStatsBar />
 
       {/* UN SEUL PRODUIT — 5 PATHOLOGIES */}
       <section className="sec bg-vert-bg/40">
