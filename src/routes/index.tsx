@@ -11,6 +11,7 @@ import { UrgencyTimer } from '@/components/UrgencyTimer';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import { AbandonRecovery } from '@/components/AbandonRecovery';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
+import { LiveStatsBar } from '@/components/LiveStatsBar';
 
 export const Route = createFileRoute('/')({
   head: () => ({

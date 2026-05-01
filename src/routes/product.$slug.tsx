@@ -10,6 +10,7 @@ import { UrgencyTimer } from '@/components/UrgencyTimer';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import { AbandonRecovery } from '@/components/AbandonRecovery';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
+import { LiveStatsBar } from '@/components/LiveStatsBar';
 import { SIROP_KOUKA, formatFCFA } from '@/lib/products';
 
 export const Route = createFileRoute('/product/$slug')({
