@@ -124,7 +124,7 @@ function SiropPage() {
         <div className="container-kouka">
           <h2 className="text-center mb-3">🌿 Le Sirop du Vieux KOUKA</h2>
           <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto">
-            Une formule traditionnelle africaine — racines et écorces récoltées au Burkina, Côte d'Ivoire et Bénin —
+            Une formule traditionnelle africaine — racines et écorces récoltées au Burkina Faso et au Bénin —
             pour <strong>réveiller la circulation sanguine, prolonger l'érection</strong> et relancer la libido naturelle.
             Pas un excitant chimique. Une vraie restauration de ta vitalité.
           </p>
@@ -154,25 +154,17 @@ function SiropPage() {
             <img src="/images/kouka-temoignages.webp" alt="Témoignages clients Sirop du Vieux KOUKA" className="rounded-2xl border-2 border-vert-bg" />
           </div>
 
-          {/* Livraison discrète Burkina + Côte d'Ivoire */}
+          {/* Livraison discrète partout au Burkina Faso */}
           <div className="bg-white border-2 border-vert-bg rounded-2xl p-5 mt-6 max-w-lg mx-auto">
-            <h3 className="text-vert text-center mb-3">🚚 Livraison 100% discrète</h3>
+            <h3 className="text-vert text-center mb-3">🚚 Livraison 100% discrète au Burkina</h3>
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
                 <div className="font-extrabold">🏙️ Ouagadougou</div>
-                <div className="text-xs text-vert font-bold">Gratuite</div>
+                <div className="text-xs text-vert font-bold">Gratuite · même jour</div>
               </div>
               <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
-                <div className="font-extrabold">🇧🇫 Burkina (autres)</div>
-                <div className="text-xs text-muted-foreground">1 000 FCFA · car</div>
-              </div>
-              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
-                <div className="font-extrabold">🇨🇮 Abidjan</div>
-                <div className="text-xs text-muted-foreground">2 000 FCFA · 24-48h</div>
-              </div>
-              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
-                <div className="font-extrabold">🇨🇮 Côte d'Ivoire</div>
-                <div className="text-xs text-muted-foreground">3 000 FCFA · car</div>
+                <div className="font-extrabold">🇧🇫 Autres villes</div>
+                <div className="text-xs text-muted-foreground">1 000 FCFA · par car</div>
               </div>
             </div>
             <p className="text-center text-xs text-muted-foreground mt-3">
