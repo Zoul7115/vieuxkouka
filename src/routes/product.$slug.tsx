@@ -128,10 +128,56 @@ function SiropPage() {
             pour <strong>réveiller la circulation sanguine, prolonger l'érection</strong> et relancer la libido naturelle.
             Pas un excitant chimique. Une vraie restauration de ta vitalité.
           </p>
+
+          {/* Présentation du Vieux KOUKA — origine région des Kuilsés */}
+          <div className="bloc bloc-or p-0 overflow-hidden mb-6 max-w-lg mx-auto">
+            <img src="/images/vieux-kouka.jpg" alt="Le Vieux KOUKA" className="w-full max-h-72 object-cover" />
+            <div className="p-5">
+              <h3 className="text-or mb-1">📖 Vieux KOUKA</h3>
+              <p className="text-xs text-muted-foreground font-semibold mb-1">
+                Thérapeute traditionnel · +60 ans de pratique
+              </p>
+              <p className="text-sm text-vert font-bold mb-3">
+                📍 Région des Kuilsés · Burkina Faso 🇧🇫
+              </p>
+              <p className="italic text-muted-foreground leading-relaxed text-sm">
+                "Héritier d'un savoir transmis par son grand-père il y a plus de 60 ans, le Vieux KOUKA récolte
+                lui-même chaque plante de sa formule — selon les cycles de la lune et les régions où elles atteignent
+                leur pleine puissance."
+              </p>
+            </div>
+          </div>
+
           <div className="grid gap-4">
             <img src="/images/kouka-solution.png" alt="La solution existe — Sirop du Vieux KOUKA" className="rounded-2xl border-2 border-vert-bg" />
             <img src="/images/kouka-banner-investissement.png" alt="Le Vieux KOUKA — ton investissement bien-être" className="rounded-2xl border-2 border-vert-bg" />
             <img src="/images/kouka-temoignages.webp" alt="Témoignages clients Sirop du Vieux KOUKA" className="rounded-2xl border-2 border-vert-bg" />
+          </div>
+
+          {/* Livraison discrète Burkina + Côte d'Ivoire */}
+          <div className="bg-white border-2 border-vert-bg rounded-2xl p-5 mt-6 max-w-lg mx-auto">
+            <h3 className="text-vert text-center mb-3">🚚 Livraison 100% discrète</h3>
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
+                <div className="font-extrabold">🏙️ Ouagadougou</div>
+                <div className="text-xs text-vert font-bold">Gratuite</div>
+              </div>
+              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
+                <div className="font-extrabold">🇧🇫 Burkina (autres)</div>
+                <div className="text-xs text-muted-foreground">1 000 FCFA · car</div>
+              </div>
+              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
+                <div className="font-extrabold">🇨🇮 Abidjan</div>
+                <div className="text-xs text-muted-foreground">2 000 FCFA · 24-48h</div>
+              </div>
+              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
+                <div className="font-extrabold">🇨🇮 Côte d'Ivoire</div>
+                <div className="text-xs text-muted-foreground">3 000 FCFA · car</div>
+              </div>
+            </div>
+            <p className="text-center text-xs text-muted-foreground mt-3">
+              💵 Paiement cash à la livraison · 📦 Colis neutre, sans logo
+            </p>
           </div>
         </div>
       </section>
