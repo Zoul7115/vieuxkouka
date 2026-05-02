@@ -270,6 +270,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         {(!loading || orders.length > 0) && (
           <>
             {tab === 'orders' && <OrdersTab orders={orders} onUpdateStatus={updateStatus} onAssignLivreur={assignLivreur} />}
+            {tab === 'sav' && <SAVTab orders={orders} onChange={() => load(true)} />}
             {tab === 'livreurs' && <LivreursTab orders={orders} onChange={() => load(true)} />}
             {tab === 'stock' && <StockTab />}
             {tab === 'compta' && <ComptaTab orders={orders} />}
