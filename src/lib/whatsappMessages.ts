@@ -130,5 +130,48 @@ export function waLivreurUrl(order: WAOrder, livreur: Livreur): string {
   return waUrl(livreur.whatsapp, buildLivreurMessage(order));
 }
 
+/** Message SAV — Relance J+7 après livraison pour prendre des nouvelles */
+export function buildSAVMessage(order: WAOrder): string {
+  const fullName = [order.first_name, order.last_name].filter(Boolean).join(' ') || 'cher client';
+  const isSirop = /sirop/i.test(order.product_name);
+
+  if (isSirop) {
+    return `Bonjour *${fullName}* 👋
+
+C'est l'équipe discrète du *Vieux KOUKA* 🌿
+
+Cela fait *7 jours* depuis ta commande du *Sirop KOUKA*. On voulait prendre de tes nouvelles, en toute discrétion 🤐
+
+👉 Comment te sens-tu depuis le début du traitement ?
+👉 As-tu remarqué un changement (énergie, tenue, désir) ?
+👉 Es-tu satisfait des résultats ?
+
+Ton retour reste *100% confidentiel* et nous aide énormément à améliorer le produit pour les autres hommes qui souffrent comme toi avant.
+
+Merci pour ta confiance 🙏
+_— Le Vieux KOUKA_`;
+  }
+
+  return `Bonjour *${fullName}* 🌿
+
+C'est l'équipe du *Vieux KOUKA*. Cela fait *7 jours* depuis ta commande de la *Poudre KOUKA*.
+
+On voulait juste prendre de tes nouvelles 🙏
+
+👉 Comment vas-tu depuis que tu as commencé le traitement ?
+👉 Les saignements / brûlures / ballonnements ont-ils diminué ?
+👉 Es-tu satisfait des résultats ?
+
+Ton retour est très important pour nous — et il aide d'autres personnes qui souffrent comme toi avant.
+
+Merci pour ta confiance 🌿
+_— Le Vieux KOUKA_`;
+}
+
+export function waSAVUrl(order: WAOrder): string | null {
+  if (!order.whatsapp) return null;
+  return waUrl(order.whatsapp, buildSAVMessage(order));
+}
+
 // Suppression du faux suppression d'avert eslint sur sirop check
 void unitsLabel;
