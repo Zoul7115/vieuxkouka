@@ -9,6 +9,7 @@ import { MiniDiagnostic } from '@/components/MiniDiagnostic';
 import { UrgencyTimer } from '@/components/UrgencyTimer';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import { AbandonRecovery } from '@/components/AbandonRecovery';
+import { AudioVieuxKouka } from '@/components/AudioVieuxKouka';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 
 import { SIROP_KOUKA, formatFCFA } from '@/lib/products';
