@@ -10,11 +10,17 @@ type SAVOrder = Order & {
 };
 
 const DAYS_BEFORE_SAV = 7;
+const SAV_WINDOW_HOURS = 24; // Fenêtre de visibilité après J+7
 
 function daysSince(iso: string | null | undefined): number {
   if (!iso) return 0;
   const d = new Date(iso).getTime();
   return Math.floor((Date.now() - d) / 86400000);
+}
+
+function hoursSince(iso: string | null | undefined): number {
+  if (!iso) return 0;
+  return (Date.now() - new Date(iso).getTime()) / 3600000;
 }
 
 type SubTab = 'todo' | 'done' | 'feedback';
@@ -40,12 +46,15 @@ export function SAVTab({ orders, onChange }: { orders: Order[]; onChange: () => 
             : !/sirop/i.test(o.product_name)
         );
 
+  // À relancer = livré il y a entre J+7 et J+8 (fenêtre de 24h) ET pas encore relancé
   const todo = useMemo(
     () =>
       filterByProduct(
-        delivered.filter(
-          (o) => !o.sav_followed_up_at && daysSince(o.created_at) >= DAYS_BEFORE_SAV
-        )
+        delivered.filter((o) => {
+          if (o.sav_followed_up_at) return false; // relancé → disparaît immédiatement
+          const d = daysSince(o.created_at);
+          return d >= DAYS_BEFORE_SAV && d < DAYS_BEFORE_SAV + 1;
+        })
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [delivered, productFilter]
