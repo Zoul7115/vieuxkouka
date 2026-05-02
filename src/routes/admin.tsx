@@ -28,7 +28,7 @@ type Visit = {
   visited_at: string | null;
 };
 
-type Tab = 'orders' | 'stats' | 'stock' | 'compta' | 'livreurs';
+type Tab = 'orders' | 'sav' | 'stats' | 'stock' | 'compta' | 'livreurs';
 
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
@@ -169,6 +169,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
   const TABS: { k: Tab; label: string; emoji: string }[] = [
     { k: 'orders', label: 'Commandes', emoji: '📦' },
+    { k: 'sav', label: 'SAV', emoji: '🤝' },
     { k: 'livreurs', label: 'Livreurs', emoji: '🛵' },
     { k: 'stock', label: 'Stock', emoji: '📊' },
     { k: 'compta', label: 'Compta', emoji: '💰' },
