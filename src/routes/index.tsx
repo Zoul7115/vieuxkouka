@@ -105,6 +105,9 @@ function HomePage() {
         </div>
       </section>
 
+      {/* AUDIO DU VIEUX KOUKA — placement stratégique post-hero */}
+      <AudioVieuxKouka src="/audio/poudre-kouka.aac" productSlug="kouka" />
+
       {/* PREUVE SOCIALE LIVE — vraies stats BDD */}
       
 

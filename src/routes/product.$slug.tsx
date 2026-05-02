@@ -98,8 +98,10 @@ function SiropPage() {
         </div>
       </section>
 
-      
+      {/* AUDIO DU VIEUX KOUKA — placement stratégique post-hero */}
+      <AudioVieuxKouka src="/audio/sirop-kouka.aac" productSlug="sirop-kouka" />
 
+      
       <section className="sec bg-cream-2">
         <div className="container-kouka">
           <h2 className="text-center mb-2">Ce que tu vis <span className="text-rouge">en silence</span></h2>
