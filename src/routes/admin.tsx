@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { formatFCFA } from '@/lib/products';
 import { toast } from 'sonner';
 import { OrdersTab, type Order } from '@/components/admin/OrdersTab';
+import { SAVTab } from '@/components/admin/SAVTab';
 import { StatsTab } from '@/components/admin/StatsTab';
 import { StockTab } from '@/components/admin/StockTab';
 import { ComptaTab } from '@/components/admin/ComptaTab';
