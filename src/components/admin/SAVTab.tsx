@@ -60,11 +60,12 @@ export function SAVTab({ orders, onChange }: { orders: Order[]; onChange: () => 
     [delivered, productFilter]
   );
 
+  // Relancés visibles = relancés dans les 24h dernières heures uniquement
   const done = useMemo(
     () =>
       filterByProduct(
         delivered
-          .filter((o) => o.sav_followed_up_at)
+          .filter((o) => o.sav_followed_up_at && hoursSince(o.sav_followed_up_at) < SAV_WINDOW_HOURS)
           .sort(
             (a, b) =>
               new Date(b.sav_followed_up_at!).getTime() -
@@ -81,15 +82,14 @@ export function SAVTab({ orders, onChange }: { orders: Order[]; onChange: () => 
     [delivered, productFilter]
   );
 
-  // KPIs
-  const startToday = new Date();
-  startToday.setHours(0, 0, 0, 0);
+  // KPIs (basés sur l'historique complet, pas sur la liste affichée)
   const startWeek = new Date(Date.now() - 7 * 86400000);
-  const doneThisWeek = done.filter(
+  const allDoneEver = delivered.filter((o) => o.sav_followed_up_at);
+  const doneThisWeek = allDoneEver.filter(
     (o) => new Date(o.sav_followed_up_at!).getTime() >= startWeek.getTime()
   ).length;
   const feedbackRate =
-    done.length > 0 ? Math.round((feedback.length / done.length) * 100) : 0;
+    allDoneEver.length > 0 ? Math.round((feedback.length / allDoneEver.length) * 100) : 0;
 
   const list = sub === 'todo' ? todo : sub === 'done' ? done : feedback;
 
