@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { formatFCFA } from '@/lib/products';
 import { toast } from 'sonner';
 import { OrdersTab, type Order } from '@/components/admin/OrdersTab';
+import { SAVTab } from '@/components/admin/SAVTab';
 import { StatsTab } from '@/components/admin/StatsTab';
 import { StockTab } from '@/components/admin/StockTab';
 import { ComptaTab } from '@/components/admin/ComptaTab';
@@ -27,7 +28,7 @@ type Visit = {
   visited_at: string | null;
 };
 
-type Tab = 'orders' | 'stats' | 'stock' | 'compta' | 'livreurs';
+type Tab = 'orders' | 'sav' | 'stats' | 'stock' | 'compta' | 'livreurs';
 
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
@@ -168,6 +169,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
   const TABS: { k: Tab; label: string; emoji: string }[] = [
     { k: 'orders', label: 'Commandes', emoji: '📦' },
+    { k: 'sav', label: 'SAV', emoji: '🤝' },
     { k: 'livreurs', label: 'Livreurs', emoji: '🛵' },
     { k: 'stock', label: 'Stock', emoji: '📊' },
     { k: 'compta', label: 'Compta', emoji: '💰' },
@@ -268,6 +270,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         {(!loading || orders.length > 0) && (
           <>
             {tab === 'orders' && <OrdersTab orders={orders} onUpdateStatus={updateStatus} onAssignLivreur={assignLivreur} />}
+            {tab === 'sav' && <SAVTab orders={orders} onChange={() => load(true)} />}
             {tab === 'livreurs' && <LivreursTab orders={orders} onChange={() => load(true)} />}
             {tab === 'stock' && <StockTab />}
             {tab === 'compta' && <ComptaTab orders={orders} />}

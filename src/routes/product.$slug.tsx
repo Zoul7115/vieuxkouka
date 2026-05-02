@@ -9,6 +9,7 @@ import { MiniDiagnostic } from '@/components/MiniDiagnostic';
 import { UrgencyTimer } from '@/components/UrgencyTimer';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import { AbandonRecovery } from '@/components/AbandonRecovery';
+import { AudioVieuxKouka } from '@/components/AudioVieuxKouka';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 
 import { SIROP_KOUKA, formatFCFA } from '@/lib/products';
@@ -97,8 +98,10 @@ function SiropPage() {
         </div>
       </section>
 
-      
+      {/* AUDIO DU VIEUX KOUKA — placement stratégique post-hero */}
+      <AudioVieuxKouka src="/audio/sirop-kouka.aac" productSlug="sirop-kouka" />
 
+      
       <section className="sec bg-cream-2">
         <div className="container-kouka">
           <h2 className="text-center mb-2">Ce que tu vis <span className="text-rouge">en silence</span></h2>

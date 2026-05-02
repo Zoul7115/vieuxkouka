@@ -146,6 +146,8 @@ export type Database = {
           product_name: string
           product_price: number
           product_slug: string | null
+          sav_followed_up_at: string | null
+          sav_notes: string | null
           secondary_contact: string | null
           source: string | null
           status: string | null
@@ -175,6 +177,8 @@ export type Database = {
           product_name: string
           product_price: number
           product_slug?: string | null
+          sav_followed_up_at?: string | null
+          sav_notes?: string | null
           secondary_contact?: string | null
           source?: string | null
           status?: string | null
@@ -204,6 +208,8 @@ export type Database = {
           product_name?: string
           product_price?: number
           product_slug?: string | null
+          sav_followed_up_at?: string | null
+          sav_notes?: string | null
           secondary_contact?: string | null
           source?: string | null
           status?: string | null
