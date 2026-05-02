@@ -51,10 +51,9 @@ export function AudioVieuxKouka({
         } catch {/* noop */}
         // Facebook Pixel
         try {
-          // @ts-expect-error fbq global
-          if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
-            // @ts-expect-error fbq global
-            window.fbq('trackCustom', 'AudioPlayed', { product: productSlug });
+          const w = window as unknown as { fbq?: (...args: unknown[]) => void };
+          if (typeof w.fbq === 'function') {
+            w.fbq('trackCustom', 'AudioPlayed', { product: productSlug });
           }
         } catch {/* noop */}
       }
