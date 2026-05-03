@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value?: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
       daily_expenses: {
         Row: {
           amount: number
@@ -310,6 +328,42 @@ export type Database = {
           referrer?: string | null
           source?: string | null
           visited_at?: string | null
+        }
+        Relationships: []
+      }
+      weekly_reports: {
+        Row: {
+          alerts: Json
+          finance_reco: Json
+          generated_at: string
+          ia_report: string | null
+          id: string
+          kpi: Json
+          read_at: string | null
+          week_end: string
+          week_start: string
+        }
+        Insert: {
+          alerts?: Json
+          finance_reco?: Json
+          generated_at?: string
+          ia_report?: string | null
+          id?: string
+          kpi?: Json
+          read_at?: string | null
+          week_end: string
+          week_start: string
+        }
+        Update: {
+          alerts?: Json
+          finance_reco?: Json
+          generated_at?: string
+          ia_report?: string | null
+          id?: string
+          kpi?: Json
+          read_at?: string | null
+          week_end?: string
+          week_start?: string
         }
         Relationships: []
       }
