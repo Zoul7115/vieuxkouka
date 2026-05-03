@@ -14,6 +14,7 @@ import { Route as DiagnosticRouteImport } from './routes/diagnostic'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as ApiPublicHooksWeeklyReportRouteImport } from './routes/api/public/hooks/weekly-report'
 
 const ThankYouRoute = ThankYouRouteImport.update({
   id: '/thank-you',
@@ -40,6 +41,12 @@ const ProductSlugRoute = ProductSlugRouteImport.update({
   path: '/product/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicHooksWeeklyReportRoute =
+  ApiPublicHooksWeeklyReportRouteImport.update({
+    id: '/api/public/hooks/weekly-report',
+    path: '/api/public/hooks/weekly-report',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +54,7 @@ export interface FileRoutesByFullPath {
   '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/api/public/hooks/weekly-report': typeof ApiPublicHooksWeeklyReportRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +62,7 @@ export interface FileRoutesByTo {
   '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/api/public/hooks/weekly-report': typeof ApiPublicHooksWeeklyReportRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,12 +71,25 @@ export interface FileRoutesById {
   '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/api/public/hooks/weekly-report': typeof ApiPublicHooksWeeklyReportRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/diagnostic' | '/thank-you' | '/product/$slug'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/diagnostic'
+    | '/thank-you'
+    | '/product/$slug'
+    | '/api/public/hooks/weekly-report'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/diagnostic' | '/thank-you' | '/product/$slug'
+  to:
+    | '/'
+    | '/admin'
+    | '/diagnostic'
+    | '/thank-you'
+    | '/product/$slug'
+    | '/api/public/hooks/weekly-report'
   id:
     | '__root__'
     | '/'
@@ -75,6 +97,7 @@ export interface FileRouteTypes {
     | '/diagnostic'
     | '/thank-you'
     | '/product/$slug'
+    | '/api/public/hooks/weekly-report'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -83,6 +106,7 @@ export interface RootRouteChildren {
   DiagnosticRoute: typeof DiagnosticRoute
   ThankYouRoute: typeof ThankYouRoute
   ProductSlugRoute: typeof ProductSlugRoute
+  ApiPublicHooksWeeklyReportRoute: typeof ApiPublicHooksWeeklyReportRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -122,6 +146,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/weekly-report': {
+      id: '/api/public/hooks/weekly-report'
+      path: '/api/public/hooks/weekly-report'
+      fullPath: '/api/public/hooks/weekly-report'
+      preLoaderRoute: typeof ApiPublicHooksWeeklyReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -131,6 +162,7 @@ const rootRouteChildren: RootRouteChildren = {
   DiagnosticRoute: DiagnosticRoute,
   ThankYouRoute: ThankYouRoute,
   ProductSlugRoute: ProductSlugRoute,
+  ApiPublicHooksWeeklyReportRoute: ApiPublicHooksWeeklyReportRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
