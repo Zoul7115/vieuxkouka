@@ -85,7 +85,7 @@ export function BilanTab() {
   const saveRules = async () => {
     const total = rules.pub_pct + rules.stock_pct + rules.epargne_pct + rules.perso_pct;
     if (total !== 100) { toast.error(`Le total doit faire 100% (actuel: ${total}%)`); return; }
-    const { error } = await supabase.from('app_settings').upsert({ key: 'finance_rules', value: rules, updated_at: new Date().toISOString() });
+    const { error } = await supabase.from('app_settings').upsert([{ key: 'finance_rules', value: rules as never, updated_at: new Date().toISOString() }]);
     if (error) toast.error(error.message);
     else { toast.success('Règles sauvegardées'); setShowRules(false); }
   };
