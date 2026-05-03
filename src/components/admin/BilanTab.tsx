@@ -64,10 +64,10 @@ export function BilanTab() {
       const { error: upErr } = await supabase.from('weekly_reports').upsert([{
         week_start: kpi.week_start,
         week_end: kpi.week_end,
-        kpi: kpi as unknown as Record<string, unknown>,
+        kpi: kpi as never,
         ia_report: result.report_markdown,
-        finance_reco: result.finance_reco as unknown as Record<string, unknown>,
-        alerts: result.alerts || [],
+        finance_reco: result.finance_reco as never,
+        alerts: (result.alerts || []) as never,
         generated_at: new Date().toISOString(),
       }], { onConflict: 'week_start' });
       if (upErr) throw upErr;
