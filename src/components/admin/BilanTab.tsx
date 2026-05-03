@@ -61,7 +61,7 @@ export function BilanTab() {
       if (error) throw error;
       const result = data as { report_markdown: string; finance_reco: FinanceReco; alerts: Array<{ severity: string; message: string }> };
 
-      const { error: upErr } = await supabase.from('weekly_reports').upsert({
+      const { error: upErr } = await supabase.from('weekly_reports').upsert([{
         week_start: kpi.week_start,
         week_end: kpi.week_end,
         kpi: kpi as unknown as Record<string, unknown>,
@@ -69,7 +69,7 @@ export function BilanTab() {
         finance_reco: result.finance_reco as unknown as Record<string, unknown>,
         alerts: result.alerts || [],
         generated_at: new Date().toISOString(),
-      }, { onConflict: 'week_start' });
+      }], { onConflict: 'week_start' });
       if (upErr) throw upErr;
 
       toast.success('Bilan généré ✨');
