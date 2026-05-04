@@ -1,6 +1,7 @@
 // Calcul des KPI hebdo (lundi → dimanche) à partir des commandes et dépenses.
 
 import { supabase } from '@/integrations/supabase/client';
+import { orderProductCost, DELIVERY_COST } from '@/lib/products';
 
 export type WeeklyKPI = {
   week_start: string;
@@ -12,14 +13,21 @@ export type WeeklyKPI = {
   nb_cancelled: number;
   taux_livraison: number;
   panier_moyen: number;
-  par_produit: Record<string, { nb: number; ca: number; livrees: number }>;
+  par_produit: Record<string, { nb: number; ca: number; livrees: number; cogs: number; units: number }>;
   par_livreur: Record<string, { nb: number; livrees: number; taux: number }>;
-  depenses_total: number;
+  // Détail charges
+  cogs: number;                 // PA produits × unités livrées (auto)
+  delivery_cost: number;        // 2000 × commandes livrées (auto)
+  charges_compta: number;       // Pub + salaires + autres (Compta, hors stock)
+  stock_rachete: number;        // Rachat stock saisi en Compta (info trésorerie)
+  depenses_total: number;       // = cogs + delivery_cost + charges_compta
   depenses_par_categorie: Record<string, number>;
   pub_spend: number;
-  profit_net: number;
+  profit_net: number;           // Vrai profit comptable
+  cash_out: number;             // Trésorerie sortie (inclut stock racheté)
   roas: number;
   cac: number;
+  marge_pct: number;            // profit / CA livré
   visites: number;
   taux_conversion: number;
   vs_n1: { ca_pct: number; orders_pct: number; profit_pct: number };
