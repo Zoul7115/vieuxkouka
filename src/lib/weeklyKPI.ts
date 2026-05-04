@@ -78,14 +78,30 @@ export async function computeWeeklyKPI(weekOffset = -1): Promise<WeeklyKPI> {
   const ca_livre = delivered.reduce((s, o) => s + (o.product_price || 0), 0);
   const ca_pending = pending.reduce((s, o) => s + (o.product_price || 0), 0);
 
-  const par_produit: Record<string, { nb: number; ca: number; livrees: number }> = {};
+  // Helper: déduit le nombre d'unités totales (bonus inclus) à partir du label de l'offre
+  const unitsFromLabel = (label?: string | null): number => {
+    const l = (label || '').toLowerCase();
+    let u = 1;
+    if (/3\s*\+\s*2/.test(l)) u = 5;
+    else if (/2\s*\+\s*1/.test(l)) u = 3;
+    if (/bump/.test(l)) u += 1;
+    return u;
+  };
+
+  const par_produit: Record<string, { nb: number; ca: number; livrees: number; cogs: number; units: number }> = {};
+  let cogs = 0;
   for (const o of orders) {
     const k = o.product_slug || o.product_name || 'inconnu';
-    par_produit[k] ||= { nb: 0, ca: 0, livrees: 0 };
+    par_produit[k] ||= { nb: 0, ca: 0, livrees: 0, cogs: 0, units: 0 };
     par_produit[k].nb += 1;
     if (o.status === 'delivered') {
+      const units = unitsFromLabel(o.offer_label);
+      const c = orderProductCost(o.product_name || '', units);
       par_produit[k].livrees += 1;
       par_produit[k].ca += o.product_price || 0;
+      par_produit[k].units += units;
+      par_produit[k].cogs += c;
+      cogs += c;
     }
   }
 
@@ -102,22 +118,36 @@ export async function computeWeeklyKPI(weekOffset = -1): Promise<WeeklyKPI> {
   }
 
   const depenses_par_categorie: Record<string, number> = {};
-  let depenses_total = 0;
+  let charges_compta = 0;
+  let stock_rachete = 0;
   for (const e of expenses) {
-    depenses_par_categorie[e.category] = (depenses_par_categorie[e.category] || 0) + (e.amount || 0);
-    depenses_total += e.amount || 0;
+    const cat = (e.category || 'autre').toLowerCase();
+    depenses_par_categorie[cat] = (depenses_par_categorie[cat] || 0) + (e.amount || 0);
+    if (cat === 'stock') {
+      stock_rachete += e.amount || 0; // exclu du profit (déjà compté via COGS à la vente)
+    } else {
+      charges_compta += e.amount || 0;
+    }
   }
   const pub_spend = depenses_par_categorie['pub'] || depenses_par_categorie['publicité'] || depenses_par_categorie['publicite'] || 0;
 
+  const delivery_cost = delivered.length * DELIVERY_COST;
+  const depenses_total = cogs + delivery_cost + charges_compta;
   const profit_net = ca_livre - depenses_total;
+  const cash_out = charges_compta + stock_rachete + delivery_cost;
+  const marge_pct = ca_livre ? Math.round((profit_net / ca_livre) * 100) : 0;
   const roas = pub_spend ? Math.round((ca_livre / pub_spend) * 100) / 100 : 0;
   const cac = delivered.length ? Math.round(pub_spend / delivered.length) : 0;
   const taux_livraison = orders.length ? Math.round((delivered.length / orders.length) * 100) : 0;
   const panier_moyen = delivered.length ? Math.round(ca_livre / delivered.length) : 0;
   const taux_conversion = visites ? Math.round((orders.length / visites) * 1000) / 10 : 0;
 
+  // Profit N-1 approximé pareil (sans recalc COGS détaillé)
   const prevDelivered = prevOrders.filter((o) => o.status === 'delivered');
   const prevCA = prevDelivered.reduce((s, o) => s + (o.product_price || 0), 0);
+  const prevCOGS = prevDelivered.reduce((s, o) => s + orderProductCost(o.product_name || '', unitsFromLabel(o.offer_label)), 0);
+  const prevDelivery = prevDelivered.length * DELIVERY_COST;
+  const prevProfit = prevCA - prevCOGS - prevDelivery;
 
   const pct = (a: number, b: number) => (b ? Math.round(((a - b) / b) * 100) : 0);
 
@@ -133,18 +163,24 @@ export async function computeWeeklyKPI(weekOffset = -1): Promise<WeeklyKPI> {
     panier_moyen,
     par_produit,
     par_livreur,
+    cogs,
+    delivery_cost,
+    charges_compta,
+    stock_rachete,
     depenses_total,
     depenses_par_categorie,
     pub_spend,
     profit_net,
+    cash_out,
     roas,
     cac,
+    marge_pct,
     visites,
     taux_conversion,
     vs_n1: {
       ca_pct: pct(ca_livre, prevCA),
       orders_pct: pct(orders.length, prevOrders.length),
-      profit_pct: pct(profit_net, prevCA - depenses_total),
+      profit_pct: pct(profit_net, prevProfit),
     },
   };
 }
