@@ -270,3 +270,12 @@ function FinanceCard({ emoji, label, value, sub }: { emoji: string; label: strin
     </div>
   );
 }
+
+function Row({ label, value, bold, positive }: { label: string; value: string; bold?: boolean; positive?: boolean }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <span className={`text-muted-foreground ${bold ? 'text-vert font-extrabold' : ''}`}>{label}</span>
+      <span className={`tabular-nums ${bold ? 'font-extrabold text-base' : 'font-bold'} ${positive ? 'text-vert' : bold ? 'text-rouge' : 'text-rouge'}`}>{value}</span>
+    </div>
+  );
+}
