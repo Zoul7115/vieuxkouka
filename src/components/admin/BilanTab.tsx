@@ -194,9 +194,29 @@ export function BilanTab() {
           {/* KPI cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <Kpi label="CA livré" value={formatFCFA(selected.kpi.ca_livre)} sub={`${selected.kpi.vs_n1?.ca_pct >= 0 ? '▲' : '▼'} ${Math.abs(selected.kpi.vs_n1?.ca_pct || 0)}% vs N-1`} good={selected.kpi.vs_n1?.ca_pct >= 0} />
-            <Kpi label="Profit net" value={formatFCFA(selected.kpi.profit_net)} sub={`${selected.kpi.nb_delivered} livrées`} good={selected.kpi.profit_net >= 0} />
+            <Kpi label="Profit net" value={formatFCFA(selected.kpi.profit_net)} sub={`Marge ${selected.kpi.marge_pct ?? 0}% · ${selected.kpi.nb_delivered} livrées`} good={selected.kpi.profit_net >= 0} />
             <Kpi label="ROAS pub" value={`${selected.kpi.roas}x`} sub={`Pub ${formatFCFA(selected.kpi.pub_spend)}`} good={selected.kpi.roas >= 2} />
             <Kpi label="Taux livraison" value={`${selected.kpi.taux_livraison}%`} sub={`${selected.kpi.nb_orders} cmds`} good={selected.kpi.taux_livraison >= 60} />
+          </div>
+
+          {/* Détail du calcul du profit */}
+          <div className="bg-white rounded-2xl border-2 border-vert-bg p-4">
+            <div className="text-vert font-extrabold text-sm mb-3">🧮 Comment ton profit est calculé</div>
+            <div className="space-y-1.5 text-sm">
+              <Row label="💰 CA livré" value={`+ ${formatFCFA(selected.kpi.ca_livre)}`} positive />
+              <Row label="🏭 Coût marchandises (PA × unités vendues)" value={`− ${formatFCFA(selected.kpi.cogs ?? 0)}`} />
+              <Row label="🚚 Frais livraison (2 000 × livrées)" value={`− ${formatFCFA(selected.kpi.delivery_cost ?? 0)}`} />
+              <Row label="📣 Pub + salaires + autres (Compta)" value={`− ${formatFCFA(selected.kpi.charges_compta ?? 0)}`} />
+              <div className="border-t-2 border-vert-bg pt-2 mt-2">
+                <Row label="✅ Profit net réel" value={formatFCFA(selected.kpi.profit_net)} bold positive={selected.kpi.profit_net >= 0} />
+              </div>
+              {(selected.kpi.stock_rachete ?? 0) > 0 && (
+                <div className="text-[11px] text-muted-foreground italic mt-2 pt-2 border-t border-vert-bg/50">
+                  ℹ️ Stock racheté cette semaine : {formatFCFA(selected.kpi.stock_rachete ?? 0)} (exclu du profit — déjà compté via le PA quand tu vendras).
+                  Cash sorti total : <strong>{formatFCFA(selected.kpi.cash_out ?? 0)}</strong>.
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Reco financière */}
