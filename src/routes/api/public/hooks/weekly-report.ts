@@ -35,26 +35,64 @@ export const Route = createFileRoute('/api/public/hooks/weekly-report')({
           const visites = vRes.count || 0;
           const delivered = orders.filter((o) => o.status === 'delivered');
           const ca_livre = delivered.reduce((s, o) => s + (o.product_price || 0), 0);
-          const depenses_total = expenses.reduce((s, e) => s + (e.amount || 0), 0);
-          const depenses_par_categorie: Record<string, number> = {};
-          for (const e of expenses) depenses_par_categorie[e.category] = (depenses_par_categorie[e.category] || 0) + e.amount;
-          const pub_spend = depenses_par_categorie['pub'] || 0;
 
-          const par_produit: Record<string, { nb: number; ca: number; livrees: number }> = {};
+          // Coûts unitaires (alignés avec src/lib/products.ts)
+          const PA_POUDRE = 2000;
+          const PA_SIROP = 3000;
+          const DELIVERY = 2000;
+          const unitsFromLabel = (label?: string | null): number => {
+            const l = (label || '').toLowerCase();
+            let u = 1;
+            if (/3\s*\+\s*2/.test(l)) u = 5;
+            else if (/2\s*\+\s*1/.test(l)) u = 3;
+            if (/bump/.test(l)) u += 1;
+            return u;
+          };
+          const paFor = (name?: string | null) => (/sirop/i.test(name || '') ? PA_SIROP : PA_POUDRE);
+
+          let cogs = 0;
+          const par_produit: Record<string, { nb: number; ca: number; livrees: number; cogs: number; units: number }> = {};
           for (const o of orders) {
             const k = o.product_slug || o.product_name || 'inconnu';
-            par_produit[k] ||= { nb: 0, ca: 0, livrees: 0 };
+            par_produit[k] ||= { nb: 0, ca: 0, livrees: 0, cogs: 0, units: 0 };
             par_produit[k].nb += 1;
-            if (o.status === 'delivered') { par_produit[k].livrees += 1; par_produit[k].ca += o.product_price || 0; }
+            if (o.status === 'delivered') {
+              const units = unitsFromLabel(o.offer_label);
+              const c = paFor(o.product_name) * units;
+              par_produit[k].livrees += 1;
+              par_produit[k].ca += o.product_price || 0;
+              par_produit[k].units += units;
+              par_produit[k].cogs += c;
+              cogs += c;
+            }
           }
 
+          const depenses_par_categorie: Record<string, number> = {};
+          let charges_compta = 0;
+          let stock_rachete = 0;
+          for (const e of expenses) {
+            const cat = (e.category || 'autre').toLowerCase();
+            depenses_par_categorie[cat] = (depenses_par_categorie[cat] || 0) + (e.amount || 0);
+            if (cat === 'stock') stock_rachete += e.amount || 0;
+            else charges_compta += e.amount || 0;
+          }
+          const pub_spend = depenses_par_categorie['pub'] || 0;
+
+          const delivery_cost = delivered.length * DELIVERY;
+          const depenses_total = cogs + delivery_cost + charges_compta;
           const profit_net = ca_livre - depenses_total;
-          const prevCA = prevOrders.filter((o) => o.status === 'delivered').reduce((s, o) => s + (o.product_price || 0), 0);
+          const cash_out = charges_compta + stock_rachete + delivery_cost;
+          const prevDelivered = prevOrders.filter((o) => o.status === 'delivered');
+          const prevCA = prevDelivered.reduce((s, o) => s + (o.product_price || 0), 0);
+          const prevCOGS = prevDelivered.reduce((s, o) => s + paFor(o.product_name) * unitsFromLabel(o.offer_label), 0);
+          const prevProfit = prevCA - prevCOGS - prevDelivered.length * DELIVERY;
 
           const kpi = {
             week_start: start.toISOString().slice(0, 10),
             week_end: end.toISOString().slice(0, 10),
             ca_livre, profit_net, depenses_total, pub_spend,
+            cogs, delivery_cost, charges_compta, stock_rachete, cash_out,
+            marge_pct: ca_livre ? Math.round((profit_net / ca_livre) * 100) : 0,
             nb_orders: orders.length, nb_delivered: delivered.length,
             taux_livraison: orders.length ? Math.round((delivered.length / orders.length) * 100) : 0,
             panier_moyen: delivered.length ? Math.round(ca_livre / delivered.length) : 0,
@@ -63,6 +101,7 @@ export const Route = createFileRoute('/api/public/hooks/weekly-report')({
             visites,
             par_produit, depenses_par_categorie,
             vs_n1_ca_pct: prevCA ? Math.round(((ca_livre - prevCA) / prevCA) * 100) : 0,
+            vs_n1_profit_pct: prevProfit ? Math.round(((profit_net - prevProfit) / prevProfit) * 100) : 0,
           };
 
           // Récupérer les règles finance
