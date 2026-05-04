@@ -34,13 +34,19 @@ emojis avec parcimonie. Tu ne fais JAMAIS de blabla générique.`;
 
     const userPrompt = `BILAN SEMAINE du ${week_start} au ${week_end}
 
-KPI BRUTS:
+KPI BRUTS (le profit_net est DÉJÀ calculé après TOUTES les charges :
+COGS = PA produit × unités vendues, frais livraison = 2 000 × livrées,
++ pub/salaires/autres saisis en Compta. Le rachat de stock est EXCLU
+du profit car déjà comptabilisé via le PA à la vente — il apparaît
+uniquement dans cash_out pour la trésorerie). Utilise profit_net tel quel
+pour la répartition financière, ne le recalcule pas.
+
 ${JSON.stringify(kpi, null, 2)}
 
 PRODUITS EN VENTE:
 ${JSON.stringify(products, null, 2)}
 
-RÈGLES DE RÉPARTITION DU PROFIT (à appliquer) :
+RÈGLES DE RÉPARTITION DU PROFIT (à appliquer sur profit_net) :
 - ${finance_rules.pub_pct}% → Publicité semaine prochaine
 - ${finance_rules.stock_pct}% → Réapprovisionnement stock
 - ${finance_rules.epargne_pct}% → Épargne / trésorerie
