@@ -399,20 +399,22 @@ export function ProductForm({ product }: { product: Product }) {
             </div>
           </Field>
 
-          <label className="flex items-start gap-3 bg-[oklch(0.97_0.06_92)] border-2 border-or-light rounded-xl p-3.5 mb-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={form.horsOuaga}
-              onChange={(e) => update('horsOuaga', e.target.checked)}
-              className="w-5 h-5 mt-0.5 accent-or"
-            />
-            <span className="text-base text-muted-foreground leading-relaxed">
-              📦 <strong>Je suis en dehors de Ouagadougou</strong> — expédition par car de transport
-              <span className="block text-sm text-rouge font-bold mt-1">
-                ⚠️ +1 000 FCFA de frais d'expédition seront ajoutés à votre commande
+          {deliveryConfig && (
+            <label className="flex items-start gap-3 bg-[oklch(0.97_0.06_92)] border-2 border-or-light rounded-xl p-3.5 mb-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={form.horsOuaga}
+                onChange={(e) => update('horsOuaga', e.target.checked)}
+                className="w-5 h-5 mt-0.5 accent-or"
+              />
+              <span className="text-base text-muted-foreground leading-relaxed">
+                📦 <strong>Je suis en dehors de {capital}</strong> — expédition par car de transport
+                <span className="block text-sm text-rouge font-bold mt-1">
+                  ⚠️ +{formatFCFA(outsideFee)} de frais d'expédition seront ajoutés à votre commande
+                </span>
               </span>
-            </span>
-          </label>
+            </label>
+          )}
 
           {form.horsOuaga && (
             <Field label="Compagnie de transport + ville" required error={errors.carTransport}>
