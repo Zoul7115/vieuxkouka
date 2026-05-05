@@ -145,13 +145,7 @@ export const findOfferByLabel = (label: string | null | undefined): Offer | unde
 
 export const COUNTRIES = [
   { code: 'BF', label: '🇧🇫 Burkina Faso', prefix: '+226' },
-  { code: 'BJ', label: '🇧🇯 Bénin', prefix: '+229' },
-  { code: 'SN', label: '🇸🇳 Sénégal', prefix: '+221' },
-  { code: 'ML', label: '🇲🇱 Mali', prefix: '+223' },
-  { code: 'TG', label: '🇹🇬 Togo', prefix: '+228' },
   { code: 'NE', label: '🇳🇪 Niger', prefix: '+227' },
-  { code: 'GN', label: '🇬🇳 Guinée', prefix: '+224' },
-  { code: 'OTHER', label: '🌍 Autre', prefix: '+' },
 ];
 
 /** Frais de livraison par pays/zone (FCFA), affichés sur les pages de vente */
