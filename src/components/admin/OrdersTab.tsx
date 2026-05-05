@@ -198,7 +198,7 @@ function OrderCard({
             <div className="sm:col-span-2"><span className="text-muted-foreground">Date :</span> {new Date(order.created_at).toLocaleString('fr-FR')}</div>
           </div>
 
-          {/* 3 boutons WhatsApp */}
+          {/* Boutons WhatsApp */}
           <div className="grid sm:grid-cols-3 gap-2">
             {clientUrl && (
               <a
@@ -210,17 +210,29 @@ function OrderCard({
                 💬 1. Confirmer client
               </a>
             )}
-            {activeLivreurs.slice(0, 2).map((l, i) => (
-              <a
-                key={l.id}
-                href={waLivreurUrl(order, l)}
-                target="_blank"
-                rel="noreferrer"
-                className="bg-vert-mid text-white text-center py-2.5 px-3 rounded-xl font-extrabold text-xs hover:bg-vert transition-colors"
-              >
-                🛵 {i + 2}. Notif {l.name.split(' ')[0]}
-              </a>
-            ))}
+            {activeLivreurs.map((l, i) => {
+              const isGroup = !!l.wa_group_url;
+              return (
+                <a
+                  key={l.id}
+                  href={waLivreurUrl(order, l)}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={async () => {
+                    if (isGroup) {
+                      try {
+                        const { buildLivreurMessage } = await import('@/lib/whatsappMessages');
+                        await navigator.clipboard.writeText(buildLivreurMessage(order));
+                        toast.success('Message copié — collez-le dans le groupe');
+                      } catch {}
+                    }
+                  }}
+                  className={`${isGroup ? 'bg-[#128C7E]' : 'bg-vert-mid'} text-white text-center py-2.5 px-3 rounded-xl font-extrabold text-xs hover:opacity-90 transition`}
+                >
+                  {isGroup ? '👥' : '🛵'} {i + 2}. {isGroup ? 'Groupe' : 'Notif'} {l.name.split(' ')[0]}
+                </a>
+              );
+            })}
           </div>
 
           <div>

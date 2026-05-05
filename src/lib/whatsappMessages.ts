@@ -127,6 +127,8 @@ export function waClientUrl(order: WAOrder): string | null {
 }
 
 export function waLivreurUrl(order: WAOrder, livreur: Livreur): string {
+  // Les liens de groupe WhatsApp n'acceptent pas de texte pré-rempli
+  if (livreur.wa_group_url) return livreur.wa_group_url;
   return waUrl(livreur.whatsapp, buildLivreurMessage(order));
 }
 
