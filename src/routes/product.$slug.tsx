@@ -3,7 +3,7 @@ import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ComparisonTable } from '@/components/ComparisonTable';
-import { LiveSocialProof } from '@/components/LiveSocialProof';
+
 import { StickyMobileCTA } from '@/components/StickyMobileCTA';
 import { MiniDiagnostic } from '@/components/MiniDiagnostic';
 import { UrgencyTimer } from '@/components/UrgencyTimer';
@@ -38,7 +38,6 @@ function SiropPage() {
   return (
     <div className="bg-background pb-16 md:pb-0">
       <VisitTracker page="sirop-kouka" />
-      <LiveSocialProof product="Sirop KOUKA" />
       <StickyMobileCTA label="🍯 COMMANDER — Discret" price={formatFCFA(recoPrice)} />
       <ExitIntentPopup productName="Sirop KOUKA" />
       <AbandonRecovery productName="Sirop KOUKA" />
