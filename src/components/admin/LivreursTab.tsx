@@ -243,7 +243,8 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
         {livreurs.map((l) => {
           const s = stats[l.idx] || { total: 0, delivered: 0, cancelled: 0, pending: 0, ca: 0 };
           const sc = score(s);
-          const waUrl = `https://wa.me/${l.whatsapp}`;
+          const waUrl = l.wa_group_url || (l.whatsapp ? `https://wa.me/${l.whatsapp}` : '');
+          const isGroup = !!l.wa_group_url;
           const isEditing = editId === l.id;
 
           return (
@@ -254,7 +255,8 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
                     <input value={editForm.emoji} onChange={(e) => setEditForm({ ...editForm, emoji: e.target.value })} className="w-14 text-center px-2 py-1.5 border-2 border-vert-bg rounded-lg" />
                     <input value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} placeholder="Nom" className="flex-1 px-3 py-1.5 border-2 border-vert-bg rounded-lg" />
                   </div>
-                  <input value={editForm.whatsapp} onChange={(e) => setEditForm({ ...editForm, whatsapp: e.target.value })} placeholder="22670000000" className="w-full px-3 py-1.5 border-2 border-vert-bg rounded-lg" />
+                  <input value={editForm.whatsapp} onChange={(e) => setEditForm({ ...editForm, whatsapp: e.target.value })} placeholder="22670000000 (ou vide si groupe)" className="w-full px-3 py-1.5 border-2 border-vert-bg rounded-lg" />
+                  <input value={editForm.wa_group_url} onChange={(e) => setEditForm({ ...editForm, wa_group_url: e.target.value })} placeholder="Lien groupe WhatsApp (optionnel)" className="w-full px-3 py-1.5 border-2 border-vert-bg rounded-lg" />
                   <input value={editForm.zone} onChange={(e) => setEditForm({ ...editForm, zone: e.target.value })} placeholder="Zone" className="w-full px-3 py-1.5 border-2 border-vert-bg rounded-lg" />
                   <label className="block">
                     <span className="text-[10px] uppercase font-bold text-muted-foreground">Frais livraison par défaut (FCFA)</span>
@@ -270,13 +272,15 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
                   <div className="flex justify-between items-start mb-3">
                     <div className="min-w-0">
                       <div className="font-extrabold text-vert text-lg truncate">{l.emoji} {l.name}</div>
-                      <div className="text-xs text-muted-foreground">{l.zone || '—'} · +{l.whatsapp}</div>
+                      <div className="text-xs text-muted-foreground">{l.zone || '—'} · {isGroup ? '👥 Groupe WhatsApp' : `+${l.whatsapp}`}</div>
                       <div className="text-[10px] text-muted-foreground">Frais livraison : <span className="font-bold text-vert">{formatFCFA(l.delivery_fee ?? 2000)}</span></div>
                     </div>
                     <div className="flex flex-col gap-1 items-end shrink-0">
-                      <a href={waUrl} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white text-xs px-3 py-1 rounded-full font-bold hover:bg-[#1da851]">
-                        💬 WA
-                      </a>
+                      {waUrl && (
+                        <a href={waUrl} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white text-xs px-3 py-1 rounded-full font-bold hover:bg-[#1da851]">
+                          {isGroup ? '👥 Groupe' : '💬 WA'}
+                        </a>
+                      )}
                       <button onClick={() => startEdit(l)} className="text-xs text-vert-mid font-bold hover:underline">✏️ Modifier</button>
                     </div>
                   </div>
