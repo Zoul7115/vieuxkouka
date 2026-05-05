@@ -93,8 +93,8 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
   };
 
   const saveEdit = async (id: string) => {
-    if (!editForm.name.trim() || !editForm.whatsapp.trim()) {
-      toast.error('Nom et WhatsApp obligatoires');
+    if (!editForm.name.trim() || (!editForm.whatsapp.trim() && !editForm.wa_group_url.trim())) {
+      toast.error('Nom et (WhatsApp ou lien de groupe) obligatoires');
       return;
     }
     const fee = Math.max(0, parseInt(editForm.delivery_fee, 10) || 0);
@@ -104,6 +104,7 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
       zone: editForm.zone.trim() || null,
       emoji: editForm.emoji,
       delivery_fee: fee,
+      wa_group_url: editForm.wa_group_url.trim() || null,
     }).eq('id', id);
     if (error) toast.error(error.message);
     else { toast.success('Livreur mis à jour'); setEditId(null); reload(); }
@@ -116,8 +117,8 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
   };
 
   const addLivreur = async () => {
-    if (!newLivreur.name.trim() || !newLivreur.whatsapp.trim()) {
-      toast.error('Nom et WhatsApp obligatoires');
+    if (!newLivreur.name.trim() || (!newLivreur.whatsapp.trim() && !newLivreur.wa_group_url.trim())) {
+      toast.error('Nom et (WhatsApp ou lien de groupe) obligatoires');
       return;
     }
     const nextIdx = livreurs.length > 0 ? Math.max(...livreurs.map((l) => l.idx)) + 1 : 1;
@@ -129,13 +130,14 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
       zone: newLivreur.zone.trim() || null,
       emoji: newLivreur.emoji,
       delivery_fee: fee,
+      wa_group_url: newLivreur.wa_group_url.trim() || null,
       active: true,
     });
     if (error) toast.error(error.message);
     else {
       toast.success('Livreur ajouté');
       setAdding(false);
-      setNewLivreur({ name: '', whatsapp: '', zone: '', emoji: '🛵', delivery_fee: '2000' });
+      setNewLivreur({ name: '', whatsapp: '', zone: '', emoji: '🛵', delivery_fee: '2000', wa_group_url: '' });
       reload();
     }
   };
