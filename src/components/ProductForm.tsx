@@ -316,7 +316,7 @@ export function ProductForm({ product }: { product: Product }) {
               <div className="flex justify-between items-center mt-3 pt-3 border-t border-dashed border-or">
                 <div className="text-sm font-semibold text-foreground">
                   🚍 Frais d'expédition
-                  <div className="text-xs text-muted-foreground font-normal">Hors Ouagadougou — par car de transport</div>
+                  <div className="text-xs text-muted-foreground font-normal">Hors {capital} — par car de transport</div>
                 </div>
                 <div className="text-base font-extrabold text-or">+{formatFCFA(shippingFee)}</div>
               </div>
