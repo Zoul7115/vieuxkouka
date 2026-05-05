@@ -95,6 +95,10 @@ export function ProductForm({ product }: { product: Product }) {
   const update = (k: string, v: string | boolean) => {
     setForm((f) => {
       const next = { ...f, [k]: v };
+      if (k === 'countryCode') {
+        next.horsOuaga = false;
+        next.carTransport = '';
+      }
       // Sauvegarde brouillon
       try {
         localStorage.setItem(
