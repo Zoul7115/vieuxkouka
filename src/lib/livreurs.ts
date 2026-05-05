@@ -10,6 +10,7 @@ export type Livreur = {
   emoji: string | null;
   active: boolean;
   delivery_fee: number;
+  wa_group_url?: string | null;
 };
 
 /** Frais de livraison effectifs pour une commande (override commande > défaut livreur > 2000) */

@@ -110,6 +110,7 @@ export type Database = {
           idx: number
           name: string
           updated_at: string
+          wa_group_url: string | null
           whatsapp: string
           zone: string | null
         }
@@ -122,6 +123,7 @@ export type Database = {
           idx: number
           name: string
           updated_at?: string
+          wa_group_url?: string | null
           whatsapp: string
           zone?: string | null
         }
@@ -134,6 +136,7 @@ export type Database = {
           idx?: number
           name?: string
           updated_at?: string
+          wa_group_url?: string | null
           whatsapp?: string
           zone?: string | null
         }

@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { OfferSelector } from './OfferSelector';
 import { PreFormWhatsApp } from './PreFormWhatsApp';
-import { COUNTRIES, formatFCFA, type Offer, type Product } from '@/lib/products';
+import { COUNTRIES, COUNTRY_DELIVERY, formatFCFA, type Offer, type Product } from '@/lib/products';
 import { supabase } from '@/integrations/supabase/client';
 import { trackFB } from '@/lib/facebookPixel';
 import { toast } from 'sonner';
 
 const BUMP_PRICE = 5000;
-const SHIPPING_FEE = 1000; // Frais d'expédition hors Ouagadougou
 
 const DELIVERY_SLOTS = [
   { v: 'morning', l: '🌅 Matin (8h-12h)' },
@@ -69,7 +68,10 @@ export function ProductForm({ product }: { product: Product }) {
   const [submitting, setSubmitting] = useState(false);
 
   const country = COUNTRIES.find((c) => c.code === form.countryCode) || COUNTRIES[0];
-  const shippingFee = form.horsOuaga ? SHIPPING_FEE : 0;
+  const deliveryConfig = COUNTRY_DELIVERY[form.countryCode];
+  const capital = deliveryConfig?.capital || 'la capitale';
+  const outsideFee = deliveryConfig?.outsideFee ?? 1000;
+  const shippingFee = form.horsOuaga ? outsideFee : 0;
   const finalPrice = productPrice + shippingFee;
 
   // Restaure brouillon de formulaire (récupération abandon)
@@ -93,6 +95,10 @@ export function ProductForm({ product }: { product: Product }) {
   const update = (k: string, v: string | boolean) => {
     setForm((f) => {
       const next = { ...f, [k]: v };
+      if (k === 'countryCode') {
+        next.horsOuaga = false;
+        next.carTransport = '';
+      }
       // Sauvegarde brouillon
       try {
         localStorage.setItem(
@@ -314,7 +320,7 @@ export function ProductForm({ product }: { product: Product }) {
               <div className="flex justify-between items-center mt-3 pt-3 border-t border-dashed border-or">
                 <div className="text-sm font-semibold text-foreground">
                   🚍 Frais d'expédition
-                  <div className="text-xs text-muted-foreground font-normal">Hors Ouagadougou — par car de transport</div>
+                  <div className="text-xs text-muted-foreground font-normal">Hors {capital} — par car de transport</div>
                 </div>
                 <div className="text-base font-extrabold text-or">+{formatFCFA(shippingFee)}</div>
               </div>
@@ -373,7 +379,7 @@ export function ProductForm({ product }: { product: Product }) {
               type="text"
               value={form.city}
               onChange={(e) => update('city', e.target.value)}
-              placeholder="Ouagadougou / Tanghin"
+              placeholder={form.countryCode === 'NE' ? 'Niamey / Plateau' : 'Ouagadougou / Tanghin'}
               className={inputCls(errors.city)}
             />
           </Field>
@@ -397,20 +403,22 @@ export function ProductForm({ product }: { product: Product }) {
             </div>
           </Field>
 
-          <label className="flex items-start gap-3 bg-[oklch(0.97_0.06_92)] border-2 border-or-light rounded-xl p-3.5 mb-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={form.horsOuaga}
-              onChange={(e) => update('horsOuaga', e.target.checked)}
-              className="w-5 h-5 mt-0.5 accent-or"
-            />
-            <span className="text-base text-muted-foreground leading-relaxed">
-              📦 <strong>Je suis en dehors de Ouagadougou</strong> — expédition par car de transport
-              <span className="block text-sm text-rouge font-bold mt-1">
-                ⚠️ +1 000 FCFA de frais d'expédition seront ajoutés à votre commande
+          {deliveryConfig && (
+            <label className="flex items-start gap-3 bg-[oklch(0.97_0.06_92)] border-2 border-or-light rounded-xl p-3.5 mb-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={form.horsOuaga}
+                onChange={(e) => update('horsOuaga', e.target.checked)}
+                className="w-5 h-5 mt-0.5 accent-or"
+              />
+              <span className="text-base text-muted-foreground leading-relaxed">
+                📦 <strong>Je suis en dehors de {capital}</strong> — expédition par car de transport
+                <span className="block text-sm text-rouge font-bold mt-1">
+                  ⚠️ +{formatFCFA(outsideFee)} de frais d'expédition seront ajoutés à votre commande
+                </span>
               </span>
-            </span>
-          </label>
+            </label>
+          )}
 
           {form.horsOuaga && (
             <Field label="Compagnie de transport + ville" required error={errors.carTransport}>
