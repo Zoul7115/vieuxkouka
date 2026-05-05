@@ -159,17 +159,25 @@ function SiropPage() {
             <img src="/images/kouka-temoignages.webp" alt="Témoignages clients Sirop du Vieux KOUKA" className="rounded-2xl border-2 border-vert-bg" />
           </div>
 
-          {/* Livraison discrète partout au Burkina Faso */}
+          {/* Livraison discrète Burkina + Niger */}
           <div className="bg-white border-2 border-vert-bg rounded-2xl p-5 mt-6 max-w-lg mx-auto">
-            <h3 className="text-vert text-center mb-3">🚚 Livraison 100% discrète au Burkina</h3>
+            <h3 className="text-vert text-center mb-3">🚚 Livraison 100% discrète</h3>
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
-                <div className="font-extrabold">🏙️ Ouagadougou</div>
+                <div className="font-extrabold">🇧🇫 Ouagadougou</div>
                 <div className="text-xs text-vert font-bold">Gratuite · même jour</div>
               </div>
               <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
-                <div className="font-extrabold">🇧🇫 Autres villes</div>
+                <div className="font-extrabold">🇧🇫 Autres villes BF</div>
                 <div className="text-xs text-muted-foreground">1 000 FCFA · par car</div>
+              </div>
+              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
+                <div className="font-extrabold">🇳🇪 Niamey</div>
+                <div className="text-xs text-vert font-bold">Gratuite</div>
+              </div>
+              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
+                <div className="font-extrabold">🇳🇪 Autres villes Niger</div>
+                <div className="text-xs text-muted-foreground">1 500 FCFA · par car</div>
               </div>
             </div>
             <p className="text-center text-xs text-muted-foreground mt-3">
