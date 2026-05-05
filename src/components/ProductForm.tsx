@@ -375,7 +375,7 @@ export function ProductForm({ product }: { product: Product }) {
               type="text"
               value={form.city}
               onChange={(e) => update('city', e.target.value)}
-              placeholder="Ouagadougou / Tanghin"
+              placeholder={form.countryCode === 'NE' ? 'Niamey / Plateau' : 'Ouagadougou / Tanghin'}
               className={inputCls(errors.city)}
             />
           </Field>
