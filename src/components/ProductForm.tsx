@@ -152,8 +152,8 @@ export function ProductForm({ product }: { product: Product }) {
       if (!form.available) e.available = '1';
       if (!form.cashConfirmed) e.cashConfirmed = '1';
       const missing = Object.keys(e).map((k) => labels[k]).filter(Boolean);
-      const first = missing[0] || 'un champ';
-      toast.error(`⚠️ ${first} manquant`, {
+      const firstMissing = missing[0] || 'un champ';
+      toast.error(`⚠️ ${firstMissing} manquant`, {
         description:
           missing.length > 1
             ? `Encore ${missing.length - 1} champ(s) à compléter : ${missing.slice(1).join(', ')}`
