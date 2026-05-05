@@ -1,0 +1,1 @@
+ALTER TABLE public.livreurs ADD COLUMN IF NOT EXISTS wa_group_url text;
