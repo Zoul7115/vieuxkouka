@@ -324,8 +324,9 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
             <div className="grid sm:grid-cols-2 gap-2">
               <input value={newLivreur.emoji} onChange={(e) => setNewLivreur({ ...newLivreur, emoji: e.target.value })} placeholder="🛵" className="px-3 py-2 border-2 border-vert-bg rounded-lg" />
               <input value={newLivreur.name} onChange={(e) => setNewLivreur({ ...newLivreur, name: e.target.value })} placeholder="Nom complet" className="px-3 py-2 border-2 border-vert-bg rounded-lg" />
-              <input value={newLivreur.whatsapp} onChange={(e) => setNewLivreur({ ...newLivreur, whatsapp: e.target.value })} placeholder="22670000000" className="px-3 py-2 border-2 border-vert-bg rounded-lg" />
-              <input value={newLivreur.zone} onChange={(e) => setNewLivreur({ ...newLivreur, zone: e.target.value })} placeholder="Zone (Ouagadougou…)" className="px-3 py-2 border-2 border-vert-bg rounded-lg" />
+              <input value={newLivreur.whatsapp} onChange={(e) => setNewLivreur({ ...newLivreur, whatsapp: e.target.value })} placeholder="22670000000 (ou vide si groupe)" className="px-3 py-2 border-2 border-vert-bg rounded-lg" />
+              <input value={newLivreur.zone} onChange={(e) => setNewLivreur({ ...newLivreur, zone: e.target.value })} placeholder="Zone (Niamey…)" className="px-3 py-2 border-2 border-vert-bg rounded-lg" />
+              <input value={newLivreur.wa_group_url} onChange={(e) => setNewLivreur({ ...newLivreur, wa_group_url: e.target.value })} placeholder="Lien groupe WhatsApp (optionnel)" className="px-3 py-2 border-2 border-vert-bg rounded-lg sm:col-span-2" />
               <input type="number" min="0" value={newLivreur.delivery_fee} onChange={(e) => setNewLivreur({ ...newLivreur, delivery_fee: e.target.value })} placeholder="Frais livraison (2000)" className="px-3 py-2 border-2 border-vert-bg rounded-lg sm:col-span-2" />
             </div>
             <div className="flex gap-2">
