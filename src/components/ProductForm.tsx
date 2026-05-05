@@ -117,8 +117,7 @@ export function ProductForm({ product }: { product: Product }) {
 
   const validate = () => {
     const e: Record<string, string> = {};
-    if (!form.fullName.trim()) e.fullName = 'Obligatoire';
-    if (form.fullName.trim().split(/\s+/).filter(Boolean).length < 2) e.fullName = 'Indique ton prénom ET ton nom';
+    if (!form.fullName.trim() || form.fullName.trim().length < 2) e.fullName = 'Obligatoire';
     if (!form.city.trim()) e.city = 'Obligatoire';
     if (!form.deliverySlot) e.deliverySlot = 'Choisis ton créneau préféré';
     if (!form.countryCode) e.countryCode = 'Obligatoire';
