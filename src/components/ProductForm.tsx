@@ -68,7 +68,10 @@ export function ProductForm({ product }: { product: Product }) {
   const [submitting, setSubmitting] = useState(false);
 
   const country = COUNTRIES.find((c) => c.code === form.countryCode) || COUNTRIES[0];
-  const shippingFee = form.horsOuaga ? SHIPPING_FEE : 0;
+  const deliveryConfig = COUNTRY_DELIVERY[form.countryCode];
+  const capital = deliveryConfig?.capital || 'la capitale';
+  const outsideFee = deliveryConfig?.outsideFee ?? 1000;
+  const shippingFee = form.horsOuaga ? outsideFee : 0;
   const finalPrice = productPrice + shippingFee;
 
   // Restaure brouillon de formulaire (récupération abandon)
