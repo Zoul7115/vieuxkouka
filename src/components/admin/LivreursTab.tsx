@@ -89,7 +89,7 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
 
   const startEdit = (l: Livreur) => {
     setEditId(l.id);
-    setEditForm({ name: l.name, whatsapp: l.whatsapp, zone: l.zone || '', emoji: l.emoji || '🛵', delivery_fee: String(l.delivery_fee ?? 2000) });
+    setEditForm({ name: l.name, whatsapp: l.whatsapp, zone: l.zone || '', emoji: l.emoji || '🛵', delivery_fee: String(l.delivery_fee ?? 2000), wa_group_url: l.wa_group_url || '' });
   };
 
   const saveEdit = async (id: string) => {
