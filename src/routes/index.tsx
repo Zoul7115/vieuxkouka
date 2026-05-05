@@ -45,7 +45,7 @@ function HomePage() {
 
       {/* Bandeau urgence */}
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🌿 +200 guéris · Livraison gratuite Ouaga · ⏰ Stock restant : <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> sachets
+        🌿 +200 guéris · Livraison gratuite Ouaga & Niamey · ⏰ Stock restant : <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> sachets
       </div>
 
       {/* HERO */}
@@ -53,7 +53,7 @@ function HomePage() {
         <div className="container-kouka text-center">
           <div className="bg-[oklch(0.97_0.06_92)] border-2 border-or-light rounded-xl px-4 py-2.5 mb-5">
             <span className="text-[oklch(0.40_0.10_82)] font-bold">
-              🚀 Commande avant 17h → Livraison <strong className="text-vert">demain matin</strong> à Ouaga
+              🚀 Commande avant 17h → Livraison <strong className="text-vert">demain matin</strong> à Ouaga & Niamey
             </span>
           </div>
 
@@ -101,7 +101,7 @@ function HomePage() {
           >
             🌿 JE COMMANDE — JE PAIE À LA LIVRAISON
           </button>
-          <p className="text-sm text-muted-foreground mt-3">📦 Livraison gratuite Ouaga · 💵 Cash à réception · 🤐 Emballage 100% discret</p>
+          <p className="text-sm text-muted-foreground mt-3">📦 Livraison gratuite Ouaga & Niamey · 💵 Cash à réception · 🤐 Emballage 100% discret</p>
         </div>
       </section>
 
@@ -360,12 +360,14 @@ function HomePage() {
 
       <section className="sec bg-cream-2">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">Livraison <span className="text-vert">partout au Burkina Faso</span></h2>
-          <p className="text-center text-sm text-muted-foreground mb-6">Paiement cash à la livraison · Ouaga & toutes les villes</p>
+          <h2 className="text-center mb-2">Livraison <span className="text-vert">au Burkina Faso & au Niger</span></h2>
+          <p className="text-center text-sm text-muted-foreground mb-6">Paiement cash à la livraison · Ouaga, Niamey & toutes les villes</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {[
               { i: '🏙️', t: 'Ouagadougou', d: 'Livraison gratuite' },
+              { i: '🏙️', t: 'Niamey', d: 'Livraison gratuite' },
               { i: '🇧🇫', t: 'Burkina (autres villes)', d: '1 000 FCFA · par car' },
+              { i: '🇳🇪', t: 'Niger (autres villes)', d: '1 500 FCFA · par car' },
               { i: '⏱️', t: 'Délai', d: '24-72h selon la ville' },
               { i: '💵', t: 'Paiement', d: 'Cash à la livraison' },
               { i: '📦', t: 'Emballage', d: 'Discret · sans logo' },

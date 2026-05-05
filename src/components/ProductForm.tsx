@@ -78,18 +78,37 @@ export function ProductForm({ product }: { product: Product }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem('kouka_form_draft');
-      if (!raw) return;
-      const draft = JSON.parse(raw);
-      if (draft && (draft.fullName || draft.whatsapp || draft.city)) {
-        setForm((f) => ({
-          ...f,
-          fullName: draft.fullName || f.fullName,
-          whatsapp: draft.whatsapp || f.whatsapp,
-          city: draft.city || f.city,
-          countryCode: draft.countryCode || f.countryCode,
-        }));
+      if (raw) {
+        const draft = JSON.parse(raw);
+        if (draft && (draft.fullName || draft.whatsapp || draft.city)) {
+          setForm((f) => ({
+            ...f,
+            fullName: draft.fullName || f.fullName,
+            whatsapp: draft.whatsapp || f.whatsapp,
+            city: draft.city || f.city,
+            countryCode: draft.countryCode || f.countryCode,
+          }));
+          return;
+        }
       }
     } catch {}
+
+    // Détection pays par IP (Niger / Burkina uniquement)
+    (async () => {
+      try {
+        const cached = sessionStorage.getItem('kouka_geo_country');
+        let code = cached;
+        if (!code) {
+          const res = await fetch('https://ipapi.co/json/');
+          const data = await res.json();
+          code = (data?.country_code || '').toUpperCase();
+          sessionStorage.setItem('kouka_geo_country', code || '');
+        }
+        if (code === 'NE' || code === 'BF') {
+          setForm((f) => ({ ...f, countryCode: code as string }));
+        }
+      } catch {}
+    })();
   }, []);
 
   const update = (k: string, v: string | boolean) => {
