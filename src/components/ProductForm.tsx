@@ -143,7 +143,9 @@ export function ProductForm({ product }: { product: Product }) {
     setSubmitting(true);
     try {
       const orderNumber = `KOUKA-${Date.now().toString(36).toUpperCase()}`;
-      const [first, ...rest] = form.fullName.trim().split(' ');
+      const parts = form.fullName.trim().split(/\s+/);
+      const first = parts[0];
+      const rest = parts.slice(1);
       const fullPhone = country.prefix + form.whatsapp.replace(/\s/g, '');
       const aiScore = computeOrderScore({
         whatsapp: form.whatsapp,
