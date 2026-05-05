@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { OfferSelector } from './OfferSelector';
 import { PreFormWhatsApp } from './PreFormWhatsApp';
-import { COUNTRIES, formatFCFA, type Offer, type Product } from '@/lib/products';
+import { COUNTRIES, COUNTRY_DELIVERY, formatFCFA, type Offer, type Product } from '@/lib/products';
 import { supabase } from '@/integrations/supabase/client';
 import { trackFB } from '@/lib/facebookPixel';
 import { toast } from 'sonner';
 
 const BUMP_PRICE = 5000;
-const SHIPPING_FEE = 1000; // Frais d'expédition hors Ouagadougou
 
 const DELIVERY_SLOTS = [
   { v: 'morning', l: '🌅 Matin (8h-12h)' },
