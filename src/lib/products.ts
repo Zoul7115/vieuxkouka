@@ -116,7 +116,7 @@ export const KOUKA: Product = {
   tagline: 'Hémorroïdes (koko), rectum qui sort, ulcères, brûlures d\'estomac, ballonnements, gaz, colopathie — traités à la racine en 7 à 14 jours, sans rechute.',
   heroImage: '/images/poudre-vieux-kouka-hero.png',
   metaTitle: 'Poudre KOUKA — Stoppe Hémorroïdes & Ulcères en 7 jours (Burkina)',
-  metaDesc: '+200 personnes guéries. Fini les saignements, brûlures et ballonnements. Soulagement dès J3, guérison en 7 à 14 jours. 100% plantes. Livraison gratuite Ouaga · Paiement cash · Satisfait ou remboursé.',
+  metaDesc: '+200 personnes guéries. Fini les saignements, brûlures et ballonnements. Soulagement dès J3, guérison en 7 à 14 jours. 100% plantes. Livraison gratuite Ouaga & Niamey · Paiement cash · Satisfait ou remboursé.',
   offers: standardOffers,
 };
 
