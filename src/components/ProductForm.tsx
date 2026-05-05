@@ -132,8 +132,34 @@ export function ProductForm({ product }: { product: Product }) {
 
   const submit = async () => {
     if (!validate()) {
-      toast.error('Merci de compléter tous les champs.');
-      // Scroll vers la 1ère erreur
+      const labels: Record<string, string> = {
+        fullName: 'Prénom & Nom',
+        countryCode: 'Pays',
+        whatsapp: 'Numéro WhatsApp',
+        city: 'Ville / Quartier',
+        deliverySlot: 'Créneau de livraison',
+        carTransport: 'Compagnie de transport',
+        available: 'Confirmer ta disponibilité',
+        cashConfirmed: 'Confirmer que tu auras le cash',
+      };
+      const e: Record<string, string> = {};
+      if (!form.fullName.trim() || form.fullName.trim().length < 2) e.fullName = '1';
+      if (!form.countryCode) e.countryCode = '1';
+      if (!/^[0-9]{6,12}$/.test(form.whatsapp.replace(/\s/g, ''))) e.whatsapp = '1';
+      if (!form.city.trim()) e.city = '1';
+      if (!form.deliverySlot) e.deliverySlot = '1';
+      if (form.horsOuaga && !form.carTransport.trim()) e.carTransport = '1';
+      if (!form.available) e.available = '1';
+      if (!form.cashConfirmed) e.cashConfirmed = '1';
+      const missing = Object.keys(e).map((k) => labels[k]).filter(Boolean);
+      const first = missing[0] || 'un champ';
+      toast.error(`⚠️ ${first} manquant`, {
+        description:
+          missing.length > 1
+            ? `Encore ${missing.length - 1} champ(s) à compléter : ${missing.slice(1).join(', ')}`
+            : 'Complète ce champ pour valider ta commande.',
+        duration: 6000,
+      });
       setTimeout(() => {
         const el = document.querySelector('.border-rouge');
         el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
