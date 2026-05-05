@@ -158,6 +158,18 @@ export const COUNTRIES = [
 export const DELIVERY_PRICES: Record<string, { label: string; amount: number; note?: string }> = {
   BF_OUAGA: { label: '🏙️ Ouagadougou', amount: 0, note: 'Livraison gratuite' },
   BF_OTHER: { label: '🇧🇫 Burkina (autres villes)', amount: 1000, note: 'Par car de transport' },
+  NE_NIAMEY: { label: '🏙️ Niamey', amount: 0, note: 'Livraison gratuite' },
+  NE_OTHER: { label: '🇳🇪 Niger (autres villes)', amount: 1500, note: 'Par car de transport' },
+};
+
+/** Configuration livraison par pays */
+export const COUNTRY_DELIVERY: Record<string, {
+  capital: string;
+  outsideFee: number;
+  requiresCarTransport: boolean;
+}> = {
+  BF: { capital: 'Ouagadougou', outsideFee: 1000, requiresCarTransport: true },
+  NE: { capital: 'Niamey', outsideFee: 1500, requiresCarTransport: true },
 };
 
 export const ADMIN_WHATSAPP = '22658444818';
