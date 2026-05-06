@@ -27,7 +27,7 @@ export const Route = createFileRoute('/product/$slug')({
 function SiropPage() {
   const product = SIROP_KOUKA;
   const stock = useDynamicStock('sirop-kouka', 14);
-  const recoPrice = product.offers.find(o => o.recommended)?.price || product.offers[0].price;
+  
 
   return (
     <div className="bg-background pb-16 md:pb-0">
