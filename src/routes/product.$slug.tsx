@@ -4,14 +4,9 @@ import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ComparisonTable } from '@/components/ComparisonTable';
 
-import { StickyMobileCTA } from '@/components/StickyMobileCTA';
-import { MiniDiagnostic } from '@/components/MiniDiagnostic';
-import { UrgencyTimer } from '@/components/UrgencyTimer';
-import { ExitIntentPopup } from '@/components/ExitIntentPopup';
-import { AbandonRecovery } from '@/components/AbandonRecovery';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 
-import { SIROP_KOUKA, formatFCFA } from '@/lib/products';
+import { SIROP_KOUKA } from '@/lib/products';
 
 export const Route = createFileRoute('/product/$slug')({
   beforeLoad: ({ params }) => {
@@ -32,14 +27,12 @@ export const Route = createFileRoute('/product/$slug')({
 function SiropPage() {
   const product = SIROP_KOUKA;
   const stock = useDynamicStock('sirop-kouka', 14);
-  const recoPrice = product.offers.find(o => o.recommended)?.price || product.offers[0].price;
+  
 
   return (
     <div className="bg-background pb-16 md:pb-0">
       <VisitTracker page="sirop-kouka" />
-      <StickyMobileCTA label="🍯 COMMANDER — Discret" price={formatFCFA(recoPrice)} />
-      <ExitIntentPopup productName="Sirop KOUKA" />
-      <AbandonRecovery productName="Sirop KOUKA" />
+      {/* Sticky/Exit/Abandon retirés */}
 
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
         🤐 100% discret · 🔥 Effet dès J2 · ⏰ Stock restant : <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> flacons
@@ -243,27 +236,8 @@ function SiropPage() {
         </div>
       </section>
 
-      {/* MINI-DIAGNOSTIC */}
-      <section className="sec bg-cream-2">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Quelle <span className="text-vert">cure te convient</span> ?</h2>
-          <p className="text-center text-muted-foreground mb-6 text-sm">3 questions discrètes · ta réponse personnalisée</p>
-          <MiniDiagnostic
-            questions={[
-              { q: 'En général, tu tiens combien de temps ?', options: ['Moins d\'1 minute', '1-3 minutes', '5-10 minutes', 'Plus, mais l\'érection ne tient pas'] },
-              { q: 'Depuis combien de temps ce souci dure ?', options: ['Quelques semaines', 'Quelques mois', 'Plus d\'1 an', 'Plus de 3 ans'] },
-              { q: 'Tu vis seul ou en couple ?', options: ['En couple stable', 'Marié(e)', 'Plusieurs partenaires', 'Célibataire — je veux être prêt'] },
-            ]}
-            recommendation={(a) => {
-              if (a[1] >= 2 || a[0] === 0) return { offerHint: 'Cure de COUPLE 3+2 (30 000 FCFA)', message: 'Souci installé : il faut une cure complète pour restaurer durablement. C\'est ce que choisissent 70% des hommes mariés.' };
-              return { offerHint: 'Traitement COMPLET 2+1 (25 000 FCFA)', message: 'L\'offre la plus choisie : effet dès J2, cure complète pour ne pas rechuter.' };
-            }}
-          />
-        </div>
-      </section>
-
-      <div className="container-kouka pt-8"><UrgencyTimer /></div>
       <ProductForm product={product} />
+
 
       <section className="sec">
         <div className="container-kouka">
