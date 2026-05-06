@@ -62,27 +62,42 @@ function HomePage() {
             Saignements, brûlures d'estomac, ballonnements — <strong className="text-foreground">la Poudre du Vieux KOUKA traite la cause, pas le symptôme.</strong>
           </p>
 
-          {/* Galerie produit 4 photos */}
-          <div className="max-w-md mx-auto mb-5">
-            <div className="rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(46,125,50,0.25)] border-[3px] border-[oklch(0.85_0.06_145)] mb-2">
-              <img src={product.heroImage} alt={product.name} className="w-full block" />
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              <img src="/images/kouka-poudre-ouverte.jpg" loading="lazy" alt="Poudre KOUKA — sachet ouvert" className="rounded-lg border-2 border-vert-bg w-full aspect-square object-cover" />
-              <img src="/images/kouka-posologie.jpg" loading="lazy" alt="Posologie 3 sachets + verre d'eau" className="rounded-lg border-2 border-vert-bg w-full aspect-square object-cover" />
-              <img src="/images/kouka-emballage.jpg" loading="lazy" alt="Emballage discret sans logo" className="rounded-lg border-2 border-vert-bg w-full aspect-square object-cover" />
-            </div>
+          {/* Photo produit */}
+          <div className="max-w-[260px] mx-auto mb-5 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(46,125,50,0.25)] border-[3px] border-[oklch(0.85_0.06_145)]">
+            <img src={product.heroImage} alt={product.name} className="w-full block" />
           </div>
 
-          {/* PRIX visible dans le hero */}
-          <div className="bg-white border-2 border-rouge rounded-2xl p-4 mb-5 max-w-sm mx-auto shadow-md">
-            <div className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-1">🔥 Offre recommandée</div>
-            <div className="flex items-baseline justify-center gap-2 mb-1">
-              <span className="text-3xl font-extrabold text-rouge">20 000 FCFA</span>
-              <span className="text-base text-muted-foreground line-through">30 000</span>
+          {/* 3 OFFRES dans le hero */}
+          <div className="max-w-md mx-auto mb-5">
+            <div className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-2 text-center">💰 Choisis ton pack</div>
+            <div className="grid grid-cols-3 gap-2">
+              {product.offers.map((o) => (
+                <button
+                  key={o.id}
+                  onClick={scrollToOrder}
+                  className={`rounded-xl p-2.5 border-2 text-center transition-transform hover:-translate-y-0.5 ${
+                    o.recommended
+                      ? 'bg-white border-rouge shadow-md ring-2 ring-rouge/20'
+                      : 'bg-white border-vert-bg'
+                  }`}
+                >
+                  {o.recommended && (
+                    <div className="text-[9px] font-extrabold text-rouge uppercase mb-0.5">⭐ Top</div>
+                  )}
+                  <div className="text-[11px] font-bold text-vert leading-tight mb-1">
+                    {o.units} sachet{o.units > 1 ? 's' : ''}
+                    {o.bonusUnits > 0 && <span className="block text-[10px] text-rouge">{o.paidUnits}+{o.bonusUnits} offert{o.bonusUnits > 1 ? 's' : ''}</span>}
+                  </div>
+                  <div className={`text-base font-extrabold ${o.recommended ? 'text-rouge' : 'text-foreground'}`}>
+                    {(o.price / 1000).toFixed(0)}k
+                  </div>
+                  {o.oldPrice > o.price && (
+                    <div className="text-[10px] text-muted-foreground line-through">{(o.oldPrice / 1000).toFixed(0)}k</div>
+                  )}
+                </button>
+              ))}
             </div>
-            <div className="text-sm font-bold text-vert">2 sachets + 1 OFFERT · Cure complète 14 jours</div>
-            <div className="text-xs text-muted-foreground mt-1">📦 Livré gratuitement à Ouaga & Niamey · Cash à réception</div>
+            <div className="text-xs text-muted-foreground mt-2 text-center">📦 Livré gratuitement à Ouaga & Niamey · Cash à réception</div>
           </div>
 
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground mb-4">
