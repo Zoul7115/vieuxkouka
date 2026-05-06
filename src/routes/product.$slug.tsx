@@ -66,25 +66,31 @@ function SiropPage() {
             <img src={product.heroImage} alt={product.name} className="w-full block" />
           </div>
 
-          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground mb-5">
+          {/* PRIX visible dans le hero */}
+          <div className="bg-white border-2 border-rouge rounded-2xl p-4 mb-5 max-w-sm mx-auto shadow-md">
+            <div className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-1">🔥 Offre recommandée</div>
+            <div className="flex items-baseline justify-center gap-2 mb-1">
+              <span className="text-3xl font-extrabold text-rouge">25 000 FCFA</span>
+              <span className="text-base text-muted-foreground line-through">36 000</span>
+            </div>
+            <div className="text-sm font-bold text-vert">2 flacons + 1 OFFERT · Traitement complet</div>
+            <div className="text-xs text-muted-foreground mt-1">📦 Colis neutre · Cash à réception</div>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground mb-4">
             <span>✅ Effet dès J2</span>
             <span>✅ 100% plantes</span>
             <span>✅ Emballage neutre</span>
             <span>✅ Remboursé si nul</span>
           </div>
 
-          <div className="inline-flex items-center gap-2 bg-vert-bg border-2 border-vert-mid rounded-full px-4 py-2 mb-4 shadow-sm">
-            <span className="text-xl">🛡️</span>
-            <span className="text-sm font-extrabold text-vert">Garantie PERFORMANT ou REMBOURSÉ 100%</span>
-          </div>
-
           <button
             onClick={() => document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' })}
-            className="w-full bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform"
+            className="w-full bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
           >
             🍯 JE COMMANDE — JE PAIE À RÉCEPTION
           </button>
-          <p className="text-sm text-muted-foreground mt-3">📦 Colis 100% neutre · Personne ne sait ce qu'il y a dedans</p>
+          <p className="text-sm text-muted-foreground mt-3">🛡️ Garantie PERFORMANT ou REMBOURSÉ 100%</p>
         </div>
       </section>
 
