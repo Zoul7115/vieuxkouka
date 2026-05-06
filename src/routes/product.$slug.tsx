@@ -236,27 +236,8 @@ function SiropPage() {
         </div>
       </section>
 
-      {/* MINI-DIAGNOSTIC */}
-      <section className="sec bg-cream-2">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Quelle <span className="text-vert">cure te convient</span> ?</h2>
-          <p className="text-center text-muted-foreground mb-6 text-sm">3 questions discrètes · ta réponse personnalisée</p>
-          <MiniDiagnostic
-            questions={[
-              { q: 'En général, tu tiens combien de temps ?', options: ['Moins d\'1 minute', '1-3 minutes', '5-10 minutes', 'Plus, mais l\'érection ne tient pas'] },
-              { q: 'Depuis combien de temps ce souci dure ?', options: ['Quelques semaines', 'Quelques mois', 'Plus d\'1 an', 'Plus de 3 ans'] },
-              { q: 'Tu vis seul ou en couple ?', options: ['En couple stable', 'Marié(e)', 'Plusieurs partenaires', 'Célibataire — je veux être prêt'] },
-            ]}
-            recommendation={(a) => {
-              if (a[1] >= 2 || a[0] === 0) return { offerHint: 'Cure de COUPLE 3+2 (30 000 FCFA)', message: 'Souci installé : il faut une cure complète pour restaurer durablement. C\'est ce que choisissent 70% des hommes mariés.' };
-              return { offerHint: 'Traitement COMPLET 2+1 (25 000 FCFA)', message: 'L\'offre la plus choisie : effet dès J2, cure complète pour ne pas rechuter.' };
-            }}
-          />
-        </div>
-      </section>
-
-      <div className="container-kouka pt-8"><UrgencyTimer /></div>
       <ProductForm product={product} />
+
 
       <section className="sec">
         <div className="container-kouka">
