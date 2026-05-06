@@ -61,8 +61,8 @@ export function ProductForm({ product }: { product: Product }) {
     
     horsOuaga: false,
     carTransport: '',
-    available: false,
-    cashConfirmed: false,
+    available: true,
+    cashConfirmed: true,
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -144,7 +144,7 @@ export function ProductForm({ product }: { product: Product }) {
     const e: Record<string, string> = {};
     if (!form.fullName.trim() || form.fullName.trim().length < 2) e.fullName = 'Obligatoire';
     if (!form.city.trim()) e.city = 'Obligatoire';
-    if (!form.deliverySlot) e.deliverySlot = 'Choisis ton créneau préféré';
+    // deliverySlot now optional — removed to reduce friction
     if (!form.countryCode) e.countryCode = 'Obligatoire';
     const tel = form.whatsapp.replace(/\s/g, '');
     if (!/^[0-9]{6,12}$/.test(tel)) e.whatsapp = 'Numéro invalide';
@@ -172,7 +172,7 @@ export function ProductForm({ product }: { product: Product }) {
       if (!form.countryCode) e.countryCode = '1';
       if (!/^[0-9]{6,12}$/.test(form.whatsapp.replace(/\s/g, ''))) e.whatsapp = '1';
       if (!form.city.trim()) e.city = '1';
-      if (!form.deliverySlot) e.deliverySlot = '1';
+      // deliverySlot optional
       if (form.horsOuaga && !form.carTransport.trim()) e.carTransport = '1';
       if (!form.available) e.available = '1';
       if (!form.cashConfirmed) e.cashConfirmed = '1';
@@ -351,7 +351,7 @@ export function ProductForm({ product }: { product: Product }) {
           )}
         </div>
 
-        <PreFormWhatsApp productName={product.name} />
+        {/* PreFormWhatsApp retiré : détournait vers WhatsApp avant la soumission */}
 
         <div className="bg-white rounded-2xl p-6 sm:p-9 shadow-[0_8px_32px_rgba(0,0,0,0.12)] max-w-[480px] mx-auto">
           <Field label="Prénom & Nom" required error={errors.fullName}>
@@ -403,7 +403,7 @@ export function ProductForm({ product }: { product: Product }) {
             />
           </Field>
 
-          <Field label="Quand veux-tu être livré ?" required error={errors.deliverySlot}>
+          <Field label="Quand veux-tu être livré ? (facultatif)" error={errors.deliverySlot}>
             <div className="grid grid-cols-2 gap-2">
               {DELIVERY_SLOTS.map((s) => (
                 <button
