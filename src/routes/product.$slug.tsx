@@ -241,16 +241,27 @@ function SiropPage() {
         </div>
       </section>
 
-      <ProductForm product={product} />
-
-
+      {/* FAQ avant le formulaire — lever les objections avant la décision */}
       <section className="sec">
         <div className="container-kouka">
           <h2 className="text-center mb-2">Questions fréquentes</h2>
           <FAQ />
-          <div className="text-center mt-8">
-            <Link to="/" className="text-vert-mid font-bold text-sm">← Retour à la page poudre KOUKA</Link>
+          <div className="text-center mt-6">
+            <button
+              onClick={() => document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
+            >
+              🍯 OK, je commande maintenant
+            </button>
           </div>
+        </div>
+      </section>
+
+      <ProductForm product={product} />
+
+      <section className="sec bg-cream-2">
+        <div className="container-kouka text-center">
+          <Link to="/" className="text-vert-mid font-bold text-sm">← Retour à la page poudre KOUKA</Link>
         </div>
       </section>
     </div>
