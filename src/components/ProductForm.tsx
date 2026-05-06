@@ -41,6 +41,19 @@ function computeOrderScore(input: {
   return Math.max(0, Math.min(100, score));
 }
 
+function getSessionId(): string {
+  try {
+    let sid = localStorage.getItem('kouka_session_id');
+    if (!sid) {
+      sid = `s_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+      localStorage.setItem('kouka_session_id', sid);
+    }
+    return sid;
+  } catch {
+    return `s_${Date.now()}`;
+  }
+}
+
 export function ProductForm({ product }: { product: Product }) {
   const navigate = useNavigate();
   const recommended = product.offers.find((o) => o.recommended) || product.offers[0];
