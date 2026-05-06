@@ -4,11 +4,6 @@ import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ComparisonTable } from '@/components/ComparisonTable';
 
-import { StickyMobileCTA } from '@/components/StickyMobileCTA';
-import { MiniDiagnostic } from '@/components/MiniDiagnostic';
-import { UrgencyTimer } from '@/components/UrgencyTimer';
-import { ExitIntentPopup } from '@/components/ExitIntentPopup';
-import { AbandonRecovery } from '@/components/AbandonRecovery';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 
 import { SIROP_KOUKA, formatFCFA } from '@/lib/products';
