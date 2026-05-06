@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { KOUKA, formatFCFA } from '@/lib/products';
+import { KOUKA } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ProductForm } from '@/components/ProductForm';
 import { FAQ } from '@/components/FAQ';
