@@ -32,9 +32,7 @@ function SiropPage() {
   return (
     <div className="bg-background pb-16 md:pb-0">
       <VisitTracker page="sirop-kouka" />
-      <StickyMobileCTA label="🍯 COMMANDER — Discret" price={formatFCFA(recoPrice)} />
-      <ExitIntentPopup productName="Sirop KOUKA" />
-      <AbandonRecovery productName="Sirop KOUKA" />
+      {/* Sticky/Exit/Abandon retirés */}
 
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
         🤐 100% discret · 🔥 Effet dès J2 · ⏰ Stock restant : <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> flacons
