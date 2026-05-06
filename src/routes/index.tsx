@@ -10,7 +10,6 @@ import { MiniDiagnostic } from '@/components/MiniDiagnostic';
 import { UrgencyTimer } from '@/components/UrgencyTimer';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import { AbandonRecovery } from '@/components/AbandonRecovery';
-import { AudioVieuxKouka } from '@/components/AudioVieuxKouka';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 
 
@@ -104,9 +103,6 @@ function HomePage() {
           <p className="text-sm text-muted-foreground mt-3">📦 Livraison gratuite Ouaga & Niamey · 💵 Cash à réception · 🤐 Emballage 100% discret</p>
         </div>
       </section>
-
-      {/* AUDIO DU VIEUX KOUKA — placement stratégique post-hero */}
-      <AudioVieuxKouka src="/audio/poudre-kouka.aac" productSlug="kouka" />
 
       {/* PREUVE SOCIALE LIVE — vraies stats BDD */}
       

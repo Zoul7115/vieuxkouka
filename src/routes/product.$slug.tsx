@@ -9,7 +9,6 @@ import { MiniDiagnostic } from '@/components/MiniDiagnostic';
 import { UrgencyTimer } from '@/components/UrgencyTimer';
 import { ExitIntentPopup } from '@/components/ExitIntentPopup';
 import { AbandonRecovery } from '@/components/AbandonRecovery';
-import { AudioVieuxKouka } from '@/components/AudioVieuxKouka';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 
 import { SIROP_KOUKA, formatFCFA } from '@/lib/products';
@@ -96,9 +95,6 @@ function SiropPage() {
           <p className="text-sm text-muted-foreground mt-3">📦 Colis 100% neutre · Personne ne sait ce qu'il y a dedans</p>
         </div>
       </section>
-
-      {/* AUDIO DU VIEUX KOUKA — placement stratégique post-hero */}
-      <AudioVieuxKouka src="/audio/sirop-kouka.aac" productSlug="sirop-kouka" />
 
       
       <section className="sec bg-cream-2">
