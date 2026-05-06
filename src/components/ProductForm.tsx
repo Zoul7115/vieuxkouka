@@ -41,6 +41,19 @@ function computeOrderScore(input: {
   return Math.max(0, Math.min(100, score));
 }
 
+function getSessionId(): string {
+  try {
+    let sid = localStorage.getItem('kouka_session_id');
+    if (!sid) {
+      sid = `s_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+      localStorage.setItem('kouka_session_id', sid);
+    }
+    return sid;
+  } catch {
+    return `s_${Date.now()}`;
+  }
+}
+
 export function ProductForm({ product }: { product: Product }) {
   const navigate = useNavigate();
   const recommended = product.offers.find((o) => o.recommended) || product.offers[0];
@@ -110,6 +123,34 @@ export function ProductForm({ product }: { product: Product }) {
       } catch {}
     })();
   }, []);
+
+  // Sync vers form_drafts (debounce 1.5s) — pour récupérer les abandons côté admin
+  useEffect(() => {
+    const filled = [form.fullName.trim(), form.whatsapp.trim(), form.city.trim()].filter(Boolean).length;
+    if (filled < 2) return;
+    const t = setTimeout(() => {
+      const sid = getSessionId();
+      supabase
+        .from('form_drafts')
+        .upsert(
+          {
+            session_id: sid,
+            full_name: form.fullName || null,
+            whatsapp: form.whatsapp ? (COUNTRIES.find((c) => c.code === form.countryCode)?.prefix || '') + form.whatsapp.replace(/\s/g, '') : null,
+            country_code: form.countryCode,
+            city: form.city || null,
+            product_slug: product.slug,
+            offer_label: offer.label,
+            page: typeof window !== 'undefined' ? window.location.pathname : null,
+            user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
+            source: typeof document !== 'undefined' ? document.referrer || 'Direct' : 'Direct',
+          },
+          { onConflict: 'session_id' },
+        )
+        .then(() => {});
+    }, 1500);
+    return () => clearTimeout(t);
+  }, [form.fullName, form.whatsapp, form.city, form.countryCode, product.slug, offer.label]);
 
   const update = (k: string, v: string | boolean) => {
     setForm((f) => {

@@ -10,6 +10,7 @@ import { StatsTab } from '@/components/admin/StatsTab';
 import { StockTab } from '@/components/admin/StockTab';
 import { ComptaTab } from '@/components/admin/ComptaTab';
 import { LivreursTab } from '@/components/admin/LivreursTab';
+import { DraftsTab } from '@/components/admin/DraftsTab';
 import { NotifDiagnostic } from '@/components/admin/NotifDiagnostic';
 import { usePWAAdmin } from '@/hooks/usePWAAdmin';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
@@ -29,7 +30,7 @@ type Visit = {
   visited_at: string | null;
 };
 
-type Tab = 'orders' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs';
+type Tab = 'orders' | 'drafts' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs';
 
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
@@ -170,6 +171,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
   const TABS: { k: Tab; label: string; emoji: string }[] = [
     { k: 'orders', label: 'Commandes', emoji: '📦' },
+    { k: 'drafts', label: 'Brouillons', emoji: '📝' },
     { k: 'sav', label: 'SAV', emoji: '🤝' },
     { k: 'bilan', label: 'Bilan', emoji: '🧠' },
     { k: 'livreurs', label: 'Livreurs', emoji: '🛵' },
@@ -272,6 +274,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         {(!loading || orders.length > 0) && (
           <>
             {tab === 'orders' && <OrdersTab orders={orders} onUpdateStatus={updateStatus} onAssignLivreur={assignLivreur} />}
+            {tab === 'drafts' && <DraftsTab />}
             {tab === 'sav' && <SAVTab orders={orders} onChange={() => load(true)} />}
             {tab === 'bilan' && <BilanTab />}
             {tab === 'livreurs' && <LivreursTab orders={orders} onChange={() => load(true)} />}
