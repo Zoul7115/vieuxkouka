@@ -16,10 +16,15 @@ export type WAOrder = {
   car_transport?: string | null;
 };
 
-const isOuaga = (order: WAOrder) => {
-  const c = (order.city || '').toLowerCase();
-  return c.includes('ouaga') || c.includes('ouga') || c.includes('1200') || c.includes('tanghin') || c.includes('zogona');
+/**
+ * Détermine s'il s'agit d'une livraison locale (capitale) ou d'une expédition.
+ * Source de vérité : `car_transport` — rempli UNIQUEMENT quand le client coche
+ * « Je suis en dehors de la capitale ». Si vide → livraison locale.
+ */
+const isLocalDelivery = (order: WAOrder) => {
+  return !order.car_transport || !order.car_transport.trim();
 };
+const isOuaga = isLocalDelivery;
 
 const productLabel = (productName: string) => {
   // ex "Poudre KOUKA du Vieux - 2 + 1 OFFERT — TRAITEMENT COMPLET"
