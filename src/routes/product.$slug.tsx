@@ -6,7 +6,7 @@ import { ComparisonTable } from '@/components/ComparisonTable';
 
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 
-import { SIROP_KOUKA, formatFCFA } from '@/lib/products';
+import { SIROP_KOUKA } from '@/lib/products';
 
 export const Route = createFileRoute('/product/$slug')({
   beforeLoad: ({ params }) => {
