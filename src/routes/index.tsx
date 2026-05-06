@@ -324,6 +324,38 @@ function HomePage() {
         </div>
       </section>
 
+      {/* AVANT / APRÈS visuel */}
+      <section className="sec bg-cream-2">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">Avant KOUKA <span className="text-rouge">vs</span> Après KOUKA</h2>
+          <p className="text-center text-muted-foreground mb-7 text-sm">Le changement concret en 14 jours</p>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-white border-2 border-rouge/40 rounded-2xl p-4">
+              <div className="text-center bg-rouge text-white font-extrabold py-2 rounded-lg mb-3 text-sm">😣 AVANT</div>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>🩸 Saignements aux toilettes</li>
+                <li>🔥 Brûlures d'estomac chaque repas</li>
+                <li>💨 Ventre gonflé toute la journée</li>
+                <li>😰 Honte au bureau, en famille</li>
+                <li>💸 Médicaments à vie qui calment 3 jours</li>
+                <li>😴 Fatigue, irritabilité</li>
+              </ul>
+            </div>
+            <div className="bg-vert-bg border-2 border-vert-mid rounded-2xl p-4">
+              <div className="text-center bg-vert-mid text-white font-extrabold py-2 rounded-lg mb-3 text-sm">😊 APRÈS</div>
+              <ul className="space-y-2 text-sm text-foreground">
+                <li>✅ Selles normales, sans douleur</li>
+                <li>✅ Estomac apaisé, plus de brûlures</li>
+                <li>✅ Ventre plat, transit régulier</li>
+                <li>✅ Confiance retrouvée</li>
+                <li>✅ Une seule cure de 14 jours · 20 000 F</li>
+                <li>✅ Énergie, sommeil, bonne humeur</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* COMPARATIF */}
       <section className="sec bg-vert-bg/30">
         <div className="container-kouka">
@@ -344,48 +376,27 @@ function HomePage() {
             productLabel="🌿 KOUKA"
           />
           <div className="text-center mt-6">
-            <button onClick={scrollToOrder} className="bg-vert-mid text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.35)] hover:-translate-y-0.5 transition-transform">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
               🌿 Je choisis la solution naturelle
             </button>
           </div>
         </div>
       </section>
 
-      <section className="sec bg-cream-2">
+      {/* FAQ — avant le formulaire pour lever les objections */}
+      <section className="sec">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">Livraison <span className="text-vert">au Burkina Faso & au Niger</span></h2>
-          <p className="text-center text-sm text-muted-foreground mb-6">Paiement cash à la livraison · Ouaga, Niamey & toutes les villes</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {[
-              { i: '🏙️', t: 'Ouagadougou', d: 'Livraison gratuite' },
-              { i: '🏙️', t: 'Niamey', d: 'Livraison gratuite' },
-              { i: '🇧🇫', t: 'Burkina (autres villes)', d: '1 000 FCFA · par car' },
-              { i: '🇳🇪', t: 'Niger (autres villes)', d: '1 500 FCFA · par car' },
-              { i: '⏱️', t: 'Délai', d: '24-72h selon la ville' },
-              { i: '💵', t: 'Paiement', d: 'Cash à la livraison' },
-              { i: '📦', t: 'Emballage', d: 'Discret · sans logo' },
-              { i: '🛡️', t: 'Garantie', d: 'Remboursé si pas satisfait' },
-            ].map((x) => (
-              <div key={x.t} className="bg-white border-2 border-vert-bg rounded-xl p-4 text-center shadow-sm">
-                <span className="block text-3xl mb-2">{x.i}</span>
-                <div className="font-extrabold text-foreground text-sm">{x.t}</div>
-                <div className="text-xs text-muted-foreground">{x.d}</div>
-              </div>
-            ))}
+          <h2 className="text-center mb-2">Tes questions</h2>
+          <p className="text-center text-muted-foreground mb-4">Les vraies réponses sans détours</p>
+          <FAQ />
+          <div className="text-center mt-6">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
+              🌿 OK, je commande maintenant
+            </button>
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="sec">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Tes questions</h2>
-          <p className="text-center text-muted-foreground">Les vraies réponses sans détours</p>
-          <FAQ />
-        </div>
-      </section>
-
-      {/* MiniDiagnostic & UrgencyTimer retirés (friction) */}
       <ProductForm product={product} />
 
 
