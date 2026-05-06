@@ -124,6 +124,34 @@ export function ProductForm({ product }: { product: Product }) {
     })();
   }, []);
 
+  // Sync vers form_drafts (debounce 1.5s) — pour récupérer les abandons côté admin
+  useEffect(() => {
+    const filled = [form.fullName.trim(), form.whatsapp.trim(), form.city.trim()].filter(Boolean).length;
+    if (filled < 2) return;
+    const t = setTimeout(() => {
+      const sid = getSessionId();
+      supabase
+        .from('form_drafts')
+        .upsert(
+          {
+            session_id: sid,
+            full_name: form.fullName || null,
+            whatsapp: form.whatsapp ? (COUNTRIES.find((c) => c.code === form.countryCode)?.prefix || '') + form.whatsapp.replace(/\s/g, '') : null,
+            country_code: form.countryCode,
+            city: form.city || null,
+            product_slug: product.slug,
+            offer_label: offer.label,
+            page: typeof window !== 'undefined' ? window.location.pathname : null,
+            user_agent: typeof navigator !== 'undefined' ? navigator.userAgent : null,
+            source: typeof document !== 'undefined' ? document.referrer || 'Direct' : 'Direct',
+          },
+          { onConflict: 'session_id' },
+        )
+        .then(() => {});
+    }, 1500);
+    return () => clearTimeout(t);
+  }, [form.fullName, form.whatsapp, form.city, form.countryCode, product.slug, offer.label]);
+
   const update = (k: string, v: string | boolean) => {
     setForm((f) => {
       const next = { ...f, [k]: v };
