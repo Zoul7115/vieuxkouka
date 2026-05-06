@@ -5,11 +5,6 @@ import { ProductForm } from '@/components/ProductForm';
 import { FAQ } from '@/components/FAQ';
 import { ComparisonTable } from '@/components/ComparisonTable';
 import { LiveSocialProof } from '@/components/LiveSocialProof';
-import { StickyMobileCTA } from '@/components/StickyMobileCTA';
-import { MiniDiagnostic } from '@/components/MiniDiagnostic';
-import { UrgencyTimer } from '@/components/UrgencyTimer';
-import { ExitIntentPopup } from '@/components/ExitIntentPopup';
-import { AbandonRecovery } from '@/components/AbandonRecovery';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 
 
