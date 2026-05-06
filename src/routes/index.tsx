@@ -63,7 +63,7 @@ function HomePage() {
           </p>
 
           {/* Photo produit */}
-          <div className="max-w-[260px] mx-auto mb-5 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(46,125,50,0.25)] border-[3px] border-[oklch(0.85_0.06_145)]">
+          <div className="max-w-[420px] mx-auto mb-5 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(46,125,50,0.25)] border-[3px] border-[oklch(0.85_0.06_145)]">
             <img src={product.heroImage} alt={product.name} className="w-full block" />
           </div>
 
