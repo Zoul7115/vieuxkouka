@@ -220,7 +220,7 @@ function HomePage() {
           </div>
 
           <div className="text-center mt-7">
-            <button onClick={scrollToOrder} className="bg-vert-mid text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.35)] hover:-translate-y-0.5 transition-transform">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
               🌿 Je veux la {product.shortName}
             </button>
           </div>
