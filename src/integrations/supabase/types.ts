@@ -100,6 +100,57 @@ export type Database = {
           },
         ]
       }
+      form_drafts: {
+        Row: {
+          city: string | null
+          country_code: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          offer_label: string | null
+          page: string | null
+          product_slug: string | null
+          recovered: boolean
+          session_id: string
+          source: string | null
+          updated_at: string
+          user_agent: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          city?: string | null
+          country_code?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          offer_label?: string | null
+          page?: string | null
+          product_slug?: string | null
+          recovered?: boolean
+          session_id: string
+          source?: string | null
+          updated_at?: string
+          user_agent?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          city?: string | null
+          country_code?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          offer_label?: string | null
+          page?: string | null
+          product_slug?: string | null
+          recovered?: boolean
+          session_id?: string
+          source?: string | null
+          updated_at?: string
+          user_agent?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
       livreurs: {
         Row: {
           active: boolean
