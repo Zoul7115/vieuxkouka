@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { OfferSelector } from './OfferSelector';
-import { PreFormWhatsApp } from './PreFormWhatsApp';
+
 import { COUNTRIES, COUNTRY_DELIVERY, formatFCFA, type Offer, type Product } from '@/lib/products';
 import { supabase } from '@/integrations/supabase/client';
 import { trackFB } from '@/lib/facebookPixel';
