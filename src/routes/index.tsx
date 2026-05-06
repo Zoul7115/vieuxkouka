@@ -33,9 +33,7 @@ function HomePage() {
     <div className="bg-background pb-16 md:pb-0">
       <VisitTracker page="home" />
       <LiveSocialProof product="Poudre KOUKA" />
-      <StickyMobileCTA label="🌿 COMMANDER — Paiement livraison" price={formatFCFA(product.offers.find(o => o.recommended)?.price || product.offers[0].price)} />
-      <ExitIntentPopup productName="Poudre KOUKA" />
-      <AbandonRecovery productName="Poudre KOUKA" />
+      {/* StickyMobileCTA, ExitIntentPopup, AbandonRecovery removed for conversion */}
 
       {/* Bandeau urgence */}
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
