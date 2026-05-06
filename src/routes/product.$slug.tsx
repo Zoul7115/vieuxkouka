@@ -43,13 +43,12 @@ function SiropPage() {
           <span className="inline-block bg-rouge text-white text-xs font-bold uppercase px-4 py-1.5 rounded-full mb-4">
             🔒 100% discret · Naturel · Garanti
           </span>
-          <h1 className="text-vert mb-4">
+          <h1 className="text-vert mb-3">
             Tu finis en 2 minutes ?<br />
-            <em className="text-rouge not-italic">Tiens 30 minutes dès la 2ᵉ nuit.</em>
+            <em className="text-rouge not-italic">Tiens 30 minutes dès J2.</em>
           </h1>
-          <p className="text-muted-foreground max-w-lg mx-auto mb-6 text-lg leading-relaxed">
-            Éjaculation précoce, érection molle, désir en panne — tu n'es pas seul, et ce n'est <strong>pas dans ta tête</strong>.
-            <strong className="text-foreground"> Le Sirop du Vieux KOUKA réveille ta puissance naturelle</strong> avec 100% de plantes africaines. Ta femme va le remarquer. Toi aussi.
+          <p className="text-muted-foreground max-w-lg mx-auto mb-5 text-base leading-relaxed">
+            Éjaculation précoce, érection molle, libido en panne ? <strong className="text-foreground">Le Sirop du Vieux KOUKA réveille ta puissance naturelle</strong> avec 100% de plantes africaines.
           </p>
 
           {/* Réassurance ANONYMAT renforcée */}
@@ -67,25 +66,31 @@ function SiropPage() {
             <img src={product.heroImage} alt={product.name} className="w-full block" />
           </div>
 
-          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground mb-5">
+          {/* PRIX visible dans le hero */}
+          <div className="bg-white border-2 border-rouge rounded-2xl p-4 mb-5 max-w-sm mx-auto shadow-md">
+            <div className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-1">🔥 Offre recommandée</div>
+            <div className="flex items-baseline justify-center gap-2 mb-1">
+              <span className="text-3xl font-extrabold text-rouge">25 000 FCFA</span>
+              <span className="text-base text-muted-foreground line-through">36 000</span>
+            </div>
+            <div className="text-sm font-bold text-vert">2 flacons + 1 OFFERT · Traitement complet</div>
+            <div className="text-xs text-muted-foreground mt-1">📦 Colis neutre · Cash à réception</div>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground mb-4">
             <span>✅ Effet dès J2</span>
             <span>✅ 100% plantes</span>
             <span>✅ Emballage neutre</span>
             <span>✅ Remboursé si nul</span>
           </div>
 
-          <div className="inline-flex items-center gap-2 bg-vert-bg border-2 border-vert-mid rounded-full px-4 py-2 mb-4 shadow-sm">
-            <span className="text-xl">🛡️</span>
-            <span className="text-sm font-extrabold text-vert">Garantie PERFORMANT ou REMBOURSÉ 100%</span>
-          </div>
-
           <button
             onClick={() => document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' })}
-            className="w-full bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform"
+            className="w-full bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
           >
             🍯 JE COMMANDE — JE PAIE À RÉCEPTION
           </button>
-          <p className="text-sm text-muted-foreground mt-3">📦 Colis 100% neutre · Personne ne sait ce qu'il y a dedans</p>
+          <p className="text-sm text-muted-foreground mt-3">🛡️ Garantie PERFORMANT ou REMBOURSÉ 100%</p>
         </div>
       </section>
 
@@ -236,16 +241,27 @@ function SiropPage() {
         </div>
       </section>
 
-      <ProductForm product={product} />
-
-
+      {/* FAQ avant le formulaire — lever les objections avant la décision */}
       <section className="sec">
         <div className="container-kouka">
           <h2 className="text-center mb-2">Questions fréquentes</h2>
           <FAQ />
-          <div className="text-center mt-8">
-            <Link to="/" className="text-vert-mid font-bold text-sm">← Retour à la page poudre KOUKA</Link>
+          <div className="text-center mt-6">
+            <button
+              onClick={() => document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
+            >
+              🍯 OK, je commande maintenant
+            </button>
           </div>
+        </div>
+      </section>
+
+      <ProductForm product={product} />
+
+      <section className="sec bg-cream-2">
+        <div className="container-kouka text-center">
+          <Link to="/" className="text-vert-mid font-bold text-sm">← Retour à la page poudre KOUKA</Link>
         </div>
       </section>
     </div>

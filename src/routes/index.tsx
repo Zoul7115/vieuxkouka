@@ -53,47 +53,51 @@ function HomePage() {
             ⭐ +200 clients guéris · 87% soulagés dès J3
           </span>
 
-          <h1 className="text-vert mb-4">
-            Hémorroïdes, ulcères, ballonnements ?<br />
-            <em className="text-rouge not-italic">Soulagé en 3 jours. Guéri en 14.</em>
+          <h1 className="text-vert mb-3">
+            Hémorroïdes, ulcères ?<br />
+            <em className="text-rouge not-italic">Soulagé en 3 jours.</em>
           </h1>
 
-          <p className="text-muted-foreground max-w-lg mx-auto mb-6 text-lg leading-relaxed">
-            Tu saignes aux toilettes ? Ça brûle dans l'estomac ? Ton ventre gonfle après chaque repas ?
-            <strong className="text-foreground"> La Poudre du Vieux KOUKA traite la cause profonde — pas le symptôme.</strong> Plus de rechute. Plus de médicaments à vie.
+          <p className="text-muted-foreground max-w-lg mx-auto mb-5 text-base leading-relaxed">
+            Saignements, brûlures d'estomac, ballonnements — <strong className="text-foreground">la Poudre du Vieux KOUKA traite la cause, pas le symptôme.</strong>
           </p>
 
-          <div className="max-w-[260px] mx-auto mb-5 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(46,125,50,0.25)] border-[3px] border-[oklch(0.85_0.06_145)]">
-            <img src={product.heroImage} alt={product.name} className="w-full block" />
+          {/* Galerie produit 4 photos */}
+          <div className="max-w-md mx-auto mb-5">
+            <div className="rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(46,125,50,0.25)] border-[3px] border-[oklch(0.85_0.06_145)] mb-2">
+              <img src={product.heroImage} alt={product.name} className="w-full block" />
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <img src="/images/kouka-poudre-ouverte.jpg" loading="lazy" alt="Poudre KOUKA — sachet ouvert" className="rounded-lg border-2 border-vert-bg w-full aspect-square object-cover" />
+              <img src="/images/kouka-posologie.jpg" loading="lazy" alt="Posologie 3 sachets + verre d'eau" className="rounded-lg border-2 border-vert-bg w-full aspect-square object-cover" />
+              <img src="/images/kouka-emballage.jpg" loading="lazy" alt="Emballage discret sans logo" className="rounded-lg border-2 border-vert-bg w-full aspect-square object-cover" />
+            </div>
           </div>
 
-          <div className="flex flex-wrap gap-2 justify-center mb-5">
-            {['🩸 Hémorroïdes', '🔥 Ulcères', '💨 Ballonnements & Gaz', '🌀 Colopathie', '😣 Rectum qui sort'].map((t) => (
-              <span key={t} className="bg-white border-2 border-vert-bg text-muted-foreground px-3.5 py-1.5 rounded-full text-sm font-semibold">
-                {t}
-              </span>
-            ))}
+          {/* PRIX visible dans le hero */}
+          <div className="bg-white border-2 border-rouge rounded-2xl p-4 mb-5 max-w-sm mx-auto shadow-md">
+            <div className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-1">🔥 Offre recommandée</div>
+            <div className="flex items-baseline justify-center gap-2 mb-1">
+              <span className="text-3xl font-extrabold text-rouge">20 000 FCFA</span>
+              <span className="text-base text-muted-foreground line-through">30 000</span>
+            </div>
+            <div className="text-sm font-bold text-vert">2 sachets + 1 OFFERT · Cure complète 14 jours</div>
+            <div className="text-xs text-muted-foreground mt-1">📦 Livré gratuitement à Ouaga & Niamey · Cash à réception</div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground mb-5">
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground mb-4">
             <span>✅ 100% plantes africaines</span>
             <span>✅ Sans effets secondaires</span>
-            <span>✅ Garantie remboursée</span>
-          </div>
-
-          {/* Badge garantie en évidence avant CTA */}
-          <div className="inline-flex items-center gap-2 bg-vert-bg border-2 border-vert-mid rounded-full px-4 py-2 mb-4 shadow-sm">
-            <span className="text-xl">🛡️</span>
-            <span className="text-sm font-extrabold text-vert">Garantie GUÉRI ou REMBOURSÉ 100%</span>
+            <span>✅ Remboursé si pas guéri</span>
           </div>
 
           <button
             onClick={scrollToOrder}
-            className="w-full bg-vert-mid text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.35)] hover:-translate-y-0.5 transition-transform"
+            className="w-full bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
           >
             🌿 JE COMMANDE — JE PAIE À LA LIVRAISON
           </button>
-          <p className="text-sm text-muted-foreground mt-3">📦 Livraison gratuite Ouaga & Niamey · 💵 Cash à réception · 🤐 Emballage 100% discret</p>
+          <p className="text-sm text-muted-foreground mt-3">🛡️ Garantie GUÉRI ou REMBOURSÉ 100%</p>
         </div>
       </section>
 
@@ -216,7 +220,7 @@ function HomePage() {
           </div>
 
           <div className="text-center mt-7">
-            <button onClick={scrollToOrder} className="bg-vert-mid text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.35)] hover:-translate-y-0.5 transition-transform">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
               🌿 Je veux la {product.shortName}
             </button>
           </div>
@@ -320,6 +324,38 @@ function HomePage() {
         </div>
       </section>
 
+      {/* AVANT / APRÈS visuel */}
+      <section className="sec bg-cream-2">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">Avant KOUKA <span className="text-rouge">vs</span> Après KOUKA</h2>
+          <p className="text-center text-muted-foreground mb-7 text-sm">Le changement concret en 14 jours</p>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-white border-2 border-rouge/40 rounded-2xl p-4">
+              <div className="text-center bg-rouge text-white font-extrabold py-2 rounded-lg mb-3 text-sm">😣 AVANT</div>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>🩸 Saignements aux toilettes</li>
+                <li>🔥 Brûlures d'estomac chaque repas</li>
+                <li>💨 Ventre gonflé toute la journée</li>
+                <li>😰 Honte au bureau, en famille</li>
+                <li>💸 Médicaments à vie qui calment 3 jours</li>
+                <li>😴 Fatigue, irritabilité</li>
+              </ul>
+            </div>
+            <div className="bg-vert-bg border-2 border-vert-mid rounded-2xl p-4">
+              <div className="text-center bg-vert-mid text-white font-extrabold py-2 rounded-lg mb-3 text-sm">😊 APRÈS</div>
+              <ul className="space-y-2 text-sm text-foreground">
+                <li>✅ Selles normales, sans douleur</li>
+                <li>✅ Estomac apaisé, plus de brûlures</li>
+                <li>✅ Ventre plat, transit régulier</li>
+                <li>✅ Confiance retrouvée</li>
+                <li>✅ Une seule cure de 14 jours · 20 000 F</li>
+                <li>✅ Énergie, sommeil, bonne humeur</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* COMPARATIF */}
       <section className="sec bg-vert-bg/30">
         <div className="container-kouka">
@@ -340,48 +376,27 @@ function HomePage() {
             productLabel="🌿 KOUKA"
           />
           <div className="text-center mt-6">
-            <button onClick={scrollToOrder} className="bg-vert-mid text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.35)] hover:-translate-y-0.5 transition-transform">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
               🌿 Je choisis la solution naturelle
             </button>
           </div>
         </div>
       </section>
 
-      <section className="sec bg-cream-2">
+      {/* FAQ — avant le formulaire pour lever les objections */}
+      <section className="sec">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">Livraison <span className="text-vert">au Burkina Faso & au Niger</span></h2>
-          <p className="text-center text-sm text-muted-foreground mb-6">Paiement cash à la livraison · Ouaga, Niamey & toutes les villes</p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {[
-              { i: '🏙️', t: 'Ouagadougou', d: 'Livraison gratuite' },
-              { i: '🏙️', t: 'Niamey', d: 'Livraison gratuite' },
-              { i: '🇧🇫', t: 'Burkina (autres villes)', d: '1 000 FCFA · par car' },
-              { i: '🇳🇪', t: 'Niger (autres villes)', d: '1 500 FCFA · par car' },
-              { i: '⏱️', t: 'Délai', d: '24-72h selon la ville' },
-              { i: '💵', t: 'Paiement', d: 'Cash à la livraison' },
-              { i: '📦', t: 'Emballage', d: 'Discret · sans logo' },
-              { i: '🛡️', t: 'Garantie', d: 'Remboursé si pas satisfait' },
-            ].map((x) => (
-              <div key={x.t} className="bg-white border-2 border-vert-bg rounded-xl p-4 text-center shadow-sm">
-                <span className="block text-3xl mb-2">{x.i}</span>
-                <div className="font-extrabold text-foreground text-sm">{x.t}</div>
-                <div className="text-xs text-muted-foreground">{x.d}</div>
-              </div>
-            ))}
+          <h2 className="text-center mb-2">Tes questions</h2>
+          <p className="text-center text-muted-foreground mb-4">Les vraies réponses sans détours</p>
+          <FAQ />
+          <div className="text-center mt-6">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
+              🌿 OK, je commande maintenant
+            </button>
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="sec">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Tes questions</h2>
-          <p className="text-center text-muted-foreground">Les vraies réponses sans détours</p>
-          <FAQ />
-        </div>
-      </section>
-
-      {/* MiniDiagnostic & UrgencyTimer retirés (friction) */}
       <ProductForm product={product} />
 
 
