@@ -43,13 +43,12 @@ function SiropPage() {
           <span className="inline-block bg-rouge text-white text-xs font-bold uppercase px-4 py-1.5 rounded-full mb-4">
             🔒 100% discret · Naturel · Garanti
           </span>
-          <h1 className="text-vert mb-4">
+          <h1 className="text-vert mb-3">
             Tu finis en 2 minutes ?<br />
-            <em className="text-rouge not-italic">Tiens 30 minutes dès la 2ᵉ nuit.</em>
+            <em className="text-rouge not-italic">Tiens 30 minutes dès J2.</em>
           </h1>
-          <p className="text-muted-foreground max-w-lg mx-auto mb-6 text-lg leading-relaxed">
-            Éjaculation précoce, érection molle, désir en panne — tu n'es pas seul, et ce n'est <strong>pas dans ta tête</strong>.
-            <strong className="text-foreground"> Le Sirop du Vieux KOUKA réveille ta puissance naturelle</strong> avec 100% de plantes africaines. Ta femme va le remarquer. Toi aussi.
+          <p className="text-muted-foreground max-w-lg mx-auto mb-5 text-base leading-relaxed">
+            Éjaculation précoce, érection molle, libido en panne ? <strong className="text-foreground">Le Sirop du Vieux KOUKA réveille ta puissance naturelle</strong> avec 100% de plantes africaines.
           </p>
 
           {/* Réassurance ANONYMAT renforcée */}
