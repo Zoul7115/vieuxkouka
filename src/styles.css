@@ -51,6 +51,10 @@
   --color-cream: var(--cream);
   --color-cream-2: var(--cream-2);
   --color-muted-2: var(--muted-2);
+  --color-bleu: var(--bleu);
+  --color-bleu-mid: var(--bleu-mid);
+  --color-bleu-light: var(--bleu-light);
+  --color-bleu-bg: var(--bleu-bg);
 }
 
 :root {
