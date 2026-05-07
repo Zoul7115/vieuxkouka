@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 type Props = {
   src: string;
-  productSlug: 'kouka' | 'sirop-kouka';
+  productSlug: 'kouka' | 'sirop-kouka' | 'anti-diabete';
   title?: string;
   subtitle?: string;
 };

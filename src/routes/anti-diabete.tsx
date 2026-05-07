@@ -2,7 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
-import { ComparisonTable } from '@/components/ComparisonTable';
+import { AudioVieuxKouka } from '@/components/AudioVieuxKouka';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { ANTI_DIABETE } from '@/lib/products';
 
@@ -28,307 +28,354 @@ function AntiDiabetePage() {
   const stock = useDynamicStock('anti-diabete', 16);
 
   return (
-    <div className="bg-background pb-16 md:pb-0">
+    <div className="bg-bleu-bg pb-16 md:pb-0">
       <VisitTracker page="anti-diabete" />
 
-      <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🩸 Glycémie stabilisée · Livraison gratuite Ouaga & Niamey · ⏰ Stock restant : <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> sachets
+      {/* Bandeau bleu médical */}
+      <div className="bg-bleu text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
+        🩺 Glycémie sous contrôle · Livraison gratuite Ouaga & Niamey · ⏰ Stock : <b className="text-bleu-light">{stock}</b> sachets
       </div>
 
-      {/* HERO */}
-      <section className="bg-gradient-to-b from-vert-bg to-background py-12 border-b-[3px] border-[oklch(0.85_0.06_145)]">
-        <div className="container-kouka text-center">
-          <span className="inline-block bg-vert-mid text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-4">
-            🌿 100% naturel · Sans effet secondaire
-          </span>
+      {/* HERO — fond bleu/blanc, style "fiche médicale" */}
+      <section className="bg-gradient-to-b from-bleu-bg via-white to-bleu-bg py-12 border-b-[3px] border-bleu-light/40">
+        <div className="container-kouka">
+          <div className="grid md:grid-cols-2 gap-8 items-center max-w-5xl mx-auto">
+            {/* Image à gauche en desktop */}
+            <div className="order-2 md:order-1">
+              <div className="relative">
+                <div className="absolute -top-3 -left-3 bg-rouge text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-lg z-10 rotate-[-6deg]">
+                  ⭐ N°1 plante anti-diabète
+                </div>
+                <div className="rounded-3xl overflow-hidden shadow-[0_20px_50px_-10px_rgba(30,80,180,0.35)] border-[4px] border-white ring-2 ring-bleu-light/30">
+                  <img src={product.heroImage} alt={product.name} className="w-full block" />
+                </div>
+                <div className="mt-3 flex items-center justify-center gap-2 text-xs font-bold text-bleu">
+                  <span className="bg-white border border-bleu-light/40 px-2 py-1 rounded-full">🌿 100% plantes</span>
+                  <span className="bg-white border border-bleu-light/40 px-2 py-1 rounded-full">🇧🇫 Burkina</span>
+                  <span className="bg-white border border-bleu-light/40 px-2 py-1 rounded-full">🩺 Sans dépendance</span>
+                </div>
+              </div>
+            </div>
 
-          <h1 className="text-vert mb-3">
-            Diabète, glycémie instable ?<br />
-            <em className="text-rouge not-italic">Reprends le contrôle naturellement.</em>
-          </h1>
+            {/* Texte à droite */}
+            <div className="order-1 md:order-2 text-center md:text-left">
+              <span className="inline-block bg-bleu text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-3">
+                🩺 Recette traditionnelle · 60+ ans
+              </span>
+              <h1 className="text-bleu mb-3 leading-tight">
+                Diabète ?<br />
+                <em className="text-rouge not-italic">Reprends le contrôle.</em>
+              </h1>
+              <p className="text-muted-foreground mb-5 text-base leading-relaxed">
+                Soif constante, fatigue, picotements, vision floue.<br />
+                <strong className="text-foreground">Régule ta glycémie naturellement</strong> — sans dépendance, sans effets secondaires.
+              </p>
 
-          <p className="text-muted-foreground max-w-lg mx-auto mb-5 text-base leading-relaxed">
-            Picotements, soif excessive, vision floue, fatigue constante — <strong className="text-foreground">la Poudre Anti-Diabète du Vieux KOUKA régule ta glycémie à la racine</strong>, sans dépendance.
-          </p>
+              {/* 3 OFFRES — style carte médicale */}
+              <div className="bg-white border-2 border-bleu-light/30 rounded-2xl p-4 shadow-sm">
+                <div className="text-[11px] uppercase font-extrabold text-bleu tracking-wider mb-3 text-center">💊 Choisis ta cure</div>
+                <div className="grid grid-cols-3 gap-2">
+                  {product.offers.map((o) => (
+                    <button
+                      key={o.id}
+                      onClick={scrollToOrder}
+                      className={`rounded-xl p-2.5 border-2 text-center transition-transform hover:-translate-y-0.5 ${
+                        o.recommended
+                          ? 'bg-bleu-bg border-rouge shadow-md ring-2 ring-rouge/20'
+                          : 'bg-white border-bleu-light/30'
+                      }`}
+                    >
+                      {o.recommended && (
+                        <div className="text-[9px] font-extrabold text-rouge uppercase mb-0.5">⭐ Top</div>
+                      )}
+                      <div className="text-[11px] font-bold text-bleu leading-tight mb-1">
+                        {o.units} sachet{o.units > 1 ? 's' : ''}
+                        {o.bonusUnits > 0 && <span className="block text-[10px] text-rouge">{o.paidUnits}+{o.bonusUnits} offert{o.bonusUnits > 1 ? 's' : ''}</span>}
+                      </div>
+                      <div className={`text-base font-extrabold ${o.recommended ? 'text-rouge' : 'text-foreground'}`}>
+                        {(o.price / 1000).toFixed(0)}k
+                      </div>
+                      {o.oldPrice > o.price && (
+                        <div className="text-[10px] text-muted-foreground line-through">{(o.oldPrice / 1000).toFixed(0)}k</div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+                <div className="text-[11px] text-muted-foreground mt-2 text-center">📦 Livraison gratuite · Cash à réception</div>
+              </div>
 
-          {/* Photo produit */}
-          <div className="max-w-[420px] mx-auto mb-5 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(46,125,50,0.25)] border-[3px] border-[oklch(0.85_0.06_145)]">
-            <img src={product.heroImage} alt={product.name} className="w-full block" />
+              <button
+                onClick={scrollToOrder}
+                className="mt-4 w-full bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.45)] hover:-translate-y-0.5 transition-transform"
+              >
+                🩺 JE COMMANDE — JE PAIE À LA LIVRAISON
+              </button>
+              <p className="text-xs text-muted-foreground mt-2 text-center">🛡️ Glycémie stabilisée ou 100% remboursé</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AUDIO du Vieux KOUKA */}
+      <div className="bg-white py-8 border-b border-bleu-light/20">
+        <AudioVieuxKouka
+          src="/audio/poudre-kouka.aac"
+          productSlug="anti-diabete"
+          title="🎙️ Le Vieux KOUKA explique sa formule"
+          subtitle="Écoute pourquoi cette poudre régule la glycémie là où les autres échouent"
+        />
+      </div>
+
+      {/* SYMPTÔMES — style "diagnostic médical" */}
+      <section className="py-14 bg-white">
+        <div className="container-kouka max-w-3xl">
+          <div className="text-center mb-8">
+            <span className="text-bleu text-xs font-bold uppercase tracking-widest">📋 Auto-diagnostic</span>
+            <h2 className="text-bleu mt-2">Reconnais-tu ces signes ?</h2>
+            <p className="text-muted-foreground text-sm mt-2">Coche ce que tu vis. Si 3+ → ta glycémie n'est pas sous contrôle.</p>
           </div>
 
-          {/* 3 OFFRES dans le hero */}
-          <div className="max-w-md mx-auto mb-5">
-            <div className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-2 text-center">💰 Choisis ton pack</div>
-            <div className="grid grid-cols-3 gap-2">
-              {product.offers.map((o) => (
-                <button
-                  key={o.id}
-                  onClick={scrollToOrder}
-                  className={`rounded-xl p-2.5 border-2 text-center transition-transform hover:-translate-y-0.5 ${
-                    o.recommended
-                      ? 'bg-white border-rouge shadow-md ring-2 ring-rouge/20'
-                      : 'bg-white border-vert-bg'
-                  }`}
-                >
-                  {o.recommended && (
-                    <div className="text-[9px] font-extrabold text-rouge uppercase mb-0.5">⭐ Top</div>
-                  )}
-                  <div className="text-[11px] font-bold text-vert leading-tight mb-1">
-                    {o.units} sachet{o.units > 1 ? 's' : ''}
-                    {o.bonusUnits > 0 && <span className="block text-[10px] text-rouge">{o.paidUnits}+{o.bonusUnits} offert{o.bonusUnits > 1 ? 's' : ''}</span>}
-                  </div>
-                  <div className={`text-base font-extrabold ${o.recommended ? 'text-rouge' : 'text-foreground'}`}>
-                    {(o.price / 1000).toFixed(0)}k
-                  </div>
-                  {o.oldPrice > o.price && (
-                    <div className="text-[10px] text-muted-foreground line-through">{(o.oldPrice / 1000).toFixed(0)}k</div>
-                  )}
-                </button>
+          <div className="bg-bleu-bg border-l-4 border-bleu rounded-r-2xl p-6 shadow-sm">
+            <div className="grid sm:grid-cols-2 gap-3">
+              {[
+                'Picotements aux mains et pieds',
+                'Soif constante, même après avoir bu',
+                'Toilettes la nuit (3 fois +)',
+                'Fatigue dès le réveil',
+                'Vision qui devient floue',
+                'Glycémie qui monte/descend',
+                'Plaies qui cicatrisent mal',
+                'Perte de poids inexpliquée',
+                'Démangeaisons intimes / peau',
+              ].map((s) => (
+                <label key={s} className="flex items-start gap-2 cursor-pointer text-sm">
+                  <input type="checkbox" className="mt-1 w-4 h-4 accent-bleu" />
+                  <span>{s}</span>
+                </label>
               ))}
             </div>
-            <div className="text-xs text-muted-foreground mt-2 text-center">📦 Livré gratuitement à Ouaga & Niamey · Cash à réception</div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground mb-4">
-            <span>✅ 100% plantes africaines</span>
-            <span>✅ Sans effets secondaires</span>
-            <span>✅ Remboursé si pas de résultat</span>
+          <div className="mt-6 bg-rouge-light border-l-4 border-rouge rounded-r-2xl p-5">
+            <p className="font-extrabold text-rouge mb-2">⚠️ Sans intervention :</p>
+            <p className="text-sm leading-relaxed">
+              Reins, cœur, yeux atteints · plaies du pied → amputation · coma diabétique · médicaments à vie · dialyse.
+            </p>
           </div>
 
-          <button
-            onClick={scrollToOrder}
-            className="w-full bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
-          >
-            🩸 JE COMMANDE — JE PAIE À LA LIVRAISON
-          </button>
-          <p className="text-sm text-muted-foreground mt-3">🛡️ Garantie SOULAGÉ ou REMBOURSÉ 100%</p>
-        </div>
-      </section>
-
-      {/* SYMPTÔMES — adapté de adieudiabete.com */}
-      <section className="sec bg-cream-2">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Tu vis ça <span className="text-rouge">tous les jours</span> ?</h2>
-          <p className="text-center text-muted-foreground mb-6 text-sm">Lis honnêtement. Coche ce qui te concerne.</p>
-          <div className="bloc bloc-r">
-            <p className="text-rouge font-extrabold mb-3 text-lg">Les signes du diabète qui s'installe :</p>
-            <ul className="ckl ckl-r">
-              <li>Tes pieds et tes mains <strong>picotent</strong> sans raison — parfois ils s'engourdissent</li>
-              <li>Tu vas aux toilettes <strong>uriner souvent</strong>, même la nuit</li>
-              <li>Tu as <strong>soif tout le temps</strong>, même après avoir bu</li>
-              <li>Une <strong>fatigue constante</strong> — tu te lèves déjà épuisé</li>
-              <li>Ta <strong>vision devient floue</strong> par moments</li>
-              <li>Ta <strong>glycémie monte et descend</strong> sans contrôle</li>
-              <li>Tes <strong>plaies cicatrisent très lentement</strong></li>
-              <li>Tu <strong>perds du poids</strong> alors que tu manges plus</li>
-              <li>Des <strong>démangeaisons</strong> au niveau intime ou sur la peau</li>
-            </ul>
-          </div>
-
-          <div className="bloc bloc-or mt-5">
-            <p className="text-[oklch(0.40_0.10_82)] font-extrabold mb-3">⚠️ Ce qui t'attend si tu ne fais rien :</p>
-            <ul className="ckl">
-              <li>Diabète non maîtrisé → atteinte des reins, du cœur, des yeux</li>
-              <li>Plaies du pied qui s'infectent → risque d'amputation</li>
-              <li>Coma diabétique — urgence vitale</li>
-              <li>Médicaments à vie, dialyses, insuline forcée</li>
-              <li>Tu te sens mal dans ta peau, tu ne dors plus</li>
-            </ul>
-          </div>
-
-          <p className="text-center italic mt-6 text-muted-foreground max-w-lg mx-auto">
-            "Tu n'y es pour rien. Tu as cherché longtemps une solution. Tu ne veux pas finir entre l'hôpital et la pharmacie."
-          </p>
-
-          <div className="text-center mt-6">
+          <div className="text-center mt-7">
             <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              🩸 Je veux la solution naturelle
+              🩺 Je veux la solution naturelle
             </button>
           </div>
         </div>
       </section>
 
-      {/* SOLUTION */}
-      <section className="sec bg-vert-bg">
-        <div className="container-kouka">
-          <h2 className="text-center mb-3">La solution : <span className="text-vert">{product.name}</span></h2>
-          <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto">
-            Une formule traditionnelle africaine — racines, écorces et feuilles récoltées au Burkina Faso —
-            pour <strong>réguler la glycémie, soutenir le pancréas et restaurer ton énergie</strong> naturellement.
-          </p>
+      {/* SOLUTION — fond bleu profond, contraste fort */}
+      <section className="py-14 bg-gradient-to-br from-bleu to-bleu-mid text-white">
+        <div className="container-kouka max-w-3xl">
+          <div className="text-center mb-8">
+            <span className="text-bleu-light text-xs font-bold uppercase tracking-widest">🌿 La formule</span>
+            <h2 className="text-white mt-2">Poudre Anti-Diabète du Vieux KOUKA</h2>
+            <p className="text-white/85 max-w-xl mx-auto mt-3">
+              Racines, écorces, feuilles récoltées au Burkina. Une formule transmise depuis 60 ans pour <strong>réguler la glycémie à la racine</strong>.
+            </p>
+          </div>
 
-          <div className="bloc bloc-or p-0 overflow-hidden">
-            <img src="/images/vieux-kouka.jpg" alt="Le Vieux KOUKA" className="w-full max-h-80 object-cover" />
-            <div className="p-5">
-              <h3 className="text-or mb-1">📖 Vieux KOUKA</h3>
-              <p className="text-xs text-muted-foreground font-semibold mb-1">
-                Thérapeute traditionnel · +60 ans de pratique
-              </p>
-              <p className="text-sm text-vert font-bold mb-3">
-                📍 Région des Kuilsés · Burkina Faso 🇧🇫
-              </p>
-              <p className="italic text-muted-foreground leading-relaxed">
-                "Héritier d'un savoir transmis par son grand-père il y a plus de 60 ans, le Vieux KOUKA récolte
-                lui-même chaque plante de sa formule anti-diabète — selon les cycles de la lune et les régions où elles atteignent leur pleine puissance."
+          <div className="bg-white text-foreground rounded-3xl overflow-hidden shadow-2xl">
+            <img src="/images/vieux-kouka.jpg" alt="Le Vieux KOUKA" className="w-full max-h-72 object-cover" />
+            <div className="p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="bg-bleu text-white w-10 h-10 rounded-full flex items-center justify-center font-extrabold">VK</div>
+                <div>
+                  <div className="font-extrabold text-bleu">Vieux KOUKA</div>
+                  <div className="text-xs text-muted-foreground">Thérapeute traditionnel · Région des Kuilsés 🇧🇫</div>
+                </div>
+              </div>
+              <p className="italic text-muted-foreground leading-relaxed text-sm">
+                "Héritier d'un savoir transmis par son grand-père il y a +60 ans, le Vieux KOUKA récolte chaque plante lui-même — selon la lune et la région où elle atteint sa pleine puissance."
               </p>
             </div>
           </div>
 
-          <div className="bloc mt-4">
-            <h3 className="text-vert mb-3">🌿 Résultats obtenus avec la Poudre Anti-Diabète</h3>
-            <ul className="ckl">
-              <li><strong>Maintient une glycémie normale</strong> — fini les pics et les chutes</li>
-              <li><strong>Renforce le pancréas</strong> — l'organe qui produit l'insuline</li>
-              <li><strong>Optimise la sécrétion d'insuline</strong> naturellement</li>
-              <li><strong>Régule l'appétit</strong> — pour maintenir un poids sain</li>
-              <li><strong>Restaure l'énergie</strong> — fini la fatigue chronique</li>
-              <li><strong>Améliore la vision</strong> — vision plus claire en quelques semaines</li>
-              <li><strong>Stoppe les picotements</strong> aux mains et aux pieds</li>
-            </ul>
+          <div className="mt-6 grid sm:grid-cols-2 gap-3">
+            {[
+              { t: 'Glycémie stabilisée', d: 'Fini les pics et chutes' },
+              { t: 'Pancréas renforcé', d: 'Insuline mieux sécrétée' },
+              { t: 'Énergie restaurée', d: 'Fini la fatigue chronique' },
+              { t: 'Vision plus claire', d: 'En quelques semaines' },
+              { t: 'Picotements stoppés', d: 'Mains et pieds soulagés' },
+              { t: 'Appétit régulé', d: 'Poids sain maintenu' },
+            ].map((b) => (
+              <div key={b.t} className="bg-white/10 backdrop-blur border border-white/20 rounded-xl p-4">
+                <div className="font-extrabold text-bleu-light flex items-center gap-2">✓ {b.t}</div>
+                <div className="text-sm text-white/85 mt-1">{b.d}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* TIMELINE */}
-      <section className="sec bg-cream-2">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Ce qui se passe <span className="text-vert">jour après jour</span></h2>
-          <p className="text-center text-muted-foreground mb-7">Résultats observés par nos clients sous traitement complet</p>
+      {/* TIMELINE — style chronologie médicale verticale */}
+      <section className="py-14 bg-white">
+        <div className="container-kouka max-w-3xl">
+          <div className="text-center mb-10">
+            <span className="text-bleu text-xs font-bold uppercase tracking-widest">📅 Suivi clinique</span>
+            <h2 className="text-bleu mt-2">Jour après jour, ton corps reprend</h2>
+          </div>
 
-          <div className="grid">
+          <div className="relative pl-8 border-l-[3px] border-bleu/30">
             {[
-              { d: 'J1', s: 'à J7', t: 'La soif diminue', desc: "Tu bois moins, tu vas moins souvent aux toilettes la nuit. Premier signe que ton corps régule." },
-              { d: 'J8', s: 'à J14', t: 'Énergie qui revient', desc: 'La fatigue lourde disparaît. Tu te lèves le matin avec plus de force. Les picotements diminuent.' },
-              { d: 'J15', s: 'à J21', t: 'Glycémie qui se stabilise', desc: "Les pics s'espacent. Ta vision s'éclaircit. Tu sens que ton corps reprend le dessus." },
-              { d: 'FIN', s: 'cure', t: 'Stabilité durable', desc: 'Glycémie maîtrisée, énergie restaurée, vision claire. Sans dépendance, sans effet secondaire.' },
+              { d: 'J1-J7', t: 'La soif diminue', desc: 'Tu bois moins, tu te lèves moins la nuit. Premier signe que ton corps régule.' },
+              { d: 'J8-J14', t: "L'énergie revient", desc: 'Fatigue lourde qui disparaît. Picotements en baisse. Tu te lèves en forme.' },
+              { d: 'J15-J21', t: 'Glycémie stabilisée', desc: "Pics qui s'espacent, vision plus claire. Ton corps reprend le dessus." },
+              { d: 'Fin', t: 'Stabilité durable', desc: 'Glycémie maîtrisée, énergie restaurée. Sans dépendance, sans effet secondaire.' },
             ].map((x, i) => (
-              <div key={i} className={`flex gap-4 py-5 ${i < 3 ? 'border-b-2 border-vert-bg' : ''}`}>
-                <div className={`shrink-0 w-[76px] text-center rounded-xl py-2.5 px-1.5 ${x.d === 'FIN' ? 'bg-[oklch(0.85_0.08_145)]' : 'bg-vert-mid'}`}>
-                  <span className={`block text-2xl font-extrabold leading-none ${x.d === 'FIN' ? 'text-vert' : 'text-white'}`}>{x.d}</span>
-                  <span className={`text-[10px] uppercase ${x.d === 'FIN' ? 'text-muted-foreground' : 'text-white/85'}`}>{x.s}</span>
-                </div>
-                <div className="flex-1">
-                  <div className="font-extrabold text-vert mb-1">{x.t}</div>
-                  <div className="text-sm text-muted-foreground leading-relaxed">{x.desc}</div>
+              <div key={i} className="relative mb-8 last:mb-0">
+                <div className="absolute -left-[42px] w-6 h-6 rounded-full bg-bleu border-4 border-white shadow-md" />
+                <div className="bg-bleu-bg rounded-xl p-4 border border-bleu-light/30">
+                  <div className="text-[11px] font-extrabold text-bleu uppercase tracking-wider">{x.d}</div>
+                  <div className="font-extrabold text-foreground mt-1">{x.t}</div>
+                  <div className="text-sm text-muted-foreground mt-1 leading-relaxed">{x.desc}</div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="bloc bloc-ok mt-5">
-            <p><strong>⚠️ Important :</strong> ne stoppe pas brutalement tes médicaments si tu es sous traitement. Continue à mesurer ta glycémie — tu verras les chiffres baisser progressivement.</p>
+          <div className="mt-6 bg-or/10 border-l-4 border-or rounded-r-xl p-4 text-sm">
+            <strong>⚠️ Important :</strong> ne stoppe pas brutalement tes médicaments. Continue à mesurer ta glycémie — tu verras les chiffres baisser progressivement.
           </div>
         </div>
       </section>
 
-      {/* IMAGINE */}
-      <section className="sec">
-        <div className="container-kouka">
-          <h2 className="text-center mb-6">Imagine-toi… <span className="text-vert">dans 3 semaines</span></h2>
-          <div className="grid gap-3 max-w-lg mx-auto">
+      {/* TÉMOIGNAGES — fond bleu pâle, audios + WhatsApp + preuves */}
+      <section className="py-14 bg-bleu-bg">
+        <div className="container-kouka max-w-3xl">
+          <div className="text-center mb-8">
+            <span className="text-bleu text-xs font-bold uppercase tracking-widest">🗣️ Témoignages clients</span>
+            <h2 className="text-bleu mt-2">Ils ont essayé. Ils témoignent.</h2>
+            <p className="text-muted-foreground text-sm mt-2">🔒 Messages WhatsApp réels · Audios non montés · Reçus vérifiables</p>
+          </div>
+
+          {/* Témoignages texte */}
+          <div className="grid gap-4 mb-8">
             {[
-              'Imagine-toi avec une glycémie stable et maîtrisée',
-              'Imagine-toi avoir des nuits paisibles, sans te lever 3 fois pour uriner',
-              'Imagine-toi retrouver ton énergie, comme avant',
-              'Imagine-toi ne plus avoir peur de finir aux urgences',
-              'Imagine-toi vivre sans stress, sans angoisse permanente',
-            ].map((t) => (
-              <div key={t} className="bloc bloc-ok">
-                <p className="font-bold">✨ {t}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="bloc bloc-or mt-7">
-            <p className="font-bold mb-2">Bien entendu, tu peux aussi :</p>
-            <ul className="ckl">
-              <li>Aller dans une clinique et dépenser une fortune en consultations à répétition</li>
-              <li>Voir un spécialiste qui te suivra à 30 000 FCFA la consultation hebdomadaire</li>
-              <li>Te tourner vers des tisanes sans effet réel</li>
-            </ul>
-            <p className="mt-3 italic">Ou faire le choix d'une formule qui a déjà fait ses preuves.</p>
-          </div>
-
-          <div className="text-center mt-6">
-            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              🩸 Je veux essayer maintenant
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* TÉMOIGNAGES */}
-      <section className="sec bg-cream-2">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Ils ont essayé. <span className="text-vert">Ils témoignent.</span></h2>
-          <p className="text-center text-muted-foreground mb-7 text-sm">
-            🔒 Messages WhatsApp réels de clients du Vieux KOUKA
-          </p>
-
-          <div className="grid gap-4 max-w-lg mx-auto">
-            {[
-              { txt: "Depuis 2 semaines, ma glycémie est stable. Je ne me lève plus la nuit pour uriner. La fatigue a disparu. Merci au Vieux KOUKA.", auth: 'Client WhatsApp · Ouagadougou' },
+              { txt: "Depuis 2 semaines ma glycémie est stable. Je ne me lève plus la nuit pour uriner. La fatigue a disparu. Merci au Vieux KOUKA.", auth: 'Client WhatsApp · Ouagadougou' },
               { txt: "Mes pieds picotaient depuis des mois. Après le traitement complet, c'est fini. Je recommande vraiment.", auth: 'Cliente WhatsApp · Bobo-Dioulasso' },
-              { txt: "J'ai testé plein de produits sans résultat. La poudre du Vieux KOUKA, après 3 semaines, mes chiffres sont redescendus. Je continue.", auth: 'Client WhatsApp · Niamey' },
+              { txt: "J'ai testé plein de produits sans résultat. La poudre du Vieux KOUKA, après 3 semaines, mes chiffres sont redescendus.", auth: 'Client WhatsApp · Niamey' },
             ].map((t, i) => (
-              <div key={i} className="bg-white rounded-2xl p-5 border-2 border-vert-bg shadow-sm">
+              <div key={i} className="bg-white rounded-2xl p-5 border-l-4 border-bleu shadow-sm">
                 <div className="text-or-light text-lg mb-2">★★★★★</div>
                 <p className="italic text-muted-foreground leading-relaxed mb-3">"{t.txt}"</p>
-                <div className="text-xs text-muted-foreground font-bold">{t.auth}</div>
+                <div className="text-xs text-bleu font-bold">{t.auth}</div>
               </div>
             ))}
           </div>
 
-          <div className="bg-vert-bg border-2 border-vert-mid rounded-2xl p-5 text-center mt-7 max-w-lg mx-auto">
-            <p className="font-bold mb-1">🛡️ Garantie "Soulagé ou Remboursé"</p>
-            <p className="text-sm">Tu suis le traitement complet sans amélioration ? <strong>Remboursement 100%, sans question.</strong> Tu testes sans aucun risque.</p>
+          {/* AUDIOS clients — comme sur la page principale */}
+          <p className="text-center text-sm text-bleu font-extrabold mb-3">
+            🎙️ Messages audio originaux de clients
+          </p>
+          <div className="grid gap-3 mb-8">
+            {[1, 2, 3, 4].map((n) => (
+              <div key={n} className="bg-white rounded-2xl p-4 border border-bleu-light/30 shadow-sm">
+                <div className="font-bold text-bleu mb-2 text-sm">▶ Témoignage audio {n}</div>
+                <audio controls preload="none" className="w-full">
+                  <source src={`/audio/temoignage${n}.opus`} type="audio/ogg; codecs=opus" />
+                </audio>
+              </div>
+            ))}
+          </div>
+
+          {/* Captures WhatsApp */}
+          <p className="text-center text-sm text-bleu font-extrabold mb-3">
+            📱 Captures WhatsApp — non modifiées
+          </p>
+          <div className="grid grid-cols-2 gap-3 mb-8">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+              <img key={n} loading="lazy" src={`/images/temo-wa${n}.webp`} alt={`Témoignage WhatsApp ${n}`} className="rounded-xl border border-bleu-light/30 w-full" />
+            ))}
+          </div>
+
+          {/* Preuves de livraison */}
+          <p className="text-center text-sm text-bleu font-extrabold mb-3">
+            📦 Preuves de livraison
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            <img loading="lazy" src="/images/preuve4.jpg" alt="Reçu de livraison" className="rounded-xl border border-bleu-light/30" />
+            <img loading="lazy" src="/images/preuve5.jpg" alt="Reçu de livraison" className="rounded-xl border border-bleu-light/30" />
+          </div>
+
+          <div className="bg-white border-2 border-bleu rounded-2xl p-5 text-center mt-8">
+            <p className="font-extrabold text-bleu mb-1">🛡️ Garantie "Stabilisé ou Remboursé"</p>
+            <p className="text-sm">Tu suis le traitement complet sans amélioration ? <strong>Remboursement 100%, sans question.</strong></p>
           </div>
         </div>
       </section>
 
-      {/* COMPARATIF */}
-      <section className="sec bg-vert-bg/30">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Pourquoi cette poudre <span className="text-vert">plutôt qu'autre chose</span> ?</h2>
-          <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto">
-            Compare honnêtement avec les autres approches.
-          </p>
-          <ComparisonTable
-            rows={[
-              { label: 'Coût total cure', kouka: '16 000 F', meds: '15 000 F/mois à vie', surgery: '30 000 F/semaine' },
-              { label: 'Traite la cause', kouka: '✅ Oui', meds: '❌ Calme', surgery: '⚠️ Surveille' },
-              { label: 'Effets secondaires', kouka: '✅ Aucun', meds: '⚠️ Foie / reins', surgery: 'Aucun' },
-              { label: 'Dépendance', kouka: '✅ Aucune', meds: '❌ À vie', surgery: '—' },
-              { label: 'Énergie restaurée', kouka: '✅ Oui', meds: '❌ Non', surgery: '❌ Non' },
-              { label: 'Discrétion', kouka: '✅ 100%', meds: 'Pharmacie', surgery: 'Clinique' },
-              { label: 'Garantie', kouka: '✅ Remboursé', meds: '❌ Non', surgery: '❌ Non' },
-            ]}
-            productLabel="🩸 Poudre KOUKA"
-            medsLabel="Antidiabétiques"
-            surgeryLabel="Suivi clinique"
-          />
+      {/* COMPARATIF — style tableau clinique */}
+      <section className="py-14 bg-white">
+        <div className="container-kouka max-w-3xl">
+          <div className="text-center mb-8">
+            <span className="text-bleu text-xs font-bold uppercase tracking-widest">⚖️ Comparatif</span>
+            <h2 className="text-bleu mt-2">Pourquoi cette poudre plutôt qu'autre chose ?</h2>
+          </div>
+
+          <div className="overflow-x-auto rounded-2xl border-2 border-bleu-light/30 shadow-sm">
+            <table className="w-full text-sm border-collapse min-w-[520px]">
+              <thead>
+                <tr className="bg-bleu text-white">
+                  <th className="text-left px-3 py-3 font-bold">Critère</th>
+                  <th className="px-3 py-3 font-extrabold bg-bleu-mid">Poudre KOUKA</th>
+                  <th className="px-3 py-3 font-bold">Antidiabétiques</th>
+                  <th className="px-3 py-3 font-bold">Suivi clinique</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ['Coût total cure', '16 000 F', '15 000 F/mois à vie', '30 000 F/sem.'],
+                  ['Traite la cause', '✅ Oui', '❌ Calme', '⚠️ Surveille'],
+                  ['Effets secondaires', '✅ Aucun', '⚠️ Foie / reins', 'Aucun'],
+                  ['Dépendance', '✅ Aucune', '❌ À vie', '—'],
+                  ['Énergie restaurée', '✅ Oui', '❌ Non', '❌ Non'],
+                  ['Discrétion', '✅ 100%', 'Pharmacie', 'Clinique'],
+                  ['Garantie', '✅ Remboursé', '❌ Non', '❌ Non'],
+                ].map((r, i) => (
+                  <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-bleu-bg/40'}>
+                    <td className="px-3 py-3 font-bold text-foreground">{r[0]}</td>
+                    <td className="px-3 py-3 text-center font-bold text-bleu bg-bleu-bg/60">{r[1]}</td>
+                    <td className="px-3 py-3 text-center text-muted-foreground">{r[2]}</td>
+                    <td className="px-3 py-3 text-center text-muted-foreground">{r[3]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="sec">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Questions fréquentes</h2>
+      <section className="py-14 bg-bleu-bg">
+        <div className="container-kouka max-w-3xl">
+          <div className="text-center mb-6">
+            <span className="text-bleu text-xs font-bold uppercase tracking-widest">❓ FAQ</span>
+            <h2 className="text-bleu mt-2">Questions fréquentes</h2>
+          </div>
           <FAQ
             items={[
-              { q: "J'ai peur que ça ne fonctionne pas", a: "Rassure-toi : tous les jours nous recevons des témoignages de clients qui voient leur glycémie se stabiliser. Et si tu ne vois aucun résultat après le traitement complet, on te rembourse à 100% — sans question." },
-              { q: "J'ai déjà essayé plusieurs produits sans résultat", a: "C'est justement parce que les produits classiques traitent le symptôme et pas la cause. La Poudre Anti-Diabète du Vieux KOUKA agit sur le pancréas et la régulation naturelle de l'insuline. Des centaines de clients ont déjà constaté la différence." },
-              { q: "Je peux arrêter mes médicaments ?", a: "<strong>Non, pas brutalement.</strong> Continue ton traitement médical et mesure ta glycémie. Tu verras les chiffres baisser progressivement. Parle ensuite avec ton médecin pour ajuster les doses." },
-              { q: "En combien de temps je vois les résultats ?", a: "<strong>Dès la 1ère semaine :</strong> la soif diminue, tu urines moins la nuit. <strong>Après 2-3 semaines :</strong> énergie restaurée, picotements qui disparaissent, glycémie qui se stabilise. Pour les cas anciens, prévois la cure complète (pack 2+1)." },
-              { q: "Y a-t-il des effets secondaires ?", a: "Aucun. 100% naturelle — racines, écorces et feuilles africaines. Aucun produit chimique, aucune dépendance." },
-              { q: "Comment je paie ?", a: "<strong>Cash à la livraison uniquement.</strong> Tu reçois ton colis, tu vérifies, tu paies. Pas d'avance, pas de carte bancaire, pas de risque." },
-              { q: "La livraison est-elle vraiment discrète ?", a: "Oui — emballage neutre, sans logo, sans mention du produit. Personne ne peut deviner ce que tu as commandé." },
-              { q: "Et si ça ne marche pas pour moi ?", a: "<strong>Remboursement 100%.</strong> Tu suis le traitement complet sans résultat ? Tu nous envoies une photo du sachet vide → on te rembourse intégralement, sans débat." },
+              { q: "J'ai peur que ça ne fonctionne pas", a: "Tous les jours nous recevons des témoignages de clients qui voient leur glycémie se stabiliser. Et si tu ne vois aucun résultat après le traitement complet, on te rembourse à 100%." },
+              { q: "J'ai déjà essayé plusieurs produits sans résultat", a: "Les produits classiques traitent le symptôme. La Poudre Anti-Diabète du Vieux KOUKA agit sur le pancréas et la régulation naturelle de l'insuline." },
+              { q: "Je peux arrêter mes médicaments ?", a: "<strong>Non, pas brutalement.</strong> Continue ton traitement et mesure ta glycémie. Tu verras les chiffres baisser progressivement. Parle ensuite à ton médecin." },
+              { q: "En combien de temps je vois les résultats ?", a: "<strong>Dès la 1ère semaine :</strong> la soif diminue. <strong>Après 2-3 semaines :</strong> énergie restaurée, picotements qui disparaissent, glycémie stabilisée." },
+              { q: "Y a-t-il des effets secondaires ?", a: "Aucun. 100% naturelle — racines, écorces, feuilles africaines. Aucune dépendance." },
+              { q: "Comment je paie ?", a: "<strong>Cash à la livraison uniquement.</strong> Tu reçois, tu vérifies, tu paies." },
+              { q: "La livraison est-elle discrète ?", a: "Oui — emballage neutre, sans logo. Personne ne devine ce que tu as commandé." },
+              { q: "Et si ça ne marche pas pour moi ?", a: "<strong>Remboursement 100%.</strong> Photo du sachet vide → remboursement intégral, sans débat." },
             ]}
           />
           <div className="text-center mt-6">
             <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              🩸 OK, je commande maintenant
+              🩺 OK, je commande maintenant
             </button>
           </div>
         </div>
@@ -336,9 +383,9 @@ function AntiDiabetePage() {
 
       <ProductForm product={product} />
 
-      <section className="sec bg-cream-2">
+      <section className="py-8 bg-white border-t border-bleu-light/20">
         <div className="container-kouka text-center">
-          <Link to="/" className="text-vert-mid font-bold text-sm">← Voir aussi : Poudre KOUKA (hémorroïdes & ulcères)</Link>
+          <Link to="/" className="text-bleu font-bold text-sm">← Voir aussi : Poudre KOUKA (hémorroïdes & ulcères)</Link>
         </div>
       </section>
     </div>
