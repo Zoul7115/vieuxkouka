@@ -166,6 +166,23 @@ Merci pour ta confiance 🙏
 _— Le Vieux KOUKA_`;
   }
 
+  if (isAntiDiabete(order.product_name)) {
+    return `Bonjour *${fullName}* 🌿
+
+C'est l'équipe du *Vieux KOUKA*. Cela fait *7 jours* depuis ta commande de la *Poudre Anti-Diabète*.
+
+On voulait prendre de tes nouvelles 🙏
+
+👉 Comment te sens-tu depuis le début du traitement ?
+👉 As-tu mesuré ta glycémie ? Y a-t-il une baisse ?
+👉 Les picotements / la soif / la fatigue ont-ils diminué ?
+
+Ton retour est très important pour nous — et il aide d'autres personnes qui souffrent comme toi avant.
+
+Merci pour ta confiance 🌿
+_— Le Vieux KOUKA_`;
+  }
+
   return `Bonjour *${fullName}* 🌿
 
 C'est l'équipe du *Vieux KOUKA*. Cela fait *7 jours* depuis ta commande de la *Poudre KOUKA*.
