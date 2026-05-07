@@ -95,7 +95,11 @@ export function buildLivreurMessage(order: WAOrder): string {
   const offer = findOfferByLabel(order.offer_label);
   const totalUnits = offer?.units ?? 1;
   const fullName = [order.first_name, order.last_name].filter(Boolean).join(' ') || '—';
-  const productUpper = /sirop/i.test(order.product_name) ? 'SIROP KOUKA' : 'POUDRE KOUKA';
+  const productUpper = /sirop/i.test(order.product_name)
+    ? 'SIROP KOUKA'
+    : isAntiDiabete(order.product_name)
+      ? 'POUDRE ANTI-DIABÈTE'
+      : 'POUDRE KOUKA';
   const phone = order.whatsapp ? `+${cleanPhone(order.whatsapp)}` : '—';
 
   if (isOuaga(order)) {
