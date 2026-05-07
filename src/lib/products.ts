@@ -133,7 +133,59 @@ export const SIROP_KOUKA: Product = {
   offers: siropOffers,
 };
 
-export const PRODUCTS: Product[] = [KOUKA, SIROP_KOUKA];
+const antiDiabeteOffers: Offer[] = [
+  {
+    id: 21,
+    label: '1 SACHET — DÉMARRAGE',
+    units: 1,
+    paidUnits: 1,
+    bonusUnits: 0,
+    price: 8000,
+    oldPrice: 8000,
+    description: '1 sachet — Pour commencer la régulation glycémique',
+  },
+  {
+    id: 22,
+    label: '2 + 1 OFFERT — TRAITEMENT COMPLET',
+    units: 3,
+    paidUnits: 2,
+    bonusUnits: 1,
+    price: 16000,
+    oldPrice: 24000,
+    description: '2 achetés + 1 sachet GRATUIT — Cure complète anti-diabète',
+    saving: '1 sachet GRATUIT offert !',
+    badge: '🎁 1 OFFERT',
+    recommended: true,
+  },
+  {
+    id: 23,
+    label: '3 + 2 OFFERTS — CURE FAMILIALE',
+    units: 5,
+    paidUnits: 3,
+    bonusUnits: 2,
+    price: 24000,
+    oldPrice: 40000,
+    description: '3 achetés + 2 sachets GRATUITS — Pour stabiliser durablement',
+    saving: '2 sachets GRATUITS offerts !',
+    badge: '🔥 PACK FAMILLE',
+    bestValue: true,
+  },
+];
+
+export const ANTI_DIABETE: Product = {
+  slug: 'anti-diabete',
+  name: 'Poudre Anti-Diabète du Vieux KOUKA',
+  shortName: 'Anti-Diabète',
+  pathology: 'Diabète · Glycémie instable · Fatigue · Vision floue · Soif excessive',
+  emoji: '🩸',
+  tagline: 'Glycémie stabilisée, fatigue qui disparaît, vision qui s\'éclaircit — la formule naturelle du Vieux KOUKA pour reprendre le contrôle de ton diabète, sans dépendance.',
+  heroImage: '/images/anti-diabete-affiche.jpg',
+  metaTitle: 'Poudre Anti-Diabète KOUKA — Glycémie stabilisée naturellement',
+  metaDesc: 'Picotements, soif excessive, fatigue, vision floue ? La Poudre Anti-Diabète du Vieux KOUKA régule ta glycémie naturellement. 100% plantes. Livraison gratuite Ouaga & Niamey · Cash à réception · Satisfait ou remboursé.',
+  offers: antiDiabeteOffers,
+};
+
+export const PRODUCTS: Product[] = [KOUKA, SIROP_KOUKA, ANTI_DIABETE];
 
 export const getProduct = (slug: string) => PRODUCTS.find((product) => product.slug === slug);
 

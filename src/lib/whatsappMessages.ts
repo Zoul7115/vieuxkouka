@@ -26,16 +26,19 @@ const isLocalDelivery = (order: WAOrder) => {
 };
 const isOuaga = isLocalDelivery;
 
+const isAntiDiabete = (productName: string) => /anti.?diab[eè]te/i.test(productName);
+
 const productLabel = (productName: string) => {
-  // ex "Poudre KOUKA du Vieux - 2 + 1 OFFERT — TRAITEMENT COMPLET"
   if (/sirop/i.test(productName)) return 'Sirop du Vieux KOUKA';
+  if (isAntiDiabete(productName)) return 'Poudre Anti-Diabète du Vieux KOUKA';
   return 'Poudre du Vieux KOUKA';
 };
 
-const pathologyLabel = (productName: string) =>
-  /sirop/i.test(productName)
-    ? 'les troubles intimes et la vitalité'
-    : 'les ulcères, la colopathie et les hémorroïdes';
+const pathologyLabel = (productName: string) => {
+  if (/sirop/i.test(productName)) return 'les troubles intimes et la vitalité';
+  if (isAntiDiabete(productName)) return 'le diabète et la régulation de la glycémie';
+  return 'les ulcères, la colopathie et les hémorroïdes';
+};
 
 const unitsLabel = (units: number) =>
   /sirop/i.test('') ? `${units} flacon${units > 1 ? 's' : ''}` : `${units} sachet${units > 1 ? 's' : ''}`;
@@ -92,7 +95,11 @@ export function buildLivreurMessage(order: WAOrder): string {
   const offer = findOfferByLabel(order.offer_label);
   const totalUnits = offer?.units ?? 1;
   const fullName = [order.first_name, order.last_name].filter(Boolean).join(' ') || '—';
-  const productUpper = /sirop/i.test(order.product_name) ? 'SIROP KOUKA' : 'POUDRE KOUKA';
+  const productUpper = /sirop/i.test(order.product_name)
+    ? 'SIROP KOUKA'
+    : isAntiDiabete(order.product_name)
+      ? 'POUDRE ANTI-DIABÈTE'
+      : 'POUDRE KOUKA';
   const phone = order.whatsapp ? `+${cleanPhone(order.whatsapp)}` : '—';
 
   if (isOuaga(order)) {
@@ -156,6 +163,23 @@ Cela fait *7 jours* depuis ta commande du *Sirop KOUKA*. On voulait prendre de t
 Ton retour reste *100% confidentiel* et nous aide énormément à améliorer le produit pour les autres hommes qui souffrent comme toi avant.
 
 Merci pour ta confiance 🙏
+_— Le Vieux KOUKA_`;
+  }
+
+  if (isAntiDiabete(order.product_name)) {
+    return `Bonjour *${fullName}* 🌿
+
+C'est l'équipe du *Vieux KOUKA*. Cela fait *7 jours* depuis ta commande de la *Poudre Anti-Diabète*.
+
+On voulait prendre de tes nouvelles 🙏
+
+👉 Comment te sens-tu depuis le début du traitement ?
+👉 As-tu mesuré ta glycémie ? Y a-t-il une baisse ?
+👉 Les picotements / la soif / la fatigue ont-ils diminué ?
+
+Ton retour est très important pour nous — et il aide d'autres personnes qui souffrent comme toi avant.
+
+Merci pour ta confiance 🌿
 _— Le Vieux KOUKA_`;
   }
 

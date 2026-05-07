@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
+import { Route as AntiDiabeteRouteImport } from './routes/anti-diabete'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
@@ -24,6 +25,11 @@ const ThankYouRoute = ThankYouRouteImport.update({
 const DiagnosticRoute = DiagnosticRouteImport.update({
   id: '/diagnostic',
   path: '/diagnostic',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AntiDiabeteRoute = AntiDiabeteRouteImport.update({
+  id: '/anti-diabete',
+  path: '/anti-diabete',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -51,6 +57,7 @@ const ApiPublicHooksWeeklyReportRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/anti-diabete': typeof AntiDiabeteRoute
   '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/anti-diabete': typeof AntiDiabeteRoute
   '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/anti-diabete': typeof AntiDiabeteRoute
   '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/anti-diabete'
     | '/diagnostic'
     | '/thank-you'
     | '/product/$slug'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/anti-diabete'
     | '/diagnostic'
     | '/thank-you'
     | '/product/$slug'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/anti-diabete'
     | '/diagnostic'
     | '/thank-you'
     | '/product/$slug'
@@ -103,6 +115,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  AntiDiabeteRoute: typeof AntiDiabeteRoute
   DiagnosticRoute: typeof DiagnosticRoute
   ThankYouRoute: typeof ThankYouRoute
   ProductSlugRoute: typeof ProductSlugRoute
@@ -123,6 +136,13 @@ declare module '@tanstack/react-router' {
       path: '/diagnostic'
       fullPath: '/diagnostic'
       preLoaderRoute: typeof DiagnosticRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/anti-diabete': {
+      id: '/anti-diabete'
+      path: '/anti-diabete'
+      fullPath: '/anti-diabete'
+      preLoaderRoute: typeof AntiDiabeteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -159,6 +179,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  AntiDiabeteRoute: AntiDiabeteRoute,
   DiagnosticRoute: DiagnosticRoute,
   ThankYouRoute: ThankYouRoute,
   ProductSlugRoute: ProductSlugRoute,

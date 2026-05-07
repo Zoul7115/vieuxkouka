@@ -419,7 +419,11 @@ function HomePage() {
         <div className="container-kouka">
           <div className="font-extrabold mb-2">🌿 KOUKA Thérapies</div>
           <p className="opacity-80 mb-4">Savoir ancestral · Burkina Faso · Afrique de l'Ouest</p>
-          <div className="flex justify-center gap-4 text-xs">
+          <div className="flex flex-wrap justify-center gap-4 text-xs">
+            <Link to="/anti-diabete" className="text-white/80 hover:text-white">🩸 Poudre Anti-Diabète</Link>
+            <span className="text-white/30">·</span>
+            <Link to="/product/$slug" params={{ slug: 'sirop-kouka' }} className="text-white/80 hover:text-white">🍯 Sirop KOUKA</Link>
+            <span className="text-white/30">·</span>
             <Link to="/diagnostic" className="text-white/70 hover:text-white">Diagnostic gratuit</Link>
             <span className="text-white/30">·</span>
             <Link to="/admin" className="text-white/60 hover:text-white">Espace admin</Link>
