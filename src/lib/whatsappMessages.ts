@@ -26,16 +26,19 @@ const isLocalDelivery = (order: WAOrder) => {
 };
 const isOuaga = isLocalDelivery;
 
+const isAntiDiabete = (productName: string) => /anti.?diab[eè]te/i.test(productName);
+
 const productLabel = (productName: string) => {
-  // ex "Poudre KOUKA du Vieux - 2 + 1 OFFERT — TRAITEMENT COMPLET"
   if (/sirop/i.test(productName)) return 'Sirop du Vieux KOUKA';
+  if (isAntiDiabete(productName)) return 'Poudre Anti-Diabète du Vieux KOUKA';
   return 'Poudre du Vieux KOUKA';
 };
 
-const pathologyLabel = (productName: string) =>
-  /sirop/i.test(productName)
-    ? 'les troubles intimes et la vitalité'
-    : 'les ulcères, la colopathie et les hémorroïdes';
+const pathologyLabel = (productName: string) => {
+  if (/sirop/i.test(productName)) return 'les troubles intimes et la vitalité';
+  if (isAntiDiabete(productName)) return 'le diabète et la régulation de la glycémie';
+  return 'les ulcères, la colopathie et les hémorroïdes';
+};
 
 const unitsLabel = (units: number) =>
   /sirop/i.test('') ? `${units} flacon${units > 1 ? 's' : ''}` : `${units} sachet${units > 1 ? 's' : ''}`;
