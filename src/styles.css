@@ -72,6 +72,11 @@
   --cream: oklch(0.985 0.008 95);        /* #FAFAF7 */
   --cream-2: oklch(0.96 0.015 130);      /* #F0F4EE */
   --muted-2: oklch(0.42 0.02 130);       /* #3D4D3D */
+  /* Anti-diabète palette (bleu médical / sang) */
+  --bleu: oklch(0.40 0.13 245);          /* deep medical blue */
+  --bleu-mid: oklch(0.52 0.16 245);
+  --bleu-light: oklch(0.70 0.13 240);
+  --bleu-bg: oklch(0.96 0.03 240);
 
   /* shadcn semantic */
   --background: oklch(0.985 0.008 95);
