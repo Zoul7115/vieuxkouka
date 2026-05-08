@@ -52,92 +52,66 @@ function AntiDiabetePage() {
       {/* HERO — fond bleu/blanc, style "fiche médicale" */}
       <section className="bg-gradient-to-b from-bleu-bg via-white to-bleu-bg py-12 border-b-[3px] border-bleu-light/40">
         <div className="container-kouka">
-          <div className="grid md:grid-cols-2 gap-8 items-center max-w-5xl mx-auto">
-            {/* Image à gauche en desktop */}
-            <div className="order-2 md:order-1">
-              <div className="relative">
-                <div className="absolute -top-3 -left-3 bg-rouge text-white text-xs font-extrabold px-3 py-1.5 rounded-full shadow-lg z-10 rotate-[-6deg]">
-                  ⭐ N°1 plante anti-diabète
-                </div>
-                <div className="rounded-3xl overflow-hidden shadow-[0_20px_50px_-10px_rgba(30,80,180,0.35)] border-[4px] border-white ring-2 ring-bleu-light/30">
-                  <img src={product.heroImage} alt={product.name} className="w-full block" />
-                </div>
-                <div className="mt-3 flex items-center justify-center gap-2 text-xs font-bold text-bleu">
-                  <span className="bg-white border border-bleu-light/40 px-2 py-1 rounded-full">🌿 100% plantes</span>
-                  <span className="bg-white border border-bleu-light/40 px-2 py-1 rounded-full">🇧🇫 Burkina</span>
-                  <span className="bg-white border border-bleu-light/40 px-2 py-1 rounded-full">🩺 Sans dépendance</span>
-                </div>
-              </div>
+          <div className="max-w-3xl mx-auto text-center">
+            <span className="inline-block bg-bleu text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-3">
+              🩺 Recette traditionnelle · 60+ ans
+            </span>
+            <h1 className="text-bleu mb-3 leading-tight">
+              Diabète ?<br />
+              <em className="text-rouge not-italic">Reprends le contrôle.</em>
+            </h1>
+            <p className="text-muted-foreground mb-5 text-base leading-relaxed">
+              Soif constante, fatigue, picotements, vision floue.<br />
+              <strong className="text-foreground">Régule ta glycémie naturellement</strong> — sans dépendance, sans effets secondaires.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-bold text-bleu mb-5">
+              <span className="bg-white border border-bleu-light/40 px-2.5 py-1 rounded-full">🌿 100% plantes</span>
+              <span className="bg-white border border-bleu-light/40 px-2.5 py-1 rounded-full">🇧🇫 Burkina</span>
+              <span className="bg-white border border-bleu-light/40 px-2.5 py-1 rounded-full">🩺 Sans dépendance</span>
             </div>
 
-            {/* Texte à droite */}
-            <div className="order-1 md:order-2 text-center md:text-left">
-              <span className="inline-block bg-bleu text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-3">
-                🩺 Recette traditionnelle · 60+ ans
-              </span>
-              <h1 className="text-bleu mb-3 leading-tight">
-                Diabète ?<br />
-                <em className="text-rouge not-italic">Reprends le contrôle.</em>
-              </h1>
-              <p className="text-muted-foreground mb-5 text-base leading-relaxed">
-                Soif constante, fatigue, picotements, vision floue.<br />
-                <strong className="text-foreground">Régule ta glycémie naturellement</strong> — sans dépendance, sans effets secondaires.
-              </p>
-
-              {/* 3 OFFRES — style carte médicale */}
-              <div className="bg-white border-2 border-bleu-light/30 rounded-2xl p-4 shadow-sm">
-                <div className="text-[11px] uppercase font-extrabold text-bleu tracking-wider mb-3 text-center">💊 Choisis ta cure</div>
-                <div className="grid grid-cols-3 gap-2">
-                  {product.offers.map((o) => (
-                    <button
-                      key={o.id}
-                      onClick={scrollToOrder}
-                      className={`rounded-xl p-2.5 border-2 text-center transition-transform hover:-translate-y-0.5 ${
-                        o.recommended
-                          ? 'bg-bleu-bg border-rouge shadow-md ring-2 ring-rouge/20'
-                          : 'bg-white border-bleu-light/30'
-                      }`}
-                    >
-                      {o.recommended && (
-                        <div className="text-[9px] font-extrabold text-rouge uppercase mb-0.5">⭐ Top</div>
-                      )}
-                      <div className="text-[11px] font-bold text-bleu leading-tight mb-1">
-                        {o.units} sachet{o.units > 1 ? 's' : ''}
-                        {o.bonusUnits > 0 && <span className="block text-[10px] text-rouge">{o.paidUnits}+{o.bonusUnits} offert{o.bonusUnits > 1 ? 's' : ''}</span>}
-                      </div>
-                      <div className={`text-base font-extrabold ${o.recommended ? 'text-rouge' : 'text-foreground'}`}>
-                        {(o.price / 1000).toFixed(0)}k
-                      </div>
-                      {o.oldPrice > o.price && (
-                        <div className="text-[10px] text-muted-foreground line-through">{(o.oldPrice / 1000).toFixed(0)}k</div>
-                      )}
-                    </button>
-                  ))}
-                </div>
-                <div className="text-[11px] text-muted-foreground mt-2 text-center">📦 Livraison gratuite · Cash à réception</div>
+            {/* 3 OFFRES — style carte médicale */}
+            <div className="bg-white border-2 border-bleu-light/30 rounded-2xl p-4 shadow-sm max-w-xl mx-auto">
+              <div className="text-[11px] uppercase font-extrabold text-bleu tracking-wider mb-3 text-center">💊 Choisis ta cure</div>
+              <div className="grid grid-cols-3 gap-2">
+                {product.offers.map((o) => (
+                  <button
+                    key={o.id}
+                    onClick={scrollToOrder}
+                    className={`rounded-xl p-2.5 border-2 text-center transition-transform hover:-translate-y-0.5 ${
+                      o.recommended
+                        ? 'bg-bleu-bg border-rouge shadow-md ring-2 ring-rouge/20'
+                        : 'bg-white border-bleu-light/30'
+                    }`}
+                  >
+                    {o.recommended && (
+                      <div className="text-[9px] font-extrabold text-rouge uppercase mb-0.5">⭐ Top</div>
+                    )}
+                    <div className="text-[11px] font-bold text-bleu leading-tight mb-1">
+                      {o.units} sachet{o.units > 1 ? 's' : ''}
+                      {o.bonusUnits > 0 && <span className="block text-[10px] text-rouge">{o.paidUnits}+{o.bonusUnits} offert{o.bonusUnits > 1 ? 's' : ''}</span>}
+                    </div>
+                    <div className={`text-base font-extrabold ${o.recommended ? 'text-rouge' : 'text-foreground'}`}>
+                      {(o.price / 1000).toFixed(0)}k
+                    </div>
+                    {o.oldPrice > o.price && (
+                      <div className="text-[10px] text-muted-foreground line-through">{(o.oldPrice / 1000).toFixed(0)}k</div>
+                    )}
+                  </button>
+                ))}
               </div>
-
-              <button
-                onClick={scrollToOrder}
-                className="mt-4 w-full bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.45)] hover:-translate-y-0.5 transition-transform"
-              >
-                🩺 JE COMMANDE — JE PAIE À LA LIVRAISON
-              </button>
-              <p className="text-xs text-muted-foreground mt-2 text-center">🛡️ Glycémie stabilisée ou 100% remboursé</p>
+              <div className="text-[11px] text-muted-foreground mt-2 text-center">📦 Livraison gratuite · Cash à réception</div>
             </div>
+
+            <button
+              onClick={scrollToOrder}
+              className="mt-4 w-full max-w-xl mx-auto bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.45)] hover:-translate-y-0.5 transition-transform block"
+            >
+              🩺 JE COMMANDE — JE PAIE À LA LIVRAISON
+            </button>
+            <p className="text-xs text-muted-foreground mt-2 text-center">🛡️ Glycémie stabilisée ou 100% remboursé</p>
           </div>
-        </div>
-      </section>
-
-      {/* AUDIO du Vieux KOUKA */}
-      <div className="bg-white py-8 border-b border-bleu-light/20">
-        <AudioVieuxKouka
-          src="/audio/poudre-kouka.aac"
-          productSlug="anti-diabete"
-          title="🎙️ Le Vieux KOUKA explique sa formule"
-          subtitle="Écoute pourquoi cette poudre régule la glycémie là où les autres échouent"
-        />
-      </div>
 
       {/* SYMPTÔMES — style "diagnostic médical" */}
       <section className="py-14 bg-white">
