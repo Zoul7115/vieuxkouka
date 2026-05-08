@@ -57,8 +57,8 @@ function AntiDiabetePage() {
               🩺 Recette traditionnelle · 60+ ans
             </span>
             <h1 className="text-bleu mb-3 leading-tight">
-              Diabète ?<br />
-              <em className="text-rouge not-italic">Reprends le contrôle.</em>
+              Guérir du Diabète <em className="text-rouge not-italic">en un temps record</em><br />
+              <span className="text-foreground">sans dépenser une fortune</span>
             </h1>
             <p className="text-muted-foreground mb-5 text-base leading-relaxed">
               Soif constante, fatigue, picotements, vision floue.<br />
@@ -185,7 +185,7 @@ function AntiDiabetePage() {
           </div>
 
           <div className="bg-white text-foreground rounded-3xl overflow-hidden shadow-2xl">
-            <img src="/images/anti-diabete-sachet-clean.png" alt="Sachet Poudre Anti-Diabète du Vieux KOUKA" className="w-full max-h-96 object-contain bg-bleu-bg p-4" />
+            <img src="/images/vieux-kouka.jpg" alt="Le Vieux KOUKA, thérapeute traditionnel" className="w-full max-h-96 object-cover bg-bleu-bg" />
             <div className="p-6">
               <div className="flex items-center gap-3 mb-3">
                 <div className="bg-bleu text-white w-10 h-10 rounded-full flex items-center justify-center font-extrabold">VK</div>
@@ -199,21 +199,35 @@ function AntiDiabetePage() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="mt-6 grid sm:grid-cols-2 gap-3">
-            {[
-              { t: 'Glycémie stabilisée', d: 'Fini les pics et chutes' },
-              { t: 'Pancréas renforcé', d: 'Insuline mieux sécrétée' },
-              { t: 'Énergie restaurée', d: 'Fini la fatigue chronique' },
-              { t: 'Vision plus claire', d: 'En quelques semaines' },
-              { t: 'Picotements stoppés', d: 'Mains et pieds soulagés' },
-              { t: 'Appétit régulé', d: 'Poids sain maintenu' },
-            ].map((b) => (
-              <div key={b.t} className="bg-white/10 backdrop-blur border border-white/20 rounded-xl p-4">
-                <div className="font-extrabold text-bleu-light flex items-center gap-2">✓ {b.t}</div>
-                <div className="text-sm text-white/85 mt-1">{b.d}</div>
-              </div>
-            ))}
+      {/* SACHET + BÉNÉFICES */}
+      <section className="py-14 bg-white">
+        <div className="container-kouka max-w-5xl">
+          <div className="text-center mb-8">
+            <span className="text-bleu text-xs font-bold uppercase tracking-widest">💊 Le produit</span>
+            <h2 className="text-bleu mt-2">Ce que t'apporte la Poudre Anti-Diabète</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="rounded-3xl overflow-hidden shadow-xl border-2 border-bleu-light/40 bg-bleu-bg">
+              <img src="/images/anti-diabete-sachet-clean.png" alt="Sachet Poudre Anti-Diabète du Vieux KOUKA" className="w-full max-h-[420px] object-contain p-4" />
+            </div>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {[
+                { t: 'Glycémie stabilisée', d: 'Fini les pics et chutes' },
+                { t: 'Pancréas renforcé', d: 'Insuline mieux sécrétée' },
+                { t: 'Énergie restaurée', d: 'Fini la fatigue chronique' },
+                { t: 'Vision plus claire', d: 'En quelques jours' },
+                { t: 'Picotements stoppés', d: 'Mains et pieds soulagés' },
+                { t: 'Appétit régulé', d: 'Poids sain maintenu' },
+              ].map((b) => (
+                <div key={b.t} className="bg-bleu-bg border border-bleu-light/40 rounded-xl p-4">
+                  <div className="font-extrabold text-bleu flex items-center gap-2">✓ {b.t}</div>
+                  <div className="text-sm text-muted-foreground mt-1">{b.d}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -244,15 +258,15 @@ function AntiDiabetePage() {
         <div className="container-kouka max-w-3xl">
           <div className="text-center mb-10">
             <span className="text-bleu text-xs font-bold uppercase tracking-widest">📅 Suivi clinique</span>
-            <h2 className="text-bleu mt-2">Jour après jour, ton corps reprend</h2>
+            <h2 className="text-bleu mt-2">En 7 jours, ta glycémie se stabilise</h2>
           </div>
 
           <div className="relative pl-8 border-l-[3px] border-bleu/30">
             {[
-              { d: 'J1-J7', t: 'La soif diminue', desc: 'Tu bois moins, tu te lèves moins la nuit. Premier signe que ton corps régule.' },
-              { d: 'J8-J14', t: "L'énergie revient", desc: 'Fatigue lourde qui disparaît. Picotements en baisse. Tu te lèves en forme.' },
-              { d: 'J15-J21', t: 'Glycémie stabilisée', desc: "Pics qui s'espacent, vision plus claire. Ton corps reprend le dessus." },
-              { d: 'Fin', t: 'Stabilité durable', desc: 'Glycémie maîtrisée, énergie restaurée. Sans dépendance, sans effet secondaire.' },
+              { d: 'Jour 1-2', t: 'La soif diminue', desc: 'Tu bois moins, tu te lèves moins la nuit. Premier signe que ton corps régule.' },
+              { d: 'Jour 3-4', t: "L'énergie revient", desc: 'Fatigue lourde qui disparaît. Picotements en baisse. Tu te lèves en forme.' },
+              { d: 'Jour 5-6', t: 'Vision plus claire', desc: "Pics qui s'espacent, vision nette. Ton corps reprend le dessus." },
+              { d: 'Jour 7', t: 'Glycémie stabilisée', desc: 'En seulement 7 jours, glycémie maîtrisée et énergie restaurée — sans dépendance, sans effet secondaire.' },
             ].map((x, i) => (
               <div key={i} className="relative mb-8 last:mb-0">
                 <div className="absolute -left-[42px] w-6 h-6 rounded-full bg-bleu border-4 border-white shadow-md" />
