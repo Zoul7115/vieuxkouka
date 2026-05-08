@@ -185,7 +185,7 @@ function AntiDiabetePage() {
           </div>
 
           <div className="bg-white text-foreground rounded-3xl overflow-hidden shadow-2xl">
-            <img src="/images/vieux-kouka.jpg" alt="Le Vieux KOUKA" className="w-full max-h-72 object-cover" />
+            <img src="/images/anti-diabete-sachet-clean.png" alt="Sachet Poudre Anti-Diabète du Vieux KOUKA" className="w-full max-h-96 object-contain bg-bleu-bg p-4" />
             <div className="p-6">
               <div className="flex items-center gap-3 mb-3">
                 <div className="bg-bleu text-white w-10 h-10 rounded-full flex items-center justify-center font-extrabold">VK</div>
@@ -214,6 +214,27 @@ function AntiDiabetePage() {
                 <div className="text-sm text-white/85 mt-1">{b.d}</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+
+      {/* POSOLOGIE + bandeau bénéfices */}
+      <section className="py-12 bg-white">
+        <div className="container-kouka max-w-4xl">
+          <div className="grid md:grid-cols-2 gap-6 items-center">
+            <div className="bg-bleu-bg border-l-4 border-bleu rounded-r-2xl p-6">
+              <p className="text-xs uppercase tracking-widest text-bleu font-extrabold mb-2">💊 Posologie</p>
+              <p className="text-foreground text-base leading-relaxed">
+                <strong>Sucée une pincée de poudre avant et après chaque repas.</strong>
+              </p>
+              <p className="text-sm text-muted-foreground mt-3">
+                Simple, sans préparation. Tu gardes la pincée dans la bouche et tu laisses fondre.
+              </p>
+            </div>
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-bleu-light/30">
+              <img src="/images/anti-diabete-bandeau.png" alt="Dites adieu aux variations de glycémie" className="w-full block" />
+            </div>
           </div>
         </div>
       </section>
@@ -250,67 +271,43 @@ function AntiDiabetePage() {
         </div>
       </section>
 
-      {/* TÉMOIGNAGES — fond bleu pâle, audios + WhatsApp + preuves */}
+      {/* TÉMOIGNAGES AUDIO — vrais clients */}
       <section className="py-14 bg-bleu-bg">
         <div className="container-kouka max-w-3xl">
           <div className="text-center mb-8">
-            <span className="text-bleu text-xs font-bold uppercase tracking-widest">🗣️ Témoignages clients</span>
-            <h2 className="text-bleu mt-2">Ils ont essayé. Ils témoignent.</h2>
-            <p className="text-muted-foreground text-sm mt-2">🔒 Messages WhatsApp réels · Audios non montés · Reçus vérifiables</p>
+            <span className="text-bleu text-xs font-bold uppercase tracking-widest">🎙️ Témoignages audio</span>
+            <h2 className="text-bleu mt-2">Écoute leurs voix.</h2>
+            <p className="text-muted-foreground text-sm mt-2">
+              🔒 Messages vocaux <strong>réels et non montés</strong> — envoyés par des clients après leur cure.
+            </p>
           </div>
 
-          {/* Témoignages texte */}
-          <div className="grid gap-4 mb-8">
-            {[
-              { txt: "Depuis 2 semaines ma glycémie est stable. Je ne me lève plus la nuit pour uriner. La fatigue a disparu. Merci au Vieux KOUKA.", auth: 'Client WhatsApp · Ouagadougou' },
-              { txt: "Mes pieds picotaient depuis des mois. Après le traitement complet, c'est fini. Je recommande vraiment.", auth: 'Cliente WhatsApp · Bobo-Dioulasso' },
-              { txt: "J'ai testé plein de produits sans résultat. La poudre du Vieux KOUKA, après 3 semaines, mes chiffres sont redescendus.", auth: 'Client WhatsApp · Niamey' },
-            ].map((t, i) => (
-              <div key={i} className="bg-white rounded-2xl p-5 border-l-4 border-bleu shadow-sm">
-                <div className="text-or-light text-lg mb-2">★★★★★</div>
-                <p className="italic text-muted-foreground leading-relaxed mb-3">"{t.txt}"</p>
-                <div className="text-xs text-bleu font-bold">{t.auth}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* AUDIOS clients — comme sur la page principale */}
-          <p className="text-center text-sm text-bleu font-extrabold mb-3">
-            🎙️ Messages audio originaux de clients
-          </p>
-          <div className="grid gap-3 mb-8">
-            {[1, 2, 3, 4].map((n) => (
-              <div key={n} className="bg-white rounded-2xl p-4 border border-bleu-light/30 shadow-sm">
-                <div className="font-bold text-bleu mb-2 text-sm">▶ Témoignage audio {n}</div>
+          <div className="grid gap-3">
+            {TESTIMONIAL_AUDIOS.map((a, i) => (
+              <div key={i} className="bg-white rounded-2xl p-4 border-l-4 border-bleu shadow-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="bg-bleu text-white w-8 h-8 rounded-full flex items-center justify-center text-xs font-extrabold shrink-0">
+                    {i + 1}
+                  </div>
+                  <div className="font-bold text-bleu text-sm">{a.label}</div>
+                </div>
                 <audio controls preload="none" className="w-full">
-                  <source src={`/audio/temoignage${n}.opus`} type="audio/ogg; codecs=opus" />
+                  <source src={a.src} type={a.type} />
+                  Ton navigateur ne supporte pas la lecture audio.
                 </audio>
               </div>
             ))}
           </div>
 
-          {/* Captures WhatsApp */}
-          <p className="text-center text-sm text-bleu font-extrabold mb-3">
-            📱 Captures WhatsApp — non modifiées
-          </p>
-          <div className="grid grid-cols-2 gap-3 mb-8">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-              <img key={n} loading="lazy" src={`/images/temo-wa${n}.webp`} alt={`Témoignage WhatsApp ${n}`} className="rounded-xl border border-bleu-light/30 w-full" />
-            ))}
-          </div>
-
-          {/* Preuves de livraison */}
-          <p className="text-center text-sm text-bleu font-extrabold mb-3">
-            📦 Preuves de livraison
-          </p>
-          <div className="grid grid-cols-2 gap-3">
-            <img loading="lazy" src="/images/preuve4.jpg" alt="Reçu de livraison" className="rounded-xl border border-bleu-light/30" />
-            <img loading="lazy" src="/images/preuve5.jpg" alt="Reçu de livraison" className="rounded-xl border border-bleu-light/30" />
-          </div>
-
           <div className="bg-white border-2 border-bleu rounded-2xl p-5 text-center mt-8">
             <p className="font-extrabold text-bleu mb-1">🛡️ Garantie "Stabilisé ou Remboursé"</p>
             <p className="text-sm">Tu suis le traitement complet sans amélioration ? <strong>Remboursement 100%, sans question.</strong></p>
+          </div>
+
+          <div className="text-center mt-6">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
+              🩺 Je veux les mêmes résultats
+            </button>
           </div>
         </div>
       </section>
@@ -380,6 +377,15 @@ function AntiDiabetePage() {
               🩺 OK, je commande maintenant
             </button>
           </div>
+        </div>
+      </section>
+
+      <section className="py-10 bg-white border-t border-bleu-light/20">
+        <div className="container-kouka max-w-3xl text-center">
+          <div className="rounded-2xl overflow-hidden shadow-lg border border-bleu-light/30 inline-block">
+            <img src="/images/anti-diabete-podium-prix.png" alt="Prix de la Poudre Anti-Diabète du Vieux KOUKA" className="w-full max-w-2xl block" />
+          </div>
+          <p className="text-xs text-muted-foreground mt-3">📦 Livraison gratuite à Ouaga & Niamey · Cash à la livraison</p>
         </div>
       </section>
 
