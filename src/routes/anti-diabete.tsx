@@ -112,6 +112,21 @@ function AntiDiabetePage() {
             </button>
             <p className="text-xs text-muted-foreground mt-2 text-center">🛡️ Glycémie stabilisée ou 100% remboursé</p>
           </div>
+        </div>
+      </section>
+
+      {/* GIF test glycémie — urgence visuelle */}
+      <section className="bg-white py-10 border-b border-bleu-light/20">
+        <div className="container-kouka max-w-2xl text-center">
+          <p className="text-xs uppercase tracking-widest text-bleu font-bold mb-3">🩸 Tu connais ce moment ?</p>
+          <div className="rounded-2xl overflow-hidden shadow-lg border-[3px] border-bleu-light/40 inline-block">
+            <img src="/images/anti-diabete-test-glycemie.gif" alt="Test de glycémie au doigt" className="w-full max-w-sm block mx-auto" />
+          </div>
+          <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+            Piqûre tous les jours. Chiffres qui montent. <strong className="text-foreground">Tu mérites mieux qu'une vie de seringues.</strong>
+          </p>
+        </div>
+      </section>
 
       {/* SYMPTÔMES — style "diagnostic médical" */}
       <section className="py-14 bg-white">
