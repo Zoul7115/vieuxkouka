@@ -258,15 +258,15 @@ function AntiDiabetePage() {
         <div className="container-kouka max-w-3xl">
           <div className="text-center mb-10">
             <span className="text-bleu text-xs font-bold uppercase tracking-widest">📅 Suivi clinique</span>
-            <h2 className="text-bleu mt-2">Jour après jour, ton corps reprend</h2>
+            <h2 className="text-bleu mt-2">En 7 jours, ta glycémie se stabilise</h2>
           </div>
 
           <div className="relative pl-8 border-l-[3px] border-bleu/30">
             {[
-              { d: 'J1-J7', t: 'La soif diminue', desc: 'Tu bois moins, tu te lèves moins la nuit. Premier signe que ton corps régule.' },
-              { d: 'J8-J14', t: "L'énergie revient", desc: 'Fatigue lourde qui disparaît. Picotements en baisse. Tu te lèves en forme.' },
-              { d: 'J15-J21', t: 'Glycémie stabilisée', desc: "Pics qui s'espacent, vision plus claire. Ton corps reprend le dessus." },
-              { d: 'Fin', t: 'Stabilité durable', desc: 'Glycémie maîtrisée, énergie restaurée. Sans dépendance, sans effet secondaire.' },
+              { d: 'Jour 1-2', t: 'La soif diminue', desc: 'Tu bois moins, tu te lèves moins la nuit. Premier signe que ton corps régule.' },
+              { d: 'Jour 3-4', t: "L'énergie revient", desc: 'Fatigue lourde qui disparaît. Picotements en baisse. Tu te lèves en forme.' },
+              { d: 'Jour 5-6', t: 'Vision plus claire', desc: "Pics qui s'espacent, vision nette. Ton corps reprend le dessus." },
+              { d: 'Jour 7', t: 'Glycémie stabilisée', desc: 'En seulement 7 jours, glycémie maîtrisée et énergie restaurée — sans dépendance, sans effet secondaire.' },
             ].map((x, i) => (
               <div key={i} className="relative mb-8 last:mb-0">
                 <div className="absolute -left-[42px] w-6 h-6 rounded-full bg-bleu border-4 border-white shadow-md" />
