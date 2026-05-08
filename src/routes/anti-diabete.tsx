@@ -57,8 +57,8 @@ function AntiDiabetePage() {
               🩺 Recette traditionnelle · 60+ ans
             </span>
             <h1 className="text-bleu mb-3 leading-tight">
-              Diabète ?<br />
-              <em className="text-rouge not-italic">Reprends le contrôle.</em>
+              Guérir du Diabète <em className="text-rouge not-italic">en un temps record</em><br />
+              <span className="text-foreground">sans dépenser une fortune</span>
             </h1>
             <p className="text-muted-foreground mb-5 text-base leading-relaxed">
               Soif constante, fatigue, picotements, vision floue.<br />
