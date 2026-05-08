@@ -185,7 +185,7 @@ function AntiDiabetePage() {
           </div>
 
           <div className="bg-white text-foreground rounded-3xl overflow-hidden shadow-2xl">
-            <img src="/images/anti-diabete-sachet-clean.png" alt="Sachet Poudre Anti-Diabète du Vieux KOUKA" className="w-full max-h-96 object-contain bg-bleu-bg p-4" />
+            <img src="/images/vieux-kouka.jpg" alt="Le Vieux KOUKA, thérapeute traditionnel" className="w-full max-h-96 object-cover bg-bleu-bg" />
             <div className="p-6">
               <div className="flex items-center gap-3 mb-3">
                 <div className="bg-bleu text-white w-10 h-10 rounded-full flex items-center justify-center font-extrabold">VK</div>
@@ -199,21 +199,35 @@ function AntiDiabetePage() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="mt-6 grid sm:grid-cols-2 gap-3">
-            {[
-              { t: 'Glycémie stabilisée', d: 'Fini les pics et chutes' },
-              { t: 'Pancréas renforcé', d: 'Insuline mieux sécrétée' },
-              { t: 'Énergie restaurée', d: 'Fini la fatigue chronique' },
-              { t: 'Vision plus claire', d: 'En quelques semaines' },
-              { t: 'Picotements stoppés', d: 'Mains et pieds soulagés' },
-              { t: 'Appétit régulé', d: 'Poids sain maintenu' },
-            ].map((b) => (
-              <div key={b.t} className="bg-white/10 backdrop-blur border border-white/20 rounded-xl p-4">
-                <div className="font-extrabold text-bleu-light flex items-center gap-2">✓ {b.t}</div>
-                <div className="text-sm text-white/85 mt-1">{b.d}</div>
-              </div>
-            ))}
+      {/* SACHET + BÉNÉFICES */}
+      <section className="py-14 bg-white">
+        <div className="container-kouka max-w-5xl">
+          <div className="text-center mb-8">
+            <span className="text-bleu text-xs font-bold uppercase tracking-widest">💊 Le produit</span>
+            <h2 className="text-bleu mt-2">Ce que t'apporte la Poudre Anti-Diabète</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="rounded-3xl overflow-hidden shadow-xl border-2 border-bleu-light/40 bg-bleu-bg">
+              <img src="/images/anti-diabete-sachet-clean.png" alt="Sachet Poudre Anti-Diabète du Vieux KOUKA" className="w-full max-h-[420px] object-contain p-4" />
+            </div>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {[
+                { t: 'Glycémie stabilisée', d: 'Fini les pics et chutes' },
+                { t: 'Pancréas renforcé', d: 'Insuline mieux sécrétée' },
+                { t: 'Énergie restaurée', d: 'Fini la fatigue chronique' },
+                { t: 'Vision plus claire', d: 'En quelques jours' },
+                { t: 'Picotements stoppés', d: 'Mains et pieds soulagés' },
+                { t: 'Appétit régulé', d: 'Poids sain maintenu' },
+              ].map((b) => (
+                <div key={b.t} className="bg-bleu-bg border border-bleu-light/40 rounded-xl p-4">
+                  <div className="font-extrabold text-bleu flex items-center gap-2">✓ {b.t}</div>
+                  <div className="text-sm text-muted-foreground mt-1">{b.d}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
