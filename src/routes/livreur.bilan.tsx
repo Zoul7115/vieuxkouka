@@ -1,20 +1,18 @@
-import { createFileRoute, getRouteApi } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { useLivreurs, effectiveDeliveryFee } from '@/lib/livreurs';
 import { useLivreurOrders, unitsForOrder, confirmCashHandover } from '@/lib/livreur-orders';
-import type { LivreurSession } from '@/lib/livreur-auth';
+import { useLivreurSession } from '@/lib/use-livreur-session';
 
 export const Route = createFileRoute('/livreur/bilan')({
   component: LivreurBilan,
 });
 
-const layoutApi = getRouteApi('/livreur');
-
 function LivreurBilan() {
-  const { session } = layoutApi.useRouteContext() as { session: LivreurSession };
+  const { session } = useLivreurSession();
   const { livreurs } = useLivreurs();
-  const { orders, reload } = useLivreurOrders(session.idx);
+  const { orders, reload } = useLivreurOrders(session?.idx ?? null);
   const [busy, setBusy] = useState(false);
   const [days, setDays] = useState(0); // 0 = aujourd'hui, 1 = hier...
 
