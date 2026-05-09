@@ -390,10 +390,13 @@ function AntiDiabetePage() {
 
       <section className="py-10 bg-white border-t border-bleu-light/20">
         <div className="container-kouka max-w-3xl text-center">
-          <div className="rounded-2xl overflow-hidden shadow-lg border border-bleu-light/30 inline-block">
-            <img src="/images/anti-diabete-podium-prix.png" alt="Prix de la Poudre Anti-Diabète du Vieux KOUKA" className="w-full max-w-2xl block" />
-          </div>
-          <p className="text-xs text-muted-foreground mt-3">📦 Livraison gratuite à Ouaga & Niamey · Cash à la livraison</p>
+          <p className="text-xs uppercase tracking-widest text-bleu font-bold mb-2">💊 Programme complet</p>
+          <h3 className="text-bleu mb-2">Traitement complet — 3 sachets · 25 000 FCFA</h3>
+          <p className="text-sm text-muted-foreground mb-4">L'option la plus choisie pour des résultats durables.</p>
+          <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
+            Commander le traitement complet
+          </button>
+          <p className="text-xs text-muted-foreground mt-3">📦 Livraison à Ouaga & Niamey · Cash à la livraison</p>
         </div>
       </section>
 
