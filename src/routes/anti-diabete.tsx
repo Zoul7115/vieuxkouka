@@ -46,7 +46,7 @@ function AntiDiabetePage() {
 
       {/* Bandeau bleu médical */}
       <div className="bg-bleu text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🩺 Glycémie sous contrôle · Livraison gratuite Ouaga & Niamey · ⏰ Stock : <b className="text-bleu-light">{stock}</b> sachets
+        🩺 Traitement complet recommandé · Livraison Ouaga & Niamey · Stock limité : <b className="text-bleu-light">{stock}</b>
       </div>
 
       {/* HERO — fond bleu/blanc, style "fiche médicale" */}
@@ -57,60 +57,54 @@ function AntiDiabetePage() {
               🩺 Recette traditionnelle · 60+ ans
             </span>
             <h1 className="text-bleu mb-3 leading-tight">
-              Guérir du Diabète <em className="text-rouge not-italic">en un temps record</em><br />
-              <span className="text-foreground">sans dépenser une fortune</span>
+              Le traitement complet recommandé<br />
+              <span className="text-foreground">pour des résultats durables</span>
             </h1>
             <p className="text-muted-foreground mb-5 text-base leading-relaxed">
-              Soif constante, fatigue, picotements, vision floue.<br />
-              <strong className="text-foreground">Régule ta glycémie naturellement</strong> — sans dépendance, sans effets secondaires.
+              Une cure intensive de 3 sachets pour réguler ta glycémie en profondeur — naturellement,
+              avec la formule du Vieux KOUKA.
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-bold text-bleu mb-5">
+            <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-bold text-bleu mb-6">
               <span className="bg-white border border-bleu-light/40 px-2.5 py-1 rounded-full">🌿 100% plantes</span>
               <span className="bg-white border border-bleu-light/40 px-2.5 py-1 rounded-full">🇧🇫 Burkina</span>
               <span className="bg-white border border-bleu-light/40 px-2.5 py-1 rounded-full">🩺 Sans dépendance</span>
             </div>
 
-            {/* 3 OFFRES — style carte médicale */}
-            <div className="bg-white border-2 border-bleu-light/30 rounded-2xl p-4 shadow-sm max-w-xl mx-auto">
-              <div className="text-[11px] uppercase font-extrabold text-bleu tracking-wider mb-3 text-center">💊 Choisis ta cure</div>
-              <div className="grid grid-cols-3 gap-2">
-                {product.offers.map((o) => (
-                  <button
-                    key={o.id}
-                    onClick={scrollToOrder}
-                    className={`rounded-xl p-2.5 border-2 text-center transition-transform hover:-translate-y-0.5 ${
-                      o.recommended
-                        ? 'bg-bleu-bg border-rouge shadow-md ring-2 ring-rouge/20'
-                        : 'bg-white border-bleu-light/30'
-                    }`}
-                  >
-                    {o.recommended && (
-                      <div className="text-[9px] font-extrabold text-rouge uppercase mb-0.5">⭐ Top</div>
-                    )}
-                    <div className="text-[11px] font-bold text-bleu leading-tight mb-1">
-                      {o.units} sachet{o.units > 1 ? 's' : ''}
-                      {o.bonusUnits > 0 && <span className="block text-[10px] text-rouge">{o.paidUnits}+{o.bonusUnits} offert{o.bonusUnits > 1 ? 's' : ''}</span>}
-                    </div>
-                    <div className={`text-base font-extrabold ${o.recommended ? 'text-rouge' : 'text-foreground'}`}>
-                      {(o.price / 1000).toFixed(0)}k
-                    </div>
-                    {o.oldPrice > o.price && (
-                      <div className="text-[10px] text-muted-foreground line-through">{(o.oldPrice / 1000).toFixed(0)}k</div>
-                    )}
-                  </button>
-                ))}
+            {/* OFFRE PRINCIPALE — mise en avant */}
+            <div className="relative bg-white border-[3px] border-bleu rounded-3xl p-6 shadow-[0_12px_30px_rgba(31,108,159,0.18)] max-w-xl mx-auto">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-rouge text-white text-xs font-extrabold px-4 py-1.5 rounded-full whitespace-nowrap shadow">
+                ⭐ LE PLUS RECOMMANDÉ
               </div>
-              <div className="text-[11px] text-muted-foreground mt-2 text-center">📦 Livraison gratuite · Cash à réception</div>
+              <div className="text-[11px] uppercase font-extrabold text-bleu tracking-wider mt-2 mb-1">
+                Traitement complet
+              </div>
+              <div className="text-2xl font-extrabold text-foreground leading-tight">
+                3 sachets — Cure complète
+              </div>
+              <div className="text-4xl font-extrabold text-bleu mt-2">25 000 FCFA</div>
+              <ul className="text-left text-sm text-foreground mt-4 space-y-1.5 max-w-xs mx-auto">
+                <li>✔ Cure complète recommandée</li>
+                <li>✔ Résultats durables</li>
+                <li>✔ Offre la plus choisie</li>
+                <li>✔ Meilleur rapport efficacité/prix</li>
+              </ul>
+              <button
+                onClick={scrollToOrder}
+                className="mt-5 w-full bg-rouge text-white py-4 rounded-xl text-base font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.45)] hover:-translate-y-0.5 transition-transform"
+              >
+                Commander le traitement complet
+              </button>
+              <p className="text-[11px] text-muted-foreground mt-2">📦 Livraison Ouaga & Niamey · Cash à la livraison</p>
             </div>
 
+            {/* OFFRE SECONDAIRE — discrète */}
             <button
               onClick={scrollToOrder}
-              className="mt-4 w-full max-w-xl mx-auto bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.45)] hover:-translate-y-0.5 transition-transform block"
+              className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-bleu underline underline-offset-2"
             >
-              🩺 JE COMMANDE — JE PAIE À LA LIVRAISON
+              Juste tester ? Offre découverte — 1 sachet à 12 500 FCFA
             </button>
-            <p className="text-xs text-muted-foreground mt-2 text-center">🛡️ Glycémie stabilisée ou 100% remboursé</p>
           </div>
         </div>
       </section>
