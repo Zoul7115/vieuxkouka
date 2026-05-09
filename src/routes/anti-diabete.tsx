@@ -377,12 +377,12 @@ function AntiDiabetePage() {
               { q: "Y a-t-il des effets secondaires ?", a: "Aucun. 100% naturelle — racines, écorces, feuilles africaines. Aucune dépendance." },
               { q: "Comment je paie ?", a: "<strong>Cash à la livraison uniquement.</strong> Tu reçois, tu vérifies, tu paies." },
               { q: "La livraison est-elle discrète ?", a: "Oui — emballage neutre, sans logo. Personne ne devine ce que tu as commandé." },
-              { q: "Et si ça ne marche pas pour moi ?", a: "<strong>Remboursement 100%.</strong> Photo du sachet vide → remboursement intégral, sans débat." },
+              { q: "Et si ça ne marche pas pour moi ?", a: "Contacte-nous : nous t'accompagnons et étudions chaque situation. Notre objectif est ta satisfaction." },
             ]}
           />
           <div className="text-center mt-6">
             <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              🩺 OK, je commande maintenant
+              Commander le traitement complet
             </button>
           </div>
         </div>
