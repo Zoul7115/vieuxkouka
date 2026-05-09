@@ -76,7 +76,12 @@ export type StatusUpdate =
   | { status: 'rescheduled'; reschedule_date: string };
 
 export async function updateOrder(orderId: string, payload: StatusUpdate) {
-  const update: Record<string, unknown> = { status: payload.status };
+  const update: {
+    status: string;
+    delivery_fee?: number;
+    cancellation_reason?: string;
+    reschedule_date?: string;
+  } = { status: payload.status };
   if (payload.status === 'delivered') update.delivery_fee = payload.delivery_fee;
   if (payload.status === 'cancelled') update.cancellation_reason = payload.reason;
   if (payload.status === 'rescheduled') update.reschedule_date = payload.reschedule_date;
