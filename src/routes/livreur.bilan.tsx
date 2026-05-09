@@ -6,7 +6,7 @@ import { useLivreurOrders, unitsForOrder, confirmCashHandover } from '@/lib/livr
 import type { LivreurSession } from '@/lib/livreur-auth';
 
 export const Route = createFileRoute('/livreur/bilan')({
-  component: LivreurBilan;
+  component: LivreurBilan,
 });
 
 const layoutApi = getRouteApi('/livreur');
