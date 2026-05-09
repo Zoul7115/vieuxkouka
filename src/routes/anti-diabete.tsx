@@ -46,7 +46,7 @@ function AntiDiabetePage() {
 
       {/* Bandeau bleu médical */}
       <div className="bg-bleu text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🩺 Glycémie sous contrôle · Livraison gratuite Ouaga & Niamey · ⏰ Stock : <b className="text-bleu-light">{stock}</b> sachets
+        🩺 Traitement complet recommandé · Livraison Ouaga & Niamey · Stock limité : <b className="text-bleu-light">{stock}</b>
       </div>
 
       {/* HERO — fond bleu/blanc, style "fiche médicale" */}
@@ -57,60 +57,54 @@ function AntiDiabetePage() {
               🩺 Recette traditionnelle · 60+ ans
             </span>
             <h1 className="text-bleu mb-3 leading-tight">
-              Guérir du Diabète <em className="text-rouge not-italic">en un temps record</em><br />
-              <span className="text-foreground">sans dépenser une fortune</span>
+              Le traitement complet recommandé<br />
+              <span className="text-foreground">pour des résultats durables</span>
             </h1>
             <p className="text-muted-foreground mb-5 text-base leading-relaxed">
-              Soif constante, fatigue, picotements, vision floue.<br />
-              <strong className="text-foreground">Régule ta glycémie naturellement</strong> — sans dépendance, sans effets secondaires.
+              Une cure intensive de 3 sachets pour réguler ta glycémie en profondeur — naturellement,
+              avec la formule du Vieux KOUKA.
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-bold text-bleu mb-5">
+            <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-bold text-bleu mb-6">
               <span className="bg-white border border-bleu-light/40 px-2.5 py-1 rounded-full">🌿 100% plantes</span>
               <span className="bg-white border border-bleu-light/40 px-2.5 py-1 rounded-full">🇧🇫 Burkina</span>
               <span className="bg-white border border-bleu-light/40 px-2.5 py-1 rounded-full">🩺 Sans dépendance</span>
             </div>
 
-            {/* 3 OFFRES — style carte médicale */}
-            <div className="bg-white border-2 border-bleu-light/30 rounded-2xl p-4 shadow-sm max-w-xl mx-auto">
-              <div className="text-[11px] uppercase font-extrabold text-bleu tracking-wider mb-3 text-center">💊 Choisis ta cure</div>
-              <div className="grid grid-cols-3 gap-2">
-                {product.offers.map((o) => (
-                  <button
-                    key={o.id}
-                    onClick={scrollToOrder}
-                    className={`rounded-xl p-2.5 border-2 text-center transition-transform hover:-translate-y-0.5 ${
-                      o.recommended
-                        ? 'bg-bleu-bg border-rouge shadow-md ring-2 ring-rouge/20'
-                        : 'bg-white border-bleu-light/30'
-                    }`}
-                  >
-                    {o.recommended && (
-                      <div className="text-[9px] font-extrabold text-rouge uppercase mb-0.5">⭐ Top</div>
-                    )}
-                    <div className="text-[11px] font-bold text-bleu leading-tight mb-1">
-                      {o.units} sachet{o.units > 1 ? 's' : ''}
-                      {o.bonusUnits > 0 && <span className="block text-[10px] text-rouge">{o.paidUnits}+{o.bonusUnits} offert{o.bonusUnits > 1 ? 's' : ''}</span>}
-                    </div>
-                    <div className={`text-base font-extrabold ${o.recommended ? 'text-rouge' : 'text-foreground'}`}>
-                      {(o.price / 1000).toFixed(0)}k
-                    </div>
-                    {o.oldPrice > o.price && (
-                      <div className="text-[10px] text-muted-foreground line-through">{(o.oldPrice / 1000).toFixed(0)}k</div>
-                    )}
-                  </button>
-                ))}
+            {/* OFFRE PRINCIPALE — mise en avant */}
+            <div className="relative bg-white border-[3px] border-bleu rounded-3xl p-6 shadow-[0_12px_30px_rgba(31,108,159,0.18)] max-w-xl mx-auto">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-rouge text-white text-xs font-extrabold px-4 py-1.5 rounded-full whitespace-nowrap shadow">
+                ⭐ LE PLUS RECOMMANDÉ
               </div>
-              <div className="text-[11px] text-muted-foreground mt-2 text-center">📦 Livraison gratuite · Cash à réception</div>
+              <div className="text-[11px] uppercase font-extrabold text-bleu tracking-wider mt-2 mb-1">
+                Traitement complet
+              </div>
+              <div className="text-2xl font-extrabold text-foreground leading-tight">
+                3 sachets — Cure complète
+              </div>
+              <div className="text-4xl font-extrabold text-bleu mt-2">25 000 FCFA</div>
+              <ul className="text-left text-sm text-foreground mt-4 space-y-1.5 max-w-xs mx-auto">
+                <li>✔ Cure complète recommandée</li>
+                <li>✔ Résultats durables</li>
+                <li>✔ Offre la plus choisie</li>
+                <li>✔ Meilleur rapport efficacité/prix</li>
+              </ul>
+              <button
+                onClick={scrollToOrder}
+                className="mt-5 w-full bg-rouge text-white py-4 rounded-xl text-base font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.45)] hover:-translate-y-0.5 transition-transform"
+              >
+                Commander le traitement complet
+              </button>
+              <p className="text-[11px] text-muted-foreground mt-2">📦 Livraison Ouaga & Niamey · Cash à la livraison</p>
             </div>
 
+            {/* OFFRE SECONDAIRE — discrète */}
             <button
               onClick={scrollToOrder}
-              className="mt-4 w-full max-w-xl mx-auto bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.45)] hover:-translate-y-0.5 transition-transform block"
+              className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-bleu underline underline-offset-2"
             >
-              🩺 JE COMMANDE — JE PAIE À LA LIVRAISON
+              Juste tester ? Offre découverte — 1 sachet à 12 500 FCFA
             </button>
-            <p className="text-xs text-muted-foreground mt-2 text-center">🛡️ Glycémie stabilisée ou 100% remboursé</p>
           </div>
         </div>
       </section>
@@ -167,7 +161,7 @@ function AntiDiabetePage() {
 
           <div className="text-center mt-7">
             <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              🩺 Je veux la solution naturelle
+              Commander le traitement complet
             </button>
           </div>
         </div>
@@ -314,13 +308,13 @@ function AntiDiabetePage() {
           </div>
 
           <div className="bg-white border-2 border-bleu rounded-2xl p-5 text-center mt-8">
-            <p className="font-extrabold text-bleu mb-1">🛡️ Garantie "Stabilisé ou Remboursé"</p>
-            <p className="text-sm">Tu suis le traitement complet sans amélioration ? <strong>Remboursement 100%, sans question.</strong></p>
+            <p className="font-extrabold text-bleu mb-1">🛡️ Engagement qualité</p>
+            <p className="text-sm">Si tu suis le traitement complet sans aucune amélioration, contacte-nous — nous t'accompagnons.</p>
           </div>
 
           <div className="text-center mt-6">
             <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              🩺 Je veux les mêmes résultats
+              Commander le traitement complet
             </button>
           </div>
         </div>
@@ -376,19 +370,19 @@ function AntiDiabetePage() {
           </div>
           <FAQ
             items={[
-              { q: "J'ai peur que ça ne fonctionne pas", a: "Tous les jours nous recevons des témoignages de clients qui voient leur glycémie se stabiliser. Et si tu ne vois aucun résultat après le traitement complet, on te rembourse à 100%." },
+              { q: "J'ai peur que ça ne fonctionne pas", a: "Beaucoup de clients voient leur glycémie se stabiliser après la cure complète. Suis le programme recommandé (3 sachets) et donne au produit le temps d'agir en profondeur." },
               { q: "J'ai déjà essayé plusieurs produits sans résultat", a: "Les produits classiques traitent le symptôme. La Poudre Anti-Diabète du Vieux KOUKA agit sur le pancréas et la régulation naturelle de l'insuline." },
               { q: "Je peux arrêter mes médicaments ?", a: "<strong>Non, pas brutalement.</strong> Continue ton traitement et mesure ta glycémie. Tu verras les chiffres baisser progressivement. Parle ensuite à ton médecin." },
               { q: "En combien de temps je vois les résultats ?", a: "<strong>Dès la 1ère semaine :</strong> la soif diminue. <strong>Après 2-3 semaines :</strong> énergie restaurée, picotements qui disparaissent, glycémie stabilisée." },
               { q: "Y a-t-il des effets secondaires ?", a: "Aucun. 100% naturelle — racines, écorces, feuilles africaines. Aucune dépendance." },
               { q: "Comment je paie ?", a: "<strong>Cash à la livraison uniquement.</strong> Tu reçois, tu vérifies, tu paies." },
               { q: "La livraison est-elle discrète ?", a: "Oui — emballage neutre, sans logo. Personne ne devine ce que tu as commandé." },
-              { q: "Et si ça ne marche pas pour moi ?", a: "<strong>Remboursement 100%.</strong> Photo du sachet vide → remboursement intégral, sans débat." },
+              { q: "Et si ça ne marche pas pour moi ?", a: "Contacte-nous : nous t'accompagnons et étudions chaque situation. Notre objectif est ta satisfaction." },
             ]}
           />
           <div className="text-center mt-6">
             <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              🩺 OK, je commande maintenant
+              Commander le traitement complet
             </button>
           </div>
         </div>
@@ -396,10 +390,13 @@ function AntiDiabetePage() {
 
       <section className="py-10 bg-white border-t border-bleu-light/20">
         <div className="container-kouka max-w-3xl text-center">
-          <div className="rounded-2xl overflow-hidden shadow-lg border border-bleu-light/30 inline-block">
-            <img src="/images/anti-diabete-podium-prix.png" alt="Prix de la Poudre Anti-Diabète du Vieux KOUKA" className="w-full max-w-2xl block" />
-          </div>
-          <p className="text-xs text-muted-foreground mt-3">📦 Livraison gratuite à Ouaga & Niamey · Cash à la livraison</p>
+          <p className="text-xs uppercase tracking-widest text-bleu font-bold mb-2">💊 Programme complet</p>
+          <h3 className="text-bleu mb-2">Traitement complet — 3 sachets · 25 000 FCFA</h3>
+          <p className="text-sm text-muted-foreground mb-4">L'option la plus choisie pour des résultats durables.</p>
+          <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
+            Commander le traitement complet
+          </button>
+          <p className="text-xs text-muted-foreground mt-3">📦 Livraison à Ouaga & Niamey · Cash à la livraison</p>
         </div>
       </section>
 
