@@ -308,13 +308,13 @@ function AntiDiabetePage() {
           </div>
 
           <div className="bg-white border-2 border-bleu rounded-2xl p-5 text-center mt-8">
-            <p className="font-extrabold text-bleu mb-1">🛡️ Garantie "Stabilisé ou Remboursé"</p>
-            <p className="text-sm">Tu suis le traitement complet sans amélioration ? <strong>Remboursement 100%, sans question.</strong></p>
+            <p className="font-extrabold text-bleu mb-1">🛡️ Engagement qualité</p>
+            <p className="text-sm">Si tu suis le traitement complet sans aucune amélioration, contacte-nous — nous t'accompagnons.</p>
           </div>
 
           <div className="text-center mt-6">
             <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              🩺 Je veux les mêmes résultats
+              Commander le traitement complet
             </button>
           </div>
         </div>
