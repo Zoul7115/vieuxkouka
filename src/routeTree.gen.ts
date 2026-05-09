@@ -10,16 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
+import { Route as LivreurRouteImport } from './routes/livreur'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
 import { Route as AntiDiabeteRouteImport } from './routes/anti-diabete'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LivreurIndexRouteImport } from './routes/livreur.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as LivreurBilanRouteImport } from './routes/livreur.bilan'
 import { Route as ApiPublicHooksWeeklyReportRouteImport } from './routes/api/public/hooks/weekly-report'
 
 const ThankYouRoute = ThankYouRouteImport.update({
   id: '/thank-you',
   path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LivreurRoute = LivreurRouteImport.update({
+  id: '/livreur',
+  path: '/livreur',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DiagnosticRoute = DiagnosticRouteImport.update({
@@ -42,10 +50,20 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LivreurIndexRoute = LivreurIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LivreurRoute,
+} as any)
 const ProductSlugRoute = ProductSlugRouteImport.update({
   id: '/product/$slug',
   path: '/product/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const LivreurBilanRoute = LivreurBilanRouteImport.update({
+  id: '/bilan',
+  path: '/bilan',
+  getParentRoute: () => LivreurRoute,
 } as any)
 const ApiPublicHooksWeeklyReportRoute =
   ApiPublicHooksWeeklyReportRouteImport.update({
@@ -59,8 +77,11 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/anti-diabete': typeof AntiDiabeteRoute
   '/diagnostic': typeof DiagnosticRoute
+  '/livreur': typeof LivreurRouteWithChildren
   '/thank-you': typeof ThankYouRoute
+  '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/livreur/': typeof LivreurIndexRoute
   '/api/public/hooks/weekly-report': typeof ApiPublicHooksWeeklyReportRoute
 }
 export interface FileRoutesByTo {
@@ -69,7 +90,9 @@ export interface FileRoutesByTo {
   '/anti-diabete': typeof AntiDiabeteRoute
   '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
+  '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/livreur': typeof LivreurIndexRoute
   '/api/public/hooks/weekly-report': typeof ApiPublicHooksWeeklyReportRoute
 }
 export interface FileRoutesById {
@@ -78,8 +101,11 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/anti-diabete': typeof AntiDiabeteRoute
   '/diagnostic': typeof DiagnosticRoute
+  '/livreur': typeof LivreurRouteWithChildren
   '/thank-you': typeof ThankYouRoute
+  '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
+  '/livreur/': typeof LivreurIndexRoute
   '/api/public/hooks/weekly-report': typeof ApiPublicHooksWeeklyReportRoute
 }
 export interface FileRouteTypes {
@@ -89,8 +115,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/anti-diabete'
     | '/diagnostic'
+    | '/livreur'
     | '/thank-you'
+    | '/livreur/bilan'
     | '/product/$slug'
+    | '/livreur/'
     | '/api/public/hooks/weekly-report'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,7 +128,9 @@ export interface FileRouteTypes {
     | '/anti-diabete'
     | '/diagnostic'
     | '/thank-you'
+    | '/livreur/bilan'
     | '/product/$slug'
+    | '/livreur'
     | '/api/public/hooks/weekly-report'
   id:
     | '__root__'
@@ -107,8 +138,11 @@ export interface FileRouteTypes {
     | '/admin'
     | '/anti-diabete'
     | '/diagnostic'
+    | '/livreur'
     | '/thank-you'
+    | '/livreur/bilan'
     | '/product/$slug'
+    | '/livreur/'
     | '/api/public/hooks/weekly-report'
   fileRoutesById: FileRoutesById
 }
@@ -117,6 +151,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AntiDiabeteRoute: typeof AntiDiabeteRoute
   DiagnosticRoute: typeof DiagnosticRoute
+  LivreurRoute: typeof LivreurRouteWithChildren
   ThankYouRoute: typeof ThankYouRoute
   ProductSlugRoute: typeof ProductSlugRoute
   ApiPublicHooksWeeklyReportRoute: typeof ApiPublicHooksWeeklyReportRoute
@@ -129,6 +164,13 @@ declare module '@tanstack/react-router' {
       path: '/thank-you'
       fullPath: '/thank-you'
       preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/livreur': {
+      id: '/livreur'
+      path: '/livreur'
+      fullPath: '/livreur'
+      preLoaderRoute: typeof LivreurRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/diagnostic': {
@@ -159,12 +201,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/livreur/': {
+      id: '/livreur/'
+      path: '/'
+      fullPath: '/livreur/'
+      preLoaderRoute: typeof LivreurIndexRouteImport
+      parentRoute: typeof LivreurRoute
+    }
     '/product/$slug': {
       id: '/product/$slug'
       path: '/product/$slug'
       fullPath: '/product/$slug'
       preLoaderRoute: typeof ProductSlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/livreur/bilan': {
+      id: '/livreur/bilan'
+      path: '/bilan'
+      fullPath: '/livreur/bilan'
+      preLoaderRoute: typeof LivreurBilanRouteImport
+      parentRoute: typeof LivreurRoute
     }
     '/api/public/hooks/weekly-report': {
       id: '/api/public/hooks/weekly-report'
@@ -176,11 +232,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface LivreurRouteChildren {
+  LivreurBilanRoute: typeof LivreurBilanRoute
+  LivreurIndexRoute: typeof LivreurIndexRoute
+}
+
+const LivreurRouteChildren: LivreurRouteChildren = {
+  LivreurBilanRoute: LivreurBilanRoute,
+  LivreurIndexRoute: LivreurIndexRoute,
+}
+
+const LivreurRouteWithChildren =
+  LivreurRoute._addFileChildren(LivreurRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   AntiDiabeteRoute: AntiDiabeteRoute,
   DiagnosticRoute: DiagnosticRoute,
+  LivreurRoute: LivreurRouteWithChildren,
   ThankYouRoute: ThankYouRoute,
   ProductSlugRoute: ProductSlugRoute,
   ApiPublicHooksWeeklyReportRoute: ApiPublicHooksWeeklyReportRoute,

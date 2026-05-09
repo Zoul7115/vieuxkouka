@@ -1,27 +1,25 @@
-import { createFileRoute, getRouteApi } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
 import { useLivreurs } from '@/lib/livreurs';
 import { useLivreurOrders, type LivreurOrder } from '@/lib/livreur-orders';
 import { useLivreurStock } from '@/lib/livreur-stock';
 import { OrderCard } from '@/components/livreur/OrderCard';
 import { usePWALivreur } from '@/hooks/usePWALivreur';
-import type { LivreurSession } from '@/lib/livreur-auth';
+import { useLivreurSession } from '@/lib/use-livreur-session';
 
 export const Route = createFileRoute('/livreur/')({
   component: LivreurDashboard,
 });
 
-const layoutApi = getRouteApi('/livreur');
-
 function LivreurDashboard() {
-  const { session } = layoutApi.useRouteContext() as { session: LivreurSession };
+  const { session, ready } = useLivreurSession();
   const { livreurs } = useLivreurs();
-  const { orders, reload } = useLivreurOrders(session.idx);
+  const { orders, reload } = useLivreurOrders(session?.idx ?? null);
   const { stock } = useLivreurStock();
   const [tab, setTab] = useState<'todo' | 'today' | 'history'>('todo');
 
-  const livreur = livreurs.find((l) => l.idx === session.idx);
-  const { installed, install, permission, enableNotif, installPromptAvailable } = usePWALivreur(session.idx, session.name);
+  const livreur = livreurs.find((l) => l.idx === session?.idx);
+  const { installed, install, permission, enableNotif, installPromptAvailable } = usePWALivreur(session?.idx ?? null, session?.name ?? '');
 
   const todayStart = useMemo(() => {
     const d = new Date(); d.setHours(0, 0, 0, 0); return d.toISOString();

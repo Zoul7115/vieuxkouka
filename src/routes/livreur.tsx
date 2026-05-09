@@ -60,7 +60,7 @@ function LivreurLayout() {
         </div>
       </header>
       <main className="max-w-2xl mx-auto px-3 py-4 pb-20">
-        <Outlet context={{ session }} />
+        <Outlet />
       </main>
     </div>
   );
