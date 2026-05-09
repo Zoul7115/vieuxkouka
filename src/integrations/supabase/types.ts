@@ -159,7 +159,10 @@ export type Database = {
           emoji: string | null
           id: string
           idx: number
+          last_login_at: string | null
           name: string
+          password_hash: string | null
+          session_token: string | null
           updated_at: string
           wa_group_url: string | null
           whatsapp: string
@@ -172,7 +175,10 @@ export type Database = {
           emoji?: string | null
           id?: string
           idx: number
+          last_login_at?: string | null
           name: string
+          password_hash?: string | null
+          session_token?: string | null
           updated_at?: string
           wa_group_url?: string | null
           whatsapp: string
@@ -185,7 +191,10 @@ export type Database = {
           emoji?: string | null
           id?: string
           idx?: number
+          last_login_at?: string | null
           name?: string
+          password_hash?: string | null
+          session_token?: string | null
           updated_at?: string
           wa_group_url?: string | null
           whatsapp?: string
@@ -198,6 +207,7 @@ export type Database = {
           address_detail: string | null
           ai_flags: string[] | null
           ai_score: number | null
+          cancellation_reason: string | null
           car_transport: string | null
           cash_confirmed: boolean | null
           city: string | null
@@ -218,6 +228,7 @@ export type Database = {
           product_name: string
           product_price: number
           product_slug: string | null
+          reschedule_date: string | null
           sav_followed_up_at: string | null
           sav_notes: string | null
           secondary_contact: string | null
@@ -229,6 +240,7 @@ export type Database = {
           address_detail?: string | null
           ai_flags?: string[] | null
           ai_score?: number | null
+          cancellation_reason?: string | null
           car_transport?: string | null
           cash_confirmed?: boolean | null
           city?: string | null
@@ -249,6 +261,7 @@ export type Database = {
           product_name: string
           product_price: number
           product_slug?: string | null
+          reschedule_date?: string | null
           sav_followed_up_at?: string | null
           sav_notes?: string | null
           secondary_contact?: string | null
@@ -260,6 +273,7 @@ export type Database = {
           address_detail?: string | null
           ai_flags?: string[] | null
           ai_score?: number | null
+          cancellation_reason?: string | null
           car_transport?: string | null
           cash_confirmed?: boolean | null
           city?: string | null
@@ -280,6 +294,7 @@ export type Database = {
           product_name?: string
           product_price?: number
           product_slug?: string | null
+          reschedule_date?: string | null
           sav_followed_up_at?: string | null
           sav_notes?: string | null
           secondary_contact?: string | null
@@ -297,6 +312,7 @@ export type Database = {
           id: string
           label: string | null
           last_used_at: string
+          livreur_idx: number | null
           p256dh: string
           user_agent: string | null
         }
@@ -307,6 +323,7 @@ export type Database = {
           id?: string
           label?: string | null
           last_used_at?: string
+          livreur_idx?: number | null
           p256dh: string
           user_agent?: string | null
         }
@@ -317,6 +334,7 @@ export type Database = {
           id?: string
           label?: string | null
           last_used_at?: string
+          livreur_idx?: number | null
           p256dh?: string
           user_agent?: string | null
         }

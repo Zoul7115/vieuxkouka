@@ -49,22 +49,33 @@ Deno.serve(async (req) => {
     const city = body.city || '';
     const productName = body.product_name || '';
     const price = Number(body.product_price || 0);
+    const target = body.target || 'admin'; // 'admin' | 'livreur'
+    const livreurIdx = body.livreur_idx; // number when target='livreur'
 
-    const title = `🌿 Nouvelle commande ${orderNumber}`;
+    const isLivreur = target === 'livreur';
+    const title = isLivreur
+      ? `🛵 Nouvelle livraison ${orderNumber}`
+      : `🌿 Nouvelle commande ${orderNumber}`;
     const messageBody = `${firstName} · ${city} · ${price.toLocaleString('fr-FR')} FCFA${productName ? ` · ${productName}` : ''}`;
 
     const payload = JSON.stringify({
       title,
       body: messageBody,
-      tag: `order-${orderNumber || Date.now()}`,
-      url: '/admin',
+      tag: `${isLivreur ? 'livreur' : 'order'}-${orderNumber || Date.now()}`,
+      url: isLivreur ? '/livreur' : '/admin',
     });
 
-    const { data: subs, error } = await admin
-      .from('push_subscriptions')
-      .select('id, endpoint, p256dh, auth');
+    let q = admin.from('push_subscriptions').select('id, endpoint, p256dh, auth');
+    if (isLivreur && typeof livreurIdx === 'number') {
+      q = q.eq('livreur_idx', livreurIdx);
+    } else {
+      // admin: tout sauf abonnements livreur
+      q = q.is('livreur_idx', null);
+    }
+    const { data: subs, error } = await q;
 
     if (error) throw error;
+
 
     const results = await Promise.allSettled(
       (subs || []).map(async (s) => {
