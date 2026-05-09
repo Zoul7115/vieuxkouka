@@ -164,7 +164,7 @@ export const ANTI_DIABETE: Product = {
   shortName: 'Anti-Diabète',
   pathology: 'Diabète · Glycémie instable · Fatigue · Vision floue · Soif excessive',
   emoji: '🩸',
-  tagline: 'Glycémie stabilisée, fatigue qui disparaît, vision qui s\'éclaircit — la formule naturelle du Vieux KOUKA pour reprendre le contrôle de ton diabète, sans dépendance.',
+  tagline: 'Le traitement complet recommandé pour des résultats durables : glycémie stabilisée, énergie restaurée, vision plus claire — la formule naturelle du Vieux KOUKA.',
   heroImage: '/images/anti-diabete-sachet-illustre.png',
   metaTitle: 'Poudre Anti-Diabète KOUKA — Glycémie stabilisée naturellement',
   metaDesc: 'Picotements, soif excessive, fatigue, vision floue ? La Poudre Anti-Diabète du Vieux KOUKA régule ta glycémie naturellement. 100% plantes. Livraison gratuite Ouaga & Niamey · Cash à réception · Satisfait ou remboursé.',
