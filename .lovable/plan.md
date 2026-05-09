@@ -1,98 +1,97 @@
+## Page Livreur — App PWA dédiée
 
-# Plan — Bilan Hebdomadaire + Coach IA "Vieux KOUKA Business"
+Nouvelle route `/livreur` (PWA installable) où chaque livreur se connecte avec son numéro WhatsApp + mot de passe et gère ses commandes en temps réel.
 
-## Ce que tu demandes (et pourquoi c'est faisable)
+### 1. Authentification livreur
+- **Connexion** : numéro WhatsApp (déjà dans table `livreurs`) + mot de passe
+- **Première connexion** : si aucun mot de passe défini → écran "créer mon mot de passe"
+- **Session persistante** : token stocké en `localStorage` (auto-login après 1ère connexion, validité 90 jours)
+- Nouvelle colonne `password_hash` + `last_login_at` sur table `livreurs`
+- Hash bcrypt côté server function (jamais en clair)
 
-Toutes les données nécessaires sont déjà dans la base : `orders` (CA, livrées, annulées, par produit, par livreur), `daily_expenses` (pub, stock, salaires, autres), `visits` (trafic, sources), `stock_transactions` (sorties réelles). Il suffit de **les croiser, calculer des ratios, et faire passer le tout à une IA (Lovable AI / Gemini)** qui te recrache un plan d'action chaque dimanche.
+### 2. Dashboard livreur (page principale)
+**En haut** :
+- Salutation + emoji livreur
+- Carte "Stock disponible" : Poudre KOUKA / Sirop / Anti-Diabète (lecture `stock_transactions`)
+- Compteur du jour : commandes assignées / livrées / en attente
 
-## Version améliorée proposée
+**Liste des commandes assignées** (temps réel via Supabase Realtime) :
+- Filtrage automatique `livreur_idx = mon_idx` + statut ≠ delivered/cancelled (par défaut)
+- Onglets : `À livrer` · `Aujourd'hui livrées` · `Historique 7j`
+- Carte commande : nom client, ville/quartier, téléphone (bouton appel + WhatsApp), produit + offre, montant, créneau
+- **Sync auto** : si admin retire/réassigne, la commande disparaît/apparaît instantanément
 
-Au lieu d'un simple "bilan", on construit un vrai **Coach IA Business** avec 4 blocs :
+### 3. Actions sur commande
+Bouton principal "Mettre à jour le statut" → modal avec 4 choix :
+- **Livré** : demande montant frais livraison (pré-rempli depuis `delivery_fee` du livreur, modifiable) → enregistre, déclenche trigger stock auto
+- **Expédié** : marque comme expédié (l'argent du produit revient à l'admin, pas comptabilisé pour le livreur)
+- **Annulé** : motif obligatoire (court texte)
+- **Reprogrammé** : choisir nouvelle date/créneau
 
-### 1. 📊 Bilan chiffré de la semaine (auto)
-Calculé côté client à partir de `orders` + `daily_expenses` filtrés sur lundi → dimanche :
-- CA livré, CA en attente, nb commandes, taux de livraison, panier moyen
-- Répartition par produit (Poudre vs Sirop) : volumes, CA, marge estimée
-- Répartition par livreur : performance, taux de livraison
-- Dépenses par catégorie (pub, stock, salaire, autres)
-- **Profit net** = CA livré − dépenses
-- **ROAS pub** = CA livré ÷ dépenses pub
-- **CAC** (coût d'acquisition) = dépenses pub ÷ commandes livrées
-- Comparatif vs semaine précédente (▲ +18% / ▼ −5%)
+Nouveau statut `shipped` à ajouter (si pas déjà supporté) + colonne `reschedule_date`.
 
-### 2. 🤖 Analyse IA (Gemini via Lovable AI Gateway)
-Edge function `weekly-coach` qui reçoit le bilan brut + un dump compact des pages produits (titres, prix, offres actuelles) et renvoie un rapport structuré :
+### 4. Bilan du soir
+Page `/livreur/bilan` :
+- Livraisons du jour (nombre + pièces)
+- CA encaissé (somme `product_price` des livrées hors expédiées)
+- Frais de livraison (sa part à garder)
+- **Reste à reverser à l'admin** = CA encaissé − frais livraison
+- Bouton "J'ai versé à l'admin" → marque les commandes comme `cash_confirmed = true` (colonne déjà présente)
+- Historique des bilans des 30 derniers jours
 
-- **Diagnostic** : ce qui marche, ce qui bloque
-- **Audit pages de vente** : suggestions concrètes (titres, offres, FAQ, urgences) basées sur les données réelles (taux conversion par page, sources qui convertissent le mieux)
-- **Plan d'action 7 jours** : 3 à 5 actions prioritaires
-- **Alertes** : produit qui chute, livreur en sous-perf, dépense anormale
+### 5. PWA + Notifications
+- `manifest-livreur.webmanifest` séparé (scope `/livreur`, start_url `/livreur`, theme vert KOUKA)
+- Service worker dédié `sw-livreur.js` (basé sur `sw.js` existant) :
+  - Push notifications quand une nouvelle commande lui est assignée
+  - Notif quand une commande est retirée
+  - Son + vibration
+- Bouton "Installer l'app" si non installée
+- Subscription push stockée avec `livreur_idx` dans `push_subscriptions` (ajouter colonne `livreur_idx`)
+- Edge function `notify-livreur` déclenchée par trigger DB sur `UPDATE orders.livreur_idx`
 
-### 3. 💰 Recommandations financières (le cœur de ta demande)
-L'IA reçoit en plus une **règle de répartition** que tu valides une fois et applique chaque semaine au profit net :
+### 6. Fonctionnalités bonus utiles
+- **Itinéraire Google Maps** : bouton "Naviguer" qui ouvre Maps avec l'adresse
+- **Appel rapide** + **WhatsApp pré-rempli** ("Bonjour, je suis votre livreur KOUKA, j'arrive…")
+- **Mode hors-ligne** : cache des commandes du jour (via service worker)
+- **Tri par zone** : regrouper les livraisons par quartier pour optimiser tournée
+- **Indicateur "nouvelle commande"** : badge rouge + son d'alerte
+- **Photo de preuve de livraison** (optionnel, upload Supabase Storage)
+- **Demande de réassignation** : bouton "Je ne peux pas livrer" qui notifie l'admin
 
-Exemple par défaut (tu pourras ajuster) :
-- **40% → Réinvestissement PUB** semaine suivante (avec budget journalier suggéré)
-- **30% → Stock** (avec produit prioritaire calculé : celui qui a le meilleur ROAS × stock restant le plus bas)
-- **20% → Épargne / Trésorerie de sécurité**
-- **10% → Toi (rémunération)**
+---
 
-Sortie concrète :
-> 💵 Profit semaine : 247 500 FCFA
-> 📣 Pub semaine prochaine : **99 000 FCFA** (≈ 14 000/jour, focus Sirop KOUKA — meilleur ROAS 4.2)
-> 📦 Stock à racheter : **74 000 FCFA** → priorité **Poudre KOUKA** (12 unités)
-> 🏦 Épargne : **49 500 FCFA**
-> 👤 Pour toi : **24 800 FCFA**
+### Détails techniques
 
-### 4. 🗓️ Génération auto chaque dimanche 20h
-- Cron `pg_cron` → endpoint `/api/public/hooks/weekly-report`
-- L'endpoint : calcule le bilan, appelle Gemini, **sauvegarde** dans une nouvelle table `weekly_reports` (date_semaine, kpi JSON, rapport_ia text, recos_finance JSON)
-- Notification push admin : "📊 Ton bilan de la semaine est prêt"
-- Onglet "Bilan" affiche le dernier rapport + historique des semaines précédentes
+**Migrations DB** :
+- `ALTER TABLE livreurs ADD COLUMN password_hash text, last_login_at timestamptz, session_token text`
+- `ALTER TABLE push_subscriptions ADD COLUMN livreur_idx int`
+- `ALTER TABLE orders ADD COLUMN reschedule_date timestamptz, cancellation_reason text`
+- Trigger `handle_order_stock_change` : ajouter cas `shipped` (pas de sortie stock immédiate, mais marquer pour admin)
+- Realtime : `ALTER PUBLICATION supabase_realtime ADD TABLE orders`
 
-## Détails techniques
+**Routes nouvelles** :
+- `src/routes/livreur.tsx` (layout + login)
+- `src/routes/livreur.index.tsx` (dashboard commandes)
+- `src/routes/livreur.bilan.tsx`
+- `src/routes/livreur.commande.$id.tsx` (détail + actions)
 
-**Nouvelle table** `weekly_reports` :
-```
-id uuid, week_start date, week_end date,
-kpi jsonb, ia_report text, finance_reco jsonb,
-generated_at timestamptz, read_at timestamptz null
-```
+**Server functions** :
+- `loginLivreur`, `setPasswordLivreur`, `validateSession`
+- `updateOrderStatus` (livré/expédié/annulé/reprogrammé)
+- `getMyOrders`, `getMyDailyReport`, `confirmCashHandover`
 
-**Nouveau composant** `src/components/admin/BilanTab.tsx` :
-- Sélecteur de semaine (par défaut: dernière)
-- Cards KPI + comparatif vs n-1
-- Bloc rapport IA (markdown rendu via `react-markdown`)
-- Cards reco finance avec gros chiffres
-- Bouton "🔄 Régénérer maintenant" (utile si tu veux le bilan en milieu de semaine)
-- Bouton "⚙️ Régler ma répartition" (modal pour ajuster les % pub/stock/épargne/toi)
+**Sécurité** :
+- RLS livreur : ne voit que `orders WHERE livreur_idx = session.livreur_idx`
+- Session token validé dans middleware server function
+- Mot de passe bcrypt + rate limiting login
 
-**Nouvelle edge function** `supabase/functions/weekly-coach/index.ts` :
-- Input : `{ week_start, week_end, kpi, products, finance_rules }`
-- Appelle `https://ai.gateway.lovable.dev/v1/chat/completions` avec `google/gemini-2.5-pro` (raisonnement riche pour conseils business) + tool calling pour structurer la sortie
-- Output : `{ report_markdown, finance_reco: { pub, stock, epargne, toi, produit_prio, raison }, alerts: [] }`
+**Files** :
+- `public/manifest-livreur.webmanifest`, `public/sw-livreur.js`, `public/icons/livreur-*.png`
+- `src/components/livreur/*` (LoginForm, OrderCard, StatusModal, StockBadge, BilanCard, InstallPWA)
+- `src/lib/livreur-auth.functions.ts`, `src/lib/livreur-orders.functions.ts`
 
-**Cron `pg_cron`** : tous les dimanches à 20h00 Africa/Abidjan (= 20h UTC).
-
-**Intégration admin** : nouvel onglet `'bilan'` avec emoji `🧠` dans `src/routes/admin.tsx`.
-
-**Règles finance** : stockées dans `localStorage` côté admin (simple) OU dans une mini table `settings` (plus propre, je propose `settings` avec une seule ligne `key='finance_rules'`).
-
-## Bonus (si tu valides)
-
-- **Mode "Coach quotidien"** : un mini résumé chaque matin 8h ("Hier tu as fait X, ton focus aujourd'hui")
-- **Score business hebdo** /100 (santé globale : ROAS + taux livraison + croissance + cash)
-- **Export PDF** du bilan pour archivage / partage avec un associé éventuel
-
-## Fichiers touchés
-
-- **Créés** : `src/components/admin/BilanTab.tsx`, `supabase/functions/weekly-coach/index.ts`, migration SQL (`weekly_reports` + `settings`), route `src/routes/api/public/hooks/weekly-report.ts`
-- **Édités** : `src/routes/admin.tsx` (nouvel onglet), `supabase/config.toml` (config edge function)
-
-## Ce dont j'ai besoin de toi avant de coder
-
-1. **Tes règles finance** par défaut — j'ai proposé 40/30/20/10, tu confirmes ou tu changes ?
-2. **Marge produit** : je n'ai pas le coût de revient unitaire (Poudre / Sirop). Sans ça, je calcule le profit comme `CA livré − dépenses du mois`. Si tu me donnes les coûts, je peux calculer une **marge brute par produit** (beaucoup plus précis pour le scoring IA).
-3. **Bonus coach quotidien** : on l'ajoute maintenant ou on garde pour V2 ?
-
-Dis-moi et je passe en mode build dès que tu approuves 🚀
+### Questions à confirmer avant implémentation
+1. Pour les **commandes expédiées** (transport en gare), le livreur encaisse-t-il les frais d'expédition ou est-ce 100% admin ?
+2. Le **mot de passe oublié** : reset via WhatsApp (admin réinitialise depuis l'onglet Livreurs) — OK ?
+3. **Photo preuve livraison** : on l'inclut dès maintenant ou plus tard ?
+4. Les commandes `shipped` doivent-elles aussi déduire le stock immédiatement ou seulement à confirmation admin ?
