@@ -315,10 +315,11 @@ export function ProductForm({ product }: { product: Product }) {
     }
   };
 
+  const isAntiDiabete = product.slug === 'anti-diabete';
   return (
     <section
       id="order-section"
-      className="bg-vert py-14 px-0"
+      className={`bg-vert py-14 px-0 ${isAntiDiabete ? 'theme-bleu' : ''}`}
       style={{ background: 'linear-gradient(180deg, var(--vert-mid), var(--vert))' }}
     >
       <div className="container-kouka">
