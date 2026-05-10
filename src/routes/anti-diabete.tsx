@@ -51,7 +51,8 @@ function AntiDiabetePage() {
   const stock = useDynamicStock('anti-diabete', 16);
 
   return (
-    <div className="bg-bleu-bg pb-16 md:pb-0">
+    <div className="bg-bleu-bg pb-32">
+      <StickyOfferBar stock={stock} />
       <VisitTracker page="anti-diabete" />
 
       {/* Bandeau bleu médical */}
