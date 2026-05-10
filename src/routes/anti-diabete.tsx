@@ -342,14 +342,14 @@ function AntiDiabetePage() {
               <thead>
                 <tr className="bg-bleu text-white">
                   <th className="text-left px-3 py-3 font-bold">Critère</th>
-                  <th className="px-3 py-3 font-extrabold bg-bleu-mid">Poudre KOUKA</th>
+                  <th className="px-3 py-3 font-extrabold bg-bleu-mid">Poudre Anti-Diabète</th>
                   <th className="px-3 py-3 font-bold">Antidiabétiques</th>
                   <th className="px-3 py-3 font-bold">Suivi clinique</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  ['Coût total cure', '16 000 F', '15 000 F/mois à vie', '30 000 F/sem.'],
+                  ['Coût total cure', '25 000 F', '15 000 F/mois à vie', '30 000 F/sem.'],
                   ['Traite la cause', '✅ Oui', '❌ Calme', '⚠️ Surveille'],
                   ['Effets secondaires', '✅ Aucun', '⚠️ Foie / reins', 'Aucun'],
                   ['Dépendance', '✅ Aucune', '❌ À vie', '—'],
