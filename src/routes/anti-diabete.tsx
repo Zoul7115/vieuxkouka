@@ -397,12 +397,60 @@ function AntiDiabetePage() {
         </div>
       </section>
 
+      {/* VALUE STACK — Pourquoi commander maintenant */}
+      <section className="py-12 bg-gradient-to-b from-white to-bleu-bg">
+        <div className="container-kouka max-w-3xl">
+          <div className="text-center mb-6">
+            <span className="text-bleu text-xs font-bold uppercase tracking-widest">🎁 Ce que tu reçois</span>
+            <h2 className="text-bleu mt-2">Tout est inclus dans ta cure complète</h2>
+          </div>
+          <div className="bg-white rounded-3xl p-6 shadow-xl border-2 border-bleu-light/40">
+            <ul className="divide-y divide-bleu-light/30">
+              {[
+                { t: '3 sachets de Poudre Anti-Diabète', v: '25 000 F' },
+                { t: 'Posologie personnalisée par WhatsApp', v: 'Offert' },
+                { t: 'Suivi pendant toute la cure', v: 'Offert' },
+                { t: 'Livraison à domicile (Ouaga & Niamey)', v: 'Offert' },
+                { t: 'Paiement à la livraison — zéro risque', v: '✓' },
+              ].map((x, i) => (
+                <li key={i} className="flex items-center justify-between py-3">
+                  <span className="text-sm font-semibold text-foreground flex items-center gap-2">
+                    <span className="text-bleu">✓</span> {x.t}
+                  </span>
+                  <span className="text-sm font-extrabold text-bleu whitespace-nowrap">{x.v}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-4 pt-4 border-t-2 border-bleu flex items-center justify-between">
+              <span className="font-extrabold text-foreground">Total à payer</span>
+              <span className="text-3xl font-extrabold text-bleu">25 000 F</span>
+            </div>
+          </div>
+
+          {/* Trust row */}
+          <div className="grid grid-cols-3 gap-3 mt-6">
+            <div className="bg-white rounded-xl p-3 border border-bleu-light/40 text-center">
+              <div className="text-2xl">🚚</div>
+              <div className="text-[11px] font-bold text-bleu mt-1">Livraison rapide</div>
+            </div>
+            <div className="bg-white rounded-xl p-3 border border-bleu-light/40 text-center">
+              <div className="text-2xl">💵</div>
+              <div className="text-[11px] font-bold text-bleu mt-1">Cash à la livraison</div>
+            </div>
+            <div className="bg-white rounded-xl p-3 border border-bleu-light/40 text-center">
+              <div className="text-2xl">🤝</div>
+              <div className="text-[11px] font-bold text-bleu mt-1">Suivi WhatsApp</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="py-10 bg-white border-t border-bleu-light/20">
         <div className="container-kouka max-w-3xl text-center">
           <p className="text-xs uppercase tracking-widest text-bleu font-bold mb-2">💊 Programme complet</p>
           <h3 className="text-bleu mb-2">Traitement complet — 3 sachets · 25 000 FCFA</h3>
-          <p className="text-sm text-muted-foreground mb-4">L'option la plus choisie pour des résultats durables.</p>
-          <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
+          <p className="text-sm text-muted-foreground mb-4">L'option la plus choisie pour des résultats durables. Stock limité — restant : <b className="text-rouge">{stock}</b></p>
+          <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform pulse-ring">
             Commander le traitement complet
           </button>
           <p className="text-xs text-muted-foreground mt-3">📦 Livraison à Ouaga & Niamey · Cash à la livraison</p>
