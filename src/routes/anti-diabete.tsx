@@ -43,7 +43,7 @@ export const Route = createFileRoute('/anti-diabete')({
 });
 
 function scrollToOrder() {
-  document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' });
+  preselectAndScroll(22);
 }
 
 function AntiDiabetePage() {
