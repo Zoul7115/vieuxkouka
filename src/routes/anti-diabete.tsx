@@ -57,8 +57,8 @@ function AntiDiabetePage() {
               🩺 Recette traditionnelle · 60+ ans
             </span>
             <h1 className="text-bleu mb-3 leading-tight">
-              Le traitement complet recommandé<br />
-              <span className="text-foreground">pour des résultats durables</span>
+              Poudre Anti-Diabète du Vieux KOUKA<br />
+              <span className="text-foreground text-[0.85em]">Guérir du Diabète en un temps record sans dépenser une fortune</span>
             </h1>
             <p className="text-muted-foreground mb-5 text-base leading-relaxed">
               Une cure intensive de 3 sachets pour réguler ta glycémie en profondeur — naturellement,
@@ -98,13 +98,22 @@ function AntiDiabetePage() {
               <p className="text-[11px] text-muted-foreground mt-2">📦 Livraison Ouaga & Niamey · Cash à la livraison</p>
             </div>
 
-            {/* OFFRE SECONDAIRE — discrète */}
-            <button
-              onClick={scrollToOrder}
-              className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-bleu underline underline-offset-2"
-            >
-              Juste tester ? Offre découverte — 1 sachet à 12 500 FCFA
-            </button>
+            {/* OFFRE SECONDAIRE — visible avec bouton */}
+            <div className="mt-5 bg-white border-2 border-bleu-light/60 rounded-2xl p-5 max-w-xl mx-auto shadow-sm">
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                <div className="text-left">
+                  <div className="text-[11px] uppercase font-extrabold text-muted-foreground tracking-wider">Offre découverte</div>
+                  <div className="text-lg font-extrabold text-foreground">1 sachet pour tester</div>
+                  <div className="text-2xl font-extrabold text-bleu">12 500 FCFA</div>
+                </div>
+                <button
+                  onClick={scrollToOrder}
+                  className="bg-bleu text-white px-5 py-3 rounded-xl text-sm font-extrabold shadow hover:-translate-y-0.5 transition-transform"
+                >
+                  Tester maintenant
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
