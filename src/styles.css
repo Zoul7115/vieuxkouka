@@ -169,4 +169,16 @@
 
   @keyframes pulseRing { 0%{box-shadow:0 0 0 0 rgba(46,125,50,.55);} 70%{box-shadow:0 0 0 16px rgba(46,125,50,0);} 100%{box-shadow:0 0 0 0 rgba(46,125,50,0);} }
   .pulse-ring { animation: pulseRing 1.8s ease-out infinite; }
+
+  /* Theme override: remap green tokens to medical blue (used on Anti-Diabète page) */
+  .theme-bleu {
+    --vert: var(--bleu);
+    --vert-mid: var(--bleu-mid);
+    --vert-light: var(--bleu-light);
+    --vert-bg: var(--bleu-bg);
+    --color-vert: var(--bleu);
+    --color-vert-mid: var(--bleu-mid);
+    --color-vert-light: var(--bleu-light);
+    --color-vert-bg: var(--bleu-bg);
+  }
 }
