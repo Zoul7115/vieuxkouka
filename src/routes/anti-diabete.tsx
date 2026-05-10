@@ -120,7 +120,7 @@ function AntiDiabetePage() {
                   <div className="text-2xl font-extrabold text-bleu">12 500 FCFA</div>
                 </div>
                 <button
-                  onClick={scrollToOrder}
+                  onClick={() => preselectAndScroll(21)}
                   className="bg-bleu text-white px-5 py-3 rounded-xl text-sm font-extrabold shadow hover:-translate-y-0.5 transition-transform"
                 >
                   Tester maintenant
