@@ -58,6 +58,27 @@ export function ProductForm({ product }: { product: Product }) {
   const navigate = useNavigate();
   const recommended = product.offers.find((o) => o.recommended) || product.offers[0];
   const [offer, setOffer] = useState<Offer>(recommended);
+
+  // Preselect offer from sticky CTA / external triggers
+  useEffect(() => {
+    const apply = (id: number) => {
+      const found = product.offers.find((o) => o.id === id);
+      if (found) setOffer(found);
+    };
+    try {
+      const stored = sessionStorage.getItem('preselect_offer_id');
+      if (stored) {
+        apply(parseInt(stored, 10));
+        sessionStorage.removeItem('preselect_offer_id');
+      }
+    } catch {}
+    const handler = (e: Event) => {
+      const id = (e as CustomEvent<{ offerId: number }>).detail?.offerId;
+      if (typeof id === 'number') apply(id);
+    };
+    window.addEventListener('preselect-offer', handler);
+    return () => window.removeEventListener('preselect-offer', handler);
+  }, [product.offers]);
   const [bumpAccepted, setBumpAccepted] = useState(false);
   const [checkoutFired, setCheckoutFired] = useState(false);
   // Bump dispo uniquement quand on n'est pas déjà sur la meilleure offre
