@@ -4,6 +4,16 @@ import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { ANTI_DIABETE } from '@/lib/products';
+import { UrgencyBadge } from '@/components/anti-diabete/UrgencyBadge';
+import { StickyOfferBar } from '@/components/anti-diabete/StickyOfferBar';
+
+function preselectAndScroll(offerId: number) {
+  try {
+    sessionStorage.setItem('preselect_offer_id', String(offerId));
+  } catch {}
+  window.dispatchEvent(new CustomEvent('preselect-offer', { detail: { offerId } }));
+  document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' });
+}
 
 const TESTIMONIAL_AUDIOS: { src: string; type: string; label: string }[] = [
   { src: '/audio/anti-diabete/temoignage1.mp3', type: 'audio/mpeg', label: 'Cliente — glycémie redescendue après 2 semaines' },
