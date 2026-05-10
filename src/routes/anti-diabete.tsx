@@ -4,6 +4,16 @@ import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { ANTI_DIABETE } from '@/lib/products';
+import { UrgencyBadge } from '@/components/anti-diabete/UrgencyBadge';
+import { StickyOfferBar } from '@/components/anti-diabete/StickyOfferBar';
+
+function preselectAndScroll(offerId: number) {
+  try {
+    sessionStorage.setItem('preselect_offer_id', String(offerId));
+  } catch {}
+  window.dispatchEvent(new CustomEvent('preselect-offer', { detail: { offerId } }));
+  document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' });
+}
 
 const TESTIMONIAL_AUDIOS: { src: string; type: string; label: string }[] = [
   { src: '/audio/anti-diabete/temoignage1.mp3', type: 'audio/mpeg', label: 'Cliente — glycémie redescendue après 2 semaines' },
@@ -33,7 +43,7 @@ export const Route = createFileRoute('/anti-diabete')({
 });
 
 function scrollToOrder() {
-  document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' });
+  preselectAndScroll(22);
 }
 
 function AntiDiabetePage() {
@@ -41,7 +51,8 @@ function AntiDiabetePage() {
   const stock = useDynamicStock('anti-diabete', 16);
 
   return (
-    <div className="bg-bleu-bg pb-16 md:pb-0">
+    <div className="bg-bleu-bg pb-32">
+      <StickyOfferBar stock={stock} />
       <VisitTracker page="anti-diabete" />
 
       {/* Bandeau bleu médical */}
@@ -96,6 +107,9 @@ function AntiDiabetePage() {
                 Commander le traitement complet
               </button>
               <p className="text-[11px] text-muted-foreground mt-2">📦 Livraison Ouaga & Niamey · Cash à la livraison</p>
+              <div className="mt-3 flex justify-center">
+                <UrgencyBadge stock={stock} />
+              </div>
             </div>
 
             {/* OFFRE SECONDAIRE — visible avec bouton */}
@@ -107,7 +121,7 @@ function AntiDiabetePage() {
                   <div className="text-2xl font-extrabold text-bleu">12 500 FCFA</div>
                 </div>
                 <button
-                  onClick={scrollToOrder}
+                  onClick={() => preselectAndScroll(21)}
                   className="bg-bleu text-white px-5 py-3 rounded-xl text-sm font-extrabold shadow hover:-translate-y-0.5 transition-transform"
                 >
                   Tester maintenant
@@ -454,6 +468,9 @@ function AntiDiabetePage() {
             Commander le traitement complet
           </button>
           <p className="text-xs text-muted-foreground mt-3">📦 Livraison à Ouaga & Niamey · Cash à la livraison</p>
+          <div className="mt-4 flex justify-center">
+            <UrgencyBadge stock={stock} />
+          </div>
         </div>
       </section>
 
