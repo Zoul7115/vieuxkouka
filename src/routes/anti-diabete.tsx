@@ -106,6 +106,9 @@ function AntiDiabetePage() {
                 Commander le traitement complet
               </button>
               <p className="text-[11px] text-muted-foreground mt-2">📦 Livraison Ouaga & Niamey · Cash à la livraison</p>
+              <div className="mt-3 flex justify-center">
+                <UrgencyBadge stock={stock} />
+              </div>
             </div>
 
             {/* OFFRE SECONDAIRE — visible avec bouton */}
