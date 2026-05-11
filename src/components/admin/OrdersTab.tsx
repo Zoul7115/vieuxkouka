@@ -66,13 +66,20 @@ export function OrdersTab({
   onAssignLivreur: (id: string, livreurIdx: number | null) => void;
 }) {
   const [filter, setFilter] = useState<string>('all');
+  const [manualOpen, setManualOpen] = useState(false);
   const { livreurs } = useLivreurs();
   const filtered = filter === 'all' ? orders : orders.filter((o) => o.status === filter);
   const activeLivreurs = livreurs.filter((l) => l.active);
 
   return (
     <div>
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="flex flex-wrap items-center gap-2 mb-4">
+        <button
+          onClick={() => setManualOpen(true)}
+          className="px-4 py-1.5 rounded-full text-sm font-extrabold bg-vert text-white hover:bg-vert-mid transition"
+        >
+          ➕ Commande manuelle
+        </button>
         <FilterBtn active={filter === 'all'} onClick={() => setFilter('all')}>Tous ({orders.length})</FilterBtn>
         {Object.entries(STATUSES).map(([k, v]) => (
           <FilterBtn key={k} active={filter === k} onClick={() => setFilter(k)}>
@@ -80,6 +87,13 @@ export function OrdersTab({
           </FilterBtn>
         ))}
       </div>
+
+      <ManualOrderModal
+        open={manualOpen}
+        onClose={() => setManualOpen(false)}
+        onCreated={() => { /* le realtime du parent refresh */ }}
+        orderPrefix="MANU"
+      />
 
       {filtered.length === 0 && (
         <div className="text-center py-10 text-muted-foreground bg-white rounded-2xl border-2 border-dashed border-vert-bg">
