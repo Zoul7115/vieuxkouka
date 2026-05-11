@@ -27,10 +27,11 @@ export function StatusModal({ order, livreur, open, onClose, onUpdated }: Props)
     try {
       if (choice === 'delivered') {
         await updateOrder(order.id, { status: 'delivered', delivery_fee: parseInt(fee) || 0 });
-        toast.success('✅ Commande livrée — stock auto-déduit');
+        toast.success('✅ Commande livrée');
       } else if (choice === 'shipped') {
-        await updateOrder(order.id, { status: 'shipped' });
-        toast.success('📦 Commande marquée expédiée');
+        // « Expédié chez moi » = compté comme Livré, mais admin encaisse → frais livreur 0
+        await updateOrder(order.id, { status: 'delivered', delivery_fee: 0 });
+        toast.success('📦 Expédié chez l\'admin — comptée comme livrée');
       } else if (choice === 'cancelled') {
         if (!reason.trim()) {
           toast.error('Indique un motif d\'annulation');
