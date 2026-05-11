@@ -27,10 +27,11 @@ export function StatusModal({ order, livreur, open, onClose, onUpdated }: Props)
     try {
       if (choice === 'delivered') {
         await updateOrder(order.id, { status: 'delivered', delivery_fee: parseInt(fee) || 0 });
-        toast.success('✅ Commande livrée — stock auto-déduit');
+        toast.success('✅ Commande livrée');
       } else if (choice === 'shipped') {
-        await updateOrder(order.id, { status: 'shipped' });
-        toast.success('📦 Commande marquée expédiée');
+        // « Expédié chez moi » = compté comme Livré, mais admin encaisse → frais livreur 0
+        await updateOrder(order.id, { status: 'delivered', delivery_fee: 0 });
+        toast.success('📦 Expédié chez l\'admin — comptée comme livrée');
       } else if (choice === 'cancelled') {
         if (!reason.trim()) {
           toast.error('Indique un motif d\'annulation');
@@ -88,8 +89,8 @@ export function StatusModal({ order, livreur, open, onClose, onUpdated }: Props)
         </div>
 
         <div className="space-y-2 mb-4">
-          {opt('delivered', '✅', 'Livré', 'bg-emerald-50 text-emerald-700')}
-          {opt('shipped', '📦', 'Expédié (transport)', 'bg-blue-50 text-blue-700')}
+          {opt('delivered', '✅', 'Livré (encaissé en cash)', 'bg-emerald-50 text-emerald-700')}
+          {opt('shipped', '📦', 'Expédié chez l\'admin (= Livré)', 'bg-blue-50 text-blue-700')}
           {opt('cancelled', '❌', 'Annulé', 'bg-red-50 text-red-700')}
           {opt('rescheduled', '📅', 'Reprogrammé', 'bg-amber-50 text-amber-700')}
         </div>
@@ -104,14 +105,14 @@ export function StatusModal({ order, livreur, open, onClose, onUpdated }: Props)
               className="mt-1 w-full rounded-lg border border-emerald-200 px-3 py-2 text-base"
             />
             <p className="text-xs text-emerald-700 mt-1">
-              Tu gardes les frais de livraison. Le reste ({(order.product_price).toLocaleString('fr-FR')} FCFA) est à reverser à l'admin.
+              💡 Si tu modifies ce montant, il remplace le frais par défaut. Tu gardes ces frais ; le reste ({(order.product_price).toLocaleString('fr-FR')} FCFA) est à reverser à l'admin.
             </p>
           </div>
         )}
 
         {choice === 'shipped' && (
           <div className="mb-4 bg-blue-50 rounded-lg p-3 text-sm text-blue-800">
-            ℹ️ L'argent du produit est encaissé directement par l'admin (transport en gare). Aucun montant ne sera compté pour toi.
+            ℹ️ La commande sera marquée <strong>Livrée</strong>. C'est l'admin qui encaisse. Aucun frais de livraison ne te sera compté.
           </div>
         )}
 

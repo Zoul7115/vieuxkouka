@@ -2,21 +2,21 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
 import { useLivreurs } from '@/lib/livreurs';
 import { useLivreurOrders, type LivreurOrder } from '@/lib/livreur-orders';
-import { useLivreurStock } from '@/lib/livreur-stock';
 import { OrderCard } from '@/components/livreur/OrderCard';
 import { usePWALivreur } from '@/hooks/usePWALivreur';
 import { useLivreurSession } from '@/lib/use-livreur-session';
+import { ManualOrderModal } from '@/components/ManualOrderModal';
 
 export const Route = createFileRoute('/livreur/')({
   component: LivreurDashboard,
 });
 
 function LivreurDashboard() {
-  const { session, ready } = useLivreurSession();
+  const { session } = useLivreurSession();
   const { livreurs } = useLivreurs();
   const { orders, reload } = useLivreurOrders(session?.idx ?? null);
-  const { stock } = useLivreurStock();
   const [tab, setTab] = useState<'todo' | 'today' | 'history'>('todo');
+  const [manualOpen, setManualOpen] = useState(false);
 
   const livreur = livreurs.find((l) => l.idx === session?.idx);
   const { installed, install, permission, enableNotif, installPromptAvailable } = usePWALivreur(session?.idx ?? null, session?.name ?? '');
@@ -64,19 +64,20 @@ function LivreurDashboard() {
         <Counter label="Annulées" value={counts.cancelled} color="bg-red-100 text-red-800" />
       </div>
 
-      {/* Stock */}
-      <div className="bg-white rounded-xl border border-gray-200 p-3">
-        <div className="text-xs text-gray-500 mb-2 font-medium">📦 Stock disponible</div>
-        <div className="grid grid-cols-2 gap-2 text-sm">
-          {Object.entries(stock).filter(([, v]) => v !== 0).map(([k, v]) => (
-            <div key={k} className="flex justify-between bg-gray-50 rounded px-2 py-1.5">
-              <span className="text-gray-700 truncate">{k}</span>
-              <span className={`font-bold ${v < 5 ? 'text-red-600' : 'text-emerald-700'}`}>{v}</span>
-            </div>
-          ))}
-          {!Object.keys(stock).length && <div className="text-gray-400 text-xs col-span-2">—</div>}
-        </div>
-      </div>
+      {/* Bouton commande manuelle */}
+      <button
+        onClick={() => setManualOpen(true)}
+        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl py-2.5 text-sm"
+      >
+        ➕ Ajouter une commande manuelle
+      </button>
+      <ManualOrderModal
+        open={manualOpen}
+        onClose={() => setManualOpen(false)}
+        onCreated={reload}
+        forceLivreurIdx={session?.idx ?? null}
+        orderPrefix="LIV"
+      />
 
       {/* Tabs */}
       <div className="flex bg-white rounded-xl p-1 border border-gray-200 text-sm">
