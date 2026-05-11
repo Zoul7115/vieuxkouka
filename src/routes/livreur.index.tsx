@@ -2,10 +2,10 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
 import { useLivreurs } from '@/lib/livreurs';
 import { useLivreurOrders, type LivreurOrder } from '@/lib/livreur-orders';
-import { useLivreurStock } from '@/lib/livreur-stock';
 import { OrderCard } from '@/components/livreur/OrderCard';
 import { usePWALivreur } from '@/hooks/usePWALivreur';
 import { useLivreurSession } from '@/lib/use-livreur-session';
+import { ManualOrderModal } from '@/components/ManualOrderModal';
 
 export const Route = createFileRoute('/livreur/')({
   component: LivreurDashboard,
