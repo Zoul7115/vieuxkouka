@@ -10,12 +10,26 @@ function go(offerId: number) {
 
 export function StickyOfferBar({ stock }: { stock: number }) {
   const [show, setShow] = useState(false);
+  const [atForm, setAtForm] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 600);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+
+    // Détecte quand le formulaire de commande est visible
+    const target = document.getElementById('order-section');
+    if (!target) return () => window.removeEventListener('scroll', onScroll);
+    const io = new IntersectionObserver(
+      (entries) => setAtForm(entries[0]?.isIntersecting ?? false),
+      { rootMargin: '0px 0px -40% 0px', threshold: 0.05 },
+    );
+    io.observe(target);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      io.disconnect();
+    };
   }, []);
 
   if (!show) return null;
@@ -27,23 +41,34 @@ export function StickyOfferBar({ stock }: { stock: number }) {
           <span className="w-1.5 h-1.5 rounded-full bg-rouge animate-pulse" />
           Stock limité : {stock} sachets restants aujourd'hui
         </div>
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            onClick={() => go(21)}
-            className="flex flex-col items-center justify-center bg-white border-2 border-bleu text-bleu rounded-xl py-2 px-2 font-extrabold leading-tight active:scale-95 transition"
-          >
-            <span className="text-[10px] uppercase tracking-wide opacity-70">Tester</span>
-            <span className="text-sm">1 sachet · 12 500 F</span>
-          </button>
+
+        {atForm ? (
+          // Au niveau du formulaire : un seul gros bouton vers la cure recommandée
           <button
             onClick={() => go(22)}
-            className="relative flex flex-col items-center justify-center bg-rouge text-white rounded-xl py-2 px-2 font-extrabold leading-tight shadow-[0_4px_14px_rgba(198,40,40,0.45)] active:scale-95 transition"
+            className="w-full bg-rouge text-white rounded-xl py-3 px-3 font-extrabold text-sm shadow-[0_4px_14px_rgba(198,40,40,0.45)] active:scale-[0.98] transition leading-tight"
           >
-            <span className="absolute -top-2 right-2 bg-or text-foreground text-[9px] font-extrabold px-1.5 py-0.5 rounded-full">★ TOP</span>
-            <span className="text-[10px] uppercase tracking-wide opacity-90">Cure complète</span>
-            <span className="text-sm">3 sachets · 25 000 F</span>
+            ⭐ Commander la cure complète recommandée — 3 sachets · 25 000 F
           </button>
-        </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => go(21)}
+              className="flex flex-col items-center justify-center bg-white border-2 border-bleu text-bleu rounded-xl py-2 px-2 font-extrabold leading-tight active:scale-95 transition"
+            >
+              <span className="text-[10px] uppercase tracking-wide opacity-70">Tester</span>
+              <span className="text-sm">1 sachet · 12 500 F</span>
+            </button>
+            <button
+              onClick={() => go(22)}
+              className="relative flex flex-col items-center justify-center bg-rouge text-white rounded-xl py-2 px-2 font-extrabold leading-tight shadow-[0_4px_14px_rgba(198,40,40,0.45)] active:scale-95 transition"
+            >
+              <span className="absolute -top-2 right-2 bg-or text-foreground text-[9px] font-extrabold px-1.5 py-0.5 rounded-full">★ TOP</span>
+              <span className="text-[10px] uppercase tracking-wide opacity-90">Cure complète</span>
+              <span className="text-sm">3 sachets · 25 000 F</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
