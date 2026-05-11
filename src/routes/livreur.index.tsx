@@ -12,11 +12,11 @@ export const Route = createFileRoute('/livreur/')({
 });
 
 function LivreurDashboard() {
-  const { session, ready } = useLivreurSession();
+  const { session } = useLivreurSession();
   const { livreurs } = useLivreurs();
   const { orders, reload } = useLivreurOrders(session?.idx ?? null);
-  const { stock } = useLivreurStock();
   const [tab, setTab] = useState<'todo' | 'today' | 'history'>('todo');
+  const [manualOpen, setManualOpen] = useState(false);
 
   const livreur = livreurs.find((l) => l.idx === session?.idx);
   const { installed, install, permission, enableNotif, installPromptAvailable } = usePWALivreur(session?.idx ?? null, session?.name ?? '');
