@@ -4,6 +4,7 @@ import { useLivreurs, effectiveDeliveryFee, type Livreur } from '@/lib/livreurs'
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { waClientUrl, waLivreurUrl } from '@/lib/whatsappMessages';
+import { ManualOrderModal } from '@/components/ManualOrderModal';
 
 export const STATUSES: Record<string, { label: string; cls: string }> = {
   pending: { label: 'En attente', cls: 'bg-[oklch(0.95_0.10_85)] text-[oklch(0.40_0.10_82)]' },
