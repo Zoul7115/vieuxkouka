@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { formatFCFA } from '@/lib/products';
+import { formatFCFA, productBadge } from '@/lib/products';
 import { useLivreurs, effectiveDeliveryFee, type Livreur } from '@/lib/livreurs';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -40,6 +40,7 @@ export type Order = {
   confirmed_via_whatsapp_at?: string | null;
   sav_followed_up_at?: string | null;
   sav_notes?: string | null;
+  product_slug?: string | null;
 };
 
 const SLOT_LABELS: Record<string, string> = {
@@ -170,6 +171,9 @@ function OrderCard({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-extrabold text-vert">{order.order_number}</span>
+            {(() => { const b = productBadge(order.product_name, order.product_slug); return (
+              <span className="text-xs px-2 py-0.5 rounded-full font-extrabold bg-vert-bg text-vert">{b.emoji} {b.label}</span>
+            ); })()}
             <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${status.cls}`}>{status.label}</span>
             <span className={`text-xs px-2 py-0.5 rounded-full font-extrabold ${scoreBadge(order.ai_score).cls}`} title="Score qualité commande (auto)">
               {scoreBadge(order.ai_score).label}
