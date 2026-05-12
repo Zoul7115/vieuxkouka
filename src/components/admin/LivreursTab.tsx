@@ -59,20 +59,28 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
     return map;
   }, [orders, livreurs]);
 
-  // Résumé par livreur sur la période choisie (uniquement commandes livrées)
+  // Résumé par livreur sur la période choisie (livrées + statuts détaillés)
   const periodSummary = useMemo(() => {
     const inPeriod = filterByPeriod(orders, period, 'created_at', customFrom, customTo);
-    const map: Record<number, { deliveries: number; pieces: number; ca: number; deliveryFees: number; net: number }> = {};
-    livreurs.forEach((l) => { map[l.idx] = { deliveries: 0, pieces: 0, ca: 0, deliveryFees: 0, net: 0 }; });
-    const totals = { deliveries: 0, pieces: 0, ca: 0, deliveryFees: 0, net: 0 };
+    const map: Record<number, { deliveries: number; shipped: number; cancelled: number; pending: number; pieces: number; ca: number; deliveryFees: number; net: number }> = {};
+    livreurs.forEach((l) => { map[l.idx] = { deliveries: 0, shipped: 0, cancelled: 0, pending: 0, pieces: 0, ca: 0, deliveryFees: 0, net: 0 }; });
+    const totals = { deliveries: 0, shipped: 0, cancelled: 0, pending: 0, pieces: 0, ca: 0, deliveryFees: 0, net: 0 };
     inPeriod.forEach((o) => {
-      if (o.status !== 'delivered' || o.livreur_idx == null || !map[o.livreur_idx]) return;
-      const u = unitsForOrder(o);
-      const fee = effectiveDeliveryFee(livreurs, o);
-      const net = o.product_price - fee;
+      if (o.livreur_idx == null || !map[o.livreur_idx]) return;
       const s = map[o.livreur_idx];
-      s.deliveries += 1; s.pieces += u; s.ca += o.product_price; s.deliveryFees += fee; s.net += net;
-      totals.deliveries += 1; totals.pieces += u; totals.ca += o.product_price; totals.deliveryFees += fee; totals.net += net;
+      if (o.status === 'delivered') {
+        const u = unitsForOrder(o);
+        const fee = effectiveDeliveryFee(livreurs, o);
+        const net = o.product_price - fee;
+        s.deliveries += 1; s.pieces += u; s.ca += o.product_price; s.deliveryFees += fee; s.net += net;
+        totals.deliveries += 1; totals.pieces += u; totals.ca += o.product_price; totals.deliveryFees += fee; totals.net += net;
+      } else if (o.status === 'shipped') {
+        s.shipped += 1; totals.shipped += 1;
+      } else if (o.status === 'cancelled') {
+        s.cancelled += 1; totals.cancelled += 1;
+      } else {
+        s.pending += 1; totals.pending += 1;
+      }
     });
     return { map, totals };
   }, [orders, livreurs, period, customFrom, customTo]);
