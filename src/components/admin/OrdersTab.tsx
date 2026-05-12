@@ -40,6 +40,7 @@ export type Order = {
   confirmed_via_whatsapp_at?: string | null;
   sav_followed_up_at?: string | null;
   sav_notes?: string | null;
+  product_slug?: string | null;
 };
 
 const SLOT_LABELS: Record<string, string> = {
