@@ -25,7 +25,10 @@ type Order = {
 function unitsForOrder(o: { offer_label?: string | null; product_name: string }): number {
   const label = (o.offer_label || o.product_name || '').toLowerCase();
   let units = 1;
-  if (/3\s*\+\s*2/.test(label)) units = 5;
+  const explicit = label.match(/(\d+)\s*(sachet|flacon|bidon|unit|piece|pièce)s?/i);
+  if (explicit && parseInt(explicit[1], 10) > 0) {
+    units = parseInt(explicit[1], 10);
+  } else if (/3\s*\+\s*2/.test(label)) units = 5;
   else if (/2\s*\+\s*1/.test(label)) units = 3;
   else if (/1\s*(sachet|flacon)|démarrage|demarrage/.test(label)) units = 1;
   if (/bump/i.test(label)) units += 1;
@@ -56,20 +59,28 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
     return map;
   }, [orders, livreurs]);
 
-  // Résumé par livreur sur la période choisie (uniquement commandes livrées)
+  // Résumé par livreur sur la période choisie (livrées + statuts détaillés)
   const periodSummary = useMemo(() => {
     const inPeriod = filterByPeriod(orders, period, 'created_at', customFrom, customTo);
-    const map: Record<number, { deliveries: number; pieces: number; ca: number; deliveryFees: number; net: number }> = {};
-    livreurs.forEach((l) => { map[l.idx] = { deliveries: 0, pieces: 0, ca: 0, deliveryFees: 0, net: 0 }; });
-    const totals = { deliveries: 0, pieces: 0, ca: 0, deliveryFees: 0, net: 0 };
+    const map: Record<number, { deliveries: number; shipped: number; cancelled: number; pending: number; pieces: number; ca: number; deliveryFees: number; net: number }> = {};
+    livreurs.forEach((l) => { map[l.idx] = { deliveries: 0, shipped: 0, cancelled: 0, pending: 0, pieces: 0, ca: 0, deliveryFees: 0, net: 0 }; });
+    const totals = { deliveries: 0, shipped: 0, cancelled: 0, pending: 0, pieces: 0, ca: 0, deliveryFees: 0, net: 0 };
     inPeriod.forEach((o) => {
-      if (o.status !== 'delivered' || o.livreur_idx == null || !map[o.livreur_idx]) return;
-      const u = unitsForOrder(o);
-      const fee = effectiveDeliveryFee(livreurs, o);
-      const net = o.product_price - fee;
+      if (o.livreur_idx == null || !map[o.livreur_idx]) return;
       const s = map[o.livreur_idx];
-      s.deliveries += 1; s.pieces += u; s.ca += o.product_price; s.deliveryFees += fee; s.net += net;
-      totals.deliveries += 1; totals.pieces += u; totals.ca += o.product_price; totals.deliveryFees += fee; totals.net += net;
+      if (o.status === 'delivered') {
+        const u = unitsForOrder(o);
+        const fee = effectiveDeliveryFee(livreurs, o);
+        const net = o.product_price - fee;
+        s.deliveries += 1; s.pieces += u; s.ca += o.product_price; s.deliveryFees += fee; s.net += net;
+        totals.deliveries += 1; totals.pieces += u; totals.ca += o.product_price; totals.deliveryFees += fee; totals.net += net;
+      } else if (o.status === 'shipped') {
+        s.shipped += 1; totals.shipped += 1;
+      } else if (o.status === 'cancelled') {
+        s.cancelled += 1; totals.cancelled += 1;
+      } else {
+        s.pending += 1; totals.pending += 1;
+      }
     });
     return { map, totals };
   }, [orders, livreurs, period, customFrom, customTo]);
@@ -192,21 +203,28 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
             <thead>
               <tr className="text-[10px] uppercase text-muted-foreground border-b-2 border-vert-bg">
                 <th className="text-left py-2 px-1">Livreur</th>
-                <th className="text-right py-2 px-1">Livraisons</th>
+                <th className="text-right py-2 px-1">Livrées</th>
+                <th className="text-right py-2 px-1">Expédiées</th>
+                <th className="text-right py-2 px-1">Annulées</th>
+                <th className="text-right py-2 px-1">En cours</th>
                 <th className="text-right py-2 px-1">Pièces</th>
                 <th className="text-right py-2 px-1">CA</th>
                 <th className="text-right py-2 px-1">Frais livr.</th>
-                <th className="text-right py-2 px-1">Net à encaisser</th>
+                <th className="text-right py-2 px-1">Net à reverser</th>
               </tr>
             </thead>
             <tbody>
               {livreurs.map((l) => {
-                const s = periodSummary.map[l.idx] || { deliveries: 0, pieces: 0, ca: 0, deliveryFees: 0, net: 0 };
-                if (s.deliveries === 0) return null;
+                const s = periodSummary.map[l.idx] || { deliveries: 0, shipped: 0, cancelled: 0, pending: 0, pieces: 0, ca: 0, deliveryFees: 0, net: 0 };
+                const hasActivity = s.deliveries + s.shipped + s.cancelled + s.pending > 0;
+                if (!hasActivity) return null;
                 return (
                   <tr key={l.id} className="border-b border-vert-bg/40">
                     <td className="py-2 px-1 font-bold text-vert">{l.emoji} {l.name}</td>
-                    <td className="text-right py-2 px-1">{s.deliveries}</td>
+                    <td className="text-right py-2 px-1 text-vert font-bold">{s.deliveries}</td>
+                    <td className="text-right py-2 px-1 text-blue-700">{s.shipped}</td>
+                    <td className="text-right py-2 px-1 text-rouge">{s.cancelled}</td>
+                    <td className="text-right py-2 px-1 text-[oklch(0.55_0.15_60)]">{s.pending}</td>
                     <td className="text-right py-2 px-1">{s.pieces}</td>
                     <td className="text-right py-2 px-1 font-bold">{formatFCFA(s.ca)}</td>
                     <td className="text-right py-2 px-1 text-rouge">−{formatFCFA(s.deliveryFees)}</td>
@@ -214,19 +232,22 @@ export function LivreursTab({ orders, onChange }: { orders: Order[]; onChange: (
                   </tr>
                 );
               })}
-              {periodSummary.totals.deliveries === 0 && (
+              {periodSummary.totals.deliveries + periodSummary.totals.shipped + periodSummary.totals.cancelled + periodSummary.totals.pending === 0 && (
                 <tr>
-                  <td colSpan={6} className="py-4 text-center text-muted-foreground text-sm">
-                    Aucune livraison sur cette période
+                  <td colSpan={9} className="py-4 text-center text-muted-foreground text-sm">
+                    Aucune activité sur cette période
                   </td>
                 </tr>
               )}
             </tbody>
-            {periodSummary.totals.deliveries > 0 && (
+            {periodSummary.totals.deliveries + periodSummary.totals.shipped + periodSummary.totals.cancelled + periodSummary.totals.pending > 0 && (
               <tfoot>
                 <tr className="bg-vert-bg/40 font-extrabold">
                   <td className="py-2 px-1 text-vert">TOTAL</td>
-                  <td className="text-right py-2 px-1">{periodSummary.totals.deliveries}</td>
+                  <td className="text-right py-2 px-1 text-vert">{periodSummary.totals.deliveries}</td>
+                  <td className="text-right py-2 px-1 text-blue-700">{periodSummary.totals.shipped}</td>
+                  <td className="text-right py-2 px-1 text-rouge">{periodSummary.totals.cancelled}</td>
+                  <td className="text-right py-2 px-1 text-[oklch(0.55_0.15_60)]">{periodSummary.totals.pending}</td>
                   <td className="text-right py-2 px-1">{periodSummary.totals.pieces}</td>
                   <td className="text-right py-2 px-1">{formatFCFA(periodSummary.totals.ca)}</td>
                   <td className="text-right py-2 px-1 text-rouge">−{formatFCFA(periodSummary.totals.deliveryFees)}</td>
