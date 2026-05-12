@@ -212,14 +212,31 @@ export const formatFCFA = (n: number) => `${n.toLocaleString('fr-FR')} FCFA`;
 export const PRODUCT_COSTS: Record<string, number> = {
   KOUKA: 2000,
   'Sirop KOUKA': 3000,
+  'Anti-Diabète': 2000,
 };
 
 /** Coût livraison par commande livrée (FCFA) */
 export const DELIVERY_COST = 2000;
 
+/** Famille de produit déduite du nom/slug — utilisée pour le PA et l'affichage */
+export function productFamily(productName: string, slug?: string | null): 'KOUKA' | 'Sirop KOUKA' | 'Anti-Diabète' {
+  const s = (slug || '').toLowerCase();
+  const n = (productName || '').toLowerCase();
+  if (s === 'anti-diabete' || /anti[-\s]?diab/.test(n)) return 'Anti-Diabète';
+  if (s === 'sirop-kouka' || /sirop/.test(n)) return 'Sirop KOUKA';
+  return 'KOUKA';
+}
+
+/** Libellé court + emoji pour différencier visuellement les produits */
+export function productBadge(productName: string, slug?: string | null): { emoji: string; label: string } {
+  const fam = productFamily(productName, slug);
+  if (fam === 'Anti-Diabète') return { emoji: '🩸', label: 'Anti-Diabète' };
+  if (fam === 'Sirop KOUKA') return { emoji: '🍯', label: 'Sirop KOUKA' };
+  return { emoji: '🌿', label: 'Poudre KOUKA' };
+}
+
 /** Renvoie le PA total d'une commande livrée (PA unitaire × nombre d'unités, bonus inclus) */
-export function orderProductCost(productName: string, units: number): number {
-  const isSirop = /sirop/i.test(productName);
-  const pa = isSirop ? PRODUCT_COSTS['Sirop KOUKA'] : PRODUCT_COSTS['KOUKA'];
+export function orderProductCost(productName: string, units: number, slug?: string | null): number {
+  const pa = PRODUCT_COSTS[productFamily(productName, slug)] ?? 2000;
   return pa * Math.max(1, units);
 }
