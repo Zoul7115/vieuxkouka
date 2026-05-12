@@ -62,7 +62,11 @@ export function useLivreurOrders(livreurIdx: number | null) {
 export function unitsForOrder(o: { offer_label?: string | null; product_name: string }): number {
   const label = (o.offer_label || o.product_name || '').toLowerCase();
   let units = 1;
-  if (/3\s*\+\s*2/.test(label)) units = 5;
+  // 1) Quantité explicite (ex: "10 flacons", "5 sachets") — prioritaire pour les commandes manuelles
+  const explicit = label.match(/(\d+)\s*(sachet|flacon|bidon|unit|piece|pièce)s?/i);
+  if (explicit && parseInt(explicit[1], 10) > 0) {
+    units = parseInt(explicit[1], 10);
+  } else if (/3\s*\+\s*2/.test(label)) units = 5;
   else if (/2\s*\+\s*1/.test(label)) units = 3;
   else if (/1\s*(sachet|flacon)|démarrage|demarrage/.test(label)) units = 1;
   if (/bump/i.test(label)) units += 1;
