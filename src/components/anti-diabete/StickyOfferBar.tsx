@@ -32,7 +32,7 @@ export function StickyOfferBar({ stock }: { stock: number }) {
     };
   }, []);
 
-  if (!show) return null;
+  if (!show || atForm) return null;
 
   return (
     <div className="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-t-2 border-bleu shadow-[0_-8px_24px_rgba(0,0,0,0.12)] animate-in slide-in-from-bottom">
