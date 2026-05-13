@@ -24,6 +24,7 @@ export type LivreurOrder = {
   notes: string | null;
   sav_notes: string | null;
   created_at: string;
+  delivered_at?: string | null;
 };
 
 /** Charge en temps réel les commandes assignées à un livreur */
