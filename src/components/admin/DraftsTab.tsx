@@ -64,8 +64,9 @@ export function DraftsTab() {
 
   const waLink = (phone: string, draft: Draft) => {
     const clean = phone.replace(/[^\d+]/g, '').replace(/^\+/, '');
-    const product = draft.product_slug === 'sirop-kouka' ? 'Sirop KOUKA' : 'Poudre KOUKA';
-    const msg = `Bonjour ${draft.full_name || ''} 👋\n\nJ'ai vu que vous avez commencé une commande pour le ${product}${draft.offer_label ? ' (' + draft.offer_label + ')' : ''} mais vous n'avez pas pu finaliser.\n\nTout va bien ? Je peux vous aider à confirmer la livraison directement ici sur WhatsApp 📦\n\nPaiement à la livraison · Colis 100% discret · Garantie satisfait ou remboursé.`;
+    const badge = productBadge('', draft.product_slug);
+    const product = `${badge.emoji} ${badge.label}`;
+    const msg = `Bonjour ${draft.full_name || ''} 👋\n\nJ'ai vu que vous avez commencé une commande pour ${product}${draft.offer_label ? ' (' + draft.offer_label + ')' : ''} mais vous n'avez pas pu finaliser.\n\nTout va bien ? Je peux vous aider à confirmer la livraison directement ici sur WhatsApp 📦\n\nPaiement à la livraison · Colis 100% discret · Garantie satisfait ou remboursé.`;
     return `https://wa.me/${clean}?text=${encodeURIComponent(msg)}`;
   };
 
