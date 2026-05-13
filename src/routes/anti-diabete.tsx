@@ -16,18 +16,6 @@ function preselectAndScroll(offerId: number) {
   document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' });
 }
 
-const TESTIMONIAL_AUDIOS: { src: string; type: string; label: string }[] = [
-  { src: '/audio/anti-diabete/temoignage1.mp3', type: 'audio/mpeg', label: 'Cliente — glycémie redescendue après 2 semaines' },
-  { src: '/audio/anti-diabete/temoignage2.mp3', type: 'audio/mpeg', label: 'Client — fatigue et soif disparues' },
-  { src: '/audio/anti-diabete/temoignage3.opus', type: 'audio/ogg; codecs=opus', label: 'Cliente — picotements stoppés aux pieds' },
-  { src: '/audio/anti-diabete/temoignage4.mp3', type: 'audio/mpeg', label: 'Client — vision plus claire après 3 semaines' },
-  { src: '/audio/anti-diabete/temoignage5.mp3', type: 'audio/mpeg', label: 'Cliente — plus de réveils nocturnes pour uriner' },
-  { src: '/audio/anti-diabete/temoignage6.mp3', type: 'audio/mpeg', label: 'Client — énergie restaurée, je remercie' },
-  { src: '/audio/anti-diabete/temoignage7.mp3', type: 'audio/mpeg', label: 'Témoignage long — toute mon histoire avec le diabète' },
-  { src: '/audio/anti-diabete/temoignage8.mp3', type: 'audio/mpeg', label: 'Cliente — chiffres redescendus, médecin surpris' },
-  { src: '/audio/anti-diabete/temoignage9.mp3', type: 'audio/mpeg', label: 'Client — je recommande à toute ma famille' },
-  { src: '/audio/anti-diabete/temoignage10.mp3', type: 'audio/mpeg', label: 'Cliente — appétit régulé, je revis' },
-];
 
 
 export const Route = createFileRoute('/anti-diabete')({
