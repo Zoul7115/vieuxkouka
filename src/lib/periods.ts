@@ -53,10 +53,10 @@ export function getPeriodRange(k: PeriodKey, customFrom?: string, customTo?: str
   }
 }
 
-export function filterByPeriod<T extends { created_at?: string | null; expense_date?: string | null }>(
+export function filterByPeriod<T extends Record<string, unknown>>(
   rows: T[],
   k: PeriodKey,
-  dateField: 'created_at' | 'expense_date' = 'created_at',
+  dateField: string = 'created_at',
   customFrom?: string,
   customTo?: string,
 ): T[] {
@@ -67,4 +67,12 @@ export function filterByPeriod<T extends { created_at?: string | null; expense_d
     const t = new Date(v).getTime();
     return t >= from && t <= to;
   });
+}
+
+/** Vérifie qu'une date ISO tombe dans la période choisie. */
+export function inPeriod(iso: string | null | undefined, k: PeriodKey, customFrom?: string, customTo?: string): boolean {
+  if (!iso) return false;
+  const { from, to } = getPeriodRange(k, customFrom, customTo);
+  const t = new Date(iso).getTime();
+  return t >= from && t <= to;
 }
