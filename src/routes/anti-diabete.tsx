@@ -6,6 +6,7 @@ import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { ANTI_DIABETE } from '@/lib/products';
 import { UrgencyBadge } from '@/components/anti-diabete/UrgencyBadge';
 import { StickyOfferBar } from '@/components/anti-diabete/StickyOfferBar';
+import { SocialProofChat } from '@/components/anti-diabete/SocialProofChat';
 
 function preselectAndScroll(offerId: number) {
   try {
