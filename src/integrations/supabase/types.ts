@@ -214,6 +214,7 @@ export type Database = {
           confirmed_via_whatsapp_at: string | null
           country: string | null
           created_at: string | null
+          delivered_at: string | null
           delivery_fee: number | null
           delivery_slot: string | null
           first_name: string | null
@@ -247,6 +248,7 @@ export type Database = {
           confirmed_via_whatsapp_at?: string | null
           country?: string | null
           created_at?: string | null
+          delivered_at?: string | null
           delivery_fee?: number | null
           delivery_slot?: string | null
           first_name?: string | null
@@ -280,6 +282,7 @@ export type Database = {
           confirmed_via_whatsapp_at?: string | null
           country?: string | null
           created_at?: string | null
+          delivered_at?: string | null
           delivery_fee?: number | null
           delivery_slot?: string | null
           first_name?: string | null
