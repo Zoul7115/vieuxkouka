@@ -6,6 +6,7 @@ import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { ANTI_DIABETE } from '@/lib/products';
 import { UrgencyBadge } from '@/components/anti-diabete/UrgencyBadge';
 import { StickyOfferBar } from '@/components/anti-diabete/StickyOfferBar';
+import { SocialProofChat } from '@/components/anti-diabete/SocialProofChat';
 
 function preselectAndScroll(offerId: number) {
   try {
@@ -15,18 +16,6 @@ function preselectAndScroll(offerId: number) {
   document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' });
 }
 
-const TESTIMONIAL_AUDIOS: { src: string; type: string; label: string }[] = [
-  { src: '/audio/anti-diabete/temoignage1.mp3', type: 'audio/mpeg', label: 'Cliente — glycémie redescendue après 2 semaines' },
-  { src: '/audio/anti-diabete/temoignage2.mp3', type: 'audio/mpeg', label: 'Client — fatigue et soif disparues' },
-  { src: '/audio/anti-diabete/temoignage3.opus', type: 'audio/ogg; codecs=opus', label: 'Cliente — picotements stoppés aux pieds' },
-  { src: '/audio/anti-diabete/temoignage4.mp3', type: 'audio/mpeg', label: 'Client — vision plus claire après 3 semaines' },
-  { src: '/audio/anti-diabete/temoignage5.mp3', type: 'audio/mpeg', label: 'Cliente — plus de réveils nocturnes pour uriner' },
-  { src: '/audio/anti-diabete/temoignage6.mp3', type: 'audio/mpeg', label: 'Client — énergie restaurée, je remercie' },
-  { src: '/audio/anti-diabete/temoignage7.mp3', type: 'audio/mpeg', label: 'Témoignage long — toute mon histoire avec le diabète' },
-  { src: '/audio/anti-diabete/temoignage8.mp3', type: 'audio/mpeg', label: 'Cliente — chiffres redescendus, médecin surpris' },
-  { src: '/audio/anti-diabete/temoignage9.mp3', type: 'audio/mpeg', label: 'Client — je recommande à toute ma famille' },
-  { src: '/audio/anti-diabete/temoignage10.mp3', type: 'audio/mpeg', label: 'Cliente — appétit régulé, je revis' },
-];
 
 
 export const Route = createFileRoute('/anti-diabete')({
@@ -302,35 +291,12 @@ function AntiDiabetePage() {
         </div>
       </section>
 
-      {/* TÉMOIGNAGES AUDIO — vrais clients */}
-      <section className="py-14 bg-bleu-bg">
+      {/* PREUVE SOCIALE — WhatsApp + Facebook */}
+      <SocialProofChat />
+
+      <section className="py-8 bg-bleu-bg">
         <div className="container-kouka max-w-3xl">
-          <div className="text-center mb-8">
-            <span className="text-bleu text-xs font-bold uppercase tracking-widest">🎙️ Témoignages audio</span>
-            <h2 className="text-bleu mt-2">Écoute leurs voix.</h2>
-            <p className="text-muted-foreground text-sm mt-2">
-              🔒 Messages vocaux <strong>réels et non montés</strong> — envoyés par des clients après leur cure.
-            </p>
-          </div>
-
-          <div className="grid gap-3">
-            {TESTIMONIAL_AUDIOS.map((a, i) => (
-              <div key={i} className="bg-white rounded-2xl p-4 border-l-4 border-bleu shadow-sm">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="bg-bleu text-white w-8 h-8 rounded-full flex items-center justify-center text-xs font-extrabold shrink-0">
-                    {i + 1}
-                  </div>
-                  <div className="font-bold text-bleu text-sm">{a.label}</div>
-                </div>
-                <audio controls preload="none" className="w-full">
-                  <source src={a.src} type={a.type} />
-                  Ton navigateur ne supporte pas la lecture audio.
-                </audio>
-              </div>
-            ))}
-          </div>
-
-          <div className="bg-white border-2 border-bleu rounded-2xl p-5 text-center mt-8">
+          <div className="bg-white border-2 border-bleu rounded-2xl p-5 text-center">
             <p className="font-extrabold text-bleu mb-1">🛡️ Engagement qualité</p>
             <p className="text-sm">Si tu suis le traitement complet sans aucune amélioration, contacte-nous — nous t'accompagnons.</p>
           </div>

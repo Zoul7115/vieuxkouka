@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { productBadge } from '@/lib/products';
 
 type Draft = {
   id: string;
@@ -63,8 +64,9 @@ export function DraftsTab() {
 
   const waLink = (phone: string, draft: Draft) => {
     const clean = phone.replace(/[^\d+]/g, '').replace(/^\+/, '');
-    const product = draft.product_slug === 'sirop-kouka' ? 'Sirop KOUKA' : 'Poudre KOUKA';
-    const msg = `Bonjour ${draft.full_name || ''} 👋\n\nJ'ai vu que vous avez commencé une commande pour le ${product}${draft.offer_label ? ' (' + draft.offer_label + ')' : ''} mais vous n'avez pas pu finaliser.\n\nTout va bien ? Je peux vous aider à confirmer la livraison directement ici sur WhatsApp 📦\n\nPaiement à la livraison · Colis 100% discret · Garantie satisfait ou remboursé.`;
+    const badge = productBadge('', draft.product_slug);
+    const product = `${badge.emoji} ${badge.label}`;
+    const msg = `Bonjour ${draft.full_name || ''} 👋\n\nJ'ai vu que vous avez commencé une commande pour ${product}${draft.offer_label ? ' (' + draft.offer_label + ')' : ''} mais vous n'avez pas pu finaliser.\n\nTout va bien ? Je peux vous aider à confirmer la livraison directement ici sur WhatsApp 📦\n\nPaiement à la livraison · Colis 100% discret · Garantie satisfait ou remboursé.`;
     return `https://wa.me/${clean}?text=${encodeURIComponent(msg)}`;
   };
 
@@ -130,10 +132,18 @@ export function DraftsTab() {
             <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-sm mb-3">
               <div><span className="text-muted-foreground">📱</span> {d.whatsapp || <em className="text-muted-foreground">—</em>}</div>
               <div><span className="text-muted-foreground">📍</span> {d.city || <em className="text-muted-foreground">—</em>} {d.country_code && `(${d.country_code})`}</div>
-              <div className="col-span-2 text-xs text-muted-foreground">
-                🛒 {d.product_slug === 'sirop-kouka' ? 'Sirop KOUKA' : 'Poudre KOUKA'}
-                {d.offer_label && ` · ${d.offer_label}`}
-              </div>
+              {(() => { const b = productBadge('', d.product_slug); return (
+                <div className="col-span-2 text-xs">
+                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-bold ${
+                    d.product_slug === 'anti-diabete' ? 'bg-bleu-bg text-bleu' :
+                    d.product_slug === 'sirop-kouka' ? 'bg-or/20 text-[oklch(0.45_0.15_60)]' :
+                    'bg-vert-bg text-vert'
+                  }`}>
+                    {b.emoji} {b.label}
+                  </span>
+                  {d.offer_label && <span className="text-muted-foreground ml-2">· {d.offer_label}</span>}
+                </div>
+              ); })()}
               {d.source && <div className="col-span-2 text-xs text-muted-foreground truncate">🌐 {d.source}</div>}
             </div>
 

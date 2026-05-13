@@ -26,8 +26,12 @@ function LivreurBilan() {
   const day = useMemo(() => {
     const startISO = dayStart.toISOString();
     const endISO = dayEnd.toISOString();
-    const inDay = orders.filter((o) => o.created_at >= startISO && o.created_at < endISO);
-    const delivered = inDay.filter((o) => o.status === 'delivered');
+    // Livraisons : on compte au jour effectif de livraison (delivered_at)
+    const delivered = orders.filter(
+      (o) => o.status === 'delivered' && o.delivered_at && o.delivered_at >= startISO && o.delivered_at < endISO,
+    );
+    // Commandes reçues / autres statuts : au jour de prise de commande
+    const inDayReceived = orders.filter((o) => o.created_at >= startISO && o.created_at < endISO);
     const ca = delivered.reduce((s, o) => s + o.product_price, 0);
     const fees = delivered.reduce((s, o) => s + effectiveDeliveryFee(livreurs, { livreur_idx: o.livreur_idx, delivery_fee: o.delivery_fee }), 0);
     const pieces = delivered.reduce((s, o) => s + unitsForOrder(o), 0);
@@ -37,8 +41,8 @@ function LivreurBilan() {
       delivered, ca, fees, pieces, reverse,
       pendingCashIds: pendingCash.map((o) => o.id),
       pendingCashAmount: pendingCash.reduce((s, o) => s + o.product_price - effectiveDeliveryFee(livreurs, { livreur_idx: o.livreur_idx, delivery_fee: o.delivery_fee }), 0),
-      shipped: inDay.filter((o) => o.status === 'shipped'),
-      cancelled: inDay.filter((o) => o.status === 'cancelled'),
+      shipped: inDayReceived.filter((o) => o.status === 'shipped'),
+      cancelled: inDayReceived.filter((o) => o.status === 'cancelled'),
     };
   }, [orders, livreurs, dayStart, dayEnd]);
 
@@ -49,7 +53,7 @@ function LivreurBilan() {
       const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - i);
       const e = new Date(d); e.setDate(e.getDate() + 1);
       const sISO = d.toISOString(); const eISO = e.toISOString();
-      const dlv = orders.filter((o) => o.created_at >= sISO && o.created_at < eISO && o.status === 'delivered');
+      const dlv = orders.filter((o) => o.status === 'delivered' && o.delivered_at && o.delivered_at >= sISO && o.delivered_at < eISO);
       if (!dlv.length) continue;
       const ca = dlv.reduce((s, o) => s + o.product_price, 0);
       const fees = dlv.reduce((s, o) => s + effectiveDeliveryFee(livreurs, { livreur_idx: o.livreur_idx, delivery_fee: o.delivery_fee }), 0);
