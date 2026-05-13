@@ -68,13 +68,26 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
     [orders, period, customFrom, customTo],
   );
 
+  // Les commandes livrées sont comptabilisées au jour de la LIVRAISON (delivered_at)
+  // et non au jour de la prise de commande
+  const deliveredInPeriod = useMemo(
+    () => filterByPeriod(
+      orders.filter((o) => o.status === 'delivered'),
+      period,
+      'delivered_at',
+      customFrom,
+      customTo,
+    ),
+    [orders, period, customFrom, customTo],
+  );
+
   const filteredExpenses = useMemo(
     () => filterByPeriod(expenses, period, 'expense_date', customFrom, customTo),
     [expenses, period, customFrom, customTo],
   );
 
   const totals = useMemo(() => {
-    const delivered = filtered.filter((o) => o.status === 'delivered');
+    const delivered = deliveredInPeriod;
     const cancelled = filtered.filter((o) => o.status === 'cancelled');
     const pending = filtered.filter((o) => ['pending', 'confirmed', 'approche', 'suivi'].includes(o.status));
     const ca = delivered.reduce((s, o) => s + o.product_price, 0);
