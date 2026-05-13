@@ -19,6 +19,7 @@ type Order = {
   livreur_idx: number | null;
   delivery_fee?: number | null;
   created_at: string;
+  delivered_at?: string | null;
 };
 
 /** Calcule le nombre de pièces d'une commande à partir de l'offre/label (réplique de la fonction SQL) */
