@@ -291,35 +291,12 @@ function AntiDiabetePage() {
         </div>
       </section>
 
-      {/* TÉMOIGNAGES AUDIO — vrais clients */}
-      <section className="py-14 bg-bleu-bg">
+      {/* PREUVE SOCIALE — WhatsApp + Facebook */}
+      <SocialProofChat />
+
+      <section className="py-8 bg-bleu-bg">
         <div className="container-kouka max-w-3xl">
-          <div className="text-center mb-8">
-            <span className="text-bleu text-xs font-bold uppercase tracking-widest">🎙️ Témoignages audio</span>
-            <h2 className="text-bleu mt-2">Écoute leurs voix.</h2>
-            <p className="text-muted-foreground text-sm mt-2">
-              🔒 Messages vocaux <strong>réels et non montés</strong> — envoyés par des clients après leur cure.
-            </p>
-          </div>
-
-          <div className="grid gap-3">
-            {TESTIMONIAL_AUDIOS.map((a, i) => (
-              <div key={i} className="bg-white rounded-2xl p-4 border-l-4 border-bleu shadow-sm">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="bg-bleu text-white w-8 h-8 rounded-full flex items-center justify-center text-xs font-extrabold shrink-0">
-                    {i + 1}
-                  </div>
-                  <div className="font-bold text-bleu text-sm">{a.label}</div>
-                </div>
-                <audio controls preload="none" className="w-full">
-                  <source src={a.src} type={a.type} />
-                  Ton navigateur ne supporte pas la lecture audio.
-                </audio>
-              </div>
-            ))}
-          </div>
-
-          <div className="bg-white border-2 border-bleu rounded-2xl p-5 text-center mt-8">
+          <div className="bg-white border-2 border-bleu rounded-2xl p-5 text-center">
             <p className="font-extrabold text-bleu mb-1">🛡️ Engagement qualité</p>
             <p className="text-sm">Si tu suis le traitement complet sans aucune amélioration, contacte-nous — nous t'accompagnons.</p>
           </div>
