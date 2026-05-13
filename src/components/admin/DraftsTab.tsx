@@ -132,10 +132,18 @@ export function DraftsTab() {
             <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-sm mb-3">
               <div><span className="text-muted-foreground">📱</span> {d.whatsapp || <em className="text-muted-foreground">—</em>}</div>
               <div><span className="text-muted-foreground">📍</span> {d.city || <em className="text-muted-foreground">—</em>} {d.country_code && `(${d.country_code})`}</div>
-              <div className="col-span-2 text-xs text-muted-foreground">
-                🛒 {d.product_slug === 'sirop-kouka' ? 'Sirop KOUKA' : 'Poudre KOUKA'}
-                {d.offer_label && ` · ${d.offer_label}`}
-              </div>
+              {(() => { const b = productBadge('', d.product_slug); return (
+                <div className="col-span-2 text-xs">
+                  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full font-bold ${
+                    d.product_slug === 'anti-diabete' ? 'bg-bleu-bg text-bleu' :
+                    d.product_slug === 'sirop-kouka' ? 'bg-or/20 text-[oklch(0.45_0.15_60)]' :
+                    'bg-vert-bg text-vert'
+                  }`}>
+                    {b.emoji} {b.label}
+                  </span>
+                  {d.offer_label && <span className="text-muted-foreground ml-2">· {d.offer_label}</span>}
+                </div>
+              ); })()}
               {d.source && <div className="col-span-2 text-xs text-muted-foreground truncate">🌐 {d.source}</div>}
             </div>
 
