@@ -15,6 +15,7 @@ type Order = {
   livreur_idx: number | null;
   delivery_fee?: number | null;
   created_at: string;
+  delivered_at?: string | null;
 };
 
 type Expense = {
