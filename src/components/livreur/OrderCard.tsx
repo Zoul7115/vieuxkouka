@@ -17,7 +17,14 @@ export function OrderCard({ order, livreur, onUpdated }: { order: LivreurOrder; 
   const phone = (order.whatsapp || '').replace(/\D/g, '');
   const addressText = [order.neighborhood, order.address_detail, order.city].filter(Boolean).join(', ');
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressText || order.city || '')}`;
-  const waMsg = encodeURIComponent(`Bonjour ${order.first_name || ''}, je suis votre livreur KOUKA 🛵. J'arrive bientôt avec votre commande ${order.order_number}.`);
+  const waMsg = encodeURIComponent(
+    `Bonjour ${order.first_name || ''} 🌿, je suis votre livreur KOUKA 🛵.\n\n` +
+    `J'arrive bientôt avec votre commande *${order.order_number}* :\n` +
+    `📦 *Produit :* ${order.product_name}\n` +
+    (order.offer_label ? `🎁 *Offre :* ${order.offer_label}\n` : '') +
+    `💰 *À payer :* ${order.product_price.toLocaleString('fr-FR')} FCFA\n\n` +
+    `Merci de bien préparer le montant 🙏`
+  );
   const waUrl = `https://wa.me/${phone}?text=${waMsg}`;
   const status = STATUS_LABEL[order.status] || { label: order.status, cls: 'bg-gray-100 text-gray-700' };
   const badge = productBadge(order.product_name, order.product_slug);
