@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { StatusModal } from './StatusModal';
 import type { LivreurOrder } from '@/lib/livreur-orders';
 import type { Livreur } from '@/lib/livreurs';
+import { productBadge } from '@/lib/products';
 
 const STATUS_LABEL: Record<string, { label: string; cls: string }> = {
   pending: { label: 'À livrer', cls: 'bg-amber-100 text-amber-800' },
