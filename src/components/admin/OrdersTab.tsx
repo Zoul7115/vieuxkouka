@@ -68,12 +68,40 @@ export function OrdersTab({
 }) {
   const [filter, setFilter] = useState<string>('all');
   const [manualOpen, setManualOpen] = useState(false);
+  const [search, setSearch] = useState('');
   const { livreurs } = useLivreurs();
-  const filtered = filter === 'all' ? orders : orders.filter((o) => o.status === filter);
+  const q = search.trim().toLowerCase();
+  const byStatus = filter === 'all' ? orders : orders.filter((o) => o.status === filter);
+  const filtered = q
+    ? byStatus.filter((o) => {
+        const full = `${o.first_name ?? ''} ${o.last_name ?? ''}`.toLowerCase();
+        const rev = `${o.last_name ?? ''} ${o.first_name ?? ''}`.toLowerCase();
+        return (
+          full.includes(q) ||
+          rev.includes(q) ||
+          (o.order_number || '').toLowerCase().includes(q) ||
+          (o.whatsapp || '').toLowerCase().includes(q)
+        );
+      })
+    : byStatus;
   const activeLivreurs = livreurs.filter((l) => l.active);
 
   return (
     <div>
+      <div className="mb-3">
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="🔎 Rechercher (nom, prénom, n° commande, WhatsApp)…"
+          className="w-full text-sm border-2 border-vert-bg rounded-xl px-4 py-2 outline-none focus:border-vert-mid bg-white"
+        />
+        {q && (
+          <div className="text-xs text-muted-foreground mt-1">
+            {filtered.length} résultat{filtered.length > 1 ? 's' : ''} pour « {search} »
+          </div>
+        )}
+      </div>
       <div className="flex flex-wrap items-center gap-2 mb-4">
         <button
           onClick={() => setManualOpen(true)}
