@@ -103,7 +103,7 @@ function HomePage() {
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground mb-4">
             <span>✅ 100% plantes africaines</span>
             <span>✅ Sans effets secondaires</span>
-            <span>✅ Remboursé si pas guéri</span>
+            <span>✅ Tu paies seulement à la livraison</span>
           </div>
 
           <button
@@ -112,7 +112,7 @@ function HomePage() {
           >
             🌿 JE COMMANDE — JE PAIE À LA LIVRAISON
           </button>
-          <p className="text-sm text-muted-foreground mt-3">🛡️ Garantie GUÉRI ou REMBOURSÉ 100%</p>
+          <p className="text-sm text-muted-foreground mt-3">🚚 Livraison rapide · 💵 Paiement uniquement à la réception</p>
         </div>
       </section>
 
@@ -131,7 +131,7 @@ function HomePage() {
               { i: '🩸', t: 'Hémorroïdes', d: 'Saignements, douleurs, koko' },
               { i: '🔥', t: 'Ulcères', d: 'Brûlures d\'estomac, gastrite' },
               { i: '💨', t: 'Ballonnements', d: 'Ventre gonflé, lourd' },
-              { i: '🌀', t: 'Colopathie', d: 'Côlon irritable, transit' },
+              { i: '🌀', t: 'Gaz dans le ventre (colopathie)', d: 'Côlon irritable, transit' },
               { i: '😤', t: 'Gaz chroniques', d: 'Fermentations, pets' },
             ].map((x) => (
               <div key={x.t} className="bg-white border-2 border-vert-bg rounded-xl p-4 text-center">
@@ -333,8 +333,8 @@ function HomePage() {
           </div>
 
           <div className="bg-vert-bg border-2 border-vert-mid rounded-2xl p-5 text-center mt-7">
-            <p className="font-bold mb-1">🛡️ Garantie "Guéri ou Remboursé"</p>
-            <p className="text-sm">Tu suis le traitement complet sans résultat ? <strong>On te rembourse 100% — sans question, sans débat.</strong> Tu n'as littéralement rien à perdre.</p>
+            <p className="font-bold mb-1">💵 Paiement uniquement à la livraison</p>
+            <p className="text-sm">Tu ne paies <strong>RIEN à l'avance</strong>. Le livreur passe chez toi, tu vérifies le produit, et tu paies <strong>cash à la réception</strong>. Aucun risque, aucune carte, aucun acompte.</p>
           </div>
         </div>
       </section>
@@ -386,7 +386,7 @@ function HomePage() {
               { label: 'Rechute', kouka: '✅ Aucune', meds: '❌ Garantie', surgery: '⚠️ Possible' },
               { label: 'Hospitalisation', kouka: '✅ Aucune', meds: 'Aucune', surgery: '❌ 3–7 jours' },
               { label: 'Discrétion', kouka: '✅ 100%', meds: 'Pharmacie', surgery: '❌ Hôpital' },
-              { label: 'Garantie', kouka: '✅ Remboursé', meds: '❌ Non', surgery: '❌ Non' },
+              { label: 'Paiement', kouka: '✅ À la livraison', meds: '❌ D\'avance', surgery: '❌ D\'avance' },
             ]}
             productLabel="🌿 KOUKA"
           />
