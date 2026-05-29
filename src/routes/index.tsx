@@ -54,7 +54,7 @@ function HomePage() {
           </span>
 
           <h1 className="text-vert mb-3">
-            Hémorroïdes, ulcères ?<br />
+            Hémorroïdes, ulcères, gaz dans le ventre (colopathie) ?<br />
             <em className="text-rouge not-italic">Soulagé en 3 jours.</em>
           </h1>
 
