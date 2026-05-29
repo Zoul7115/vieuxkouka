@@ -81,7 +81,7 @@ function SiropPage() {
             <span>✅ Effet dès J2</span>
             <span>✅ 100% plantes</span>
             <span>✅ Emballage neutre</span>
-            <span>✅ Remboursé si nul</span>
+            <span>✅ Paiement à la livraison</span>
           </div>
 
           <button
@@ -90,7 +90,7 @@ function SiropPage() {
           >
             🍯 JE COMMANDE — JE PAIE À RÉCEPTION
           </button>
-          <p className="text-sm text-muted-foreground mt-3">🛡️ Garantie PERFORMANT ou REMBOURSÉ 100%</p>
+          <p className="text-sm text-muted-foreground mt-3">🚚 Livraison rapide · 💵 Paiement uniquement à la réception</p>
         </div>
       </section>
 
@@ -203,8 +203,8 @@ function SiropPage() {
           </div>
 
           <div className="bg-vert-bg border-2 border-vert-mid rounded-2xl p-5 text-center mt-7">
-            <p className="font-bold mb-1">🛡️ Garantie "Performant ou Remboursé"</p>
-            <p className="text-sm">Tu finis le flacon sans aucune amélioration ? <strong>Remboursement 100%, sans justification.</strong> Tu testes sans aucun risque.</p>
+            <p className="font-bold mb-1">💵 Paiement uniquement à la livraison</p>
+            <p className="text-sm">Tu ne paies <strong>RIEN à l'avance</strong>. Le livreur passe chez toi, tu vérifies le colis, et tu paies <strong>cash à la réception</strong>. Aucun risque, zéro acompte.</p>
           </div>
         </div>
       </section>
@@ -224,7 +224,7 @@ function SiropPage() {
               { label: 'Risque cœur', kouka: '✅ Zéro', meds: '❌ Réel', surgery: '❌ Réel' },
               { label: 'Discrétion', kouka: '✅ 100%', meds: 'Pharmacie', surgery: 'Pharmacie' },
               { label: 'Désir / libido', kouka: '✅ Restauré', meds: '❌ Mécanique', surgery: '❌ Mécanique' },
-              { label: 'Garantie', kouka: '✅ Remboursé', meds: '❌ Non', surgery: '❌ Non' },
+              { label: 'Paiement', kouka: '✅ À la livraison', meds: '❌ D\'avance', surgery: '❌ D\'avance' },
             ]}
             productLabel="🍯 Sirop KOUKA"
             medsLabel="Viagra & co"

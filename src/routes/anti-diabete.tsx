@@ -297,8 +297,8 @@ function AntiDiabetePage() {
       <section className="py-8 bg-bleu-bg">
         <div className="container-kouka max-w-3xl">
           <div className="bg-white border-2 border-bleu rounded-2xl p-5 text-center">
-            <p className="font-extrabold text-bleu mb-1">🛡️ Engagement qualité</p>
-            <p className="text-sm">Si tu suis le traitement complet sans aucune amélioration, contacte-nous — nous t'accompagnons.</p>
+            <p className="font-extrabold text-bleu mb-1">💵 Paiement uniquement à la livraison</p>
+            <p className="text-sm">Tu ne paies <strong>RIEN à l'avance</strong>. Le livreur passe chez toi, tu vérifies le colis, et tu règles <strong>cash à la réception</strong>. Aucun risque.</p>
           </div>
 
           <div className="text-center mt-6">
@@ -335,7 +335,7 @@ function AntiDiabetePage() {
                   ['Dépendance', '✅ Aucune', '❌ À vie', '—'],
                   ['Énergie restaurée', '✅ Oui', '❌ Non', '❌ Non'],
                   ['Discrétion', '✅ 100%', 'Pharmacie', 'Clinique'],
-                  ['Garantie', '✅ Remboursé', '❌ Non', '❌ Non'],
+                  ['Paiement', '✅ À la livraison', '❌ D\'avance', '❌ D\'avance'],
                 ].map((r, i) => (
                   <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-bleu-bg/40'}>
                     <td className="px-3 py-3 font-bold text-foreground">{r[0]}</td>
