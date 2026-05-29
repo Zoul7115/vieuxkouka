@@ -3,6 +3,7 @@ import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ComparisonTable } from '@/components/ComparisonTable';
+import { SocialProofChat } from '@/components/sirop/SocialProofChat';
 
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 
