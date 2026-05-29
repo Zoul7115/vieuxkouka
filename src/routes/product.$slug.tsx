@@ -3,6 +3,7 @@ import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ComparisonTable } from '@/components/ComparisonTable';
+import { SocialProofChat } from '@/components/sirop/SocialProofChat';
 
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 
@@ -240,6 +241,8 @@ function SiropPage() {
           </div>
         </div>
       </section>
+
+      <SocialProofChat />
 
       {/* FAQ avant le formulaire — lever les objections avant la décision */}
       <section className="sec">
