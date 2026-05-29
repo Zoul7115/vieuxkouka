@@ -3,6 +3,7 @@ import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ComparisonTable } from '@/components/ComparisonTable';
+import { SocialProofChatSirop } from '@/components/sirop/SocialProofChatSirop';
 
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 
@@ -240,6 +241,9 @@ function SiropPage() {
           </div>
         </div>
       </section>
+
+      {/* Témoignages WhatsApp + Facebook (fictifs, à but illustratif) */}
+      <SocialProofChatSirop />
 
       {/* FAQ avant le formulaire — lever les objections avant la décision */}
       <section className="sec">
