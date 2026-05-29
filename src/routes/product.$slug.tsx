@@ -242,6 +242,8 @@ function SiropPage() {
         </div>
       </section>
 
+      <SocialProofChat />
+
       {/* FAQ avant le formulaire — lever les objections avant la décision */}
       <section className="sec">
         <div className="container-kouka">
