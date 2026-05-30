@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TonicKoukaRouteImport } from './routes/tonic-kouka'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as LivreurRouteImport } from './routes/livreur'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
@@ -20,6 +21,11 @@ import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as LivreurBilanRouteImport } from './routes/livreur.bilan'
 import { Route as ApiPublicHooksWeeklyReportRouteImport } from './routes/api/public/hooks/weekly-report'
 
+const TonicKoukaRoute = TonicKoukaRouteImport.update({
+  id: '/tonic-kouka',
+  path: '/tonic-kouka',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ThankYouRoute = ThankYouRouteImport.update({
   id: '/thank-you',
   path: '/thank-you',
@@ -79,6 +85,7 @@ export interface FileRoutesByFullPath {
   '/diagnostic': typeof DiagnosticRoute
   '/livreur': typeof LivreurRouteWithChildren
   '/thank-you': typeof ThankYouRoute
+  '/tonic-kouka': typeof TonicKoukaRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur/': typeof LivreurIndexRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/anti-diabete': typeof AntiDiabeteRoute
   '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
+  '/tonic-kouka': typeof TonicKoukaRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur': typeof LivreurIndexRoute
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/diagnostic': typeof DiagnosticRoute
   '/livreur': typeof LivreurRouteWithChildren
   '/thank-you': typeof ThankYouRoute
+  '/tonic-kouka': typeof TonicKoukaRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur/': typeof LivreurIndexRoute
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/diagnostic'
     | '/livreur'
     | '/thank-you'
+    | '/tonic-kouka'
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur/'
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/anti-diabete'
     | '/diagnostic'
     | '/thank-you'
+    | '/tonic-kouka'
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/diagnostic'
     | '/livreur'
     | '/thank-you'
+    | '/tonic-kouka'
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur/'
@@ -153,12 +165,20 @@ export interface RootRouteChildren {
   DiagnosticRoute: typeof DiagnosticRoute
   LivreurRoute: typeof LivreurRouteWithChildren
   ThankYouRoute: typeof ThankYouRoute
+  TonicKoukaRoute: typeof TonicKoukaRoute
   ProductSlugRoute: typeof ProductSlugRoute
   ApiPublicHooksWeeklyReportRoute: typeof ApiPublicHooksWeeklyReportRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tonic-kouka': {
+      id: '/tonic-kouka'
+      path: '/tonic-kouka'
+      fullPath: '/tonic-kouka'
+      preLoaderRoute: typeof TonicKoukaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/thank-you': {
       id: '/thank-you'
       path: '/thank-you'
@@ -252,18 +272,10 @@ const rootRouteChildren: RootRouteChildren = {
   DiagnosticRoute: DiagnosticRoute,
   LivreurRoute: LivreurRouteWithChildren,
   ThankYouRoute: ThankYouRoute,
+  TonicKoukaRoute: TonicKoukaRoute,
   ProductSlugRoute: ProductSlugRoute,
   ApiPublicHooksWeeklyReportRoute: ApiPublicHooksWeeklyReportRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}

@@ -1,97 +1,88 @@
-## Page Livreur — App PWA dédiée
 
-Nouvelle route `/livreur` (PWA installable) où chaque livreur se connecte avec son numéro WhatsApp + mot de passe et gère ses commandes en temps réel.
+## Nouveau produit : Tonic du Vieux KOUKA
 
-### 1. Authentification livreur
-- **Connexion** : numéro WhatsApp (déjà dans table `livreurs`) + mot de passe
-- **Première connexion** : si aucun mot de passe défini → écran "créer mon mot de passe"
-- **Session persistante** : token stocké en `localStorage` (auto-login après 1ère connexion, validité 90 jours)
-- Nouvelle colonne `password_hash` + `last_login_at` sur table `livreurs`
-- Hash bcrypt côté server function (jamais en clair)
+Amer naturel (herbal bitters) en bouteille — élixir traditionnel 12-en-1 qui complète la gamme KOUKA aux côtés de la Poudre, du Sirop et de l'Anti-Diabète.
 
-### 2. Dashboard livreur (page principale)
-**En haut** :
-- Salutation + emoji livreur
-- Carte "Stock disponible" : Poudre KOUKA / Sirop / Anti-Diabète (lecture `stock_transactions`)
-- Compteur du jour : commandes assignées / livrées / en attente
-
-**Liste des commandes assignées** (temps réel via Supabase Realtime) :
-- Filtrage automatique `livreur_idx = mon_idx` + statut ≠ delivered/cancelled (par défaut)
-- Onglets : `À livrer` · `Aujourd'hui livrées` · `Historique 7j`
-- Carte commande : nom client, ville/quartier, téléphone (bouton appel + WhatsApp), produit + offre, montant, créneau
-- **Sync auto** : si admin retire/réassigne, la commande disparaît/apparaît instantanément
-
-### 3. Actions sur commande
-Bouton principal "Mettre à jour le statut" → modal avec 4 choix :
-- **Livré** : demande montant frais livraison (pré-rempli depuis `delivery_fee` du livreur, modifiable) → enregistre, déclenche trigger stock auto
-- **Expédié** : marque comme expédié (l'argent du produit revient à l'admin, pas comptabilisé pour le livreur)
-- **Annulé** : motif obligatoire (court texte)
-- **Reprogrammé** : choisir nouvelle date/créneau
-
-Nouveau statut `shipped` à ajouter (si pas déjà supporté) + colonne `reschedule_date`.
-
-### 4. Bilan du soir
-Page `/livreur/bilan` :
-- Livraisons du jour (nombre + pièces)
-- CA encaissé (somme `product_price` des livrées hors expédiées)
-- Frais de livraison (sa part à garder)
-- **Reste à reverser à l'admin** = CA encaissé − frais livraison
-- Bouton "J'ai versé à l'admin" → marque les commandes comme `cash_confirmed = true` (colonne déjà présente)
-- Historique des bilans des 30 derniers jours
-
-### 5. PWA + Notifications
-- `manifest-livreur.webmanifest` séparé (scope `/livreur`, start_url `/livreur`, theme vert KOUKA)
-- Service worker dédié `sw-livreur.js` (basé sur `sw.js` existant) :
-  - Push notifications quand une nouvelle commande lui est assignée
-  - Notif quand une commande est retirée
-  - Son + vibration
-- Bouton "Installer l'app" si non installée
-- Subscription push stockée avec `livreur_idx` dans `push_subscriptions` (ajouter colonne `livreur_idx`)
-- Edge function `notify-livreur` déclenchée par trigger DB sur `UPDATE orders.livreur_idx`
-
-### 6. Fonctionnalités bonus utiles
-- **Itinéraire Google Maps** : bouton "Naviguer" qui ouvre Maps avec l'adresse
-- **Appel rapide** + **WhatsApp pré-rempli** ("Bonjour, je suis votre livreur KOUKA, j'arrive…")
-- **Mode hors-ligne** : cache des commandes du jour (via service worker)
-- **Tri par zone** : regrouper les livraisons par quartier pour optimiser tournée
-- **Indicateur "nouvelle commande"** : badge rouge + son d'alerte
-- **Photo de preuve de livraison** (optionnel, upload Supabase Storage)
-- **Demande de réassignation** : bouton "Je ne peux pas livrer" qui notifie l'admin
+**Les 12 maux mis sur l'étiquette** (extraits des étiquettes Dieudonné / Herbal Bitters fournies) :
+Hémorroïdes (Kooko) · Ulcères d'estomac · Hypertension · Diabète · Fibromes/Myomes · Règles douloureuses · Hernie · Anémie · Paludisme · Fatigue chronique · Infections bactériennes · Faiblesse sexuelle & éjaculation précoce
 
 ---
 
-### Détails techniques
+## 1. Étiquette produit — Style "Tradition africaine premium"
 
-**Migrations DB** :
-- `ALTER TABLE livreurs ADD COLUMN password_hash text, last_login_at timestamptz, session_token text`
-- `ALTER TABLE push_subscriptions ADD COLUMN livreur_idx int`
-- `ALTER TABLE orders ADD COLUMN reschedule_date timestamptz, cancellation_reason text`
-- Trigger `handle_order_stock_change` : ajouter cas `shipped` (pas de sortie stock immédiate, mais marquer pour admin)
-- Realtime : `ALTER PUBLICATION supabase_realtime ADD TABLE orders`
+Génération d'une image haute résolution (1200×1600, prête à imprimer en sticker bouteille) avec `imagegen` premium :
 
-**Routes nouvelles** :
-- `src/routes/livreur.tsx` (layout + login)
-- `src/routes/livreur.index.tsx` (dashboard commandes)
-- `src/routes/livreur.bilan.tsx`
-- `src/routes/livreur.commande.$id.tsx` (détail + actions)
+- **Palette** : vert forêt profond (#1a3c2a) + or vieilli (#c9a84c) + crème parchemin (#f5f0e0)
+- **Bandeau supérieur** : "TONIC DU VIEUX KOUKA" en typo serif imposante (façon apothicaire ouest-africain)
+- **Sous-titre** : "Élixir traditionnel 12-en-1 · Recette du Vieux"
+- **Médaillon central** : silhouette/portrait stylisé du Vieux KOUKA (réutilisation de `src/assets/vieux-kouka-profile.jpg` comme référence) entouré de motifs Bogolan/feuilles tropicales
+- **Liste des 12 maux** en 2 colonnes, typo nette, puces feuille verte
+- **Bandeau bas** : "📍 Région des Kuilsés · Burkina Faso 🇧🇫 · +60 ans de tradition"
+- **Sceau or** : "100% PLANTES NATURELLES · CASH À LA LIVRAISON"
+- **Posologie + NB** (alcool/grossesse/conduite) dans un encadré discret
 
-**Server functions** :
-- `loginLivreur`, `setPasswordLivreur`, `validateSession`
-- `updateOrderStatus` (livré/expédié/annulé/reprogrammé)
-- `getMyOrders`, `getMyDailyReport`, `confirmCashHandover`
+Sauvegarde : `src/assets/tonic-kouka-etiquette.jpg` + miniature hero `src/assets/tonic-kouka-bouteille.jpg`
 
-**Sécurité** :
-- RLS livreur : ne voit que `orders WHERE livreur_idx = session.livreur_idx`
-- Session token validé dans middleware server function
-- Mot de passe bcrypt + rate limiting login
+QA : visualisation et re-génération si typo illisible ou éléments coupés.
 
-**Files** :
-- `public/manifest-livreur.webmanifest`, `public/sw-livreur.js`, `public/icons/livreur-*.png`
-- `src/components/livreur/*` (LoginForm, OrderCard, StatusModal, StockBadge, BilanCard, InstallPWA)
-- `src/lib/livreur-auth.functions.ts`, `src/lib/livreur-orders.functions.ts`
+---
 
-### Questions à confirmer avant implémentation
-1. Pour les **commandes expédiées** (transport en gare), le livreur encaisse-t-il les frais d'expédition ou est-ce 100% admin ?
-2. Le **mot de passe oublié** : reset via WhatsApp (admin réinitialise depuis l'onglet Livreurs) — OK ?
-3. **Photo preuve livraison** : on l'inclut dès maintenant ou plus tard ?
-4. Les commandes `shipped` doivent-elles aussi déduire le stock immédiatement ou seulement à confirmation admin ?
+## 2. Catalogue produit (`src/lib/products.ts`)
+
+Ajout d'un 4ᵉ produit `TONIC_KOUKA` avec :
+
+- `slug: 'tonic-kouka'`
+- `name: 'Tonic du Vieux KOUKA'`, `shortName: 'Tonic KOUKA'`
+- `pathology: 'Hémorroïdes · Ulcères · Diabète · Hypertension · Fibromes · Faiblesse sexuelle · +6 maux'`
+- 3 offres alignées sur la grille Sirop (1 flacon / 2+1 offert / 3+2 offerts) — prix à confirmer, je propose **8 000 / 18 000 / 25 000 FCFA** (positionné légèrement sous le Sirop car polyvalent)
+- Ajout au `PRODUCTS[]`, au `productFamily()`, `productBadge()` et `PRODUCT_COSTS` (PA proposé : 2 500 FCFA)
+
+---
+
+## 3. Nouvelle page de vente (`src/routes/tonic-kouka.tsx`)
+
+Structure calquée sur `anti-diabete.tsx` (route plate, pas via `product.$slug`) :
+
+1. **Bandeau urgence** + stock dynamique (`useDynamicStock('tonic-kouka', 18)`)
+2. **Hero** : H1 "Un seul flacon. 12 maux soulagés." + visuel bouteille + prix offre recommandée + CTA "Je commande"
+3. **Section "Reconnais-tu ces signes ?"** — checklist des 12 maux regroupés en 4 familles (digestif / circulatoire / féminin / vital)
+4. **Présentation Vieux KOUKA** (réutilisation du bloc existant : photo + région des Kuilsés)
+5. **Comment ça agit** — explication "amer = stimule foie + reins + circulation" en langage simple
+6. **Liste détaillée des 12 maux** avec icônes (mise en avant visuelle = étiquette en grand)
+7. **Posologie + précautions** (NB de l'étiquette : pas d'alcool, pas de conduite, pas de femmes enceintes)
+8. **Bloc livraison BF/Niger** + paiement à la livraison (réutilisation du pattern existant)
+9. **Tableau comparatif** "Tonic KOUKA vs aller voir 5 médecins différents"
+10. **FAQ** (composant existant)
+11. **`<ProductForm product={TONIC_KOUKA} />`** — formulaire de commande standard
+12. Lien retour vers la home
+
+Réutilise les classes Tailwind existantes (`sec`, `bloc`, `container-kouka`, `text-vert`, `text-rouge`, `bg-vert-bg`…) pour rester cohérent avec les 3 autres pages.
+
+Head SEO : titre + meta description + og:image = étiquette tonic.
+
+---
+
+## 4. Mise en avant sur la home (`src/routes/index.tsx`)
+
+Ajout d'une **4ᵉ carte produit** dans la grille des produits (à côté de Poudre / Sirop / Anti-Diabète), pointant vers `/tonic-kouka`, avec emoji 🌿 et accroche "12 maux · 1 flacon".
+
+---
+
+## 5. Détails techniques
+
+- **Aucune migration BDD** : le champ `product` des commandes est texte libre, le nouveau produit s'insère automatiquement via `ProductForm`
+- **Admin & livreur** : `productFamily()` et `productBadge()` étendus → la nouvelle famille apparaît automatiquement dans les onglets Commandes, Bilan, Compta, Stock, et chez le livreur
+- **Stock** : `useDynamicStock('tonic-kouka', 18)` — pas de setup BDD requis (hook autonome)
+- **Pas de modification** de `routeTree.gen.ts` (auto-généré par Vite plugin)
+
+---
+
+## Livrables finaux
+
+1. `src/assets/tonic-kouka-etiquette.jpg` — étiquette imprimable haute résolution
+2. `src/assets/tonic-kouka-bouteille.jpg` — visuel hero
+3. Nouvelle page de vente live sur `/tonic-kouka`
+4. Carte produit sur la home
+5. Apparition automatique dans admin + livreur
+
+**À confirmer avant build** : les prix (8 000 / 18 000 / 25 000 FCFA proposés) — dis-moi si tu veux autre chose.

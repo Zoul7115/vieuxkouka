@@ -171,7 +171,59 @@ export const ANTI_DIABETE: Product = {
   offers: antiDiabeteOffers,
 };
 
-export const PRODUCTS: Product[] = [KOUKA, SIROP_KOUKA, ANTI_DIABETE];
+const tonicOffers: Offer[] = [
+  {
+    id: 31,
+    label: '1 FLACON — DÉCOUVERTE',
+    units: 1,
+    paidUnits: 1,
+    bonusUnits: 0,
+    price: 8000,
+    oldPrice: 12000,
+    description: '1 flacon — Pour démarrer la cure',
+  },
+  {
+    id: 32,
+    label: '2 + 1 OFFERT — CURE COMPLÈTE',
+    units: 3,
+    paidUnits: 2,
+    bonusUnits: 1,
+    price: 18000,
+    oldPrice: 30000,
+    description: '2 achetés + 1 flacon GRATUIT — Cure complète 30 jours',
+    saving: '1 flacon GRATUIT offert !',
+    badge: '⭐ POPULAIRE',
+    recommended: true,
+  },
+  {
+    id: 33,
+    label: '3 + 2 OFFERTS — CURE FAMILIALE',
+    units: 5,
+    paidUnits: 3,
+    bonusUnits: 2,
+    price: 25000,
+    oldPrice: 50000,
+    description: '3 achetés + 2 flacons GRATUITS — Pour toute la famille',
+    saving: '2 flacons GRATUITS offerts !',
+    badge: '🔥 PACK FAMILLE',
+    bestValue: true,
+  },
+];
+
+export const TONIC_KOUKA: Product = {
+  slug: 'tonic-kouka',
+  name: 'Tonic du Vieux KOUKA',
+  shortName: 'Tonic KOUKA',
+  pathology: 'Hémorroïdes · Ulcères · Diabète · Hypertension · Fibromes · Faiblesse sexuelle · +6 maux',
+  emoji: '🌿',
+  tagline: 'Un seul flacon. 12 maux soulagés. L\'élixir traditionnel 12-en-1 du Vieux KOUKA — 100% plantes naturelles, recette transmise depuis +60 ans.',
+  heroImage: '/src/assets/tonic-kouka-bouteille.jpg',
+  metaTitle: 'Tonic du Vieux KOUKA — Élixir 12-en-1 (Burkina · Niger)',
+  metaDesc: 'Hémorroïdes, ulcères, diabète, hypertension, fibromes, faiblesse sexuelle… Le Tonic du Vieux KOUKA agit sur 12 maux à la fois. 100% plantes africaines. Livraison gratuite Ouaga & Niamey · Cash à la livraison.',
+  offers: tonicOffers,
+};
+
+export const PRODUCTS: Product[] = [KOUKA, SIROP_KOUKA, ANTI_DIABETE, TONIC_KOUKA];
 
 export const getProduct = (slug: string) => PRODUCTS.find((product) => product.slug === slug);
 
@@ -213,16 +265,18 @@ export const PRODUCT_COSTS: Record<string, number> = {
   KOUKA: 2000,
   'Sirop KOUKA': 3000,
   'Anti-Diabète': 2000,
+  'Tonic KOUKA': 2500,
 };
 
 /** Coût livraison par commande livrée (FCFA) */
 export const DELIVERY_COST = 2000;
 
 /** Famille de produit déduite du nom/slug — utilisée pour le PA et l'affichage */
-export function productFamily(productName: string, slug?: string | null): 'KOUKA' | 'Sirop KOUKA' | 'Anti-Diabète' {
+export function productFamily(productName: string, slug?: string | null): 'KOUKA' | 'Sirop KOUKA' | 'Anti-Diabète' | 'Tonic KOUKA' {
   const s = (slug || '').toLowerCase();
   const n = (productName || '').toLowerCase();
   if (s === 'anti-diabete' || /anti[-\s]?diab/.test(n)) return 'Anti-Diabète';
+  if (s === 'tonic-kouka' || /tonic/.test(n)) return 'Tonic KOUKA';
   if (s === 'sirop-kouka' || /sirop/.test(n)) return 'Sirop KOUKA';
   return 'KOUKA';
 }
@@ -231,6 +285,7 @@ export function productFamily(productName: string, slug?: string | null): 'KOUKA
 export function productBadge(productName: string, slug?: string | null): { emoji: string; label: string } {
   const fam = productFamily(productName, slug);
   if (fam === 'Anti-Diabète') return { emoji: '🩸', label: 'Anti-Diabète' };
+  if (fam === 'Tonic KOUKA') return { emoji: '🌿', label: 'Tonic KOUKA' };
   if (fam === 'Sirop KOUKA') return { emoji: '🍯', label: 'Sirop KOUKA' };
   return { emoji: '🌿', label: 'Poudre KOUKA' };
 }
