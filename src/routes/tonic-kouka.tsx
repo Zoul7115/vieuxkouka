@@ -88,42 +88,27 @@ function TonicKoukaPage() {
               {/* MAIN OFFER CARD */}
               <div className="relative bg-white border-[3px] border-vert rounded-3xl p-5 shadow-[0_12px_30px_rgba(46,125,50,0.18)] text-left">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-rouge text-white text-xs font-extrabold px-4 py-1.5 rounded-full whitespace-nowrap shadow">
-                  ⭐ 9 CLIENTS SUR 10 CHOISISSENT ÇA
+                  ⭐ La vraie recette du Vieux
                 </div>
                 <div className="text-[11px] uppercase font-extrabold text-vert tracking-wider mt-2 mb-1">
-                  Traitement complet 30 jours
+                  Tonic du Vieux KOUKA
                 </div>
                 <div className="text-xl font-extrabold text-foreground leading-tight">
-                  2 bouteilles + 1 GRATUITE 🎁
+                  1 bouteille
                 </div>
                 <div className="flex items-baseline gap-3 mt-2">
-                  <span className="text-4xl font-extrabold text-vert">22 000 F</span>
-                  <span className="text-base text-muted-foreground line-through">33 000 F</span>
-                  <span className="text-xs font-bold text-rouge bg-rouge-light px-2 py-0.5 rounded">Tu gagnes 11 000 F</span>
+                  <span className="text-4xl font-extrabold text-vert">11 000 F</span>
+                  <span className="text-base text-muted-foreground line-through">15 000 F</span>
                 </div>
                 <ul className="text-sm text-foreground mt-3 space-y-1">
-                  <li>✔ 3 bouteilles reçues (1 GRATUITE)</li>
-                  <li>✔ Assez pour 30 jours de cure</li>
+                  <li>✔ 100% plantes du Burkina</li>
+                  <li>✔ Soigne 12 maladies à la fois</li>
                   <li>✔ Livré chez toi à Ouaga & Niamey</li>
                 </ul>
                 <button onClick={scrollToOrder} className={`mt-4 w-full bg-rouge text-white ${cta.sizeClass} rounded-xl font-extrabold shadow-[0_10px_28px_rgba(198,40,40,0.50)] hover:-translate-y-0.5 transition-transform border-2 border-white/20 ${TAP}`}>
                   {cta.primary}
                 </button>
                 <p className="text-[11px] text-muted-foreground mt-2 text-center leading-snug">📦 Livré chez toi · 💵 Tu paies seulement à la réception · 🔒 Aucun risque</p>
-              </div>
-
-              {/* SECONDARY OFFER */}
-              <div className="mt-3 bg-white border-2 border-vert/30 rounded-2xl p-4 shadow-sm">
-                <div className="flex items-center justify-between gap-3 flex-wrap">
-                  <div className="text-left">
-                    <div className="text-[11px] uppercase font-extrabold text-muted-foreground tracking-wider">Pour essayer d'abord</div>
-                    <div className="text-base font-extrabold text-foreground">1 bouteille</div>
-                    <div className="text-xl font-extrabold text-vert">11 000 F</div>
-                  </div>
-                  <button onClick={() => preselectAndScroll(31, 'hero-try')} className={`bg-vert text-white px-6 py-4 rounded-xl text-base font-extrabold shadow-lg hover:-translate-y-0.5 transition-transform min-h-[52px] ${TAP}`}>
-                    Je veux essayer
-                  </button>
-                </div>
               </div>
             </div>
           </div>
