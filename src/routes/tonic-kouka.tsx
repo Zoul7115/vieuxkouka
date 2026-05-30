@@ -33,14 +33,15 @@ export const Route = createFileRoute('/tonic-kouka')({
   component: TonicKoukaPage,
 });
 
-function scrollToOrder() { preselectAndScroll(32); }
+function scrollToOrder() { preselectAndScroll(32, 'main-cta'); }
 
 function TonicKoukaPage() {
   const product = TONIC_KOUKA;
   const stock = useDynamicStock('tonic-kouka', 18);
+  const cta = useCtaVariant();
 
   return (
-    <div className="bg-cream pb-32">
+    <div className="bg-cream pb-[180px] sm:pb-32" style={{ paddingBottom: 'calc(180px + env(safe-area-inset-bottom))' }}>
       <StickyOfferBarTonic stock={stock} />
       <VisitTracker page="tonic-kouka" />
 
