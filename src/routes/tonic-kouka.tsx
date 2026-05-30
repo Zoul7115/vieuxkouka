@@ -6,14 +6,19 @@ import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { TONIC_KOUKA } from '@/lib/products';
 import { SocialProofChatTonic } from '@/components/tonic/SocialProofChatTonic';
 import { StickyOfferBarTonic } from '@/components/tonic/StickyOfferBarTonic';
+import { useCtaVariant, trackCtaClick } from '@/hooks/useCtaVariant';
 import bouteilleTonic from '@/assets/tonic-kouka-bouteille.jpg';
 import etiquetteTonic from '@/assets/tonic-kouka-etiquette.jpg';
 
-function preselectAndScroll(offerId: number) {
+function preselectAndScroll(offerId: number, location = 'cta') {
+  trackCtaClick(location);
   try { sessionStorage.setItem('preselect_offer_id', String(offerId)); } catch {}
   window.dispatchEvent(new CustomEvent('preselect-offer', { detail: { offerId } }));
   document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' });
 }
+
+// Classes communes pour garantir une zone de tap nette sur mobile
+const TAP = 'leading-none touch-manipulation select-none active:scale-[0.98] will-change-transform';
 
 export const Route = createFileRoute('/tonic-kouka')({
   head: () => ({
