@@ -69,14 +69,12 @@ function SiropPage() {
 
           {/* PRIX visible dans le hero */}
           <div className="bg-white border-2 border-rouge rounded-2xl p-4 mb-5 max-w-sm mx-auto shadow-md">
-            <div className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-1">🔥 Offre</div>
+            <div className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-1">🔥 Offre recommandée</div>
             <div className="flex items-baseline justify-center gap-2 mb-1">
-              <span className="text-3xl font-extrabold text-rouge">{(product.offers[0]?.price ?? 0).toLocaleString('fr-FR')} FCFA</span>
-              {product.offers[0]?.oldPrice && product.offers[0].oldPrice > product.offers[0].price && (
-                <span className="text-base text-muted-foreground line-through">{product.offers[0].oldPrice.toLocaleString('fr-FR')}</span>
-              )}
+              <span className="text-3xl font-extrabold text-rouge">25 000 FCFA</span>
+              <span className="text-base text-muted-foreground line-through">36 000</span>
             </div>
-            <div className="text-sm font-bold text-vert">{product.offers[0]?.label}</div>
+            <div className="text-sm font-bold text-vert">2 flacons + 1 OFFERT · Traitement complet</div>
             <div className="text-xs text-muted-foreground mt-1">📦 Colis neutre · Cash à réception</div>
           </div>
 
