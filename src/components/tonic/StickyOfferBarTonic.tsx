@@ -52,7 +52,7 @@ export function StickyOfferBarTonic({ stock }: { stock: number }) {
             className={`flex flex-col items-center justify-center bg-white border-2 border-vert text-vert rounded-xl px-2 font-extrabold leading-none active:scale-[0.97] transition touch-manipulation select-none ${sizeClass}`}
           >
             <span className="text-[10px] uppercase tracking-wide opacity-70 mb-1">Découverte</span>
-            <span>1 bouteille · 8 000 F</span>
+            <span>1 bouteille · 11 000 F</span>
           </button>
           <button
             onClick={() => go(32, 'sticky-bar-2')}
@@ -60,7 +60,7 @@ export function StickyOfferBarTonic({ stock }: { stock: number }) {
           >
             <span className="absolute -top-2.5 right-1 bg-or text-foreground text-[10px] font-extrabold px-2 py-0.5 rounded-full leading-none">★ TOP</span>
             <span className="text-[10px] uppercase tracking-wide opacity-90 mb-1">2+1 OFFERT</span>
-            <span>3 bouteilles · 18 000 F</span>
+            <span>3 bouteilles · 22 000 F</span>
           </button>
         </div>
       </div>
