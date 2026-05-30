@@ -97,9 +97,9 @@ function TonicKoukaPage() {
                   2 bouteilles + 1 GRATUITE 🎁
                 </div>
                 <div className="flex items-baseline gap-3 mt-2">
-                  <span className="text-4xl font-extrabold text-vert">18 000 F</span>
-                  <span className="text-base text-muted-foreground line-through">30 000 F</span>
-                  <span className="text-xs font-bold text-rouge bg-rouge-light px-2 py-0.5 rounded">Tu gagnes 12 000 F</span>
+                  <span className="text-4xl font-extrabold text-vert">22 000 F</span>
+                  <span className="text-base text-muted-foreground line-through">33 000 F</span>
+                  <span className="text-xs font-bold text-rouge bg-rouge-light px-2 py-0.5 rounded">Tu gagnes 11 000 F</span>
                 </div>
                 <ul className="text-sm text-foreground mt-3 space-y-1">
                   <li>✔ 3 bouteilles reçues (1 GRATUITE)</li>
@@ -118,7 +118,7 @@ function TonicKoukaPage() {
                   <div className="text-left">
                     <div className="text-[11px] uppercase font-extrabold text-muted-foreground tracking-wider">Pour essayer d'abord</div>
                     <div className="text-base font-extrabold text-foreground">1 bouteille</div>
-                    <div className="text-xl font-extrabold text-vert">8 000 F</div>
+                    <div className="text-xl font-extrabold text-vert">11 000 F</div>
                   </div>
                   <button onClick={() => preselectAndScroll(31, 'hero-try')} className={`bg-vert text-white px-6 py-4 rounded-xl text-base font-extrabold shadow-lg hover:-translate-y-0.5 transition-transform min-h-[52px] ${TAP}`}>
                     Je veux essayer
@@ -348,7 +348,7 @@ function TonicKoukaPage() {
               <tbody>
                 {[
                   ['Maladies soignées', '✅ 12 d\'un coup', '❌ 1 par produit'],
-                  ['Coût par mois', '18 000 F', 'Plus de 50 000 F'],
+                  ['Coût par mois', '22 000 F', 'Plus de 50 000 F'],
                   ['Effets secondaires', '✅ Aucun', '⚠️ Abîme foie, reins'],
                   ['D\'où ça vient', '🌿 Plantes du Burkina', 'Produits chimiques'],
                   ['Dépendance', '✅ Aucune', '❌ Souvent à vie'],
@@ -399,7 +399,7 @@ function TonicKoukaPage() {
             items={[
               { q: "Comment 1 seul produit peut soigner 12 maladies ?", a: "Parce que c'est une <strong>boisson amère</strong> qui ne soigne pas les symptômes un par un — elle réveille les 3 organes nettoyeurs (foie, reins, sang). Quand ces organes marchent bien, ton corps se répare tout seul sur plusieurs maladies." },
               { q: "En combien de temps je vais voir les résultats ?", a: "<strong>Dès la 1ère semaine :</strong> tu te sens plus léger, tu as plus d'énergie. <strong>Entre J15 et J30 :</strong> les douleurs (ulcère, règles, hémorroïdes) baissent, la tension et le sucre se stabilisent. <strong>À la fin de la cure :</strong> changement durable." },
-              { q: "Combien de bouteilles je dois prendre ?", a: "<strong>1 bouteille</strong> = pour essayer. <strong>Pack 2 + 1 GRATUITE (18 000 F)</strong> = la cure complète conseillée (9 clients sur 10 prennent celle-là). <strong>Pack 3 + 2 GRATUITES (25 000 F)</strong> = pour toute la famille." },
+              { q: "Combien de bouteilles je dois prendre ?", a: "<strong>1 bouteille</strong> = pour essayer. <strong>Pack 2 + 1 GRATUITE (22 000 F)</strong> = la cure complète conseillée (9 clients sur 10 prennent celle-là). <strong>Pack 3 + 2 GRATUITES (33 000 F)</strong> = pour toute la famille." },
               { q: "Comment je dois prendre le Tonic ?", a: "<strong>Adulte :</strong> un verre et demi de thé, <strong>seulement le soir, avant de manger</strong>. Bien secouer avant. Cure de 30 jours, puis 15 jours de repos." },
               { q: "Est-ce qu'il y a des effets secondaires ?", a: "Aucun — 100% plantes africaines, zéro chimie, zéro dépendance. <strong>Attention :</strong> pas d'alcool pendant la cure, ne pas conduire juste après, interdit aux femmes enceintes." },
               { q: "Je peux le prendre avec mes médicaments ?", a: "Oui, c'est un complément naturel. <strong>N'arrête jamais tes médicaments d'un coup</strong> — continue ton traitement et parle à ton médecin avant de changer quelque chose." },
@@ -426,7 +426,7 @@ function TonicKoukaPage() {
           <div className="bg-white rounded-3xl p-6 shadow-xl border-2 border-vert/30">
             <ul className="divide-y divide-vert/20">
               {[
-                { t: '3 bouteilles de Tonic du Vieux KOUKA (1 GRATUITE)', v: '27 000 F' },
+                { t: '3 bouteilles de Tonic du Vieux KOUKA (1 GRATUITE)', v: '33 000 F' },
                 { t: 'Conseils personnalisés sur WhatsApp', v: 'Offert' },
                 { t: 'Suivi du Vieux pendant toute la cure', v: 'Offert' },
                 { t: 'Livraison à domicile (Ouaga & Niamey)', v: 'Offert' },
@@ -443,9 +443,9 @@ function TonicKoukaPage() {
             <div className="mt-4 pt-4 border-t-2 border-vert flex items-center justify-between">
               <div>
                 <span className="font-extrabold text-foreground">Total à payer</span>
-                <span className="block text-xs text-muted-foreground line-through">au lieu de 30 000 F</span>
+                <span className="block text-xs text-muted-foreground line-through">au lieu de 33 000 F</span>
               </div>
-              <span className="text-3xl font-extrabold text-vert">18 000 F</span>
+              <span className="text-3xl font-extrabold text-vert">22 000 F</span>
             </div>
           </div>
 
@@ -470,7 +470,7 @@ function TonicKoukaPage() {
       <section className="py-10 bg-white border-t border-vert/20">
         <div className="container-kouka max-w-3xl text-center">
           <p className="text-xs uppercase tracking-widest text-vert font-bold mb-2">🌿 La cure conseillée</p>
-          <h3 className="text-vert mb-2">2 bouteilles + 1 GRATUITE · 18 000 FCFA</h3>
+          <h3 className="text-vert mb-2">2 bouteilles + 1 GRATUITE · 22 000 FCFA</h3>
           <p className="text-sm text-muted-foreground mb-4">9 clients sur 10 prennent cette offre. Plus que <b className="text-rouge">{stock}</b> bouteilles aujourd'hui.</p>
           <button onClick={scrollToOrder} className={`bg-rouge text-white px-8 ${cta.sizeClass} rounded-xl font-extrabold shadow-[0_10px_28px_rgba(198,40,40,0.50)] hover:-translate-y-0.5 transition-transform border-2 border-white/20 ${TAP}`}>
             ✅ JE COMMANDE — Paiement à la livraison
