@@ -106,10 +106,10 @@ function TonicKoukaPage() {
                   <li>✔ Assez pour 30 jours de cure</li>
                   <li>✔ Livré chez toi à Ouaga & Niamey</li>
                 </ul>
-                <button onClick={scrollToOrder} className="mt-4 w-full bg-rouge text-white py-[18px] rounded-xl text-[17px] sm:text-lg font-extrabold shadow-[0_10px_28px_rgba(198,40,40,0.50)] hover:-translate-y-0.5 transition-transform border-2 border-white/20">
-                  ✅ JE COMMANDE — Je paie quand je reçois
+                <button onClick={scrollToOrder} className={`mt-4 w-full bg-rouge text-white ${cta.sizeClass} rounded-xl font-extrabold shadow-[0_10px_28px_rgba(198,40,40,0.50)] hover:-translate-y-0.5 transition-transform border-2 border-white/20 ${TAP}`}>
+                  {cta.primary}
                 </button>
-                <p className="text-[11px] text-muted-foreground mt-2 text-center">📦 Livré chez toi · 💵 Tu paies seulement à la réception · 🔒 Aucun risque</p>
+                <p className="text-[11px] text-muted-foreground mt-2 text-center leading-snug">📦 Livré chez toi · 💵 Tu paies seulement à la réception · 🔒 Aucun risque</p>
               </div>
 
               {/* SECONDARY OFFER */}
