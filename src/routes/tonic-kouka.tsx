@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
+import { SocialProofChatTonic } from '@/components/tonic/SocialProofChatTonic';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { TONIC_KOUKA } from '@/lib/products';
 import etiquetteTonic from '@/assets/tonic-kouka-etiquette.jpg';
@@ -25,330 +26,267 @@ function scrollToOrder() {
 }
 
 const MAUX = [
-  { i: '🩸', t: 'Hémorroïdes (Kooko)', d: 'Saignements, douleurs, rectum' },
-  { i: '🔥', t: 'Ulcères d\'estomac', d: 'Brûlures, gastrite, douleurs' },
-  { i: '💢', t: 'Hypertension', d: 'Tension élevée, vertiges' },
-  { i: '🩺', t: 'Diabète', d: 'Glycémie instable' },
-  { i: '🌸', t: 'Fibromes / Myomes', d: 'Masses utérines' },
-  { i: '🌙', t: 'Règles douloureuses', d: 'Crampes, troubles' },
-  { i: '⚕️', t: 'Hernie', d: 'Douleurs abdominales' },
-  { i: '🫀', t: 'Anémie', d: 'Manque de sang, faiblesse' },
-  { i: '🦟', t: 'Paludisme', d: 'Fièvre, courbatures' },
-  { i: '😴', t: 'Fatigue chronique', d: 'Insomnie, manque d\'énergie' },
-  { i: '🦠', t: 'Infections bactériennes', d: 'Infections diverses' },
-  { i: '💪', t: 'Faiblesse sexuelle', d: 'Éjaculation précoce, érection' },
+  'Hémorroïdes (Kooko)',
+  'Ulcères d\'estomac',
+  'Hypertension artérielle',
+  'Diabète',
+  'Fibromes / Myomes',
+  'Règles douloureuses',
+  'Hernie',
+  'Anémie',
+  'Paludisme à répétition',
+  'Fatigue chronique',
+  'Infections bactériennes',
+  'Faiblesse sexuelle',
 ];
+
+// Forest green + gold palette — distinct from the Poudre KOUKA red/green look
+const DARK = '#0f2a1c';
+const DARK2 = '#1a3c2a';
+const GOLD = '#c9a84c';
+const CREAM = '#f5f0e0';
 
 function TonicKoukaPage() {
   const product = TONIC_KOUKA;
   const stock = useDynamicStock('tonic-kouka', 18);
 
   return (
-    <div className="bg-background pb-16 md:pb-0">
+    <div className="bg-[#faf7ed] pb-16 md:pb-0 font-sans">
       <VisitTracker page="tonic-kouka" />
 
-      <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🌿 1 flacon · 12 maux · Livraison gratuite Ouaga & Niamey · ⏰ Stock : <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> flacons
+      {/* TOP BAR — dark forest */}
+      <div className="text-white text-center py-2.5 px-4 text-[13px] font-bold sticky top-0 z-40 tracking-wide" style={{ background: DARK }}>
+        <span style={{ color: GOLD }}>★</span> ÉLIXIR 12-EN-1 · Livraison gratuite Ouaga & Niamey · Stock : <b style={{ color: GOLD }}>{stock}</b> flacons <span style={{ color: GOLD }}>★</span>
       </div>
 
-      {/* HERO */}
-      <section className="bg-gradient-to-b from-vert-bg to-background py-12 border-b-[3px] border-[oklch(0.85_0.06_145)]">
-        <div className="container-kouka text-center">
-          <span className="inline-block bg-or text-white text-xs font-bold uppercase px-4 py-1.5 rounded-full mb-4">
-            🏆 Recette traditionnelle · +60 ans
-          </span>
-          <h1 className="text-vert mb-3 leading-tight">
-            Un seul flacon.<br />
-            <em className="text-rouge not-italic">12 maux soulagés.</em>
-          </h1>
-          <p className="text-muted-foreground max-w-lg mx-auto mb-5 text-base leading-relaxed">
-            Hémorroïdes, ulcères, diabète, hypertension, fibromes, faiblesse sexuelle…
-            <strong className="text-foreground"> Le Tonic du Vieux KOUKA agit sur 12 maux à la fois</strong> — 100% plantes africaines.
-          </p>
-
-          <div className="max-w-[320px] mx-auto mb-5 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(46,125,50,0.25)] border-[3px] border-or">
-            <img src={bouteilleTonic} alt="Tonic du Vieux KOUKA" className="w-full block" width={1024} height={1024} />
-          </div>
-
-          {/* PRIX visible dans le hero */}
-          <div className="bg-white border-2 border-rouge rounded-2xl p-4 mb-5 max-w-sm mx-auto shadow-md">
-            <div className="text-xs uppercase font-bold text-muted-foreground tracking-wider mb-1">⭐ Offre populaire</div>
-            <div className="flex items-baseline justify-center gap-2 mb-1">
-              <span className="text-3xl font-extrabold text-rouge">18 000 FCFA</span>
-              <span className="text-base text-muted-foreground line-through">30 000</span>
-            </div>
-            <div className="text-sm font-bold text-vert">2 flacons + 1 OFFERT · Cure complète 30 jours</div>
-            <div className="text-xs text-muted-foreground mt-1">📦 Livré gratuit Ouaga & Niamey · Cash à la livraison</div>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm text-muted-foreground mb-4">
-            <span>✅ 100% plantes</span>
-            <span>✅ 12 maux soulagés</span>
-            <span>✅ Cash à la livraison</span>
-          </div>
-
-          <button
-            onClick={scrollToOrder}
-            className="w-full bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
-          >
-            🌿 JE COMMANDE — JE PAIE À LA LIVRAISON
-          </button>
-          <p className="text-sm text-muted-foreground mt-3">🚚 Livraison rapide · 💵 Paiement uniquement à la réception</p>
-        </div>
-      </section>
-
-      {/* RECONNAIS-TU CES MAUX ? — checklist regroupée */}
-      <section className="sec bg-cream-2">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Reconnais-tu <span className="text-rouge">ces signes</span> ?</h2>
-          <p className="text-center text-muted-foreground mb-7 max-w-lg mx-auto text-sm">
-            Coche ce que tu vis. Si tu as 2 cases ou plus → 1 seul produit peut t'aider sur plusieurs fronts.
-          </p>
-
-          <div className="grid sm:grid-cols-2 gap-4">
-            {[
-              { fam: '🩺 Digestif & ventre', items: ['Hémorroïdes qui saignent', 'Brûlures d\'estomac / ulcères', 'Ballonnements, gaz, hernie'] },
-              { fam: '🫀 Circulation & vitalité', items: ['Tension élevée, vertiges', 'Glycémie qui monte/descend', 'Anémie, manque de sang, fatigue'] },
-              { fam: '🌸 Santé féminine', items: ['Règles douloureuses, irrégulières', 'Fibromes / myomes', 'Infections gynécologiques'] },
-              { fam: '💪 Énergie & sexualité', items: ['Faiblesse sexuelle, éjaculation précoce', 'Paludisme à répétition', 'Insomnie, fatigue chronique'] },
-            ].map((g) => (
-              <div key={g.fam} className="bloc">
-                <p className="font-extrabold text-vert mb-3">{g.fam}</p>
-                <ul className="space-y-2 text-sm">
-                  {g.items.map((it) => (
-                    <li key={it} className="flex items-start gap-2">
-                      <span className="text-or">☐</span>
-                      <span>{it}</span>
-                    </li>
-                  ))}
-                </ul>
+      {/* HERO — dark apothecary, magazine cover style */}
+      <section className="relative overflow-hidden" style={{ background: `radial-gradient(ellipse at top, ${DARK2}, ${DARK})` }}>
+        <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: `radial-gradient(${GOLD} 1px, transparent 1px)`, backgroundSize: '24px 24px' }} />
+        <div className="container-kouka relative py-14 md:py-20">
+          <div className="grid md:grid-cols-2 gap-10 items-center">
+            {/* Left — text */}
+            <div className="text-white order-2 md:order-1">
+              <div className="inline-flex items-center gap-2 border border-[color:var(--gold)]/50 text-[11px] uppercase tracking-[0.25em] px-3 py-1.5 rounded-full mb-5" style={{ ['--gold' as string]: GOLD, color: GOLD }}>
+                <span>✦</span> Édition Tradition · Recette du Vieux <span>✦</span>
               </div>
-            ))}
-          </div>
-
-          <p className="text-center italic mt-6 text-muted-foreground max-w-lg mx-auto">
-            "Au lieu de payer 5 médicaments différents pour 5 maux différents, le Vieux KOUKA a réuni dans 1 seul flacon toute la sagesse de ses plantes."
-          </p>
-        </div>
-      </section>
-
-      {/* PRÉSENTATION DU VIEUX */}
-      <section className="sec bg-vert-bg">
-        <div className="container-kouka">
-          <h2 className="text-center mb-3">La sagesse du <span className="text-vert">Vieux KOUKA</span></h2>
-          <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto">
-            Le Tonic est l'élixir le plus complet de la formule traditionnelle du Vieux KOUKA —
-            <strong>un amer (herbal bitter) qui stimule le foie, les reins et la circulation</strong> pour soigner plusieurs maux à la fois.
-          </p>
-
-          <div className="bloc bloc-or p-0 overflow-hidden max-w-lg mx-auto">
-            <img src="/images/vieux-kouka.jpg" alt="Le Vieux KOUKA" className="w-full max-h-72 object-cover" />
-            <div className="p-5">
-              <h3 className="text-or mb-1">📖 Vieux KOUKA</h3>
-              <p className="text-xs text-muted-foreground font-semibold mb-1">
-                Thérapeute traditionnel · +60 ans de pratique
+              <h1 className="font-serif text-white leading-[1.05] mb-5" style={{ fontSize: 'clamp(2.2rem, 6vw, 3.6rem)' }}>
+                Un flacon.<br />
+                <span style={{ color: GOLD, fontStyle: 'italic' }}>Douze maux.</span><br />
+                Une famille en paix.
+              </h1>
+              <p className="text-white/75 text-base leading-relaxed mb-7 max-w-md">
+                Le <strong className="text-white">Tonic du Vieux KOUKA</strong> est un amer traditionnel ouest-africain. Hémorroïdes, ulcères, diabète, hypertension, fibromes, faiblesse sexuelle… <em style={{ color: GOLD }}>douze maux soulagés par un seul élixir</em>.
               </p>
-              <p className="text-sm text-vert font-bold mb-3">
-                📍 Région des Kuilsés · Burkina Faso 🇧🇫
-              </p>
-              <p className="italic text-muted-foreground leading-relaxed text-sm">
-                "Héritier d'un savoir transmis par son grand-père, le Vieux KOUKA récolte lui-même
-                chaque plante de son Tonic — racines, écorces et feuilles puisées dans la brousse
-                burkinabé selon les cycles de la lune."
-              </p>
+
+              <div className="flex flex-wrap gap-2 mb-8 text-[12px]">
+                {['100% Plantes', 'Cash à la livraison', '+60 ans de tradition', 'Burkina 🇧🇫'].map(t => (
+                  <span key={t} className="px-3 py-1.5 rounded-full" style={{ background: 'rgba(201,168,76,0.15)', color: CREAM, border: `1px solid ${GOLD}55` }}>{t}</span>
+                ))}
+              </div>
+
+              <button onClick={scrollToOrder} className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-md text-base font-extrabold uppercase tracking-wider transition-transform hover:-translate-y-0.5 shadow-2xl" style={{ background: GOLD, color: DARK }}>
+                Commander · 18 000 FCFA →
+              </button>
+              <p className="text-white/55 text-xs mt-3">Tu paies cash à la réception. Aucun acompte.</p>
+            </div>
+
+            {/* Right — bottle photo */}
+            <div className="order-1 md:order-2 relative">
+              <div className="absolute -inset-6 rounded-full blur-3xl opacity-30" style={{ background: GOLD }} />
+              <img src={bouteilleTonic} alt="Bouteille Tonic du Vieux KOUKA" className="relative w-full max-w-sm mx-auto rounded-sm shadow-[0_30px_80px_rgba(0,0,0,0.5)]" width={1024} height={1280} />
+              <div className="absolute -bottom-3 -right-3 md:bottom-4 md:right-0 rounded-full px-4 py-3 text-center shadow-xl rotate-[-8deg]" style={{ background: GOLD, color: DARK }}>
+                <div className="text-[10px] font-bold uppercase tracking-wider">Recette</div>
+                <div className="font-serif text-2xl font-extrabold leading-none">+60</div>
+                <div className="text-[10px] font-bold uppercase tracking-wider">ans</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* L'ÉTIQUETTE EN GRAND — preuve visuelle + 12 maux */}
-      <section className="sec bg-cream-2">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">🌿 Les <span className="text-or">12 maux</span> que le Tonic soulage</h2>
-          <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto text-sm">
-            Tout est écrit sur l'étiquette. Pas de promesse cachée, pas de surprise.
-          </p>
+      {/* RIBBON — separator stats */}
+      <section className="py-6" style={{ background: GOLD }}>
+        <div className="container-kouka grid grid-cols-2 sm:grid-cols-4 gap-4 text-center" style={{ color: DARK }}>
+          {[
+            { n: '12', l: 'maux soulagés' },
+            { n: '3 sem.', l: 'pour ressentir' },
+            { n: '+2 000', l: 'familles servies' },
+            { n: '0 F', l: 'd\'avance' },
+          ].map(s => (
+            <div key={s.l}>
+              <div className="font-serif text-2xl md:text-3xl font-extrabold leading-none">{s.n}</div>
+              <div className="text-[11px] uppercase tracking-widest font-bold opacity-80">{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </section>
 
-          <div className="max-w-md mx-auto mb-8 rounded-3xl overflow-hidden shadow-2xl border-4 border-or">
-            <img src={etiquetteTonic} alt="Étiquette officielle du Tonic du Vieux KOUKA — 12 maux soulagés" className="w-full block" width={1024} height={1536} loading="lazy" />
+      {/* THE 12 MAUX — magazine index style */}
+      <section className="py-14">
+        <div className="container-kouka max-w-5xl">
+          <div className="text-center mb-10">
+            <div className="text-xs uppercase tracking-[0.3em] mb-3" style={{ color: GOLD }}>✦ La formule du Vieux ✦</div>
+            <h2 className="font-serif" style={{ color: DARK, fontSize: 'clamp(1.8rem, 4vw, 2.6rem)' }}>Les douze maux que l'élixir combat.</h2>
+            <p className="text-muted-foreground text-sm mt-3 max-w-xl mx-auto italic">"Au lieu de payer cinq médecins pour cinq maux, le Vieux a réuni dans un seul flacon la sagesse de ses plantes."</p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-1">
             {MAUX.map((m, i) => (
-              <div key={m.t} className="bg-white border-2 border-vert-bg rounded-xl p-3 text-center">
-                <div className="text-2xl mb-1">{m.i}</div>
-                <div className="font-extrabold text-vert text-xs leading-tight">{i + 1}. {m.t}</div>
-                <div className="text-[11px] text-muted-foreground mt-1">{m.d}</div>
+              <div key={m} className="flex items-baseline gap-4 py-3 border-b border-dashed" style={{ borderColor: `${GOLD}50` }}>
+                <span className="font-serif text-3xl font-extrabold tabular-nums" style={{ color: GOLD }}>{String(i + 1).padStart(2, '0')}</span>
+                <span className="font-semibold text-[15px]" style={{ color: DARK }}>{m}</span>
               </div>
             ))}
           </div>
-
-          <div className="text-center mt-7">
-            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              🌿 Je veux le Tonic KOUKA
-            </button>
-          </div>
         </div>
       </section>
 
-      {/* COMMENT ÇA AGIT */}
-      <section className="sec">
-        <div className="container-kouka max-w-3xl">
-          <h2 className="text-center mb-2">Comment <span className="text-vert">1 seul flacon</span> peut agir sur 12 maux ?</h2>
-          <p className="text-center text-muted-foreground mb-7 max-w-lg mx-auto text-sm">
-            Le secret : ce n'est pas un médicament symptomatique. C'est un <strong>amer (bitter)</strong> qui réveille les 3 organes nettoyeurs du corps.
-          </p>
-
-          <div className="grid sm:grid-cols-3 gap-4">
-            {[
-              { i: '🫁', t: 'Stimule le foie', d: 'Filtre les toxines, régule la glycémie, soulage l\'estomac et les ulcères.' },
-              { i: '💧', t: 'Active les reins', d: 'Évacue l\'eau en trop, fait baisser la tension, soulage les œdèmes.' },
-              { i: '🩸', t: 'Relance la circulation', d: 'Oxygène le sang, soulage hémorroïdes, fatigue, faiblesse sexuelle et anémie.' },
-            ].map((x) => (
-              <div key={x.t} className="bg-vert-bg border-2 border-vert-bg rounded-2xl p-5 text-center">
-                <div className="text-4xl mb-2">{x.i}</div>
-                <div className="font-extrabold text-vert mb-1">{x.t}</div>
-                <div className="text-sm text-muted-foreground">{x.d}</div>
-              </div>
-            ))}
+      {/* SPLIT — label + mechanism */}
+      <section className="py-14" style={{ background: CREAM }}>
+        <div className="container-kouka max-w-5xl grid md:grid-cols-2 gap-10 items-center">
+          <div className="rounded-sm overflow-hidden shadow-2xl border-4" style={{ borderColor: DARK }}>
+            <img src={etiquetteTonic} alt="Étiquette officielle Tonic du Vieux KOUKA" className="w-full block" width={1024} height={1536} loading="lazy" />
           </div>
-
-          <p className="text-center italic mt-7 text-muted-foreground max-w-lg mx-auto text-sm">
-            "Quand le foie, les reins et le sang fonctionnent bien — la plupart des maux disparaissent tout seuls. C'est ça, la médecine ancestrale."
-          </p>
-        </div>
-      </section>
-
-      {/* POSOLOGIE + PRÉCAUTIONS */}
-      <section className="sec bg-vert-bg/50">
-        <div className="container-kouka max-w-3xl">
-          <h2 className="text-center mb-6">💊 Mode d'emploi</h2>
-          <div className="grid md:grid-cols-2 gap-5">
-            <div className="bg-white border-2 border-vert rounded-2xl p-5">
-              <p className="text-xs uppercase tracking-widest text-vert font-extrabold mb-3">📏 Posologie</p>
-              <ul className="space-y-2 text-sm">
-                <li><strong>Adultes :</strong> 1 verre à liqueur (30 ml), 2 fois par jour, matin et soir après les repas.</li>
-                <li><strong>Enfants (5-12 ans) :</strong> 1 cuillère à café (5 ml), 2 fois par jour après les repas.</li>
-                <li><strong>Cure :</strong> 30 jours renouvelables après 15 jours de pause.</li>
-                <li className="text-vert font-bold">⚡ Bien remuer avant chaque emploi.</li>
-              </ul>
-            </div>
-            <div className="bg-white border-2 border-rouge rounded-2xl p-5">
-              <p className="text-xs uppercase tracking-widest text-rouge font-extrabold mb-3">⚠️ Précautions</p>
-              <ul className="space-y-2 text-sm">
-                <li>🚫 <strong>Pas d'alcool</strong> pendant le traitement</li>
-                <li>🚫 <strong>Pas de conduite</strong> sous l'effet du produit</li>
-                <li>🚫 <strong>Interdit aux femmes enceintes</strong></li>
-                <li>🌡️ Conserver à l'abri de la chaleur et de la lumière</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* LIVRAISON BF + NIGER */}
-      <section className="sec">
-        <div className="container-kouka">
-          <div className="bg-white border-2 border-vert-bg rounded-2xl p-5 max-w-lg mx-auto">
-            <h3 className="text-vert text-center mb-3">🚚 Livraison Burkina · Niger</h3>
-            <div className="grid grid-cols-2 gap-2 text-sm">
-              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
-                <div className="font-extrabold">🇧🇫 Ouagadougou</div>
-                <div className="text-xs text-vert font-bold">Gratuite · même jour</div>
-              </div>
-              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
-                <div className="font-extrabold">🇧🇫 Autres villes BF</div>
-                <div className="text-xs text-muted-foreground">1 000 FCFA · par car</div>
-              </div>
-              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
-                <div className="font-extrabold">🇳🇪 Niamey</div>
-                <div className="text-xs text-vert font-bold">Gratuite</div>
-              </div>
-              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
-                <div className="font-extrabold">🇳🇪 Autres villes Niger</div>
-                <div className="text-xs text-muted-foreground">1 500 FCFA · par car</div>
-              </div>
-            </div>
-            <p className="text-center text-xs text-muted-foreground mt-3">
-              💵 Paiement cash à la livraison · 📦 Tu vérifies avant de payer
+          <div>
+            <div className="text-xs uppercase tracking-[0.3em] mb-3" style={{ color: GOLD }}>✦ Comment ça agit ✦</div>
+            <h2 className="font-serif mb-5" style={{ color: DARK }}>Un seul flacon. Trois organes réveillés.</h2>
+            <p className="text-muted-foreground mb-6 leading-relaxed">
+              Ce n'est pas un médicament symptomatique. C'est un <strong style={{ color: DARK }}>amer (herbal bitter)</strong> qui stimule les trois organes nettoyeurs du corps. Quand ils fonctionnent bien — la plupart des maux disparaissent d'eux-mêmes.
             </p>
+            <ul className="space-y-4">
+              {[
+                { t: 'Le foie', d: 'Filtre les toxines · régule la glycémie · soulage estomac et ulcères.' },
+                { t: 'Les reins', d: 'Évacuent l\'eau en trop · font baisser la tension · soulagent les œdèmes.' },
+                { t: 'La circulation', d: 'Oxygène le sang · soulage hémorroïdes, anémie, fatigue, faiblesse sexuelle.' },
+              ].map(x => (
+                <li key={x.t} className="flex gap-4 items-start">
+                  <span className="font-serif text-xl leading-none mt-1" style={{ color: GOLD }}>✦</span>
+                  <div>
+                    <div className="font-extrabold text-[15px]" style={{ color: DARK }}>{x.t}</div>
+                    <div className="text-sm text-muted-foreground">{x.d}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
-      {/* COMPARATIF — 1 produit vs plusieurs médecins */}
-      <section className="sec bg-cream-2">
-        <div className="container-kouka max-w-3xl">
-          <h2 className="text-center mb-2">Tonic KOUKA <span className="text-vert">vs aller voir 5 médecins différents</span></h2>
-          <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto text-sm">
-            Compare honnêtement. Tu vas comprendre pourquoi tant de familles l'adoptent.
-          </p>
+      {/* TESTIMONIALS — WA + FB */}
+      <SocialProofChatTonic />
 
-          <div className="overflow-x-auto rounded-2xl border-2 border-vert-bg shadow-sm">
-            <table className="w-full text-sm border-collapse min-w-[480px]">
+      {/* POSOLOGIE — apothecary card */}
+      <section className="py-14" style={{ background: CREAM }}>
+        <div className="container-kouka max-w-3xl">
+          <div className="text-center mb-8">
+            <div className="text-xs uppercase tracking-[0.3em] mb-3" style={{ color: GOLD }}>✦ Mode d'emploi ✦</div>
+            <h2 className="font-serif" style={{ color: DARK }}>Posologie & précautions</h2>
+          </div>
+
+          <div className="bg-white border-2 rounded-sm overflow-hidden shadow-xl" style={{ borderColor: DARK }}>
+            <div className="p-6 text-center border-b-2" style={{ borderColor: `${GOLD}66`, background: DARK, color: 'white' }}>
+              <div className="text-[10px] uppercase tracking-[0.3em] mb-2" style={{ color: GOLD }}>Posologie officielle</div>
+              <p className="font-serif text-xl md:text-2xl leading-snug">
+                <span style={{ color: GOLD }}>Adulte :</span> Un verre et demi de thé,<br />
+                <em>uniquement le soir,</em> avant le dîner.
+              </p>
+              <p className="text-xs text-white/60 mt-3">⚡ Bien remuer le flacon avant chaque emploi · Cure 30 jours renouvelable après 15 j de pause.</p>
+            </div>
+
+            <div className="p-6">
+              <div className="grid sm:grid-cols-3 gap-4 text-sm">
+                {[
+                  { i: '🚫', t: 'Pas d\'alcool', d: 'pendant toute la cure' },
+                  { i: '🚫', t: 'Pas de conduite', d: 'sous l\'effet du produit' },
+                  { i: '🚫', t: 'Femmes enceintes', d: 'strictement déconseillé' },
+                ].map(p => (
+                  <div key={p.t} className="text-center p-3 rounded" style={{ background: `${CREAM}` }}>
+                    <div className="text-xl mb-1">{p.i}</div>
+                    <div className="font-extrabold text-[13px]" style={{ color: DARK }}>{p.t}</div>
+                    <div className="text-[11px] text-muted-foreground">{p.d}</div>
+                  </div>
+                ))}
+              </div>
+              <p className="text-center text-xs text-muted-foreground mt-4 italic">🌡️ Conserver à l'abri de la chaleur et de la lumière.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* COMPARATIVE — minimal table */}
+      <section className="py-14">
+        <div className="container-kouka max-w-3xl">
+          <div className="text-center mb-8">
+            <div className="text-xs uppercase tracking-[0.3em] mb-3" style={{ color: GOLD }}>✦ Comparatif ✦</div>
+            <h2 className="font-serif" style={{ color: DARK }}>Un Tonic vs cinq ordonnances.</h2>
+          </div>
+          <div className="rounded-sm overflow-hidden border-2 shadow-md" style={{ borderColor: DARK }}>
+            <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="bg-vert text-white">
-                  <th className="text-left px-3 py-3 font-bold">Critère</th>
-                  <th className="px-3 py-3 font-extrabold bg-vert-mid">🌿 Tonic KOUKA</th>
-                  <th className="px-3 py-3 font-bold">5 médicaments</th>
+                <tr style={{ background: DARK, color: 'white' }}>
+                  <th className="text-left px-4 py-3 font-bold">Critère</th>
+                  <th className="px-4 py-3 text-center font-extrabold" style={{ color: GOLD }}>Tonic KOUKA</th>
+                  <th className="px-4 py-3 text-center font-bold opacity-80">5 médicaments</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  ['Maux traités', '✅ 12 à la fois', '❌ 1 par produit'],
+                  ['Maux traités', '12 à la fois', '1 par produit'],
                   ['Coût mensuel', '18 000 F', '50 000+ F'],
-                  ['Effets secondaires', '✅ Aucun', '⚠️ Foie, reins'],
-                  ['Origine', '🌿 Plantes Burkina', 'Chimie'],
-                  ['Dépendance', '✅ Aucune', '❌ Souvent à vie'],
-                  ['Paiement', '✅ À la livraison', '❌ D\'avance'],
-                ].map((row, i) => (
-                  <tr key={i} className={i % 2 ? 'bg-vert-bg/30' : 'bg-white'}>
-                    <td className="px-3 py-2.5 font-semibold">{row[0]}</td>
-                    <td className="px-3 py-2.5 text-center font-bold text-vert">{row[1]}</td>
-                    <td className="px-3 py-2.5 text-center text-muted-foreground">{row[2]}</td>
+                  ['Effets secondaires', 'Aucun', 'Foie, reins'],
+                  ['Origine', 'Plantes Burkina', 'Chimie'],
+                  ['Dépendance', 'Aucune', 'Souvent à vie'],
+                  ['Paiement', 'À la livraison', 'D\'avance'],
+                ].map((r, i) => (
+                  <tr key={i} style={{ background: i % 2 ? CREAM : 'white' }}>
+                    <td className="px-4 py-3 font-semibold" style={{ color: DARK }}>{r[0]}</td>
+                    <td className="px-4 py-3 text-center font-extrabold" style={{ color: DARK }}>{r[1]}</td>
+                    <td className="px-4 py-3 text-center text-muted-foreground">{r[2]}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-
-          <div className="text-center mt-7">
-            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              🌿 Je commande le Tonic
-            </button>
-          </div>
         </div>
       </section>
 
-      {/* PAIEMENT À LA LIVRAISON — réassurance */}
-      <section className="sec">
-        <div className="container-kouka max-w-3xl">
-          <div className="bg-vert-bg border-2 border-vert-mid rounded-2xl p-5 text-center">
-            <p className="font-extrabold text-vert mb-1">💵 Paiement uniquement à la livraison</p>
-            <p className="text-sm">Tu ne paies <strong>RIEN à l'avance</strong>. Le livreur passe chez toi, tu vérifies le flacon, et tu payes <strong>cash à la réception</strong>. Aucun risque, zéro acompte.</p>
+      {/* DELIVERY */}
+      <section className="py-12" style={{ background: CREAM }}>
+        <div className="container-kouka max-w-2xl">
+          <h3 className="font-serif text-center mb-5" style={{ color: DARK }}>🚚 Livraison Burkina · Niger</h3>
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            {[
+              ['🇧🇫 Ouagadougou', 'Gratuite · même jour', true],
+              ['🇧🇫 Autres villes BF', '1 000 F · par car', false],
+              ['🇳🇪 Niamey', 'Gratuite', true],
+              ['🇳🇪 Autres villes Niger', '1 500 F · par car', false],
+            ].map(([city, note, free], i) => (
+              <div key={i} className="bg-white border-2 rounded-sm p-3 text-center" style={{ borderColor: free ? GOLD : `${DARK}22` }}>
+                <div className="font-extrabold text-[13px]" style={{ color: DARK }}>{city}</div>
+                <div className="text-xs font-bold mt-1" style={{ color: free ? GOLD : 'inherit' }}>{note}</div>
+              </div>
+            ))}
           </div>
+          <p className="text-center text-xs text-muted-foreground mt-4">💵 Paiement cash à la livraison · 📦 Tu vérifies avant de payer.</p>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="sec bg-cream-2">
-        <div className="container-kouka">
-          <h2 className="text-center mb-2">Questions fréquentes</h2>
-          <FAQ />
-          <div className="text-center mt-6">
-            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              🌿 OK, je commande maintenant
-            </button>
+      <section className="py-14">
+        <div className="container-kouka max-w-3xl">
+          <div className="text-center mb-6">
+            <div className="text-xs uppercase tracking-[0.3em] mb-3" style={{ color: GOLD }}>✦ Questions fréquentes ✦</div>
+            <h2 className="font-serif" style={{ color: DARK }}>Tu hésites encore ?</h2>
           </div>
+          <FAQ />
         </div>
       </section>
 
+      {/* ORDER FORM */}
       <ProductForm product={product} />
 
-      <section className="sec bg-cream-2">
-        <div className="container-kouka text-center">
-          <Link to="/" className="text-vert-mid font-bold text-sm">← Retour à la page d'accueil</Link>
-        </div>
+      <section className="py-8 text-center" style={{ background: DARK, color: 'white' }}>
+        <Link to="/" className="font-bold text-sm" style={{ color: GOLD }}>← Retour à la page d'accueil</Link>
       </section>
     </div>
   );
