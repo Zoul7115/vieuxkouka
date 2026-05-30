@@ -362,12 +362,12 @@ function AntiDiabetePage() {
         <div className="container-kouka max-w-3xl">
           <div className="text-center mb-6">
             <span className="text-bleu text-xs font-bold uppercase tracking-widest">🎁 Ce que tu reçois</span>
-            <h2 className="text-bleu mt-2">Tout est inclus dans ta cure complète</h2>
+            <h2 className="text-bleu mt-2">Tout est inclus avec ta commande</h2>
           </div>
           <div className="bg-white rounded-3xl p-6 shadow-xl border-2 border-bleu-light/40">
             <ul className="divide-y divide-bleu-light/30">
               {[
-                { t: '3 sachets de Poudre Anti-Diabète', v: '25 000 F' },
+                { t: '1 sachet de Poudre Anti-Diabète', v: '12 500 F' },
                 { t: 'Posologie personnalisée par WhatsApp', v: 'Offert' },
                 { t: 'Suivi pendant toute la cure', v: 'Offert' },
                 { t: 'Livraison à domicile (Ouaga & Niamey)', v: 'Offert' },
@@ -383,7 +383,7 @@ function AntiDiabetePage() {
             </ul>
             <div className="mt-4 pt-4 border-t-2 border-bleu flex items-center justify-between">
               <span className="font-extrabold text-foreground">Total à payer</span>
-              <span className="text-3xl font-extrabold text-bleu">25 000 F</span>
+              <span className="text-3xl font-extrabold text-bleu">12 500 F</span>
             </div>
           </div>
 
