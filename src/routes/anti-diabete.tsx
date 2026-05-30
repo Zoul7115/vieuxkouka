@@ -61,7 +61,7 @@ function AntiDiabetePage() {
               <span className="text-foreground text-[0.85em]">Guérir du Diabète en un temps record sans dépenser une fortune</span>
             </h1>
             <p className="text-muted-foreground mb-5 text-base leading-relaxed">
-              Une cure intensive de 3 sachets pour réguler ta glycémie en profondeur — naturellement,
+              1 sachet pour réguler ta glycémie en profondeur — naturellement,
               avec la formule du Vieux KOUKA.
             </p>
 
@@ -71,50 +71,30 @@ function AntiDiabetePage() {
               <span className="bg-white border border-bleu-light/40 px-2.5 py-1 rounded-full">🩺 Sans dépendance</span>
             </div>
 
-            {/* OFFRE PRINCIPALE — mise en avant */}
+            {/* OFFRE UNIQUE */}
             <div className="relative bg-white border-[3px] border-bleu rounded-3xl p-6 shadow-[0_12px_30px_rgba(31,108,159,0.18)] max-w-xl mx-auto">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-rouge text-white text-xs font-extrabold px-4 py-1.5 rounded-full whitespace-nowrap shadow">
-                ⭐ LE PLUS RECOMMANDÉ
-              </div>
               <div className="text-[11px] uppercase font-extrabold text-bleu tracking-wider mt-2 mb-1">
-                Traitement complet
+                Anti-Diabète du Vieux KOUKA
               </div>
               <div className="text-2xl font-extrabold text-foreground leading-tight">
-                3 sachets — Cure complète
+                1 sachet
               </div>
-              <div className="text-4xl font-extrabold text-bleu mt-2">25 000 FCFA</div>
+              <div className="text-4xl font-extrabold text-bleu mt-2">12 500 FCFA</div>
               <ul className="text-left text-sm text-foreground mt-4 space-y-1.5 max-w-xs mx-auto">
-                <li>✔ Cure complète recommandée</li>
-                <li>✔ Résultats durables</li>
-                <li>✔ Offre la plus choisie</li>
-                <li>✔ Meilleur rapport efficacité/prix</li>
+                <li>✔ 100% plantes du Burkina</li>
+                <li>✔ Régule ta glycémie naturellement</li>
+                <li>✔ Sans dépendance</li>
+                <li>✔ Cash à la livraison</li>
               </ul>
               <button
                 onClick={scrollToOrder}
                 className="mt-5 w-full bg-rouge text-white py-4 rounded-xl text-base font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.45)] hover:-translate-y-0.5 transition-transform"
               >
-                Commander le traitement complet
+                Je commande maintenant
               </button>
               <p className="text-[11px] text-muted-foreground mt-2">📦 Livraison Ouaga & Niamey · Cash à la livraison</p>
               <div className="mt-3 flex justify-center">
                 <UrgencyBadge stock={stock} />
-              </div>
-            </div>
-
-            {/* OFFRE SECONDAIRE — visible avec bouton */}
-            <div className="mt-5 bg-white border-2 border-bleu-light/60 rounded-2xl p-5 max-w-xl mx-auto shadow-sm">
-              <div className="flex items-center justify-between gap-3 flex-wrap">
-                <div className="text-left">
-                  <div className="text-[11px] uppercase font-extrabold text-muted-foreground tracking-wider">Offre découverte</div>
-                  <div className="text-lg font-extrabold text-foreground">1 sachet pour tester</div>
-                  <div className="text-2xl font-extrabold text-bleu">12 500 FCFA</div>
-                </div>
-                <button
-                  onClick={() => preselectAndScroll(21)}
-                  className="bg-bleu text-white px-5 py-3 rounded-xl text-sm font-extrabold shadow hover:-translate-y-0.5 transition-transform"
-                >
-                  Tester maintenant
-                </button>
               </div>
             </div>
           </div>
