@@ -414,12 +414,53 @@ function HomePage() {
 
       <ProductForm product={product} />
 
+      {/* DÉCOUVRE LES AUTRES PRODUITS DU VIEUX KOUKA */}
+      <section className="sec bg-vert-bg/40">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">🌿 Découvre <span className="text-vert">toute la gamme du Vieux</span></h2>
+          <p className="text-center text-muted-foreground mb-7 max-w-lg mx-auto text-sm">
+            3 autres formules traditionnelles pour d'autres maux — toutes signées du Vieux KOUKA.
+          </p>
+          <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+            <Link
+              to="/tonic-kouka"
+              className="bg-white border-2 border-or rounded-2xl p-5 text-center hover:-translate-y-1 transition-transform shadow-md"
+            >
+              <div className="text-4xl mb-2">🌿</div>
+              <div className="font-extrabold text-vert text-base mb-1">Tonic du Vieux KOUKA</div>
+              <div className="text-xs text-muted-foreground mb-2">12 maux · 1 flacon</div>
+              <div className="text-xs font-bold text-rouge">À partir de 8 000 F →</div>
+            </Link>
+            <Link
+              to="/product/$slug"
+              params={{ slug: 'sirop-kouka' }}
+              className="bg-white border-2 border-vert-bg rounded-2xl p-5 text-center hover:-translate-y-1 transition-transform shadow-md"
+            >
+              <div className="text-4xl mb-2">🍯</div>
+              <div className="font-extrabold text-vert text-base mb-1">Sirop KOUKA</div>
+              <div className="text-xs text-muted-foreground mb-2">Faiblesse sexuelle · Libido</div>
+              <div className="text-xs font-bold text-rouge">À partir de 12 000 F →</div>
+            </Link>
+            <Link
+              to="/anti-diabete"
+              className="bg-white border-2 border-vert-bg rounded-2xl p-5 text-center hover:-translate-y-1 transition-transform shadow-md"
+            >
+              <div className="text-4xl mb-2">🩸</div>
+              <div className="font-extrabold text-vert text-base mb-1">Anti-Diabète</div>
+              <div className="text-xs text-muted-foreground mb-2">Glycémie · Fatigue · Vision</div>
+              <div className="text-xs font-bold text-rouge">À partir de 12 500 F →</div>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       <footer className="bg-vert text-white text-center py-8 text-sm">
         <div className="container-kouka">
           <div className="font-extrabold mb-2">🌿 KOUKA Thérapies</div>
           <p className="opacity-80 mb-4">Savoir ancestral · Burkina Faso · Afrique de l'Ouest</p>
           <div className="flex flex-wrap justify-center gap-4 text-xs">
+            <Link to="/tonic-kouka" className="text-white/80 hover:text-white">🌿 Tonic du Vieux KOUKA</Link>
+            <span className="text-white/30">·</span>
             <Link to="/anti-diabete" className="text-white/80 hover:text-white">🩸 Poudre Anti-Diabète</Link>
             <span className="text-white/30">·</span>
             <Link to="/product/$slug" params={{ slug: 'sirop-kouka' }} className="text-white/80 hover:text-white">🍯 Sirop KOUKA</Link>
