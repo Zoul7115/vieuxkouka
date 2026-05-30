@@ -235,7 +235,7 @@ function TonicKoukaPage() {
             </div>
           </div>
           <div className="text-center mt-8">
-            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-[18px] rounded-xl text-[17px] sm:text-lg font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.48)] hover:-translate-y-0.5 transition-transform border-2 border-white/20">
               ✅ Je commande mon Tonic
             </button>
             <p className="text-[11px] text-muted-foreground mt-2">Paiement uniquement quand tu reçois</p>
@@ -315,7 +315,7 @@ function TonicKoukaPage() {
             <p className="text-sm">Tu ne donnes <strong>aucun franc à l'avance</strong>. Le livreur vient chez toi, tu regardes la bouteille, et tu paies <strong>cash quand tu reçois</strong>. Zéro risque.</p>
           </div>
           <div className="text-center mt-6">
-            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-[18px] rounded-xl text-[17px] sm:text-lg font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.48)] hover:-translate-y-0.5 transition-transform border-2 border-white/20">
               👉 Commander maintenant
             </button>
             <p className="text-[11px] text-muted-foreground mt-2">🔒 Aucun paiement avant de recevoir</p>
@@ -402,7 +402,7 @@ function TonicKoukaPage() {
             ]}
           />
           <div className="text-center mt-6">
-            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-[18px] rounded-xl text-[17px] sm:text-lg font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.48)] hover:-translate-y-0.5 transition-transform border-2 border-white/20">
               ✅ Je commande mon Tonic
             </button>
             <p className="text-[11px] text-muted-foreground mt-2">Paiement uniquement quand tu reçois</p>
@@ -466,7 +466,7 @@ function TonicKoukaPage() {
           <p className="text-xs uppercase tracking-widest text-vert font-bold mb-2">🌿 La cure conseillée</p>
           <h3 className="text-vert mb-2">2 bouteilles + 1 GRATUITE · 18 000 FCFA</h3>
           <p className="text-sm text-muted-foreground mb-4">9 clients sur 10 prennent cette offre. Plus que <b className="text-rouge">{stock}</b> bouteilles aujourd'hui.</p>
-          <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.45)] hover:-translate-y-0.5 transition-transform">
+          <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-[18px] rounded-xl text-[17px] sm:text-lg font-extrabold shadow-[0_10px_28px_rgba(198,40,40,0.50)] hover:-translate-y-0.5 transition-transform border-2 border-white/20">
             ✅ JE COMMANDE — Paiement à la livraison
           </button>
           <p className="text-xs text-muted-foreground mt-3">📦 Livré à Ouaga & Niamey · 💵 Tu paies cash quand tu reçois</p>
