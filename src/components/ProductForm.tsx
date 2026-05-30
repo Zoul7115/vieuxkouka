@@ -7,8 +7,6 @@ import { supabase } from '@/integrations/supabase/client';
 import { trackFB } from '@/lib/facebookPixel';
 import { toast } from 'sonner';
 
-const BUMP_PRICE = 5000;
-
 const DELIVERY_SLOTS = [
   { v: 'morning', l: '🌅 Matin (8h-12h)' },
   { v: 'noon', l: '☀️ Midi (12h-14h)' },
@@ -79,12 +77,9 @@ export function ProductForm({ product }: { product: Product }) {
     window.addEventListener('preselect-offer', handler);
     return () => window.removeEventListener('preselect-offer', handler);
   }, [product.offers]);
-  const [bumpAccepted, setBumpAccepted] = useState(false);
   const [checkoutFired, setCheckoutFired] = useState(false);
-  // Bump dispo uniquement quand on n'est pas déjà sur la meilleure offre
-  const bumpAvailable = !offer.bestValue;
-  const productPrice = offer.price + (bumpAccepted && bumpAvailable ? BUMP_PRICE : 0);
-  const finalUnits = offer.units + (bumpAccepted && bumpAvailable ? 1 : 0);
+  const productPrice = offer.price;
+  const finalUnits = offer.units;
   const productLabel = /sirop/i.test(product.name) ? 'flacon' : 'sachet';
   const [form, setForm] = useState({
     fullName: '',
@@ -271,13 +266,12 @@ export function ProductForm({ product }: { product: Product }) {
         hasReferrer: typeof document !== 'undefined' && !!document.referrer,
       });
 
-      const bumpSuffix = bumpAccepted && bumpAvailable ? ` + 1 ${productLabel} BUMP` : '';
       const { error } = await supabase.from('orders').insert({
         order_number: orderNumber,
-        product_name: `${product.name} - ${offer.label}${bumpSuffix}`,
+        product_name: `${product.name} - ${offer.label}`,
         product_price: finalPrice,
         product_slug: product.slug,
-        offer_label: offer.label + bumpSuffix,
+        offer_label: offer.label,
         first_name: first,
         last_name: rest.join(' '),
         whatsapp: fullPhone,
@@ -304,7 +298,7 @@ export function ProductForm({ product }: { product: Product }) {
           orderNumber,
           firstName: first,
           productName: product.name,
-          offerLabel: offer.label + bumpSuffix,
+          offerLabel: offer.label,
           price: finalPrice,
           whatsapp: fullPhone,
           city: form.city,
@@ -354,28 +348,11 @@ export function ProductForm({ product }: { product: Product }) {
         </p>
 
         <OfferSelector offers={product.offers} selectedId={offer.id} onSelect={(o) => {
-          setOffer(o); setBumpAccepted(false);
+          setOffer(o);
           trackFB('AddToCart', { value: o.price, currency: 'XOF', content_name: `${product.name} · ${o.label}` });
         }} />
 
-        {bumpAvailable && (
-          <label className="max-w-[480px] mx-auto mb-4 flex items-start gap-3 bg-[oklch(0.97_0.06_92)] border-2 border-dashed border-or rounded-xl p-3.5 cursor-pointer hover:bg-[oklch(0.95_0.08_92)] transition-colors">
-            <input
-              type="checkbox"
-              checked={bumpAccepted}
-              onChange={(e) => setBumpAccepted(e.target.checked)}
-              className="w-5 h-5 mt-0.5 accent-or"
-            />
-            <span className="text-sm text-foreground leading-relaxed flex-1">
-              🎁 <strong>OUI, j'ajoute 1 {productLabel} supplémentaire</strong> pour seulement
-              <strong className="text-rouge"> +{formatFCFA(BUMP_PRICE)}</strong>
-              <span className="block text-xs text-muted-foreground mt-0.5">
-                (Valeur réelle : {formatFCFA(/sirop/i.test(product.name) ? 12000 : 10000)} — économise{' '}
-                {formatFCFA((/sirop/i.test(product.name) ? 12000 : 10000) - BUMP_PRICE)})
-              </span>
-            </span>
-          </label>
-        )}
+        
 
         <div className="bg-vert-bg border-2 border-[oklch(0.85_0.08_145)] rounded-xl px-4 py-3.5 mb-5 max-w-[480px] mx-auto">
           <div className="flex justify-between items-center flex-wrap gap-2">
@@ -383,13 +360,13 @@ export function ProductForm({ product }: { product: Product }) {
               <div className="text-sm text-muted-foreground font-semibold">Sous-total produit</div>
               <div className="text-base font-extrabold text-foreground">
                 {finalUnits} {productLabel}{finalUnits > 1 ? 's' : ''} · {offer.label.split('—')[0].trim()}
-                {bumpAccepted && bumpAvailable && <span className="text-or"> +1 BUMP</span>}
+                
               </div>
             </div>
             <div className="text-right">
-              {(offer.oldPrice + (bumpAccepted && bumpAvailable ? (/sirop/i.test(product.name) ? 12000 : 10000) : 0)) > productPrice && (
+              {offer.oldPrice > productPrice && (
                 <div className="text-sm text-muted-foreground line-through">
-                  {formatFCFA(offer.oldPrice + (bumpAccepted && bumpAvailable ? (/sirop/i.test(product.name) ? 12000 : 10000) : 0))}
+                  {formatFCFA(offer.oldPrice)}
                 </div>
               )}
               <div className="text-2xl font-extrabold text-vert leading-none">{formatFCFA(productPrice)}</div>
