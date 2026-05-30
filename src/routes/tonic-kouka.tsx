@@ -120,7 +120,7 @@ function TonicKoukaPage() {
                     <div className="text-base font-extrabold text-foreground">1 bouteille</div>
                     <div className="text-xl font-extrabold text-vert">8 000 F</div>
                   </div>
-                  <button onClick={() => preselectAndScroll(31)} className="bg-vert text-white px-6 py-4 rounded-xl text-base font-extrabold shadow-lg hover:-translate-y-0.5 transition-transform min-h-[52px]">
+                  <button onClick={() => preselectAndScroll(31, 'hero-try')} className={`bg-vert text-white px-6 py-4 rounded-xl text-base font-extrabold shadow-lg hover:-translate-y-0.5 transition-transform min-h-[52px] ${TAP}`}>
                     Je veux essayer
                   </button>
                 </div>
