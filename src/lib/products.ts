@@ -84,25 +84,13 @@ export const SIROP_KOUKA: Product = {
 const antiDiabeteOffers: Offer[] = [
   {
     id: 21,
-    label: 'OFFRE DÉCOUVERTE — 1 SACHET',
+    label: '1 SACHET',
     units: 1,
     paidUnits: 1,
     bonusUnits: 0,
     price: 12500,
     oldPrice: 12500,
-    description: 'Idéal pour tester le produit',
-  },
-  {
-    id: 22,
-    label: 'TRAITEMENT COMPLET RECOMMANDÉ — 3 SACHETS',
-    units: 3,
-    paidUnits: 3,
-    bonusUnits: 0,
-    price: 25000,
-    oldPrice: 25000,
-    description: 'Cure complète recommandée — résultats durables',
-    badge: '⭐ LE PLUS RECOMMANDÉ',
-    recommended: true,
+    description: '1 sachet — Traitement individuel',
   },
 ];
 
