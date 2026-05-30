@@ -46,7 +46,7 @@ function AntiDiabetePage() {
 
       {/* Bandeau bleu médical */}
       <div className="bg-bleu text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🩺 Traitement complet recommandé · Livraison Ouaga & Niamey · Stock limité : <b className="text-bleu-light">{stock}</b>
+        🩺 1 sachet · Livraison Ouaga & Niamey · Stock limité : <b className="text-bleu-light">{stock}</b>
       </div>
 
       {/* HERO — fond bleu/blanc, style "fiche médicale" */}
