@@ -265,16 +265,18 @@ export const PRODUCT_COSTS: Record<string, number> = {
   KOUKA: 2000,
   'Sirop KOUKA': 3000,
   'Anti-Diabète': 2000,
+  'Tonic KOUKA': 2500,
 };
 
 /** Coût livraison par commande livrée (FCFA) */
 export const DELIVERY_COST = 2000;
 
 /** Famille de produit déduite du nom/slug — utilisée pour le PA et l'affichage */
-export function productFamily(productName: string, slug?: string | null): 'KOUKA' | 'Sirop KOUKA' | 'Anti-Diabète' {
+export function productFamily(productName: string, slug?: string | null): 'KOUKA' | 'Sirop KOUKA' | 'Anti-Diabète' | 'Tonic KOUKA' {
   const s = (slug || '').toLowerCase();
   const n = (productName || '').toLowerCase();
   if (s === 'anti-diabete' || /anti[-\s]?diab/.test(n)) return 'Anti-Diabète';
+  if (s === 'tonic-kouka' || /tonic/.test(n)) return 'Tonic KOUKA';
   if (s === 'sirop-kouka' || /sirop/.test(n)) return 'Sirop KOUKA';
   return 'KOUKA';
 }
@@ -283,6 +285,7 @@ export function productFamily(productName: string, slug?: string | null): 'KOUKA
 export function productBadge(productName: string, slug?: string | null): { emoji: string; label: string } {
   const fam = productFamily(productName, slug);
   if (fam === 'Anti-Diabète') return { emoji: '🩸', label: 'Anti-Diabète' };
+  if (fam === 'Tonic KOUKA') return { emoji: '🌿', label: 'Tonic KOUKA' };
   if (fam === 'Sirop KOUKA') return { emoji: '🍯', label: 'Sirop KOUKA' };
   return { emoji: '🌿', label: 'Poudre KOUKA' };
 }
