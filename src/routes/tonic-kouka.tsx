@@ -141,10 +141,10 @@ function TonicKoukaPage() {
 
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { fam: '🩺 Ventre & estomac', items: ['Hémorroïdes qui saignent (kooko)', 'Brûlures d\'estomac, ulcère', 'Hernie, ventre ballonné'] },
-              { fam: '🫀 Sang & énergie', items: ['Tension qui monte, vertiges', 'Diabète, sucre qui monte', 'Anémie, fatigue qui ne part pas'] },
-              { fam: '🌸 Problèmes de femme', items: ['Règles douloureuses', 'Fibrome, myome', 'Infections vaginales'] },
-              { fam: '💪 Force & sexualité', items: ['Faiblesse au lit, éjaculation rapide', 'Paludisme qui revient toujours', 'Insomnie, manque de force'] },
+              { fam: '😴 Sommeil & énergie', items: ['Insomnie, nuits sans sommeil', 'Fatigue qui ne part pas', 'Réveil sans force'] },
+              { fam: '🍽️ Appétit & digestion', items: ['Manque d\'appétit', 'Ulcères, brûlures d\'estomac', 'Ventre lourd après manger'] },
+              { fam: '🫀 Tension & circulation', items: ['Hypertension, vertiges', 'Maux de tête fréquents', 'Bouffées de chaleur'] },
+              { fam: '💪 Force au quotidien', items: ['Tu te sens vidé sans raison', 'Pas envie de te lever le matin', 'Concentration faible'] },
             ].map((g) => (
               <div key={g.fam} className="bg-vert-bg border-l-4 border-vert rounded-r-xl p-5">
                 <p className="font-extrabold text-vert mb-3">{g.fam}</p>
@@ -163,7 +163,7 @@ function TonicKoukaPage() {
           <div className="mt-6 bg-rouge-light border-l-4 border-rouge rounded-r-2xl p-5">
             <p className="font-extrabold text-rouge mb-2">⚠️ Si tu ne fais rien, ça devient grave :</p>
             <p className="text-sm leading-relaxed">
-              Hémorroïdes → opération · ulcère qui perce · tension → AVC · diabète qui abîme les reins et les yeux · fibrome qui grossit · fatigue qui devient permanente.
+              Insomnie → fatigue chronique · manque d'appétit → corps qui s'affaiblit · ulcères qui percent · hypertension → AVC · fatigue qui devient permanente.
             </p>
           </div>
 
