@@ -47,7 +47,7 @@ function TonicKoukaPage() {
 
       {/* TOP BANNER */}
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🌿 1 bouteille = 12 maladies soignées · Plus que <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> bouteilles aujourd'hui
+        🌿 1 bouteille = 5 maux soignés · Plus que <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> bouteilles aujourd'hui
       </div>
 
       {/* HERO */}
