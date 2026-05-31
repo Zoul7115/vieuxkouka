@@ -274,7 +274,7 @@ function TonicKoukaPage() {
         </div>
       </section>
 
-      {/* COMMENT ÇA AGIT — 3 organes */}
+      {/* COMMENT ÇA AGIT — 5 maux */}
       <section className="py-14 bg-white">
         <div className="container-kouka max-w-4xl">
           <div className="text-center mb-8">
@@ -284,11 +284,13 @@ function TonicKoukaPage() {
               C'est une <strong>boisson amère</strong> qui réveille les 3 organes qui nettoient ton corps.
             </p>
           </div>
-          <div className="grid sm:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { i: '🫁', t: 'Nettoie le foie', d: 'Enlève les toxines · ouvre l\'appétit · calme l\'estomac et les ulcères.' },
-              { i: '💧', t: 'Réveille les reins', d: 'Évacue l\'eau en trop · fait baisser la tension · enlève les gonflements.' },
-              { i: '🩸', t: 'Active le sang', d: 'Apporte l\'oxygène · ramène l\'énergie · améliore le sommeil et la fatigue.' },
+              { i: '😴', t: 'Insomnie', d: 'Endort naturellement · répare le sommeil profond · tu te réveilles reposé.' },
+              { i: '🍽️', t: 'Manque d\'appétit', d: 'Réveille l\'estomac · ouvre l\'appétit · tu manges avec plaisir.' },
+              { i: '⚡', t: 'Fatigue', d: 'Ramène l\'énergie · enlève la faiblesse · tu tiens toute la journée.' },
+              { i: '🔥', t: 'Ulcères', d: 'Calme l\'estomac · guérit les brûlures · mange sans souffrir.' },
+              { i: '❤️', t: 'Hypertension', d: 'Fait baisser la tension · soulage les vertiges · protège le cœur.' },
             ].map((x) => (
               <div key={x.t} className="bg-vert-bg border-2 border-vert/20 rounded-2xl p-5 text-center">
                 <div className="text-5xl mb-3">{x.i}</div>
