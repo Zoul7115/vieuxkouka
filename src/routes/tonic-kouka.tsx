@@ -7,8 +7,8 @@ import { TONIC_KOUKA } from '@/lib/products';
 import { SocialProofChatTonic } from '@/components/tonic/SocialProofChatTonic';
 import { StickyOfferBarTonic } from '@/components/tonic/StickyOfferBarTonic';
 import { useCtaVariant, trackCtaClick } from '@/hooks/useCtaVariant';
-import bouteilleTonic from '@/assets/tonic-kouka-bouteille.jpg';
-import etiquetteTonic from '@/assets/tonic-kouka-etiquette.jpg';
+import bouteilleTonic from '@/assets/tonic-kouka-bouteille-reelle.png';
+import etiquetteTonic from '@/assets/tonic-kouka-etiquette-reelle.png';
 
 function preselectAndScroll(offerId: number, location = 'cta') {
   trackCtaClick(location);
