@@ -390,7 +390,7 @@ function TonicKoukaPage() {
           </div>
           <FAQ
             items={[
-              { q: "Comment 1 seul produit peut soigner 12 maladies ?", a: "Parce que c'est une <strong>boisson amère</strong> qui ne soigne pas les symptômes un par un — elle réveille les 3 organes nettoyeurs (foie, reins, sang). Quand ces organes marchent bien, ton corps se répare tout seul sur plusieurs maladies." },
+              { q: "Comment 1 seul produit peut soigner 5 maux ?", a: "Parce que c'est une <strong>boisson amère</strong> qui ne soigne pas les symptômes un par un — elle réveille les 3 organes nettoyeurs (foie, reins, sang). Quand ces organes marchent bien, le sommeil revient, l'appétit revient, la fatigue part, l'estomac se calme et la tension baisse." },
               { q: "En combien de temps je vais voir les résultats ?", a: "<strong>Dès la 1ère semaine :</strong> tu te sens plus léger, tu as plus d'énergie. <strong>Entre J15 et J30 :</strong> les douleurs (ulcère, règles, hémorroïdes) baissent, la tension et le sucre se stabilisent. <strong>À la fin de la cure :</strong> changement durable." },
               { q: "Combien de bouteilles je dois prendre ?", a: "<strong>1 bouteille</strong> = pour essayer. <strong>Pack 2 + 1 GRATUITE (22 000 F)</strong> = la cure complète conseillée (9 clients sur 10 prennent celle-là). <strong>Pack 3 + 2 GRATUITES (33 000 F)</strong> = pour toute la famille." },
               { q: "Comment je dois prendre le Tonic ?", a: "<strong>Adulte :</strong> un verre et demi de thé, <strong>seulement le soir, avant de manger</strong>. Bien secouer avant. Cure de 30 jours, puis 15 jours de repos." },
