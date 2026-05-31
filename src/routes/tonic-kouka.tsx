@@ -47,7 +47,7 @@ function TonicKoukaPage() {
 
       {/* TOP BANNER */}
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🌿 1 bouteille = 12 maladies soignées · Plus que <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> bouteilles aujourd'hui
+        🌿 1 bouteille = 5 maux soignés · Plus que <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> bouteilles aujourd'hui
       </div>
 
       {/* HERO */}
@@ -72,10 +72,10 @@ function TonicKoukaPage() {
               </span>
               <h1 className="text-vert mb-3 leading-tight">
                 Tonic du Vieux KOUKA<br />
-                <span className="text-foreground text-[0.8em]">1 seule bouteille pour 12 maladies.</span>
+                <span className="text-foreground text-[0.8em]">1 seule bouteille pour 5 maux.</span>
               </h1>
               <p className="text-muted-foreground mb-5 text-base leading-relaxed">
-                Hémorroïdes, ulcère, diabète, tension, fibrome, faiblesse sexuelle…
+                Insomnie, manque d'appétit, fatigue, ulcères, hypertension…
                 <strong className="text-foreground"> tout dans une seule bouteille, fait avec les plantes du pays.</strong>
               </p>
 
@@ -141,10 +141,10 @@ function TonicKoukaPage() {
 
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { fam: '🩺 Ventre & estomac', items: ['Hémorroïdes qui saignent (kooko)', 'Brûlures d\'estomac, ulcère', 'Hernie, ventre ballonné'] },
-              { fam: '🫀 Sang & énergie', items: ['Tension qui monte, vertiges', 'Diabète, sucre qui monte', 'Anémie, fatigue qui ne part pas'] },
-              { fam: '🌸 Problèmes de femme', items: ['Règles douloureuses', 'Fibrome, myome', 'Infections vaginales'] },
-              { fam: '💪 Force & sexualité', items: ['Faiblesse au lit, éjaculation rapide', 'Paludisme qui revient toujours', 'Insomnie, manque de force'] },
+              { fam: '😴 Sommeil & énergie', items: ['Insomnie, nuits sans sommeil', 'Fatigue qui ne part pas', 'Réveil sans force'] },
+              { fam: '🍽️ Appétit & digestion', items: ['Manque d\'appétit', 'Ulcères, brûlures d\'estomac', 'Ventre lourd après manger'] },
+              { fam: '🫀 Tension & circulation', items: ['Hypertension, vertiges', 'Maux de tête fréquents', 'Bouffées de chaleur'] },
+              { fam: '💪 Force au quotidien', items: ['Tu te sens vidé sans raison', 'Pas envie de te lever le matin', 'Concentration faible'] },
             ].map((g) => (
               <div key={g.fam} className="bg-vert-bg border-l-4 border-vert rounded-r-xl p-5">
                 <p className="font-extrabold text-vert mb-3">{g.fam}</p>
@@ -163,7 +163,7 @@ function TonicKoukaPage() {
           <div className="mt-6 bg-rouge-light border-l-4 border-rouge rounded-r-2xl p-5">
             <p className="font-extrabold text-rouge mb-2">⚠️ Si tu ne fais rien, ça devient grave :</p>
             <p className="text-sm leading-relaxed">
-              Hémorroïdes → opération · ulcère qui perce · tension → AVC · diabète qui abîme les reins et les yeux · fibrome qui grossit · fatigue qui devient permanente.
+              Insomnie → fatigue chronique · manque d'appétit → corps qui s'affaiblit · ulcères qui percent · hypertension → AVC · fatigue qui devient permanente.
             </p>
           </div>
 
@@ -198,7 +198,7 @@ function TonicKoukaPage() {
                 </div>
               </div>
               <p className="italic text-muted-foreground leading-relaxed text-sm">
-                "Le Tonic, c'est ma recette la plus forte. Les médicaments soignent une seule maladie. Mon Tonic en soigne douze, parce qu'il réveille ce qui nettoie ton corps à l'intérieur."
+                "Le Tonic, c'est ma recette la plus forte. Il soigne 5 maux à la fois — sommeil, appétit, fatigue, ulcères, tension — parce qu'il réveille ce qui nettoie ton corps à l'intérieur."
               </p>
             </div>
           </div>
@@ -210,29 +210,22 @@ function TonicKoukaPage() {
         <div className="container-kouka max-w-5xl">
           <div className="text-center mb-8">
             <span className="text-vert text-xs font-bold uppercase tracking-widest">💊 Le produit</span>
-            <h2 className="text-vert mt-2">Les 12 maladies que le Tonic soigne</h2>
+            <h2 className="text-vert mt-2">Les 5 maux que le Tonic soigne</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="rounded-3xl overflow-hidden shadow-xl border-2 border-or/40 bg-cream-2">
               <img src={etiquetteTonic} alt="Étiquette officielle Tonic du Vieux KOUKA" className="w-full max-h-[500px] object-contain p-4" width={1024} height={1536} loading="lazy" />
             </div>
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-1 gap-2.5">
               {[
-                'Hémorroïdes (Kooko)',
-                'Ulcère d\'estomac',
+                'Insomnie',
+                'Manque d\'appétit',
+                'Fatigue',
+                'Ulcères',
                 'Hypertension',
-                'Diabète',
-                'Fibrome / Myome',
-                'Règles douloureuses',
-                'Hernie',
-                'Anémie',
-                'Paludisme',
-                'Fatigue chronique',
-                'Infections',
-                'Faiblesse sexuelle',
               ].map((b, i) => (
                 <div key={b} className="bg-vert-bg border border-vert/20 rounded-xl p-3">
-                  <div className="font-extrabold text-vert text-[13px] flex items-start gap-2">
+                  <div className="font-extrabold text-vert text-[15px] flex items-start gap-2">
                     <span className="text-or font-extrabold">{String(i + 1).padStart(2, '0')}</span>
                     <span className="leading-tight">{b}</span>
                   </div>
@@ -286,16 +279,16 @@ function TonicKoukaPage() {
         <div className="container-kouka max-w-4xl">
           <div className="text-center mb-8">
             <span className="text-vert text-xs font-bold uppercase tracking-widest">🌿 Comment ça marche</span>
-            <h2 className="text-vert mt-2">Pourquoi 1 bouteille soigne 12 maladies</h2>
+            <h2 className="text-vert mt-2">Pourquoi 1 bouteille soigne 5 maux</h2>
             <p className="text-muted-foreground text-sm mt-2 max-w-xl mx-auto">
               C'est une <strong>boisson amère</strong> qui réveille les 3 organes qui nettoient ton corps.
             </p>
           </div>
           <div className="grid sm:grid-cols-3 gap-4">
             {[
-              { i: '🫁', t: 'Nettoie le foie', d: 'Enlève les toxines · contrôle le sucre dans le sang · calme l\'estomac et les ulcères.' },
+              { i: '🫁', t: 'Nettoie le foie', d: 'Enlève les toxines · ouvre l\'appétit · calme l\'estomac et les ulcères.' },
               { i: '💧', t: 'Réveille les reins', d: 'Évacue l\'eau en trop · fait baisser la tension · enlève les gonflements.' },
-              { i: '🩸', t: 'Active le sang', d: 'Apporte l\'oxygène · soigne hémorroïdes, anémie, fatigue, faiblesse au lit.' },
+              { i: '🩸', t: 'Active le sang', d: 'Apporte l\'oxygène · ramène l\'énergie · améliore le sommeil et la fatigue.' },
             ].map((x) => (
               <div key={x.t} className="bg-vert-bg border-2 border-vert/20 rounded-2xl p-5 text-center">
                 <div className="text-5xl mb-3">{x.i}</div>
@@ -347,7 +340,7 @@ function TonicKoukaPage() {
               </thead>
               <tbody>
                 {[
-                  ['Maladies soignées', '✅ 12 d\'un coup', '❌ 1 par produit'],
+                  ['Maux soignés', '✅ 5 d\'un coup', '❌ 1 par produit'],
                   ['Coût par mois', '22 000 F', 'Plus de 50 000 F'],
                   ['Effets secondaires', '✅ Aucun', '⚠️ Abîme foie, reins'],
                   ['D\'où ça vient', '🌿 Plantes du Burkina', 'Produits chimiques'],
@@ -397,7 +390,7 @@ function TonicKoukaPage() {
           </div>
           <FAQ
             items={[
-              { q: "Comment 1 seul produit peut soigner 12 maladies ?", a: "Parce que c'est une <strong>boisson amère</strong> qui ne soigne pas les symptômes un par un — elle réveille les 3 organes nettoyeurs (foie, reins, sang). Quand ces organes marchent bien, ton corps se répare tout seul sur plusieurs maladies." },
+              { q: "Comment 1 seul produit peut soigner 5 maux ?", a: "Parce que c'est une <strong>boisson amère</strong> qui ne soigne pas les symptômes un par un — elle réveille les 3 organes nettoyeurs (foie, reins, sang). Quand ces organes marchent bien, le sommeil revient, l'appétit revient, la fatigue part, l'estomac se calme et la tension baisse." },
               { q: "En combien de temps je vais voir les résultats ?", a: "<strong>Dès la 1ère semaine :</strong> tu te sens plus léger, tu as plus d'énergie. <strong>Entre J15 et J30 :</strong> les douleurs (ulcère, règles, hémorroïdes) baissent, la tension et le sucre se stabilisent. <strong>À la fin de la cure :</strong> changement durable." },
               { q: "Combien de bouteilles je dois prendre ?", a: "<strong>1 bouteille</strong> = pour essayer. <strong>Pack 2 + 1 GRATUITE (22 000 F)</strong> = la cure complète conseillée (9 clients sur 10 prennent celle-là). <strong>Pack 3 + 2 GRATUITES (33 000 F)</strong> = pour toute la famille." },
               { q: "Comment je dois prendre le Tonic ?", a: "<strong>Adulte :</strong> un verre et demi de thé, <strong>seulement le soir, avant de manger</strong>. Bien secouer avant. Cure de 30 jours, puis 15 jours de repos." },
