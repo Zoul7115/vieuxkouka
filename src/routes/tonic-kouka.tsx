@@ -340,7 +340,7 @@ function TonicKoukaPage() {
               </thead>
               <tbody>
                 {[
-                  ['Maladies soignées', '✅ 12 d\'un coup', '❌ 1 par produit'],
+                  ['Maux soignés', '✅ 5 d\'un coup', '❌ 1 par produit'],
                   ['Coût par mois', '22 000 F', 'Plus de 50 000 F'],
                   ['Effets secondaires', '✅ Aucun', '⚠️ Abîme foie, reins'],
                   ['D\'où ça vient', '🌿 Plantes du Burkina', 'Produits chimiques'],
