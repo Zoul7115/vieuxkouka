@@ -72,10 +72,10 @@ function TonicKoukaPage() {
               </span>
               <h1 className="text-vert mb-3 leading-tight">
                 Tonic du Vieux KOUKA<br />
-                <span className="text-foreground text-[0.8em]">1 seule bouteille pour 12 maladies.</span>
+                <span className="text-foreground text-[0.8em]">1 seule bouteille pour 5 maux.</span>
               </h1>
               <p className="text-muted-foreground mb-5 text-base leading-relaxed">
-                Hémorroïdes, ulcère, diabète, tension, fibrome, faiblesse sexuelle…
+                Insomnie, manque d'appétit, fatigue, ulcères, hypertension…
                 <strong className="text-foreground"> tout dans une seule bouteille, fait avec les plantes du pays.</strong>
               </p>
 
