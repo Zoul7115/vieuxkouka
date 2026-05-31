@@ -210,29 +210,22 @@ function TonicKoukaPage() {
         <div className="container-kouka max-w-5xl">
           <div className="text-center mb-8">
             <span className="text-vert text-xs font-bold uppercase tracking-widest">💊 Le produit</span>
-            <h2 className="text-vert mt-2">Les 12 maladies que le Tonic soigne</h2>
+            <h2 className="text-vert mt-2">Les 5 maux que le Tonic soigne</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="rounded-3xl overflow-hidden shadow-xl border-2 border-or/40 bg-cream-2">
               <img src={etiquetteTonic} alt="Étiquette officielle Tonic du Vieux KOUKA" className="w-full max-h-[500px] object-contain p-4" width={1024} height={1536} loading="lazy" />
             </div>
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-1 gap-2.5">
               {[
-                'Hémorroïdes (Kooko)',
-                'Ulcère d\'estomac',
+                'Insomnie',
+                'Manque d\'appétit',
+                'Fatigue',
+                'Ulcères',
                 'Hypertension',
-                'Diabète',
-                'Fibrome / Myome',
-                'Règles douloureuses',
-                'Hernie',
-                'Anémie',
-                'Paludisme',
-                'Fatigue chronique',
-                'Infections',
-                'Faiblesse sexuelle',
               ].map((b, i) => (
                 <div key={b} className="bg-vert-bg border border-vert/20 rounded-xl p-3">
-                  <div className="font-extrabold text-vert text-[13px] flex items-start gap-2">
+                  <div className="font-extrabold text-vert text-[15px] flex items-start gap-2">
                     <span className="text-or font-extrabold">{String(i + 1).padStart(2, '0')}</span>
                     <span className="leading-tight">{b}</span>
                   </div>
