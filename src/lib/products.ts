@@ -214,12 +214,12 @@ export const TONIC_KOUKA: Product = {
   slug: 'tonic-kouka',
   name: 'Tonic du Vieux KOUKA',
   shortName: 'Tonic KOUKA',
-  pathology: 'Hémorroïdes · Ulcères · Diabète · Hypertension · Fibromes · Faiblesse sexuelle · +6 maux',
+  pathology: 'Insomnie · Manque d\'appétit · Fatigue · Ulcères · Hypertension',
   emoji: '🌿',
-  tagline: 'Un seul flacon. 12 maux soulagés. L\'élixir traditionnel 12-en-1 du Vieux KOUKA — 100% plantes naturelles, recette transmise depuis +60 ans.',
+  tagline: 'Une seule bouteille pour 5 maux : insomnie, manque d\'appétit, fatigue, ulcères, hypertension. 100% plantes naturelles du Vieux KOUKA.',
   heroImage: '/src/assets/tonic-kouka-bouteille.jpg',
-  metaTitle: 'Tonic du Vieux KOUKA — Élixir 12-en-1 (Burkina · Niger)',
-  metaDesc: 'Hémorroïdes, ulcères, diabète, hypertension, fibromes, faiblesse sexuelle… Le Tonic du Vieux KOUKA agit sur 12 maux à la fois. 100% plantes africaines. Livraison gratuite Ouaga & Niamey · Cash à la livraison.',
+  metaTitle: 'Tonic du Vieux KOUKA — Sommeil, appétit, fatigue, ulcères, tension',
+  metaDesc: 'Insomnie, manque d\'appétit, fatigue, ulcères, hypertension : le Tonic du Vieux KOUKA agit sur ces 5 maux. 100% plantes africaines. Livraison Ouaga & Niamey · Cash à la livraison.',
   offers: tonicOffers,
 };
 
