@@ -9,6 +9,7 @@ import { StickyOfferBarTonic } from '@/components/tonic/StickyOfferBarTonic';
 import { useCtaVariant, trackCtaClick } from '@/hooks/useCtaVariant';
 import bouteilleTonic from '@/assets/tonic-kouka-bouteille-reelle.png';
 import etiquetteTonic from '@/assets/tonic-kouka-etiquette-reelle.png';
+import afficheTonic5Maux from '@/assets/tonic-kouka-affiche-5-maux.png';
 
 function preselectAndScroll(offerId: number, location = 'cta') {
   trackCtaClick(location);
@@ -126,6 +127,26 @@ function TonicKoukaPage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* AFFICHE 5 MAUX */}
+      <section className="py-10 bg-white">
+        <div className="container-kouka max-w-3xl">
+          <div className="text-center mb-6">
+            <span className="text-vert text-xs font-bold uppercase tracking-widest">🌿 1 bouteille · 5 maux</span>
+            <h2 className="text-vert mt-2">Ce que le Tonic soigne en un coup d'œil</h2>
+          </div>
+          <div className="rounded-2xl overflow-hidden shadow-2xl border-2 border-vert/20 bg-black">
+            <img
+              src={afficheTonic5Maux}
+              alt="Tonic du Vieux KOUKA — Insomnie, Manque d'appétit, Fatigue, Ulcères, Hypertension"
+              className="w-full h-auto block"
+              width={1024}
+              height={1536}
+              loading="lazy"
+            />
           </div>
         </div>
       </section>
