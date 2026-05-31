@@ -279,16 +279,16 @@ function TonicKoukaPage() {
         <div className="container-kouka max-w-4xl">
           <div className="text-center mb-8">
             <span className="text-vert text-xs font-bold uppercase tracking-widest">🌿 Comment ça marche</span>
-            <h2 className="text-vert mt-2">Pourquoi 1 bouteille soigne 12 maladies</h2>
+            <h2 className="text-vert mt-2">Pourquoi 1 bouteille soigne 5 maux</h2>
             <p className="text-muted-foreground text-sm mt-2 max-w-xl mx-auto">
               C'est une <strong>boisson amère</strong> qui réveille les 3 organes qui nettoient ton corps.
             </p>
           </div>
           <div className="grid sm:grid-cols-3 gap-4">
             {[
-              { i: '🫁', t: 'Nettoie le foie', d: 'Enlève les toxines · contrôle le sucre dans le sang · calme l\'estomac et les ulcères.' },
+              { i: '🫁', t: 'Nettoie le foie', d: 'Enlève les toxines · ouvre l\'appétit · calme l\'estomac et les ulcères.' },
               { i: '💧', t: 'Réveille les reins', d: 'Évacue l\'eau en trop · fait baisser la tension · enlève les gonflements.' },
-              { i: '🩸', t: 'Active le sang', d: 'Apporte l\'oxygène · soigne hémorroïdes, anémie, fatigue, faiblesse au lit.' },
+              { i: '🩸', t: 'Active le sang', d: 'Apporte l\'oxygène · ramène l\'énergie · améliore le sommeil et la fatigue.' },
             ].map((x) => (
               <div key={x.t} className="bg-vert-bg border-2 border-vert/20 rounded-2xl p-5 text-center">
                 <div className="text-5xl mb-3">{x.i}</div>
