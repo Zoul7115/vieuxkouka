@@ -198,7 +198,7 @@ function TonicKoukaPage() {
                 </div>
               </div>
               <p className="italic text-muted-foreground leading-relaxed text-sm">
-                "Le Tonic, c'est ma recette la plus forte. Les médicaments soignent une seule maladie. Mon Tonic en soigne douze, parce qu'il réveille ce qui nettoie ton corps à l'intérieur."
+                "Le Tonic, c'est ma recette la plus forte. Il soigne 5 maux à la fois — sommeil, appétit, fatigue, ulcères, tension — parce qu'il réveille ce qui nettoie ton corps à l'intérieur."
               </p>
             </div>
           </div>
