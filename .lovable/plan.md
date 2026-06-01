@@ -1,88 +1,80 @@
+## Objectif
 
-## Nouveau produit : Tonic du Vieux KOUKA
+Mettre en place un système complet pour les closeuses qui prennent des commandes par téléphone : gestion admin, espace privé par closeuse, calcul de salaire (1000 FCFA / commande livrée), intégration auto en compta et déduction de stock.
 
-Amer naturel (herbal bitters) en bouteille — élixir traditionnel 12-en-1 qui complète la gamme KOUKA aux côtés de la Poudre, du Sirop et de l'Anti-Diabète.
+## 1. Base de données (migration Supabase)
 
-**Les 12 maux mis sur l'étiquette** (extraits des étiquettes Dieudonné / Herbal Bitters fournies) :
-Hémorroïdes (Kooko) · Ulcères d'estomac · Hypertension · Diabète · Fibromes/Myomes · Règles douloureuses · Hernie · Anémie · Paludisme · Fatigue chronique · Infections bactériennes · Faiblesse sexuelle & éjaculation précoce
+**Nouvelle table `closeuses`** (similaire à `livreurs`)
+- `id`, `idx` (auto-increment), `name`, `whatsapp` (unique, sert d'identifiant de connexion), `password_hash`, `session_token`, `active`, `emoji` (👩‍💼), `created_at`, `updated_at`, `last_login_at`
 
----
+**Modification table `orders`**
+- Ajouter `closeuse_idx` (integer, nullable) → identifie la closeuse qui a validé la commande
+- Les commandes saisies par une closeuse sont créées avec `status = 'delivered'` directement (puisqu'elle ne saisit que les livrées) et `closeuse_idx` renseigné
 
-## 1. Étiquette produit — Style "Tradition africaine premium"
+**Logique salaire** : pas de table dédiée, calculé à la volée = `COUNT(orders WHERE closeuse_idx = X AND status = 'delivered' AND delivered_at dans le mois) × 1000`
 
-Génération d'une image haute résolution (1200×1600, prête à imprimer en sticker bouteille) avec `imagegen` premium :
+**Logique compta** : pas besoin d'insérer dans `daily_expenses` automatiquement (sinon double comptage si on régénère). Plutôt : la commission closeuse est calculée dynamiquement dans le tab Compta et affichée comme ligne de dépense virtuelle "Commissions closeuses (mois)".
 
-- **Palette** : vert forêt profond (#1a3c2a) + or vieilli (#c9a84c) + crème parchemin (#f5f0e0)
-- **Bandeau supérieur** : "TONIC DU VIEUX KOUKA" en typo serif imposante (façon apothicaire ouest-africain)
-- **Sous-titre** : "Élixir traditionnel 12-en-1 · Recette du Vieux"
-- **Médaillon central** : silhouette/portrait stylisé du Vieux KOUKA (réutilisation de `src/assets/vieux-kouka-profile.jpg` comme référence) entouré de motifs Bogolan/feuilles tropicales
-- **Liste des 12 maux** en 2 colonnes, typo nette, puces feuille verte
-- **Bandeau bas** : "📍 Région des Kuilsés · Burkina Faso 🇧🇫 · +60 ans de tradition"
-- **Sceau or** : "100% PLANTES NATURELLES · CASH À LA LIVRAISON"
-- **Posologie + NB** (alcool/grossesse/conduite) dans un encadré discret
+**Logique stock** : un trigger DB existe déjà (`handle_order_stock_change`) qui déduit le stock quand `status` passe à `delivered`. Comme les commandes closeuse sont insérées directement avec `status='delivered'`, on étend ce trigger pour aussi traiter le cas INSERT (actuellement il ne gère que UPDATE). Le nombre de pièces saisi par la closeuse alimente `offer_label` au format compatible (ex: "3 sachets") pour que le parser existant déduise la bonne quantité.
 
-Sauvegarde : `src/assets/tonic-kouka-etiquette.jpg` + miniature hero `src/assets/tonic-kouka-bouteille.jpg`
+## 2. Admin — nouveaux tabs
 
-QA : visualisation et re-génération si typo illisible ou éléments coupés.
+**Tab "Closeuses"** (`src/components/admin/CloseusesTab.tsx`)
+- Liste des closeuses (nom, whatsapp, active, dernière connexion, nb commandes du mois, salaire du mois)
+- Ajouter / modifier / désactiver une closeuse
+- Bouton "Réinitialiser mot de passe" (vide `password_hash`)
 
----
+**Tab "Salaires"** (`src/components/admin/SalairesTab.tsx`)
+- Pour chaque closeuse + chaque livreur : nb commandes livrées du mois en cours, salaire dû, statut payé/non payé
+- Sélecteur de mois
+- Le 1er du mois → bandeau "Salaires à verser"
+- Pour les livreurs : on garde le même calcul (1000 FCFA / livrée) — confirmer si différent
 
-## 2. Catalogue produit (`src/lib/products.ts`)
+**Tab "Compta" — mise à jour**
+- Ajouter ligne automatique "Commissions closeuses" = nb commandes livrées par closeuses × 1000 sur la période
+- S'assure que le CA et le bénéfice net intègrent cette charge
 
-Ajout d'un 4ᵉ produit `TONIC_KOUKA` avec :
+## 3. Espace Closeuse
 
-- `slug: 'tonic-kouka'`
-- `name: 'Tonic du Vieux KOUKA'`, `shortName: 'Tonic KOUKA'`
-- `pathology: 'Hémorroïdes · Ulcères · Diabète · Hypertension · Fibromes · Faiblesse sexuelle · +6 maux'`
-- 3 offres alignées sur la grille Sirop (1 flacon / 2+1 offert / 3+2 offerts) — prix à confirmer, je propose **8 000 / 18 000 / 25 000 FCFA** (positionné légèrement sous le Sirop car polyvalent)
-- Ajout au `PRODUCTS[]`, au `productFamily()`, `productBadge()` et `PRODUCT_COSTS` (PA proposé : 2 500 FCFA)
+**Route `/closeuse`** (publique, gère login + dashboard)
+- Login par numéro WhatsApp
+- Si `password_hash` est null → écran "Créer ton mot de passe" → bcrypt + save → connecté
+- Sinon → écran login → vérifie hash → save `session_token` en localStorage
+- Session persistante (comme livreur)
 
----
+**Dashboard closeuse** (3 onglets)
 
-## 3. Nouvelle page de vente (`src/routes/tonic-kouka.tsx`)
+a) **Nouvelle commande** — formulaire simple :
+- Nom client (facultatif)
+- Ville (requis)
+- Produit (select : Poudre KOUKA, Sirop KOUKA, Anti-Diabète, Tonic)
+- Nombre de pièces (number, défaut 1)
+- Prix total (number)
+- Frais de livraison (défaut 2000)
+- Bouton "Valider la commande livrée" → insert dans `orders` avec `status='delivered'`, `closeuse_idx`, `delivered_at=now()`, `offer_label = "{N} {sachet|flacon|bouteille}"`
 
-Structure calquée sur `anti-diabete.tsx` (route plate, pas via `product.$slug`) :
+b) **Historique** — liste de ses commandes (date, client, produit, prix)
 
-1. **Bandeau urgence** + stock dynamique (`useDynamicStock('tonic-kouka', 18)`)
-2. **Hero** : H1 "Un seul flacon. 12 maux soulagés." + visuel bouteille + prix offre recommandée + CTA "Je commande"
-3. **Section "Reconnais-tu ces signes ?"** — checklist des 12 maux regroupés en 4 familles (digestif / circulatoire / féminin / vital)
-4. **Présentation Vieux KOUKA** (réutilisation du bloc existant : photo + région des Kuilsés)
-5. **Comment ça agit** — explication "amer = stimule foie + reins + circulation" en langage simple
-6. **Liste détaillée des 12 maux** avec icônes (mise en avant visuelle = étiquette en grand)
-7. **Posologie + précautions** (NB de l'étiquette : pas d'alcool, pas de conduite, pas de femmes enceintes)
-8. **Bloc livraison BF/Niger** + paiement à la livraison (réutilisation du pattern existant)
-9. **Tableau comparatif** "Tonic KOUKA vs aller voir 5 médecins différents"
-10. **FAQ** (composant existant)
-11. **`<ProductForm product={TONIC_KOUKA} />`** — formulaire de commande standard
-12. Lien retour vers la home
+c) **Mon salaire** — total du mois en cours (nb commandes × 1000), historique mensuel, mention "Disponible le 1er de chaque mois"
 
-Réutilise les classes Tailwind existantes (`sec`, `bloc`, `container-kouka`, `text-vert`, `text-rouge`, `bg-vert-bg`…) pour rester cohérent avec les 3 autres pages.
+## 4. Modifications utilitaires
 
-Head SEO : titre + meta description + og:image = étiquette tonic.
+- `src/lib/closeuse-auth.ts` (login, hash via bcryptjs déjà utilisé pour livreurs)
+- `src/lib/use-closeuse-session.ts` (hook session)
+- Mise à jour `src/components/admin/ComptaTab.tsx` : ligne commissions
+- Trigger DB `handle_order_stock_change` étendu pour traiter INSERT avec status='delivered'
 
----
+## 5. Vérification compta finale
 
-## 4. Mise en avant sur la home (`src/routes/index.tsx`)
+- CA = somme `product_price` commandes delivered
+- Charges = `daily_expenses` + commissions closeuses (auto) + salaires livreurs (auto)
+- Bénéfice net = CA − charges
+- Test : créer 1 commande closeuse de 12000 → vérifier que CA augmente de 12000, commission +1000, stock déduit, bénéfice = 11000 − autres charges
 
-Ajout d'une **4ᵉ carte produit** dans la grille des produits (à côté de Poudre / Sirop / Anti-Diabète), pointant vers `/tonic-kouka`, avec emoji 🌿 et accroche "12 maux · 1 flacon".
+## Points à confirmer (1 question)
 
----
+**Salaire des livreurs** : actuellement il n'y a pas de système de salaire pour les livreurs dans le code (ils sont rémunérés via `delivery_fee` directement). Le point 4 mentionne "Sur l'espace de chaque livreur, tu ajoutes Salaire" — est-ce que tu veux :
+- (a) Que les livreurs aient aussi 1000 FCFA / commande livrée comme salaire en plus du delivery_fee ?
+- (b) Ou bien c'était une faute de frappe et tu parlais de "closeuse" (donc seules les closeuses ont ce salaire) ?
 
-## 5. Détails techniques
-
-- **Aucune migration BDD** : le champ `product` des commandes est texte libre, le nouveau produit s'insère automatiquement via `ProductForm`
-- **Admin & livreur** : `productFamily()` et `productBadge()` étendus → la nouvelle famille apparaît automatiquement dans les onglets Commandes, Bilan, Compta, Stock, et chez le livreur
-- **Stock** : `useDynamicStock('tonic-kouka', 18)` — pas de setup BDD requis (hook autonome)
-- **Pas de modification** de `routeTree.gen.ts` (auto-généré par Vite plugin)
-
----
-
-## Livrables finaux
-
-1. `src/assets/tonic-kouka-etiquette.jpg` — étiquette imprimable haute résolution
-2. `src/assets/tonic-kouka-bouteille.jpg` — visuel hero
-3. Nouvelle page de vente live sur `/tonic-kouka`
-4. Carte produit sur la home
-5. Apparition automatique dans admin + livreur
-
-**À confirmer avant build** : les prix (8 000 / 18 000 / 25 000 FCFA proposés) — dis-moi si tu veux autre chose.
+Je pars sur **(b)** par défaut (closeuses seulement) sauf indication contraire — c'est cohérent avec le reste du message.

@@ -41,6 +41,8 @@ export type Order = {
   sav_followed_up_at?: string | null;
   sav_notes?: string | null;
   product_slug?: string | null;
+  closeuse_idx?: number | null;
+  delivered_at?: string | null;
 };
 
 const SLOT_LABELS: Record<string, string> = {

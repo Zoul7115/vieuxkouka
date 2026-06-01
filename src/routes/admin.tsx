@@ -11,6 +11,8 @@ import { StockTab } from '@/components/admin/StockTab';
 import { ComptaTab } from '@/components/admin/ComptaTab';
 import { LivreursTab } from '@/components/admin/LivreursTab';
 import { DraftsTab } from '@/components/admin/DraftsTab';
+import { CloseusesTab } from '@/components/admin/CloseusesTab';
+import { SalairesTab } from '@/components/admin/SalairesTab';
 import { NotifDiagnostic } from '@/components/admin/NotifDiagnostic';
 import { usePWAAdmin } from '@/hooks/usePWAAdmin';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
@@ -30,7 +32,7 @@ type Visit = {
   visited_at: string | null;
 };
 
-type Tab = 'orders' | 'drafts' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs';
+type Tab = 'orders' | 'drafts' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs' | 'closeuses' | 'salaires';
 
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
@@ -175,6 +177,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     { k: 'sav', label: 'SAV', emoji: '🤝' },
     { k: 'bilan', label: 'Bilan', emoji: '🧠' },
     { k: 'livreurs', label: 'Livreurs', emoji: '🛵' },
+    { k: 'closeuses', label: 'Closeuses', emoji: '👩‍💼' },
+    { k: 'salaires', label: 'Salaires', emoji: '💰' },
     { k: 'stock', label: 'Stock', emoji: '📊' },
     { k: 'compta', label: 'Compta', emoji: '💰' },
     { k: 'stats', label: 'Stats', emoji: '📈' },
@@ -278,6 +282,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             {tab === 'sav' && <SAVTab orders={orders} onChange={() => load(true)} />}
             {tab === 'bilan' && <BilanTab />}
             {tab === 'livreurs' && <LivreursTab orders={orders} onChange={() => load(true)} />}
+            {tab === 'closeuses' && <CloseusesTab orders={orders} />}
+            {tab === 'salaires' && <SalairesTab orders={orders} />}
             {tab === 'stock' && <StockTab />}
             {tab === 'compta' && <ComptaTab orders={orders} />}
             {tab === 'stats' && <StatsTab orders={orders} visits={visits} visitsTotal={visitsTotal} visitsToday={visitsToday} />}

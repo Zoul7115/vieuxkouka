@@ -32,6 +32,48 @@ export type Database = {
         }
         Relationships: []
       }
+      closeuses: {
+        Row: {
+          active: boolean
+          created_at: string
+          emoji: string | null
+          id: string
+          idx: number
+          last_login_at: string | null
+          name: string
+          password_hash: string | null
+          session_token: string | null
+          updated_at: string
+          whatsapp: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          emoji?: string | null
+          id?: string
+          idx?: number
+          last_login_at?: string | null
+          name: string
+          password_hash?: string | null
+          session_token?: string | null
+          updated_at?: string
+          whatsapp: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          emoji?: string | null
+          id?: string
+          idx?: number
+          last_login_at?: string | null
+          name?: string
+          password_hash?: string | null
+          session_token?: string | null
+          updated_at?: string
+          whatsapp?: string
+        }
+        Relationships: []
+      }
       daily_expenses: {
         Row: {
           amount: number
@@ -211,6 +253,7 @@ export type Database = {
           car_transport: string | null
           cash_confirmed: boolean | null
           city: string | null
+          closeuse_idx: number | null
           confirmed_via_whatsapp_at: string | null
           country: string | null
           created_at: string | null
@@ -245,6 +288,7 @@ export type Database = {
           car_transport?: string | null
           cash_confirmed?: boolean | null
           city?: string | null
+          closeuse_idx?: number | null
           confirmed_via_whatsapp_at?: string | null
           country?: string | null
           created_at?: string | null
@@ -279,6 +323,7 @@ export type Database = {
           car_transport?: string | null
           cash_confirmed?: boolean | null
           city?: string | null
+          closeuse_idx?: number | null
           confirmed_via_whatsapp_at?: string | null
           country?: string | null
           created_at?: string | null

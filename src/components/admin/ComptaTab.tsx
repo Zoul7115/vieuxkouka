@@ -13,6 +13,7 @@ type Order = {
   offer_label?: string | null;
   status: string;
   livreur_idx: number | null;
+  closeuse_idx?: number | null;
   delivery_fee?: number | null;
   created_at: string;
   delivered_at?: string | null;
@@ -108,13 +109,16 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
     const depAutre = filteredExpenses.filter((e) => e.category === 'autre').reduce((s, e) => s + e.amount, 0);
     const depManuelles = depPub + depAppel + depAutre;
 
-    const totalCharges = coutProduits + coutLivraison + depManuelles;
+    // Commissions closeuses (auto) : 1000 FCFA par commande livrée saisie par une closeuse
+    const commissionsCloseuses = delivered.filter((o) => o.closeuse_idx != null).length * 1000;
+
+    const totalCharges = coutProduits + coutLivraison + depManuelles + commissionsCloseuses;
     const benefice = ca - totalCharges;
     const marge = ca > 0 ? (benefice / ca) * 100 : 0;
 
     return {
       delivered, cancelled, pending, ca, potentiel, perdu,
-      coutProduits, coutLivraison, depPub, depAppel, depAutre, depManuelles,
+      coutProduits, coutLivraison, depPub, depAppel, depAutre, depManuelles, commissionsCloseuses,
       totalCharges, benefice, marge,
     };
   }, [filtered, deliveredInPeriod, filteredExpenses, livreurs]);
@@ -217,9 +221,10 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
         <div className="text-xs uppercase font-bold opacity-90">💰 Bénéfice net</div>
         <div className="text-4xl font-extrabold mt-1">{formatFCFA(totals.benefice)}</div>
         <div className="text-sm opacity-90 mt-1">Marge : {totals.marge.toFixed(1)}% · CA {formatFCFA(totals.ca)} − Charges {formatFCFA(totals.totalCharges)}</div>
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-4 text-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 mt-4 text-xs">
           <Mini label="🛒 PA produits" value={formatFCFA(totals.coutProduits)} />
           <Mini label="🛵 Livraisons" value={formatFCFA(totals.coutLivraison)} />
+          <Mini label="👩‍💼 Commissions closeuses" value={formatFCFA(totals.commissionsCloseuses)} />
           <Mini label="📣 Pub" value={formatFCFA(totals.depPub)} />
           <Mini label="📞 Appels" value={formatFCFA(totals.depAppel)} />
           <Mini label="🧾 Autres" value={formatFCFA(totals.depAutre)} />
