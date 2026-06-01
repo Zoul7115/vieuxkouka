@@ -175,9 +175,25 @@ export function waLivreurUrl(order: WAOrder, livreur: Livreur): string {
 /** Message SAV — Relance J+7 après livraison pour prendre des nouvelles */
 export function buildSAVMessage(order: WAOrder): string {
   const fullName = [order.first_name, order.last_name].filter(Boolean).join(' ') || 'cher client';
-  const isSirop = /sirop/i.test(order.product_name);
 
-  if (isSirop) {
+  if (isTonic(order.product_name, order.product_slug)) {
+    return `Bonjour *${fullName}* 🌿
+
+C'est l'équipe du *Vieux KOUKA*. Cela fait *7 jours* depuis ta commande du *Tonic du Vieux KOUKA*.
+
+On voulait prendre de tes nouvelles 🙏
+
+👉 Comment te sens-tu depuis le début de la cure ?
+👉 Tes nuits sont-elles plus calmes ? Ton appétit est-il revenu ?
+👉 La fatigue, les ulcères, la tension : as-tu remarqué une amélioration ?
+
+Ton retour est très important pour nous — et il aide d'autres personnes qui souffrent comme toi avant.
+
+Merci pour ta confiance 🌿
+_— Le Vieux KOUKA_`;
+  }
+
+  if (isSirop(order.product_name)) {
     return `Bonjour *${fullName}* 👋
 
 C'est l'équipe discrète du *Vieux KOUKA* 🌿
