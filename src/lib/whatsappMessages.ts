@@ -113,35 +113,45 @@ export function buildLivreurMessage(order: WAOrder): string {
   const offer = findOfferByLabel(order.offer_label);
   const totalUnits = offer?.units ?? 1;
   const fullName = [order.first_name, order.last_name].filter(Boolean).join(' ') || '—';
-  const productUpper = /sirop/i.test(order.product_name)
-    ? 'SIROP KOUKA'
-    : isAntiDiabete(order.product_name)
-      ? 'POUDRE ANTI-DIABÈTE'
-      : 'POUDRE KOUKA';
+  const productUpper = isTonic(order.product_name, order.product_slug)
+    ? 'TONIC KOUKA'
+    : isSirop(order.product_name)
+      ? 'SIROP KOUKA'
+      : isAntiDiabete(order.product_name)
+        ? 'POUDRE ANTI-DIABÈTE'
+        : 'POUDRE KOUKA';
   const phone = order.whatsapp ? `+${cleanPhone(order.whatsapp)}` : '—';
+  const slotLine = `⏰ *Créneau souhaité :* ${formatSlot(order.delivery_slot)}`;
 
   if (isOuaga(order)) {
     return `🌿 *LIVRAISON — ${productUpper}*
 
 👤 *Client :* ${fullName}
 📞 *Tél :* ${phone}
-📦 *À livrer :* ${sachetWord(order.product_name, totalUnits)}
+📦 *À livrer :* ${sachetWord(order.product_name, totalUnits, order.product_slug)}
 💰 *Prix à encaisser :* ${formatFCFA(order.product_price)}
 📍 *Adresse :* ${order.city || '—'}${order.neighborhood ? ' / ' + order.neighborhood : ''}, ${order.country || ''}
+${slotLine}
 
 _Merci de confirmer la réception 🙏_`;
   }
 
   // Expédition
   const transport = order.car_transport || '—';
+  const unitLabel = isTonic(order.product_name, order.product_slug)
+    ? 'Bouteilles'
+    : isSirop(order.product_name)
+      ? 'Flacons'
+      : 'Sachets';
   return `🌿 *EXPÉDITION — ${productUpper}*
 
 👤 *Client :* ${fullName}
 📞 *Tél :* ${phone}
-📦 *${/sirop/i.test(order.product_name) ? 'Flacons' : 'Sachets'} à livrer :* ${sachetWord(order.product_name, totalUnits)}
+📦 *${unitLabel} à livrer :* ${sachetWord(order.product_name, totalUnits, order.product_slug)}
 💰 *Prix à encaisser :* ${formatFCFA(order.product_price)}
 🚍 *Mode :* Expédition par car — *${transport}*
 📍 *Ville :* ${order.city || '—'}, ${order.country || ''}
+${slotLine}
 
 _Merci de confirmer le dépôt au car 🙏_`;
 }
