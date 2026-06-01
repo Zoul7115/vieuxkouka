@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { useCloseuses, COMMISSION_PAR_COMMANDE, type Closeuse } from '@/lib/closeuses';
 import { formatFCFA } from '@/lib/products';
 
-type Order = { closeuse_idx: number | null; status: string; delivered_at: string | null; product_price: number };
+type Order = { closeuse_idx?: number | null; status: string; delivered_at?: string | null; product_price: number };
 
 export function CloseusesTab({ orders }: { orders: Order[] }) {
   const { closeuses, reload } = useCloseuses();
