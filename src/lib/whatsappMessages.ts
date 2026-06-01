@@ -77,10 +77,10 @@ export function buildClientMessage(order: WAOrder): string {
   if (isOuaga(order)) {
     return `Bonjour *${fullName}* 🌿
 
-✅ Votre commande de la *${productLabel(order.product_name)}* contre ${pathologyLabel(order.product_name)} a bien été reçue !
+✅ Votre commande de la *${productLabel(order.product_name, order.product_slug)}* contre ${pathologyLabel(order.product_name, order.product_slug)} a bien été reçue !
 
-📦 Vous avez commandé *${sachetWord(order.product_name, paid)}* à *${formatFCFA(order.product_price)}*.${bonus > 0 ? `
-🎁 Nous vous offrons *${sachetWord(order.product_name, bonus)} bonus* pour un traitement plus complet.` : ''}
+📦 Vous avez commandé *${sachetWord(order.product_name, paid, order.product_slug)}* à *${formatFCFA(order.product_price)}*.${bonus > 0 ? `
+🎁 Nous vous offrons *${sachetWord(order.product_name, bonus, order.product_slug)} bonus* pour un traitement plus complet.` : ''}
 
 🛵 Notre livreur va vous contacter très prochainement pour la livraison à domicile.
 
@@ -92,10 +92,10 @@ Merci pour votre confiance ! 🙏`;
   const productOnly = Math.max(0, order.product_price - 1000);
   return `Bonjour *${fullName}* 🌿
 
-✅ Votre commande de la *${productLabel(order.product_name)}* contre ${pathologyLabel(order.product_name)} a bien été reçue !
+✅ Votre commande de la *${productLabel(order.product_name, order.product_slug)}* contre ${pathologyLabel(order.product_name, order.product_slug)} a bien été reçue !
 
-📦 Vous avez commandé *${sachetWord(order.product_name, paid)}* à *${formatFCFA(productOnly)}*.${bonus > 0 ? `
-🎁 Nous allons vous offrir *${sachetWord(order.product_name, bonus)} bonus* pour un traitement plus complet.` : ''}
+📦 Vous avez commandé *${sachetWord(order.product_name, paid, order.product_slug)}* à *${formatFCFA(productOnly)}*.${bonus > 0 ? `
+🎁 Nous allons vous offrir *${sachetWord(order.product_name, bonus, order.product_slug)} bonus* pour un traitement plus complet.` : ''}
 
 🚍 Votre commande sera expédiée via *${transport}*.
 💰 *Frais d'expédition : 1 000 FCFA* (déjà inclus dans le total).
