@@ -235,6 +235,7 @@ function SAVCard({
   const waUrl = waSAVUrl({
     order_number: order.order_number,
     product_name: order.product_name,
+    product_slug: order.product_slug ?? null,
     product_price: order.product_price,
     offer_label: order.offer_label,
     first_name: order.first_name,

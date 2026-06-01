@@ -5,6 +5,7 @@ import { cleanPhone } from './livreurs';
 export type WAOrder = {
   order_number: string;
   product_name: string;
+  product_slug?: string | null;
   product_price: number;
   offer_label: string | null;
   first_name: string | null;
@@ -14,7 +15,18 @@ export type WAOrder = {
   city: string | null;
   neighborhood?: string | null;
   car_transport?: string | null;
+  delivery_slot?: string | null;
 };
+
+const SLOT_LABELS: Record<string, string> = {
+  morning: 'matin (8h-12h)',
+  noon: 'midi (12h-14h)',
+  afternoon: 'après-midi (14h-17h)',
+  evening: 'soir (17h-20h)',
+};
+
+const formatSlot = (slot?: string | null) =>
+  slot ? SLOT_LABELS[slot] || slot : 'à confirmer avec le client';
 
 /**
  * Détermine s'il s'agit d'une livraison locale (capitale) ou d'une expédition.
@@ -27,25 +39,31 @@ const isLocalDelivery = (order: WAOrder) => {
 const isOuaga = isLocalDelivery;
 
 const isAntiDiabete = (productName: string) => /anti.?diab[eè]te/i.test(productName);
+const isTonic = (productName: string, slug?: string | null) =>
+  slug === 'tonic-kouka' || /tonic/i.test(productName);
+const isSirop = (productName: string) => /sirop/i.test(productName);
 
-const productLabel = (productName: string) => {
-  if (/sirop/i.test(productName)) return 'Sirop du Vieux KOUKA';
+const productLabel = (productName: string, slug?: string | null) => {
+  if (isTonic(productName, slug)) return 'Tonic du Vieux KOUKA';
+  if (isSirop(productName)) return 'Sirop du Vieux KOUKA';
   if (isAntiDiabete(productName)) return 'Poudre Anti-Diabète du Vieux KOUKA';
   return 'Poudre du Vieux KOUKA';
 };
 
-const pathologyLabel = (productName: string) => {
-  if (/sirop/i.test(productName)) return 'les troubles intimes et la vitalité';
+const pathologyLabel = (productName: string, slug?: string | null) => {
+  if (isTonic(productName, slug)) return "l'insomnie, le manque d'appétit, la fatigue, les ulcères et l'hypertension";
+  if (isSirop(productName)) return 'les troubles intimes et la vitalité';
   if (isAntiDiabete(productName)) return 'le diabète et la régulation de la glycémie';
   return 'les ulcères, la colopathie et les hémorroïdes';
 };
 
 const unitsLabel = (units: number) =>
-  /sirop/i.test('') ? `${units} flacon${units > 1 ? 's' : ''}` : `${units} sachet${units > 1 ? 's' : ''}`;
+  `${units} unité${units > 1 ? 's' : ''}`;
 
-const sachetWord = (productName: string, n: number) => {
-  const sirop = /sirop/i.test(productName);
-  const w = sirop ? 'flacon' : 'sachet';
+const sachetWord = (productName: string, n: number, slug?: string | null) => {
+  let w = 'sachet';
+  if (isTonic(productName, slug)) w = 'bouteille';
+  else if (isSirop(productName)) w = 'flacon';
   return `${n} ${w}${n > 1 ? 's' : ''}`;
 };
 
@@ -59,10 +77,10 @@ export function buildClientMessage(order: WAOrder): string {
   if (isOuaga(order)) {
     return `Bonjour *${fullName}* 🌿
 
-✅ Votre commande de la *${productLabel(order.product_name)}* contre ${pathologyLabel(order.product_name)} a bien été reçue !
+✅ Votre commande de la *${productLabel(order.product_name, order.product_slug)}* contre ${pathologyLabel(order.product_name, order.product_slug)} a bien été reçue !
 
-📦 Vous avez commandé *${sachetWord(order.product_name, paid)}* à *${formatFCFA(order.product_price)}*.${bonus > 0 ? `
-🎁 Nous vous offrons *${sachetWord(order.product_name, bonus)} bonus* pour un traitement plus complet.` : ''}
+📦 Vous avez commandé *${sachetWord(order.product_name, paid, order.product_slug)}* à *${formatFCFA(order.product_price)}*.${bonus > 0 ? `
+🎁 Nous vous offrons *${sachetWord(order.product_name, bonus, order.product_slug)} bonus* pour un traitement plus complet.` : ''}
 
 🛵 Notre livreur va vous contacter très prochainement pour la livraison à domicile.
 
@@ -74,10 +92,10 @@ Merci pour votre confiance ! 🙏`;
   const productOnly = Math.max(0, order.product_price - 1000);
   return `Bonjour *${fullName}* 🌿
 
-✅ Votre commande de la *${productLabel(order.product_name)}* contre ${pathologyLabel(order.product_name)} a bien été reçue !
+✅ Votre commande de la *${productLabel(order.product_name, order.product_slug)}* contre ${pathologyLabel(order.product_name, order.product_slug)} a bien été reçue !
 
-📦 Vous avez commandé *${sachetWord(order.product_name, paid)}* à *${formatFCFA(productOnly)}*.${bonus > 0 ? `
-🎁 Nous allons vous offrir *${sachetWord(order.product_name, bonus)} bonus* pour un traitement plus complet.` : ''}
+📦 Vous avez commandé *${sachetWord(order.product_name, paid, order.product_slug)}* à *${formatFCFA(productOnly)}*.${bonus > 0 ? `
+🎁 Nous allons vous offrir *${sachetWord(order.product_name, bonus, order.product_slug)} bonus* pour un traitement plus complet.` : ''}
 
 🚍 Votre commande sera expédiée via *${transport}*.
 💰 *Frais d'expédition : 1 000 FCFA* (déjà inclus dans le total).
@@ -95,35 +113,45 @@ export function buildLivreurMessage(order: WAOrder): string {
   const offer = findOfferByLabel(order.offer_label);
   const totalUnits = offer?.units ?? 1;
   const fullName = [order.first_name, order.last_name].filter(Boolean).join(' ') || '—';
-  const productUpper = /sirop/i.test(order.product_name)
-    ? 'SIROP KOUKA'
-    : isAntiDiabete(order.product_name)
-      ? 'POUDRE ANTI-DIABÈTE'
-      : 'POUDRE KOUKA';
+  const productUpper = isTonic(order.product_name, order.product_slug)
+    ? 'TONIC KOUKA'
+    : isSirop(order.product_name)
+      ? 'SIROP KOUKA'
+      : isAntiDiabete(order.product_name)
+        ? 'POUDRE ANTI-DIABÈTE'
+        : 'POUDRE KOUKA';
   const phone = order.whatsapp ? `+${cleanPhone(order.whatsapp)}` : '—';
+  const slotLine = `⏰ *Créneau souhaité :* ${formatSlot(order.delivery_slot)}`;
 
   if (isOuaga(order)) {
     return `🌿 *LIVRAISON — ${productUpper}*
 
 👤 *Client :* ${fullName}
 📞 *Tél :* ${phone}
-📦 *À livrer :* ${sachetWord(order.product_name, totalUnits)}
+📦 *À livrer :* ${sachetWord(order.product_name, totalUnits, order.product_slug)}
 💰 *Prix à encaisser :* ${formatFCFA(order.product_price)}
 📍 *Adresse :* ${order.city || '—'}${order.neighborhood ? ' / ' + order.neighborhood : ''}, ${order.country || ''}
+${slotLine}
 
 _Merci de confirmer la réception 🙏_`;
   }
 
   // Expédition
   const transport = order.car_transport || '—';
+  const unitLabel = isTonic(order.product_name, order.product_slug)
+    ? 'Bouteilles'
+    : isSirop(order.product_name)
+      ? 'Flacons'
+      : 'Sachets';
   return `🌿 *EXPÉDITION — ${productUpper}*
 
 👤 *Client :* ${fullName}
 📞 *Tél :* ${phone}
-📦 *${/sirop/i.test(order.product_name) ? 'Flacons' : 'Sachets'} à livrer :* ${sachetWord(order.product_name, totalUnits)}
+📦 *${unitLabel} à livrer :* ${sachetWord(order.product_name, totalUnits, order.product_slug)}
 💰 *Prix à encaisser :* ${formatFCFA(order.product_price)}
 🚍 *Mode :* Expédition par car — *${transport}*
 📍 *Ville :* ${order.city || '—'}, ${order.country || ''}
+${slotLine}
 
 _Merci de confirmer le dépôt au car 🙏_`;
 }
@@ -147,9 +175,25 @@ export function waLivreurUrl(order: WAOrder, livreur: Livreur): string {
 /** Message SAV — Relance J+7 après livraison pour prendre des nouvelles */
 export function buildSAVMessage(order: WAOrder): string {
   const fullName = [order.first_name, order.last_name].filter(Boolean).join(' ') || 'cher client';
-  const isSirop = /sirop/i.test(order.product_name);
 
-  if (isSirop) {
+  if (isTonic(order.product_name, order.product_slug)) {
+    return `Bonjour *${fullName}* 🌿
+
+C'est l'équipe du *Vieux KOUKA*. Cela fait *7 jours* depuis ta commande du *Tonic du Vieux KOUKA*.
+
+On voulait prendre de tes nouvelles 🙏
+
+👉 Comment te sens-tu depuis le début de la cure ?
+👉 Tes nuits sont-elles plus calmes ? Ton appétit est-il revenu ?
+👉 La fatigue, les ulcères, la tension : as-tu remarqué une amélioration ?
+
+Ton retour est très important pour nous — et il aide d'autres personnes qui souffrent comme toi avant.
+
+Merci pour ta confiance 🌿
+_— Le Vieux KOUKA_`;
+  }
+
+  if (isSirop(order.product_name)) {
     return `Bonjour *${fullName}* 👋
 
 C'est l'équipe discrète du *Vieux KOUKA* 🌿
