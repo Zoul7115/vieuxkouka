@@ -11,6 +11,8 @@ import { StockTab } from '@/components/admin/StockTab';
 import { ComptaTab } from '@/components/admin/ComptaTab';
 import { LivreursTab } from '@/components/admin/LivreursTab';
 import { DraftsTab } from '@/components/admin/DraftsTab';
+import { CloseusesTab } from '@/components/admin/CloseusesTab';
+import { SalairesTab } from '@/components/admin/SalairesTab';
 import { NotifDiagnostic } from '@/components/admin/NotifDiagnostic';
 import { usePWAAdmin } from '@/hooks/usePWAAdmin';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
