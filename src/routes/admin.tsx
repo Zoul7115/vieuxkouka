@@ -32,7 +32,7 @@ type Visit = {
   visited_at: string | null;
 };
 
-type Tab = 'orders' | 'drafts' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs';
+type Tab = 'orders' | 'drafts' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs' | 'closeuses' | 'salaires';
 
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
