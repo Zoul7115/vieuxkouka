@@ -5,6 +5,7 @@ import { cleanPhone } from './livreurs';
 export type WAOrder = {
   order_number: string;
   product_name: string;
+  product_slug?: string | null;
   product_price: number;
   offer_label: string | null;
   first_name: string | null;
@@ -14,7 +15,18 @@ export type WAOrder = {
   city: string | null;
   neighborhood?: string | null;
   car_transport?: string | null;
+  delivery_slot?: string | null;
 };
+
+const SLOT_LABELS: Record<string, string> = {
+  morning: 'matin (8h-12h)',
+  noon: 'midi (12h-14h)',
+  afternoon: 'après-midi (14h-17h)',
+  evening: 'soir (17h-20h)',
+};
+
+const formatSlot = (slot?: string | null) =>
+  slot ? SLOT_LABELS[slot] || slot : 'à confirmer avec le client';
 
 /**
  * Détermine s'il s'agit d'une livraison locale (capitale) ou d'une expédition.
@@ -27,25 +39,31 @@ const isLocalDelivery = (order: WAOrder) => {
 const isOuaga = isLocalDelivery;
 
 const isAntiDiabete = (productName: string) => /anti.?diab[eè]te/i.test(productName);
+const isTonic = (productName: string, slug?: string | null) =>
+  slug === 'tonic-kouka' || /tonic/i.test(productName);
+const isSirop = (productName: string) => /sirop/i.test(productName);
 
-const productLabel = (productName: string) => {
-  if (/sirop/i.test(productName)) return 'Sirop du Vieux KOUKA';
+const productLabel = (productName: string, slug?: string | null) => {
+  if (isTonic(productName, slug)) return 'Tonic du Vieux KOUKA';
+  if (isSirop(productName)) return 'Sirop du Vieux KOUKA';
   if (isAntiDiabete(productName)) return 'Poudre Anti-Diabète du Vieux KOUKA';
   return 'Poudre du Vieux KOUKA';
 };
 
-const pathologyLabel = (productName: string) => {
-  if (/sirop/i.test(productName)) return 'les troubles intimes et la vitalité';
+const pathologyLabel = (productName: string, slug?: string | null) => {
+  if (isTonic(productName, slug)) return "l'insomnie, le manque d'appétit, la fatigue, les ulcères et l'hypertension";
+  if (isSirop(productName)) return 'les troubles intimes et la vitalité';
   if (isAntiDiabete(productName)) return 'le diabète et la régulation de la glycémie';
   return 'les ulcères, la colopathie et les hémorroïdes';
 };
 
 const unitsLabel = (units: number) =>
-  /sirop/i.test('') ? `${units} flacon${units > 1 ? 's' : ''}` : `${units} sachet${units > 1 ? 's' : ''}`;
+  `${units} unité${units > 1 ? 's' : ''}`;
 
-const sachetWord = (productName: string, n: number) => {
-  const sirop = /sirop/i.test(productName);
-  const w = sirop ? 'flacon' : 'sachet';
+const sachetWord = (productName: string, n: number, slug?: string | null) => {
+  let w = 'sachet';
+  if (isTonic(productName, slug)) w = 'bouteille';
+  else if (isSirop(productName)) w = 'flacon';
   return `${n} ${w}${n > 1 ? 's' : ''}`;
 };
 
