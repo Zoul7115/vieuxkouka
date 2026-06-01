@@ -221,9 +221,10 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
         <div className="text-xs uppercase font-bold opacity-90">💰 Bénéfice net</div>
         <div className="text-4xl font-extrabold mt-1">{formatFCFA(totals.benefice)}</div>
         <div className="text-sm opacity-90 mt-1">Marge : {totals.marge.toFixed(1)}% · CA {formatFCFA(totals.ca)} − Charges {formatFCFA(totals.totalCharges)}</div>
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mt-4 text-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 mt-4 text-xs">
           <Mini label="🛒 PA produits" value={formatFCFA(totals.coutProduits)} />
           <Mini label="🛵 Livraisons" value={formatFCFA(totals.coutLivraison)} />
+          <Mini label="👩‍💼 Commissions closeuses" value={formatFCFA(totals.commissionsCloseuses)} />
           <Mini label="📣 Pub" value={formatFCFA(totals.depPub)} />
           <Mini label="📞 Appels" value={formatFCFA(totals.depAppel)} />
           <Mini label="🧾 Autres" value={formatFCFA(totals.depAutre)} />
