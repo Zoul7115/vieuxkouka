@@ -109,13 +109,16 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
     const depAutre = filteredExpenses.filter((e) => e.category === 'autre').reduce((s, e) => s + e.amount, 0);
     const depManuelles = depPub + depAppel + depAutre;
 
-    const totalCharges = coutProduits + coutLivraison + depManuelles;
+    // Commissions closeuses (auto) : 1000 FCFA par commande livrée saisie par une closeuse
+    const commissionsCloseuses = delivered.filter((o) => o.closeuse_idx != null).length * 1000;
+
+    const totalCharges = coutProduits + coutLivraison + depManuelles + commissionsCloseuses;
     const benefice = ca - totalCharges;
     const marge = ca > 0 ? (benefice / ca) * 100 : 0;
 
     return {
       delivered, cancelled, pending, ca, potentiel, perdu,
-      coutProduits, coutLivraison, depPub, depAppel, depAutre, depManuelles,
+      coutProduits, coutLivraison, depPub, depAppel, depAutre, depManuelles, commissionsCloseuses,
       totalCharges, benefice, marge,
     };
   }, [filtered, deliveredInPeriod, filteredExpenses, livreurs]);
