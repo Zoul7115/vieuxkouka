@@ -177,6 +177,8 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     { k: 'sav', label: 'SAV', emoji: '🤝' },
     { k: 'bilan', label: 'Bilan', emoji: '🧠' },
     { k: 'livreurs', label: 'Livreurs', emoji: '🛵' },
+    { k: 'closeuses', label: 'Closeuses', emoji: '👩‍💼' },
+    { k: 'salaires', label: 'Salaires', emoji: '💰' },
     { k: 'stock', label: 'Stock', emoji: '📊' },
     { k: 'compta', label: 'Compta', emoji: '💰' },
     { k: 'stats', label: 'Stats', emoji: '📈' },
