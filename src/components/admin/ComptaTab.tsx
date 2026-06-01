@@ -13,6 +13,7 @@ type Order = {
   offer_label?: string | null;
   status: string;
   livreur_idx: number | null;
+  closeuse_idx?: number | null;
   delivery_fee?: number | null;
   created_at: string;
   delivered_at?: string | null;
