@@ -255,6 +255,15 @@ export function ProductForm({ product }: { product: Product }) {
       const first = parts[0];
       const rest = parts.slice(1);
       const fullPhone = country.prefix + form.whatsapp.replace(/\s/g, '');
+
+      // 🚫 Blocage client + anti-doublon (même produit dans les 24h)
+      const { validateOrderEligibility } = await import('@/lib/orderGuards');
+      const reason = await validateOrderEligibility(fullPhone, product.slug);
+      if (reason) {
+        toast.error(reason, { duration: 7000 });
+        setSubmitting(false);
+        return;
+      }
       const aiScore = computeOrderScore({
         whatsapp: form.whatsapp,
         countryPrefix: country.prefix,
