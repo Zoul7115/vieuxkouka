@@ -229,7 +229,7 @@ function OrderCard({
   return (
     <div className="bg-white rounded-2xl border-2 border-vert-bg overflow-hidden">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => { const next = !open; setOpen(next); if (next && isBlocked === null) checkBlockedStatus(); }}
         className="w-full p-4 flex items-center justify-between text-left hover:bg-vert-bg/30 transition-colors"
       >
         <div className="flex-1 min-w-0">
