@@ -256,11 +256,11 @@ export function ProductForm({ product }: { product: Product }) {
       const rest = parts.slice(1);
       const fullPhone = country.prefix + form.whatsapp.replace(/\s/g, '');
 
-      // 🚫 Blocage client + anti-doublon (même produit dans les 24h)
+      // 🚫 Blocage client (WhatsApp + IP) + anti-doublon (même produit dans les 24h)
       const { validateOrderEligibility } = await import('@/lib/orderGuards');
-      const reason = await validateOrderEligibility(fullPhone, product.slug);
-      if (reason) {
-        toast.error(reason, { duration: 7000 });
+      const { error: blockReason, ip: clientIp } = await validateOrderEligibility(fullPhone, product.slug);
+      if (blockReason) {
+        toast.error(blockReason, { duration: 7000 });
         setSubmitting(false);
         return;
       }
@@ -293,6 +293,7 @@ export function ProductForm({ product }: { product: Product }) {
         is_available: form.available,
         status: 'pending',
         ai_score: aiScore,
+        client_ip: clientIp,
         source: typeof document !== 'undefined' ? document.referrer || 'Direct' : 'Direct',
       });
 

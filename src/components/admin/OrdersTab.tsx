@@ -43,6 +43,7 @@ export type Order = {
   product_slug?: string | null;
   closeuse_idx?: number | null;
   delivered_at?: string | null;
+  client_ip?: string | null;
 };
 
 const SLOT_LABELS: Record<string, string> = {
@@ -178,21 +179,36 @@ function OrderCard({
   const [feeInput, setFeeInput] = useState<string>(order.delivery_fee != null ? String(order.delivery_fee) : '');
   const [savingFee, setSavingFee] = useState(false);
   const [isBlocked, setIsBlocked] = useState<boolean | null>(null);
+  const [isIpBlocked, setIsIpBlocked] = useState<boolean | null>(null);
   const status = STATUSES[order.status] || STATUSES.pending;
   const livreur = livreurs.find((l) => l.idx === order.livreur_idx);
   const clientUrl = waClientUrl(order);
   const effFee = effectiveDeliveryFee(livreurs, order);
   const net = order.product_price - effFee;
   const normalizedWa = (order.whatsapp || '').replace(/\D/g, '');
+  const clientIp = order.client_ip || '';
 
   const checkBlockedStatus = async () => {
-    if (!normalizedWa) return;
-    const { data } = await supabase
-      .from('blocked_customers')
-      .select('whatsapp')
-      .or(`whatsapp.eq.${normalizedWa},whatsapp.eq.+${normalizedWa}`)
-      .maybeSingle();
-    setIsBlocked(!!data);
+    if (normalizedWa) {
+      const { data } = await supabase
+        .from('blocked_customers')
+        .select('whatsapp')
+        .or(`whatsapp.eq.${normalizedWa},whatsapp.eq.+${normalizedWa}`)
+        .maybeSingle();
+      setIsBlocked(!!data);
+    } else {
+      setIsBlocked(false);
+    }
+    if (clientIp) {
+      const { data } = await supabase
+        .from('blocked_ips')
+        .select('ip')
+        .eq('ip', clientIp)
+        .maybeSingle();
+      setIsIpBlocked(!!data);
+    } else {
+      setIsIpBlocked(false);
+    }
   };
 
   const toggleBlock = async () => {
@@ -203,17 +219,36 @@ function OrderCard({
         .delete()
         .or(`whatsapp.eq.${normalizedWa},whatsapp.eq.+${normalizedWa}`);
       if (error) { toast.error(error.message); return; }
-      toast.success('✅ Client débloqué');
+      toast.success('✅ Numéro débloqué');
       setIsBlocked(false);
     } else {
-      const reason = window.prompt('Raison du blocage (visible nulle part côté client) ?', 'Comportement abusif');
+      const reason = window.prompt('Raison du blocage du numéro ?', 'Comportement abusif');
       if (reason === null) return;
       const { error } = await supabase
         .from('blocked_customers')
         .insert({ whatsapp: normalizedWa, reason: reason || null, blocked_by: 'admin' });
       if (error) { toast.error(error.message); return; }
-      toast.success('🚫 Client bloqué — il ne pourra plus commander');
+      toast.success('🚫 Numéro bloqué');
       setIsBlocked(true);
+    }
+  };
+
+  const toggleBlockIp = async () => {
+    if (!clientIp) { toast.error("Pas d'IP enregistrée pour cette commande"); return; }
+    if (isIpBlocked) {
+      const { error } = await supabase.from('blocked_ips').delete().eq('ip', clientIp);
+      if (error) { toast.error(error.message); return; }
+      toast.success('✅ IP débloquée');
+      setIsIpBlocked(false);
+    } else {
+      const reason = window.prompt(`Raison du blocage de l'IP ${clientIp} ?`, 'Comportement abusif');
+      if (reason === null) return;
+      const { error } = await supabase
+        .from('blocked_ips')
+        .insert({ ip: clientIp, reason: reason || null, blocked_by: 'admin' });
+      if (error) { toast.error(error.message); return; }
+      toast.success('🚫 IP bloquée');
+      setIsIpBlocked(true);
     }
   };
 
@@ -382,23 +417,42 @@ function OrderCard({
 
           <div className="pt-2 border-t-2 border-vert-bg/60">
             <div className="text-xs font-bold uppercase text-muted-foreground mb-2">Accès boutique</div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <button
-                onClick={toggleBlock}
-                disabled={!normalizedWa}
-                className={`text-xs px-3 py-1.5 rounded-full font-extrabold transition disabled:opacity-50 ${
-                  isBlocked
-                    ? 'bg-vert-bg text-vert hover:bg-vert-mid hover:text-white'
-                    : 'bg-rouge text-white hover:opacity-90'
-                }`}
-              >
-                {isBlocked ? '✅ Débloquer ce client' : '🚫 Bloquer ce client'}
-              </button>
-              <span className="text-xs text-muted-foreground">
-                {isBlocked === null ? '…' : isBlocked
-                  ? 'Bloqué — ne peut plus passer de commande.'
-                  : 'Empêche ce numéro de commander sur toutes les pages.'}
-              </span>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={toggleBlock}
+                  disabled={!normalizedWa}
+                  className={`text-xs px-3 py-1.5 rounded-full font-extrabold transition disabled:opacity-50 ${
+                    isBlocked
+                      ? 'bg-vert-bg text-vert hover:bg-vert-mid hover:text-white'
+                      : 'bg-rouge text-white hover:opacity-90'
+                  }`}
+                >
+                  {isBlocked ? '✅ Débloquer le numéro' : '🚫 Bloquer le numéro'}
+                </button>
+                <span className="text-xs text-muted-foreground">
+                  📱 {normalizedWa || '—'}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={toggleBlockIp}
+                  disabled={!clientIp}
+                  className={`text-xs px-3 py-1.5 rounded-full font-extrabold transition disabled:opacity-50 ${
+                    isIpBlocked
+                      ? 'bg-vert-bg text-vert hover:bg-vert-mid hover:text-white'
+                      : 'bg-rouge text-white hover:opacity-90'
+                  }`}
+                >
+                  {isIpBlocked ? "✅ Débloquer l'IP" : "🚫 Bloquer l'IP"}
+                </button>
+                <span className="text-xs text-muted-foreground font-mono">
+                  🌐 {clientIp || 'non enregistrée'}
+                </span>
+              </div>
+              <p className="text-[11px] text-muted-foreground">
+                Le blocage s'applique à toutes les pages produit (numéro WhatsApp + adresse IP).
+              </p>
             </div>
           </div>
         </div>
