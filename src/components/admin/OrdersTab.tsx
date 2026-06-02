@@ -389,7 +389,7 @@ function OrderCard({
                 className={`text-xs px-3 py-1.5 rounded-full font-extrabold transition disabled:opacity-50 ${
                   isBlocked
                     ? 'bg-vert-bg text-vert hover:bg-vert-mid hover:text-white'
-                    : 'bg-rouge text-white hover:bg-rouge-dark'
+                    : 'bg-rouge text-white hover:opacity-90'
                 }`}
               >
                 {isBlocked ? '✅ Débloquer ce client' : '🚫 Bloquer ce client'}
