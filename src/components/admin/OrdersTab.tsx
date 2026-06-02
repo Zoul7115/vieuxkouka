@@ -177,11 +177,45 @@ function OrderCard({
   const [open, setOpen] = useState(false);
   const [feeInput, setFeeInput] = useState<string>(order.delivery_fee != null ? String(order.delivery_fee) : '');
   const [savingFee, setSavingFee] = useState(false);
+  const [isBlocked, setIsBlocked] = useState<boolean | null>(null);
   const status = STATUSES[order.status] || STATUSES.pending;
   const livreur = livreurs.find((l) => l.idx === order.livreur_idx);
   const clientUrl = waClientUrl(order);
   const effFee = effectiveDeliveryFee(livreurs, order);
   const net = order.product_price - effFee;
+  const normalizedWa = (order.whatsapp || '').replace(/\D/g, '');
+
+  const checkBlockedStatus = async () => {
+    if (!normalizedWa) return;
+    const { data } = await supabase
+      .from('blocked_customers')
+      .select('whatsapp')
+      .or(`whatsapp.eq.${normalizedWa},whatsapp.eq.+${normalizedWa}`)
+      .maybeSingle();
+    setIsBlocked(!!data);
+  };
+
+  const toggleBlock = async () => {
+    if (!normalizedWa) { toast.error('Pas de numéro WhatsApp'); return; }
+    if (isBlocked) {
+      const { error } = await supabase
+        .from('blocked_customers')
+        .delete()
+        .or(`whatsapp.eq.${normalizedWa},whatsapp.eq.+${normalizedWa}`);
+      if (error) { toast.error(error.message); return; }
+      toast.success('✅ Client débloqué');
+      setIsBlocked(false);
+    } else {
+      const reason = window.prompt('Raison du blocage (visible nulle part côté client) ?', 'Comportement abusif');
+      if (reason === null) return;
+      const { error } = await supabase
+        .from('blocked_customers')
+        .insert({ whatsapp: normalizedWa, reason: reason || null, blocked_by: 'admin' });
+      if (error) { toast.error(error.message); return; }
+      toast.success('🚫 Client bloqué — il ne pourra plus commander');
+      setIsBlocked(true);
+    }
+  };
 
   const saveFee = async () => {
     setSavingFee(true);
@@ -195,7 +229,7 @@ function OrderCard({
   return (
     <div className="bg-white rounded-2xl border-2 border-vert-bg overflow-hidden">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => { const next = !open; setOpen(next); if (next && isBlocked === null) checkBlockedStatus(); }}
         className="w-full p-4 flex items-center justify-between text-left hover:bg-vert-bg/30 transition-colors"
       >
         <div className="flex-1 min-w-0">
@@ -342,6 +376,28 @@ function OrderCard({
               )}
               <span className="text-xs text-muted-foreground">
                 Effectif : <span className="font-bold text-rouge">−{formatFCFA(effFee)}</span> · Net à encaisser : <span className="font-extrabold text-vert">{formatFCFA(net)}</span>
+              </span>
+            </div>
+          </div>
+
+          <div className="pt-2 border-t-2 border-vert-bg/60">
+            <div className="text-xs font-bold uppercase text-muted-foreground mb-2">Accès boutique</div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <button
+                onClick={toggleBlock}
+                disabled={!normalizedWa}
+                className={`text-xs px-3 py-1.5 rounded-full font-extrabold transition disabled:opacity-50 ${
+                  isBlocked
+                    ? 'bg-vert-bg text-vert hover:bg-vert-mid hover:text-white'
+                    : 'bg-rouge text-white hover:opacity-90'
+                }`}
+              >
+                {isBlocked ? '✅ Débloquer ce client' : '🚫 Bloquer ce client'}
+              </button>
+              <span className="text-xs text-muted-foreground">
+                {isBlocked === null ? '…' : isBlocked
+                  ? 'Bloqué — ne peut plus passer de commande.'
+                  : 'Empêche ce numéro de commander sur toutes les pages.'}
               </span>
             </div>
           </div>

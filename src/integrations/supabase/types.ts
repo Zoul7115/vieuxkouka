@@ -32,6 +32,27 @@ export type Database = {
         }
         Relationships: []
       }
+      blocked_customers: {
+        Row: {
+          blocked_by: string | null
+          created_at: string
+          reason: string | null
+          whatsapp: string
+        }
+        Insert: {
+          blocked_by?: string | null
+          created_at?: string
+          reason?: string | null
+          whatsapp: string
+        }
+        Update: {
+          blocked_by?: string | null
+          created_at?: string
+          reason?: string | null
+          whatsapp?: string
+        }
+        Relationships: []
+      }
       closeuses: {
         Row: {
           active: boolean
