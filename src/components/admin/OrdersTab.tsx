@@ -177,11 +177,45 @@ function OrderCard({
   const [open, setOpen] = useState(false);
   const [feeInput, setFeeInput] = useState<string>(order.delivery_fee != null ? String(order.delivery_fee) : '');
   const [savingFee, setSavingFee] = useState(false);
+  const [isBlocked, setIsBlocked] = useState<boolean | null>(null);
   const status = STATUSES[order.status] || STATUSES.pending;
   const livreur = livreurs.find((l) => l.idx === order.livreur_idx);
   const clientUrl = waClientUrl(order);
   const effFee = effectiveDeliveryFee(livreurs, order);
   const net = order.product_price - effFee;
+  const normalizedWa = (order.whatsapp || '').replace(/\D/g, '');
+
+  const checkBlockedStatus = async () => {
+    if (!normalizedWa) return;
+    const { data } = await supabase
+      .from('blocked_customers')
+      .select('whatsapp')
+      .or(`whatsapp.eq.${normalizedWa},whatsapp.eq.+${normalizedWa}`)
+      .maybeSingle();
+    setIsBlocked(!!data);
+  };
+
+  const toggleBlock = async () => {
+    if (!normalizedWa) { toast.error('Pas de numéro WhatsApp'); return; }
+    if (isBlocked) {
+      const { error } = await supabase
+        .from('blocked_customers')
+        .delete()
+        .or(`whatsapp.eq.${normalizedWa},whatsapp.eq.+${normalizedWa}`);
+      if (error) { toast.error(error.message); return; }
+      toast.success('✅ Client débloqué');
+      setIsBlocked(false);
+    } else {
+      const reason = window.prompt('Raison du blocage (visible nulle part côté client) ?', 'Comportement abusif');
+      if (reason === null) return;
+      const { error } = await supabase
+        .from('blocked_customers')
+        .insert({ whatsapp: normalizedWa, reason: reason || null, blocked_by: 'admin' });
+      if (error) { toast.error(error.message); return; }
+      toast.success('🚫 Client bloqué — il ne pourra plus commander');
+      setIsBlocked(true);
+    }
+  };
 
   const saveFee = async () => {
     setSavingFee(true);
