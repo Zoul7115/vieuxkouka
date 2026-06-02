@@ -53,6 +53,27 @@ export type Database = {
         }
         Relationships: []
       }
+      blocked_ips: {
+        Row: {
+          blocked_by: string | null
+          created_at: string
+          ip: string
+          reason: string | null
+        }
+        Insert: {
+          blocked_by?: string | null
+          created_at?: string
+          ip: string
+          reason?: string | null
+        }
+        Update: {
+          blocked_by?: string | null
+          created_at?: string
+          ip?: string
+          reason?: string | null
+        }
+        Relationships: []
+      }
       closeuses: {
         Row: {
           active: boolean
@@ -274,6 +295,7 @@ export type Database = {
           car_transport: string | null
           cash_confirmed: boolean | null
           city: string | null
+          client_ip: string | null
           closeuse_idx: number | null
           confirmed_via_whatsapp_at: string | null
           country: string | null
@@ -309,6 +331,7 @@ export type Database = {
           car_transport?: string | null
           cash_confirmed?: boolean | null
           city?: string | null
+          client_ip?: string | null
           closeuse_idx?: number | null
           confirmed_via_whatsapp_at?: string | null
           country?: string | null
@@ -344,6 +367,7 @@ export type Database = {
           car_transport?: string | null
           cash_confirmed?: boolean | null
           city?: string | null
+          client_ip?: string | null
           closeuse_idx?: number | null
           confirmed_via_whatsapp_at?: string | null
           country?: string | null
