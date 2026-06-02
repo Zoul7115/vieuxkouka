@@ -379,6 +379,28 @@ function OrderCard({
               </span>
             </div>
           </div>
+
+          <div className="pt-2 border-t-2 border-vert-bg/60">
+            <div className="text-xs font-bold uppercase text-muted-foreground mb-2">Accès boutique</div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <button
+                onClick={toggleBlock}
+                disabled={!normalizedWa}
+                className={`text-xs px-3 py-1.5 rounded-full font-extrabold transition disabled:opacity-50 ${
+                  isBlocked
+                    ? 'bg-vert-bg text-vert hover:bg-vert-mid hover:text-white'
+                    : 'bg-rouge text-white hover:bg-rouge-dark'
+                }`}
+              >
+                {isBlocked ? '✅ Débloquer ce client' : '🚫 Bloquer ce client'}
+              </button>
+              <span className="text-xs text-muted-foreground">
+                {isBlocked === null ? '…' : isBlocked
+                  ? 'Bloqué — ne peut plus passer de commande.'
+                  : 'Empêche ce numéro de commander sur toutes les pages.'}
+              </span>
+            </div>
+          </div>
         </div>
       )}
     </div>
