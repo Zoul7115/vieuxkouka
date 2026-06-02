@@ -43,6 +43,7 @@ export type Order = {
   product_slug?: string | null;
   closeuse_idx?: number | null;
   delivered_at?: string | null;
+  client_ip?: string | null;
 };
 
 const SLOT_LABELS: Record<string, string> = {
