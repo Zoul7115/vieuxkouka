@@ -417,23 +417,42 @@ function OrderCard({
 
           <div className="pt-2 border-t-2 border-vert-bg/60">
             <div className="text-xs font-bold uppercase text-muted-foreground mb-2">Accès boutique</div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <button
-                onClick={toggleBlock}
-                disabled={!normalizedWa}
-                className={`text-xs px-3 py-1.5 rounded-full font-extrabold transition disabled:opacity-50 ${
-                  isBlocked
-                    ? 'bg-vert-bg text-vert hover:bg-vert-mid hover:text-white'
-                    : 'bg-rouge text-white hover:opacity-90'
-                }`}
-              >
-                {isBlocked ? '✅ Débloquer ce client' : '🚫 Bloquer ce client'}
-              </button>
-              <span className="text-xs text-muted-foreground">
-                {isBlocked === null ? '…' : isBlocked
-                  ? 'Bloqué — ne peut plus passer de commande.'
-                  : 'Empêche ce numéro de commander sur toutes les pages.'}
-              </span>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={toggleBlock}
+                  disabled={!normalizedWa}
+                  className={`text-xs px-3 py-1.5 rounded-full font-extrabold transition disabled:opacity-50 ${
+                    isBlocked
+                      ? 'bg-vert-bg text-vert hover:bg-vert-mid hover:text-white'
+                      : 'bg-rouge text-white hover:opacity-90'
+                  }`}
+                >
+                  {isBlocked ? '✅ Débloquer le numéro' : '🚫 Bloquer le numéro'}
+                </button>
+                <span className="text-xs text-muted-foreground">
+                  📱 {normalizedWa || '—'}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={toggleBlockIp}
+                  disabled={!clientIp}
+                  className={`text-xs px-3 py-1.5 rounded-full font-extrabold transition disabled:opacity-50 ${
+                    isIpBlocked
+                      ? 'bg-vert-bg text-vert hover:bg-vert-mid hover:text-white'
+                      : 'bg-rouge text-white hover:opacity-90'
+                  }`}
+                >
+                  {isIpBlocked ? "✅ Débloquer l'IP" : "🚫 Bloquer l'IP"}
+                </button>
+                <span className="text-xs text-muted-foreground font-mono">
+                  🌐 {clientIp || 'non enregistrée'}
+                </span>
+              </div>
+              <p className="text-[11px] text-muted-foreground">
+                Le blocage s'applique à toutes les pages produit (numéro WhatsApp + adresse IP).
+              </p>
             </div>
           </div>
         </div>
