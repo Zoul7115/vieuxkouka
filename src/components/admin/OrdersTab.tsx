@@ -179,21 +179,36 @@ function OrderCard({
   const [feeInput, setFeeInput] = useState<string>(order.delivery_fee != null ? String(order.delivery_fee) : '');
   const [savingFee, setSavingFee] = useState(false);
   const [isBlocked, setIsBlocked] = useState<boolean | null>(null);
+  const [isIpBlocked, setIsIpBlocked] = useState<boolean | null>(null);
   const status = STATUSES[order.status] || STATUSES.pending;
   const livreur = livreurs.find((l) => l.idx === order.livreur_idx);
   const clientUrl = waClientUrl(order);
   const effFee = effectiveDeliveryFee(livreurs, order);
   const net = order.product_price - effFee;
   const normalizedWa = (order.whatsapp || '').replace(/\D/g, '');
+  const clientIp = order.client_ip || '';
 
   const checkBlockedStatus = async () => {
-    if (!normalizedWa) return;
-    const { data } = await supabase
-      .from('blocked_customers')
-      .select('whatsapp')
-      .or(`whatsapp.eq.${normalizedWa},whatsapp.eq.+${normalizedWa}`)
-      .maybeSingle();
-    setIsBlocked(!!data);
+    if (normalizedWa) {
+      const { data } = await supabase
+        .from('blocked_customers')
+        .select('whatsapp')
+        .or(`whatsapp.eq.${normalizedWa},whatsapp.eq.+${normalizedWa}`)
+        .maybeSingle();
+      setIsBlocked(!!data);
+    } else {
+      setIsBlocked(false);
+    }
+    if (clientIp) {
+      const { data } = await supabase
+        .from('blocked_ips')
+        .select('ip')
+        .eq('ip', clientIp)
+        .maybeSingle();
+      setIsIpBlocked(!!data);
+    } else {
+      setIsIpBlocked(false);
+    }
   };
 
   const toggleBlock = async () => {
@@ -204,17 +219,36 @@ function OrderCard({
         .delete()
         .or(`whatsapp.eq.${normalizedWa},whatsapp.eq.+${normalizedWa}`);
       if (error) { toast.error(error.message); return; }
-      toast.success('✅ Client débloqué');
+      toast.success('✅ Numéro débloqué');
       setIsBlocked(false);
     } else {
-      const reason = window.prompt('Raison du blocage (visible nulle part côté client) ?', 'Comportement abusif');
+      const reason = window.prompt('Raison du blocage du numéro ?', 'Comportement abusif');
       if (reason === null) return;
       const { error } = await supabase
         .from('blocked_customers')
         .insert({ whatsapp: normalizedWa, reason: reason || null, blocked_by: 'admin' });
       if (error) { toast.error(error.message); return; }
-      toast.success('🚫 Client bloqué — il ne pourra plus commander');
+      toast.success('🚫 Numéro bloqué');
       setIsBlocked(true);
+    }
+  };
+
+  const toggleBlockIp = async () => {
+    if (!clientIp) { toast.error("Pas d'IP enregistrée pour cette commande"); return; }
+    if (isIpBlocked) {
+      const { error } = await supabase.from('blocked_ips').delete().eq('ip', clientIp);
+      if (error) { toast.error(error.message); return; }
+      toast.success('✅ IP débloquée');
+      setIsIpBlocked(false);
+    } else {
+      const reason = window.prompt(`Raison du blocage de l'IP ${clientIp} ?`, 'Comportement abusif');
+      if (reason === null) return;
+      const { error } = await supabase
+        .from('blocked_ips')
+        .insert({ ip: clientIp, reason: reason || null, blocked_by: 'admin' });
+      if (error) { toast.error(error.message); return; }
+      toast.success('🚫 IP bloquée');
+      setIsIpBlocked(true);
     }
   };
 
