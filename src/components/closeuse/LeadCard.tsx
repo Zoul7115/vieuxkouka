@@ -1,8 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { type Lead, LEAD_STATUS_META, type LeadStatus, updateLeadStatus, appendLeadNote } from '@/lib/leads';
 import { formatFCFA } from '@/lib/products';
+import { supabase } from '@/integrations/supabase/client';
 import { RefusalModal } from './RefusalModal';
+
+const ORDER_STATUS_LABEL: Record<string, { label: string; cls: string }> = {
+  pending:   { label: 'En attente',  cls: 'bg-blue-100 text-blue-700' },
+  confirmed: { label: 'Confirmée',   cls: 'bg-emerald-100 text-emerald-700' },
+  expediee:  { label: 'Expédiée',    cls: 'bg-cyan-100 text-cyan-700' },
+  delivered: { label: 'Livrée',      cls: 'bg-green-100 text-green-700' },
+  cancelled: { label: 'Annulée',     cls: 'bg-red-100 text-red-700' },
+};
+
+type OrderInfo = { order_number: string | null; status: string | null; offer_label: string | null; country: string | null };
+type EventRow = { id: string; event_type: string; from_status: string | null; to_status: string | null; created_at: string };
 
 const ACTIONS: { to: LeadStatus; label: string; cls: string }[] = [
   { to: 'discussion', label: '💬 En discussion', cls: 'bg-amber-600 hover:bg-amber-700' },
