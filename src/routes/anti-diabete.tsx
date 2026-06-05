@@ -463,7 +463,7 @@ export function AntiDiabetePage() {
 
       <ProductForm product={product} />
 
-      <FloatingOrderCTA />
+      
 
       <section className="py-8 bg-white border-t border-bleu-light/20">
         <div className="container-kouka text-center">
