@@ -266,9 +266,25 @@ function SiropPage() {
         </div>
       </section>
 
+      <DiagnosticQuiz
+        title="Quel est votre problème principal ?"
+        questions={[
+          'Érection faible / molle',
+          'Éjaculation précoce',
+          'Baisse de libido / désir',
+          'Fatigue / manque d\'énergie',
+        ]}
+      />
+
+      <OfferComparisonTable product={product} />
+
       <RecommendedCureSection product={product} />
 
+      <ReassuranceBar />
+
       <ProductForm product={product} />
+
+      <FloatingOrderCTA />
 
       <section className="sec bg-cream-2">
         <div className="container-kouka text-center">
