@@ -99,10 +99,12 @@ export function useLeads(closeuseIdx?: number | null) {
   return { leads, loading, reload: load };
 }
 
-export async function updateLeadStatus(lead: Lead, to: LeadStatus, note?: string) {
+export async function updateLeadStatus(lead: Lead, to: LeadStatus, opts?: { note?: string; refusal_reason?: string; refusal_comment?: string }) {
   const patch: Record<string, unknown> = { status: to };
   if (to === 'valide' && !lead.validated_at) patch.validated_at = new Date().toISOString();
-  if (note) patch.notes = note;
+  if (opts?.note) patch.notes = opts.note;
+  if (opts?.refusal_reason) patch.refusal_reason = opts.refusal_reason;
+  if (opts?.refusal_comment) patch.refusal_comment = opts.refusal_comment;
   const { error } = await db.from('leads').update(patch).eq('id', lead.id);
   if (error) throw error;
   await logLeadEvent({
@@ -111,10 +113,15 @@ export async function updateLeadStatus(lead: Lead, to: LeadStatus, note?: string
     event_type: 'status_change',
     from_status: lead.status,
     to_status: to,
-    payload: note ? { note } : {},
+    payload: { note: opts?.note, refusal_reason: opts?.refusal_reason, refusal_comment: opts?.refusal_comment },
   });
 
-  // Quand le lead est validé, on crée la commande dans `orders`
+  // Touch closeuse activity
+  try {
+    await db.from('closeuses').update({ last_activity_at: new Date().toISOString() }).eq('idx', lead.closeuse_idx);
+  } catch {}
+
+  // Quand le lead est validé, on crée la commande dans `orders` (et le trigger DB la verrouille automatiquement)
   if (to === 'valide' && !lead.order_id) {
     const order_number = `LD${Date.now().toString().slice(-7)}`;
     const { data: created, error: oErr } = await db.from('orders').insert({
@@ -137,6 +144,7 @@ export async function updateLeadStatus(lead: Lead, to: LeadStatus, note?: string
       assigned_at: new Date().toISOString(),
       client_ip: lead.client_ip,
       source: lead.source || 'closeuse-lead',
+      locked: true,
     }).select('id').single();
     if (!oErr && created) {
       await db.from('leads').update({ order_id: created.id }).eq('id', lead.id);
