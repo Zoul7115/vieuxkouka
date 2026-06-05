@@ -11,7 +11,7 @@ import { SocialProofChat } from '@/components/anti-diabete/SocialProofChat';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
-import { FloatingOrderCTA } from '@/components/FloatingOrderCTA';
+
 
 function preselectAndScroll(offerId: number) {
   try {
@@ -463,7 +463,7 @@ export function AntiDiabetePage() {
 
       <ProductForm product={product} />
 
-      <FloatingOrderCTA />
+      
 
       <section className="py-8 bg-white border-t border-bleu-light/20">
         <div className="container-kouka text-center">

@@ -10,7 +10,7 @@ import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
-import { FloatingOrderCTA } from '@/components/FloatingOrderCTA';
+
 
 
 export const Route = createFileRoute('/')({
@@ -435,7 +435,7 @@ function HomePage() {
 
       <ProductForm product={product} />
 
-      <FloatingOrderCTA />
+      
 
       {/* DÉCOUVRE LES AUTRES PRODUITS DU VIEUX KOUKA */}
       <section className="sec bg-vert-bg/40">

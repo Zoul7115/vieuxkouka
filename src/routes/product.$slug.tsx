@@ -12,7 +12,7 @@ import { SIROP_KOUKA } from '@/lib/products';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
-import { FloatingOrderCTA } from '@/components/FloatingOrderCTA';
+
 
 export const Route = createFileRoute('/product/$slug')({
   beforeLoad: ({ params }) => {
@@ -284,7 +284,7 @@ function SiropPage() {
 
       <ProductForm product={product} />
 
-      <FloatingOrderCTA />
+      
 
       <section className="sec bg-cream-2">
         <div className="container-kouka text-center">
