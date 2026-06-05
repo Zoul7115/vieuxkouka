@@ -500,9 +500,26 @@ function TonicKoukaPage() {
         </div>
       </section>
 
+      <DiagnosticQuiz
+        title="Quels maux souhaitez-vous soulager ?"
+        questions={[
+          'Insomnie / mauvais sommeil',
+          'Manque d\'appétit',
+          'Fatigue chronique',
+          'Ulcères / brûlures',
+          'Hypertension',
+        ]}
+      />
+
+      <OfferComparisonTable product={product} />
+
       <RecommendedCureSection product={product} />
 
+      <ReassuranceBar />
+
       <ProductForm product={product} />
+
+      <FloatingOrderCTA />
 
       <section className="py-8 bg-white border-t border-vert/20">
         <div className="container-kouka text-center">
