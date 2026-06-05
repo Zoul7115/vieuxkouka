@@ -44,6 +44,22 @@ export type Order = {
   closeuse_idx?: number | null;
   delivered_at?: string | null;
   client_ip?: string | null;
+  assigned_at?: string | null;
+  closeuse_slug?: string | null;
+  lead_id?: string | null;
+  locked?: boolean | null;
+  refusal_reason?: string | null;
+  refusal_comment?: string | null;
+  source?: string | null;
+  notes?: string | null;
+  utm_source?: string | null;
+  utm_campaign?: string | null;
+  utm_content?: string | null;
+  utm_adset?: string | null;
+  utm_ad?: string | null;
+  campaign?: string | null;
+  adset?: string | null;
+  ad?: string | null;
 };
 
 const SLOT_LABELS: Record<string, string> = {

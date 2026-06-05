@@ -18,6 +18,9 @@ import { ValidatedOrdersTab, DeliveredOrdersTab, RefusedTab, LostLeadsTab, Order
 import { PerformanceTab } from '@/components/admin/PerformanceTab';
 import { CommissionsTab } from '@/components/admin/CommissionsTab';
 import { AuditLogTab } from '@/components/admin/AuditLogTab';
+import { SummaryTab } from '@/components/admin/SummaryTab';
+import { RankingTab } from '@/components/admin/RankingTab';
+import { ExportsTab } from '@/components/admin/ExportsTab';
 import { usePWAAdmin } from '@/hooks/usePWAAdmin';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
 
@@ -36,7 +39,7 @@ type Visit = {
   visited_at: string | null;
 };
 
-type Tab = 'orders' | 'validated' | 'delivered' | 'refused' | 'lost' | 'by-closeuse' | 'perf' | 'commissions' | 'audit' | 'drafts' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs' | 'closeuses' | 'salaires';
+type Tab = 'summary' | 'orders' | 'validated' | 'delivered' | 'refused' | 'lost' | 'by-closeuse' | 'ranking' | 'perf' | 'commissions' | 'exports' | 'audit' | 'drafts' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs' | 'closeuses' | 'salaires';
 
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
@@ -94,7 +97,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [visits, setVisits] = useState<Visit[]>([]);
   const [visitsTotal, setVisitsTotal] = useState(0);
   const [visitsToday, setVisitsToday] = useState(0);
-  const [tab, setTab] = useState<Tab>('orders');
+  const [tab, setTab] = useState<Tab>('summary');
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState<PeriodKey>('today');
   const [customFrom, setCustomFrom] = useState('');
@@ -176,14 +179,17 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   }, [orders, period, customFrom, customTo]);
 
   const TABS: { k: Tab; label: string; emoji: string }[] = [
+    { k: 'summary', label: 'Résumé', emoji: '🏠' },
     { k: 'orders', label: 'Commandes', emoji: '📦' },
     { k: 'validated', label: 'Validées', emoji: '✅' },
     { k: 'delivered', label: 'Livrées', emoji: '🎉' },
     { k: 'refused', label: 'Refusées', emoji: '❌' },
     { k: 'lost', label: 'Perdues', emoji: '💀' },
     { k: 'by-closeuse', label: 'Par closeuse', emoji: '👥' },
-    { k: 'perf', label: 'Performance', emoji: '🏆' },
+    { k: 'ranking', label: 'Classement', emoji: '🏆' },
+    { k: 'perf', label: 'Performance', emoji: '📈' },
     { k: 'commissions', label: 'Commissions', emoji: '💸' },
+    { k: 'exports', label: 'Exports', emoji: '📤' },
     { k: 'closeuses', label: 'Closeuses', emoji: '👩‍💼' },
     { k: 'salaires', label: 'Salaires', emoji: '💰' },
     { k: 'drafts', label: 'Brouillons', emoji: '📝' },
@@ -289,7 +295,10 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
         {(!loading || orders.length > 0) && (
           <>
+            {tab === 'summary' && <SummaryTab orders={orders} />}
             {tab === 'orders' && <OrdersTab orders={orders} onUpdateStatus={updateStatus} onAssignLivreur={assignLivreur} />}
+            {tab === 'ranking' && <RankingTab />}
+            {tab === 'exports' && <ExportsTab orders={orders} />}
             {tab === 'validated' && <ValidatedOrdersTab orders={orders} />}
             {tab === 'delivered' && <DeliveredOrdersTab orders={orders} />}
             {tab === 'refused' && <RefusedTab />}

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { type Lead, LEAD_STATUS_META, type LeadStatus, updateLeadStatus, appendLeadNote } from '@/lib/leads';
 import { formatFCFA } from '@/lib/products';
+import { RefusalModal } from './RefusalModal';
 
 const ACTIONS: { to: LeadStatus; label: string; cls: string }[] = [
   { to: 'discussion', label: '💬 En discussion', cls: 'bg-amber-600 hover:bg-amber-700' },
@@ -16,16 +17,32 @@ export function LeadCard({ lead }: { lead: Lead }) {
   const [busy, setBusy] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
   const [note, setNote] = useState('');
+  const [refusalFor, setRefusalFor] = useState<LeadStatus | null>(null);
   const meta = LEAD_STATUS_META[lead.status] || LEAD_STATUS_META.nouveau_lead;
+  const isValidated = ['valide', 'expediee', 'livree'].includes(lead.status);
+  const REFUSAL_STATUSES: LeadStatus[] = ['refusee', 'annulee', 'perdue'];
 
   const setStatus = async (to: LeadStatus) => {
     if (to === lead.status) return;
+    if (REFUSAL_STATUSES.includes(to)) { setRefusalFor(to); return; }
     setBusy(true);
     try {
       await updateLeadStatus(lead, to);
       toast.success(`Statut → ${LEAD_STATUS_META[to].label}`);
     } catch (e: any) {
       toast.error(e.message || 'Erreur');
+    } finally { setBusy(false); }
+  };
+
+  const confirmRefusal = async (reason: string, comment: string) => {
+    if (!refusalFor) return;
+    setBusy(true);
+    try {
+      await updateLeadStatus(lead, refusalFor, { refusal_reason: reason, refusal_comment: comment });
+      toast.success(`Statut → ${LEAD_STATUS_META[refusalFor].label}`);
+      setRefusalFor(null);
+    } catch (e: any) {
+      toast.error(e.message);
     } finally { setBusy(false); }
   };
 
@@ -47,14 +64,28 @@ export function LeadCard({ lead }: { lead: Lead }) {
     <div className="bg-white rounded-2xl border-2 border-rose-100 p-4 space-y-3 shadow-sm">
       <div className="flex justify-between items-start gap-2">
         <div className="min-w-0 flex-1">
-          <div className="font-extrabold text-rose-900 truncate">
+          <div className="font-extrabold text-rose-900 truncate flex items-center gap-1">
             {lead.first_name || 'Client'} {lead.last_name || ''}
+            {isValidated && <span className="text-[10px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded">🔒</span>}
           </div>
           <div className="text-xs text-gray-600 truncate">{lead.product_name}</div>
           <div className="text-xs text-gray-500 mt-0.5">{lead.city || '—'} · {new Date(lead.created_at).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })}</div>
         </div>
         <span className={`text-xs font-bold px-2 py-1 rounded-full shrink-0 ${meta.cls}`}>{meta.emoji} {meta.label}</span>
       </div>
+
+      {isValidated && (
+        <div className="text-[11px] bg-amber-50 border border-amber-200 rounded-lg px-2 py-1 text-amber-900">
+          🔒 <b>Commande verrouillée.</b> Les infos client ne peuvent plus être modifiées. Contacte l'admin si nécessaire.
+        </div>
+      )}
+
+      {(lead as any).refusal_reason && (
+        <div className="text-[11px] bg-red-50 border border-red-200 rounded-lg px-2 py-1 text-red-900">
+          <b>Motif refus :</b> {(lead as any).refusal_reason}
+          {(lead as any).refusal_comment ? ` — ${(lead as any).refusal_comment}` : ''}
+        </div>
+      )}
 
       <div className="flex flex-wrap gap-1.5 text-xs">
         <a href={telUrl} className="bg-blue-600 text-white px-3 py-1.5 rounded-full font-bold">📞 Appeler</a>
@@ -96,6 +127,13 @@ export function LeadCard({ lead }: { lead: Lead }) {
           </button>
         ))}
       </div>
+
+      <RefusalModal
+        open={refusalFor !== null}
+        title={refusalFor ? `Motif : ${LEAD_STATUS_META[refusalFor].label}` : ''}
+        onCancel={() => setRefusalFor(null)}
+        onConfirm={confirmRefusal}
+      />
     </div>
   );
 }
