@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { type Lead, LEAD_STATUS_META, type LeadStatus, updateLeadStatus, appendLeadNote } from '@/lib/leads';
 import { formatFCFA } from '@/lib/products';
+import { RefusalModal } from './RefusalModal';
 
 const ACTIONS: { to: LeadStatus; label: string; cls: string }[] = [
   { to: 'discussion', label: '💬 En discussion', cls: 'bg-amber-600 hover:bg-amber-700' },
