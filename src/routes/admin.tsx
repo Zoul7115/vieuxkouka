@@ -179,14 +179,17 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   }, [orders, period, customFrom, customTo]);
 
   const TABS: { k: Tab; label: string; emoji: string }[] = [
+    { k: 'summary', label: 'Résumé', emoji: '🏠' },
     { k: 'orders', label: 'Commandes', emoji: '📦' },
     { k: 'validated', label: 'Validées', emoji: '✅' },
     { k: 'delivered', label: 'Livrées', emoji: '🎉' },
     { k: 'refused', label: 'Refusées', emoji: '❌' },
     { k: 'lost', label: 'Perdues', emoji: '💀' },
     { k: 'by-closeuse', label: 'Par closeuse', emoji: '👥' },
-    { k: 'perf', label: 'Performance', emoji: '🏆' },
+    { k: 'ranking', label: 'Classement', emoji: '🏆' },
+    { k: 'perf', label: 'Performance', emoji: '📈' },
     { k: 'commissions', label: 'Commissions', emoji: '💸' },
+    { k: 'exports', label: 'Exports', emoji: '📤' },
     { k: 'closeuses', label: 'Closeuses', emoji: '👩‍💼' },
     { k: 'salaires', label: 'Salaires', emoji: '💰' },
     { k: 'drafts', label: 'Brouillons', emoji: '📝' },
