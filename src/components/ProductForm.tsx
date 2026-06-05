@@ -278,6 +278,8 @@ export function ProductForm({ product, assignedCloseuse }: { product: Product; a
       });
 
       let error: { message: string } | null = null;
+      const { captureAttribution } = await import('@/lib/utm');
+      const attribution = captureAttribution();
       if (assignedCloseuse) {
         // Mode LEAD : commande attribuée à une closeuse via lien personnalisé
         const ins = await (supabase as any).from('leads').insert({
@@ -295,6 +297,7 @@ export function ProductForm({ product, assignedCloseuse }: { product: Product; a
           status: 'nouveau_lead',
           client_ip: clientIp,
           source: typeof document !== 'undefined' ? document.referrer || `closeuse:${assignedCloseuse.slug}` : `closeuse:${assignedCloseuse.slug}`,
+          ...attribution,
         });
         error = ins.error;
       } else {
@@ -317,7 +320,8 @@ export function ProductForm({ product, assignedCloseuse }: { product: Product; a
           ai_score: aiScore,
           client_ip: clientIp,
           source: typeof document !== 'undefined' ? document.referrer || 'Direct' : 'Direct',
-        });
+          ...attribution,
+        } as any);
         error = ins.error;
       }
 
