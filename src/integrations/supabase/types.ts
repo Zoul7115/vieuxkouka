@@ -114,9 +114,11 @@ export type Database = {
         Row: {
           active: boolean
           created_at: string
+          daily_objective: number
           emoji: string | null
           id: string
           idx: number
+          last_activity_at: string | null
           last_login_at: string | null
           name: string
           password_hash: string | null
@@ -128,9 +130,11 @@ export type Database = {
         Insert: {
           active?: boolean
           created_at?: string
+          daily_objective?: number
           emoji?: string | null
           id?: string
           idx?: number
+          last_activity_at?: string | null
           last_login_at?: string | null
           name: string
           password_hash?: string | null
@@ -142,9 +146,11 @@ export type Database = {
         Update: {
           active?: boolean
           created_at?: string
+          daily_objective?: number
           emoji?: string | null
           id?: string
           idx?: number
+          last_activity_at?: string | null
           last_login_at?: string | null
           name?: string
           password_hash?: string | null
@@ -370,9 +376,45 @@ export type Database = {
         }
         Relationships: []
       }
+      lead_relances: {
+        Row: {
+          closeuse_idx: number
+          created_at: string
+          done_at: string | null
+          id: string
+          kind: string
+          lead_id: string
+          notes: string | null
+          scheduled_at: string
+        }
+        Insert: {
+          closeuse_idx: number
+          created_at?: string
+          done_at?: string | null
+          id?: string
+          kind: string
+          lead_id: string
+          notes?: string | null
+          scheduled_at: string
+        }
+        Update: {
+          closeuse_idx?: number
+          created_at?: string
+          done_at?: string | null
+          id?: string
+          kind?: string
+          lead_id?: string
+          notes?: string | null
+          scheduled_at?: string
+        }
+        Relationships: []
+      }
       leads: {
         Row: {
+          ad: string | null
           address_detail: string | null
+          adset: string | null
+          campaign: string | null
           city: string | null
           client_ip: string | null
           closeuse_idx: number
@@ -389,14 +431,24 @@ export type Database = {
           product_name: string
           product_price: number
           product_slug: string
+          refusal_comment: string | null
+          refusal_reason: string | null
           source: string | null
           status: string
           updated_at: string
+          utm_ad: string | null
+          utm_adset: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_source: string | null
           validated_at: string | null
           whatsapp: string | null
         }
         Insert: {
+          ad?: string | null
           address_detail?: string | null
+          adset?: string | null
+          campaign?: string | null
           city?: string | null
           client_ip?: string | null
           closeuse_idx: number
@@ -413,14 +465,24 @@ export type Database = {
           product_name: string
           product_price?: number
           product_slug: string
+          refusal_comment?: string | null
+          refusal_reason?: string | null
           source?: string | null
           status?: string
           updated_at?: string
+          utm_ad?: string | null
+          utm_adset?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_source?: string | null
           validated_at?: string | null
           whatsapp?: string | null
         }
         Update: {
+          ad?: string | null
           address_detail?: string | null
+          adset?: string | null
+          campaign?: string | null
           city?: string | null
           client_ip?: string | null
           closeuse_idx?: number
@@ -437,9 +499,16 @@ export type Database = {
           product_name?: string
           product_price?: number
           product_slug?: string
+          refusal_comment?: string | null
+          refusal_reason?: string | null
           source?: string | null
           status?: string
           updated_at?: string
+          utm_ad?: string | null
+          utm_adset?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_source?: string | null
           validated_at?: string | null
           whatsapp?: string | null
         }
@@ -498,10 +567,13 @@ export type Database = {
       }
       orders: {
         Row: {
+          ad: string | null
           address_detail: string | null
+          adset: string | null
           ai_flags: string[] | null
           ai_score: number | null
           assigned_at: string | null
+          campaign: string | null
           cancellation_reason: string | null
           car_transport: string | null
           cash_confirmed: boolean | null
@@ -521,6 +593,7 @@ export type Database = {
           last_name: string | null
           lead_id: string | null
           livreur_idx: number | null
+          locked: boolean
           neighborhood: string | null
           notes: string | null
           offer_label: string | null
@@ -528,19 +601,29 @@ export type Database = {
           product_name: string
           product_price: number
           product_slug: string | null
+          refusal_comment: string | null
+          refusal_reason: string | null
           reschedule_date: string | null
           sav_followed_up_at: string | null
           sav_notes: string | null
           secondary_contact: string | null
           source: string | null
           status: string | null
+          utm_ad: string | null
+          utm_adset: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_source: string | null
           whatsapp: string | null
         }
         Insert: {
+          ad?: string | null
           address_detail?: string | null
+          adset?: string | null
           ai_flags?: string[] | null
           ai_score?: number | null
           assigned_at?: string | null
+          campaign?: string | null
           cancellation_reason?: string | null
           car_transport?: string | null
           cash_confirmed?: boolean | null
@@ -560,6 +643,7 @@ export type Database = {
           last_name?: string | null
           lead_id?: string | null
           livreur_idx?: number | null
+          locked?: boolean
           neighborhood?: string | null
           notes?: string | null
           offer_label?: string | null
@@ -567,19 +651,29 @@ export type Database = {
           product_name: string
           product_price: number
           product_slug?: string | null
+          refusal_comment?: string | null
+          refusal_reason?: string | null
           reschedule_date?: string | null
           sav_followed_up_at?: string | null
           sav_notes?: string | null
           secondary_contact?: string | null
           source?: string | null
           status?: string | null
+          utm_ad?: string | null
+          utm_adset?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_source?: string | null
           whatsapp?: string | null
         }
         Update: {
+          ad?: string | null
           address_detail?: string | null
+          adset?: string | null
           ai_flags?: string[] | null
           ai_score?: number | null
           assigned_at?: string | null
+          campaign?: string | null
           cancellation_reason?: string | null
           car_transport?: string | null
           cash_confirmed?: boolean | null
@@ -599,6 +693,7 @@ export type Database = {
           last_name?: string | null
           lead_id?: string | null
           livreur_idx?: number | null
+          locked?: boolean
           neighborhood?: string | null
           notes?: string | null
           offer_label?: string | null
@@ -606,12 +701,19 @@ export type Database = {
           product_name?: string
           product_price?: number
           product_slug?: string | null
+          refusal_comment?: string | null
+          refusal_reason?: string | null
           reschedule_date?: string | null
           sav_followed_up_at?: string | null
           sav_notes?: string | null
           secondary_contact?: string | null
           source?: string | null
           status?: string | null
+          utm_ad?: string | null
+          utm_adset?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_source?: string | null
           whatsapp?: string | null
         }
         Relationships: []
