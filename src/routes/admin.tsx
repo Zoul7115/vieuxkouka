@@ -39,7 +39,7 @@ type Visit = {
   visited_at: string | null;
 };
 
-type Tab = 'orders' | 'validated' | 'delivered' | 'refused' | 'lost' | 'by-closeuse' | 'perf' | 'commissions' | 'audit' | 'drafts' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs' | 'closeuses' | 'salaires';
+type Tab = 'summary' | 'orders' | 'validated' | 'delivered' | 'refused' | 'lost' | 'by-closeuse' | 'ranking' | 'perf' | 'commissions' | 'exports' | 'audit' | 'drafts' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs' | 'closeuses' | 'salaires';
 
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
