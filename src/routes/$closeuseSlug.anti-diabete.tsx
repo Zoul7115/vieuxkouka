@@ -10,6 +10,9 @@ export const Route = createFileRoute('/$closeuseSlug/anti-diabete')({
     meta: [
       { title: ANTI_DIABETE.metaTitle },
       { name: 'description', content: ANTI_DIABETE.metaDesc },
+      { property: 'og:title', content: ANTI_DIABETE.metaTitle },
+      { property: 'og:description', content: ANTI_DIABETE.metaDesc },
+      { property: 'og:image', content: ANTI_DIABETE.heroImage },
     ],
   }),
   component: AssignedAntiDiabetePage,
