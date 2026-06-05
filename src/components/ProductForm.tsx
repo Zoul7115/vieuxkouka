@@ -52,7 +52,9 @@ function getSessionId(): string {
   }
 }
 
-export function ProductForm({ product }: { product: Product }) {
+export type AssignedCloseuse = { idx: number; slug: string; name: string };
+
+export function ProductForm({ product, assignedCloseuse }: { product: Product; assignedCloseuse?: AssignedCloseuse }) {
   const navigate = useNavigate();
   const recommended = product.offers.find((o) => o.recommended) || product.offers[0];
   const [offer, setOffer] = useState<Offer>(recommended);
@@ -275,27 +277,49 @@ export function ProductForm({ product }: { product: Product }) {
         hasReferrer: typeof document !== 'undefined' && !!document.referrer,
       });
 
-      const { error } = await supabase.from('orders').insert({
-        order_number: orderNumber,
-        product_name: `${product.name} - ${offer.label}`,
-        product_price: finalPrice,
-        product_slug: product.slug,
-        offer_label: offer.label,
-        first_name: first,
-        last_name: rest.join(' '),
-        whatsapp: fullPhone,
-        country: country.label.replace(/^.{1,4}\s/, ''),
-        city: form.city,
-        delivery_slot: form.deliverySlot,
-        
-        cash_confirmed: form.cashConfirmed,
-        car_transport: form.horsOuaga ? form.carTransport : null,
-        is_available: form.available,
-        status: 'pending',
-        ai_score: aiScore,
-        client_ip: clientIp,
-        source: typeof document !== 'undefined' ? document.referrer || 'Direct' : 'Direct',
-      });
+      let error: { message: string } | null = null;
+      if (assignedCloseuse) {
+        // Mode LEAD : commande attribuée à une closeuse via lien personnalisé
+        const ins = await (supabase as any).from('leads').insert({
+          closeuse_idx: assignedCloseuse.idx,
+          closeuse_slug: assignedCloseuse.slug,
+          product_slug: product.slug,
+          product_name: `${product.name} - ${offer.label}`,
+          offer_label: offer.label,
+          product_price: finalPrice,
+          first_name: first,
+          last_name: rest.join(' '),
+          whatsapp: fullPhone,
+          country: country.label.replace(/^.{1,4}\s/, ''),
+          city: form.city,
+          status: 'nouveau_lead',
+          client_ip: clientIp,
+          source: typeof document !== 'undefined' ? document.referrer || `closeuse:${assignedCloseuse.slug}` : `closeuse:${assignedCloseuse.slug}`,
+        });
+        error = ins.error;
+      } else {
+        const ins = await supabase.from('orders').insert({
+          order_number: orderNumber,
+          product_name: `${product.name} - ${offer.label}`,
+          product_price: finalPrice,
+          product_slug: product.slug,
+          offer_label: offer.label,
+          first_name: first,
+          last_name: rest.join(' '),
+          whatsapp: fullPhone,
+          country: country.label.replace(/^.{1,4}\s/, ''),
+          city: form.city,
+          delivery_slot: form.deliverySlot,
+          cash_confirmed: form.cashConfirmed,
+          car_transport: form.horsOuaga ? form.carTransport : null,
+          is_available: form.available,
+          status: 'pending',
+          ai_score: aiScore,
+          client_ip: clientIp,
+          source: typeof document !== 'undefined' ? document.referrer || 'Direct' : 'Direct',
+        });
+        error = ins.error;
+      }
 
       if (error) throw error;
 
