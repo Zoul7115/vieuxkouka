@@ -8,9 +8,18 @@ export type Closeuse = {
   whatsapp: string;
   emoji: string | null;
   active: boolean;
+  slug?: string | null;
   password_hash?: string | null;
   last_login_at?: string | null;
 };
+
+export function slugify(name: string): string {
+  return (name || '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
 
 export function useCloseuses() {
   const [closeuses, setCloseuses] = useState<Closeuse[]>([]);
@@ -28,5 +37,5 @@ export function useCloseuses() {
   return { closeuses, loading, reload: load };
 }
 
-/** Commission par commande livrée saisie par une closeuse */
+/** Commission par commande livrée — valeur historique (utilisée si pas encore configurée en BDD) */
 export const COMMISSION_PAR_COMMANDE = 1000;
