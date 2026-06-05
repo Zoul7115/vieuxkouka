@@ -519,7 +519,7 @@ function TonicKoukaPage() {
 
       <ProductForm product={product} />
 
-      <FloatingOrderCTA />
+      
 
       <section className="py-8 bg-white border-t border-vert/20">
         <div className="container-kouka text-center">
