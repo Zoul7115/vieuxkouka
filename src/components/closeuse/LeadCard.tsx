@@ -120,6 +120,24 @@ export function LeadCard({ lead }: { lead: Lead }) {
         <span className={`text-xs font-bold px-2 py-1 rounded-full shrink-0 ${meta.cls}`}>{meta.emoji} {meta.label}</span>
       </div>
 
+      {order && (
+        <div className="bg-rose-50 border border-rose-200 rounded-xl p-2 text-[11px] text-rose-900 space-y-1">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <span className="font-bold">📦 {order.order_number || '—'}</span>
+            {order.status && (
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${ORDER_STATUS_LABEL[order.status]?.cls || 'bg-gray-100 text-gray-700'}`}>
+                {ORDER_STATUS_LABEL[order.status]?.label || order.status}
+              </span>
+            )}
+          </div>
+          <div className="text-gray-700">
+            {order.offer_label || lead.product_name}
+            {order.country ? ` · ${order.country}` : ''}
+          </div>
+        </div>
+      )}
+
+
       {isValidated && (
         <div className="text-[11px] bg-amber-50 border border-amber-200 rounded-lg px-2 py-1 text-amber-900">
           🔒 <b>Commande verrouillée.</b> Les infos client ne peuvent plus être modifiées. Contacte l'admin si nécessaire.
