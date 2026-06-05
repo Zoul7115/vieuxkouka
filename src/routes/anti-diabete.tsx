@@ -8,6 +8,10 @@ import { ANTI_DIABETE } from '@/lib/products';
 import { UrgencyBadge } from '@/components/anti-diabete/UrgencyBadge';
 import { StickyOfferBar } from '@/components/anti-diabete/StickyOfferBar';
 import { SocialProofChat } from '@/components/anti-diabete/SocialProofChat';
+import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
+import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
+import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
+import { FloatingOrderCTA } from '@/components/FloatingOrderCTA';
 
 function preselectAndScroll(offerId: number) {
   try {
