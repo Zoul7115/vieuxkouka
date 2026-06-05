@@ -81,7 +81,7 @@ export function OfferSelector({
                   {o.description}
                 </div>
                 {o.saving && isHero && (
-                  <div className={`text-xs font-extrabold mt-1.5 ${isPremium ? 'text-or-dark' : 'text-rouge'}`}>{o.saving}</div>
+                  <div className={`text-xs font-extrabold mt-1.5 ${isPremium ? 'text-or' : 'text-rouge'}`}>{o.saving}</div>
                 )}
               </div>
               <div className="text-right shrink-0">
