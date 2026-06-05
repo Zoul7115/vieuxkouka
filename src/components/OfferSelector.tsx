@@ -10,7 +10,7 @@ export function OfferSelector({
   selectedId: number;
   onSelect: (offer: Offer) => void;
 }) {
-  // Tri: recommandée d'abord, puis bestValue, puis le reste — pour que mobile voie d'abord le pack recommandé
+  // Tri: recommandée d'abord, puis bestValue (premium), puis le reste
   const sorted = [...offers].sort((a, b) => {
     const rank = (o: Offer) => (o.recommended ? 0 : o.bestValue ? 1 : 2);
     return rank(a) - rank(b);
@@ -20,7 +20,9 @@ export function OfferSelector({
     <div className="grid gap-3.5 mb-6">
       {sorted.map((o) => {
         const sel = selectedId === o.id;
-        const isHero = o.recommended || o.bestValue;
+        const isReco = !!o.recommended;
+        const isPremium = !isReco && !!o.bestValue;
+        const isHero = isReco || isPremium;
         const isDiscovery = !isHero && o.units === 1;
         return (
           <button
@@ -32,16 +34,23 @@ export function OfferSelector({
             } ${
               sel
                 ? 'border-rouge bg-rouge-light shadow-[0_6px_22px_rgba(198,40,40,0.20)]'
-                : isHero
+                : isReco
                 ? 'border-rouge/60 shadow-[0_4px_16px_rgba(198,40,40,0.10)] hover:border-rouge'
+                : isPremium
+                ? 'border-or shadow-[0_4px_16px_rgba(212,175,55,0.18)] hover:border-or'
                 : isDiscovery
                 ? 'border-muted opacity-75 hover:opacity-100 hover:border-vert-mid'
                 : 'border-vert-bg hover:border-vert-mid hover:bg-vert-bg/50'
             }`}
           >
-            {isHero && (
+            {isReco && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-rouge text-white text-[11px] font-extrabold px-3 py-1 rounded-full whitespace-nowrap shadow">
                 ⭐ OFFRE LA PLUS CHOISIE
+              </div>
+            )}
+            {isPremium && (
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-or text-foreground text-[11px] font-extrabold px-3 py-1 rounded-full whitespace-nowrap shadow">
+                👑 ÉCONOMIE MAXIMALE
               </div>
             )}
             {o.badge && !isHero && (
@@ -72,7 +81,7 @@ export function OfferSelector({
                   {o.description}
                 </div>
                 {o.saving && isHero && (
-                  <div className="text-xs font-extrabold text-rouge mt-1.5">{o.saving}</div>
+                  <div className={`text-xs font-extrabold mt-1.5 ${isPremium ? 'text-or-dark' : 'text-rouge'}`}>{o.saving}</div>
                 )}
               </div>
               <div className="text-right shrink-0">
@@ -88,9 +97,14 @@ export function OfferSelector({
                 </div>
               </div>
             </div>
-            {isHero && (
+            {isReco && (
               <div className="mt-3 bg-vert-bg text-vert text-center text-[11px] font-extrabold py-1.5 rounded-lg">
                 👥 8 clients sur 10 choisissent cette offre
+              </div>
+            )}
+            {isPremium && (
+              <div className="mt-3 bg-or/20 text-foreground text-center text-[11px] font-extrabold py-1.5 rounded-lg">
+                💰 Stock longue durée · Économie maximale
               </div>
             )}
           </button>
