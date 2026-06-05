@@ -17,16 +17,32 @@ export function LeadCard({ lead }: { lead: Lead }) {
   const [busy, setBusy] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
   const [note, setNote] = useState('');
+  const [refusalFor, setRefusalFor] = useState<LeadStatus | null>(null);
   const meta = LEAD_STATUS_META[lead.status] || LEAD_STATUS_META.nouveau_lead;
+  const isValidated = ['valide', 'expediee', 'livree'].includes(lead.status);
+  const REFUSAL_STATUSES: LeadStatus[] = ['refusee', 'annulee', 'perdue'];
 
   const setStatus = async (to: LeadStatus) => {
     if (to === lead.status) return;
+    if (REFUSAL_STATUSES.includes(to)) { setRefusalFor(to); return; }
     setBusy(true);
     try {
       await updateLeadStatus(lead, to);
       toast.success(`Statut → ${LEAD_STATUS_META[to].label}`);
     } catch (e: any) {
       toast.error(e.message || 'Erreur');
+    } finally { setBusy(false); }
+  };
+
+  const confirmRefusal = async (reason: string, comment: string) => {
+    if (!refusalFor) return;
+    setBusy(true);
+    try {
+      await updateLeadStatus(lead, refusalFor, { refusal_reason: reason, refusal_comment: comment });
+      toast.success(`Statut → ${LEAD_STATUS_META[refusalFor].label}`);
+      setRefusalFor(null);
+    } catch (e: any) {
+      toast.error(e.message);
     } finally { setBusy(false); }
   };
 
