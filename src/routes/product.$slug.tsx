@@ -1,6 +1,7 @@
 import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
+import { RecommendedCureSection } from '@/components/RecommendedCureSection';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ComparisonTable } from '@/components/ComparisonTable';
 import { SocialProofChatSirop } from '@/components/sirop/SocialProofChatSirop';
@@ -260,6 +261,8 @@ function SiropPage() {
           </div>
         </div>
       </section>
+
+      <RecommendedCureSection product={product} />
 
       <ProductForm product={product} />
 

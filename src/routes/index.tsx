@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { KOUKA } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ProductForm } from '@/components/ProductForm';
+import { RecommendedCureSection } from '@/components/RecommendedCureSection';
 import { FAQ } from '@/components/FAQ';
 import { ComparisonTable } from '@/components/ComparisonTable';
 import { LiveSocialProof } from '@/components/LiveSocialProof';
@@ -411,6 +412,8 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      <RecommendedCureSection product={product} />
 
       <ProductForm product={product} />
 

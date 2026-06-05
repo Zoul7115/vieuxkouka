@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
+import { RecommendedCureSection } from '@/components/RecommendedCureSection';
 import { VisitTracker } from '@/components/VisitTracker';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { TONIC_KOUKA } from '@/lib/products';
@@ -494,6 +495,8 @@ function TonicKoukaPage() {
           <p className="text-xs text-muted-foreground mt-3">📦 Livré à Ouaga & Niamey · 💵 Tu paies cash quand tu reçois</p>
         </div>
       </section>
+
+      <RecommendedCureSection product={product} />
 
       <ProductForm product={product} />
 
