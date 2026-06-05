@@ -8,6 +8,10 @@ import { TONIC_KOUKA } from '@/lib/products';
 import { SocialProofChatTonic } from '@/components/tonic/SocialProofChatTonic';
 import { StickyOfferBarTonic } from '@/components/tonic/StickyOfferBarTonic';
 import { useCtaVariant, trackCtaClick } from '@/hooks/useCtaVariant';
+import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
+import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
+import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
+import { FloatingOrderCTA } from '@/components/FloatingOrderCTA';
 import bouteilleTonic from '@/assets/tonic-kouka-bouteille-reelle.png';
 import etiquetteTonic from '@/assets/tonic-kouka-etiquette-reelle.png';
 import afficheTonic5Maux from '@/assets/tonic-kouka-affiche-5-maux.png';
@@ -496,9 +500,26 @@ function TonicKoukaPage() {
         </div>
       </section>
 
+      <DiagnosticQuiz
+        title="Quels maux souhaitez-vous soulager ?"
+        questions={[
+          'Insomnie / mauvais sommeil',
+          'Manque d\'appétit',
+          'Fatigue chronique',
+          'Ulcères / brûlures',
+          'Hypertension',
+        ]}
+      />
+
+      <OfferComparisonTable product={product} />
+
       <RecommendedCureSection product={product} />
 
+      <ReassuranceBar />
+
       <ProductForm product={product} />
+
+      <FloatingOrderCTA />
 
       <section className="py-8 bg-white border-t border-vert/20">
         <div className="container-kouka text-center">

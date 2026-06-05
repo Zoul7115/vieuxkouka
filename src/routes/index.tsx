@@ -7,6 +7,10 @@ import { FAQ } from '@/components/FAQ';
 import { ComparisonTable } from '@/components/ComparisonTable';
 import { LiveSocialProof } from '@/components/LiveSocialProof';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
+import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
+import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
+import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
+import { FloatingOrderCTA } from '@/components/FloatingOrderCTA';
 
 
 export const Route = createFileRoute('/')({
@@ -413,9 +417,25 @@ function HomePage() {
         </div>
       </section>
 
+      <DiagnosticQuiz
+        title="Quels symptômes ressentez-vous ?"
+        questions={[
+          'Ulcère / brûlures d\'estomac',
+          'Colopathie / ballonnements',
+          'Hémorroïdes (koko)',
+          'Constipation chronique',
+        ]}
+      />
+
+      <OfferComparisonTable product={product} />
+
       <RecommendedCureSection product={product} />
 
+      <ReassuranceBar />
+
       <ProductForm product={product} />
+
+      <FloatingOrderCTA />
 
       {/* DÉCOUVRE LES AUTRES PRODUITS DU VIEUX KOUKA */}
       <section className="sec bg-vert-bg/40">
