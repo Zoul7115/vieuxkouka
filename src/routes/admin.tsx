@@ -295,7 +295,10 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
         {(!loading || orders.length > 0) && (
           <>
+            {tab === 'summary' && <SummaryTab orders={orders} />}
             {tab === 'orders' && <OrdersTab orders={orders} onUpdateStatus={updateStatus} onAssignLivreur={assignLivreur} />}
+            {tab === 'ranking' && <RankingTab />}
+            {tab === 'exports' && <ExportsTab orders={orders} />}
             {tab === 'validated' && <ValidatedOrdersTab orders={orders} />}
             {tab === 'delivered' && <DeliveredOrdersTab orders={orders} />}
             {tab === 'refused' && <RefusedTab />}
