@@ -155,8 +155,26 @@ export function LeadCard({ lead }: { lead: Lead }) {
         <a href={telUrl} className="bg-blue-600 text-white px-3 py-1.5 rounded-full font-bold">📞 Appeler</a>
         <a href={waUrl} target="_blank" rel="noreferrer" className="bg-green-600 text-white px-3 py-1.5 rounded-full font-bold">💬 WhatsApp</a>
         <button onClick={() => setNoteOpen((v) => !v)} className="bg-rose-100 text-rose-800 px-3 py-1.5 rounded-full font-bold">📝 Note</button>
+        <button onClick={() => setHistoryOpen((v) => !v)} className="bg-rose-100 text-rose-800 px-3 py-1.5 rounded-full font-bold">🕘 Historique</button>
         <div className="ml-auto text-xs font-extrabold text-rose-700 self-center">{formatFCFA(lead.product_price)}</div>
       </div>
+
+      {historyOpen && (
+        <div className="text-[11px] bg-white border border-rose-200 rounded-lg p-2 space-y-1 max-h-48 overflow-y-auto">
+          {events.length === 0 ? (
+            <div className="text-gray-500">Aucun événement.</div>
+          ) : events.map((e) => (
+            <div key={e.id} className="flex gap-2 text-gray-700">
+              <span className="text-gray-400 shrink-0">{new Date(e.created_at).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })}</span>
+              <span className="font-semibold">
+                {e.event_type === 'status_change' ? `${e.from_status || '—'} → ${e.to_status || '—'}` :
+                 e.event_type === 'order_synced' ? `commande: ${e.from_status || '—'} → ${e.to_status || '—'}` :
+                 e.event_type === 'note_added' ? '📝 note ajoutée' : e.event_type}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
 
       {noteOpen && (
         <div className="space-y-2">
