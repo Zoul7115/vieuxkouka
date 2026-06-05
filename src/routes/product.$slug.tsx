@@ -284,7 +284,7 @@ function SiropPage() {
 
       <ProductForm product={product} />
 
-      <FloatingOrderCTA />
+      
 
       <section className="sec bg-cream-2">
         <div className="container-kouka text-center">
