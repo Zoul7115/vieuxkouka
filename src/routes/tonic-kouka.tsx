@@ -11,7 +11,7 @@ import { useCtaVariant, trackCtaClick } from '@/hooks/useCtaVariant';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
-import { FloatingOrderCTA } from '@/components/FloatingOrderCTA';
+
 import bouteilleTonic from '@/assets/tonic-kouka-bouteille-reelle.png';
 import etiquetteTonic from '@/assets/tonic-kouka-etiquette-reelle.png';
 import afficheTonic5Maux from '@/assets/tonic-kouka-affiche-5-maux.png';
