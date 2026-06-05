@@ -40,7 +40,7 @@ function scrollToOrder() {
   preselectAndScroll(22);
 }
 
-function AntiDiabetePage() {
+export function AntiDiabetePage() {
   const product = ANTI_DIABETE;
   const stock = useDynamicStock('anti-diabete', 16);
 
