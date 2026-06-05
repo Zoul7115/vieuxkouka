@@ -12,7 +12,7 @@ import { SIROP_KOUKA } from '@/lib/products';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
-import { FloatingOrderCTA } from '@/components/FloatingOrderCTA';
+
 
 export const Route = createFileRoute('/product/$slug')({
   beforeLoad: ({ params }) => {
