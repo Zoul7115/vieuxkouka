@@ -66,13 +66,14 @@ export async function loginCloseuse(phone: string, password: string): Promise<Lo
   const hash = await hashPassword(password);
   const stored = c.password_hash;
   let firstLogin = false;
+  const now = new Date().toISOString();
   if (!stored) {
-    await supabase.from('closeuses').update({ password_hash: hash, last_login_at: new Date().toISOString() }).eq('id', c.id);
+    await supabase.from('closeuses').update({ password_hash: hash, last_login_at: now, last_activity_at: now } as any).eq('id', c.id);
     firstLogin = true;
   } else if (stored !== hash) {
     return { ok: false, reason: 'wrong_password' };
   } else {
-    await supabase.from('closeuses').update({ last_login_at: new Date().toISOString() }).eq('id', c.id);
+    await supabase.from('closeuses').update({ last_login_at: now, last_activity_at: now } as any).eq('id', c.id);
   }
   const session: CloseuseSession = {
     idx: c.idx,
