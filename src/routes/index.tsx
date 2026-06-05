@@ -435,7 +435,7 @@ function HomePage() {
 
       <ProductForm product={product} />
 
-      <FloatingOrderCTA />
+      
 
       {/* DÉCOUVRE LES AUTRES PRODUITS DU VIEUX KOUKA */}
       <section className="sec bg-vert-bg/40">
