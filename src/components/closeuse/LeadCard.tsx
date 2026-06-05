@@ -30,9 +30,43 @@ export function LeadCard({ lead }: { lead: Lead }) {
   const [noteOpen, setNoteOpen] = useState(false);
   const [note, setNote] = useState('');
   const [refusalFor, setRefusalFor] = useState<LeadStatus | null>(null);
+  const [order, setOrder] = useState<OrderInfo | null>(null);
+  const [events, setEvents] = useState<EventRow[]>([]);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const meta = LEAD_STATUS_META[lead.status] || LEAD_STATUS_META.nouveau_lead;
   const isValidated = ['valide', 'expediee', 'livree'].includes(lead.status);
   const REFUSAL_STATUSES: LeadStatus[] = ['refusee', 'annulee', 'perdue'];
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      if (lead.order_id) {
+        const { data } = await supabase
+          .from('orders')
+          .select('order_number,status,offer_label,country')
+          .eq('id', lead.order_id)
+          .maybeSingle();
+        if (alive) setOrder(data as OrderInfo | null);
+      }
+      const { data: evs } = await supabase
+        .from('lead_events')
+        .select('id,event_type,from_status,to_status,created_at')
+        .eq('lead_id', lead.id)
+        .order('created_at', { ascending: false })
+        .limit(8);
+      if (alive) setEvents((evs || []) as EventRow[]);
+    })();
+    // Realtime sur cette commande
+    if (!lead.order_id) return () => { alive = false; };
+    const ch = supabase
+      .channel(`order-${lead.order_id}`)
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'orders', filter: `id=eq.${lead.order_id}` }, (p) => {
+        setOrder((prev) => ({ ...(prev || {} as OrderInfo), ...(p.new as any) }));
+      })
+      .subscribe();
+    return () => { alive = false; supabase.removeChannel(ch); };
+  }, [lead.id, lead.order_id, lead.status, lead.updated_at]);
+
 
   const setStatus = async (to: LeadStatus) => {
     if (to === lead.status) return;
