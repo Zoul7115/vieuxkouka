@@ -32,6 +32,42 @@ export type Database = {
         }
         Relationships: []
       }
+      audit_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          actor_name: string | null
+          actor_type: string
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          id: string
+          payload: Json
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          actor_name?: string | null
+          actor_type: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          payload?: Json
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          actor_name?: string | null
+          actor_type?: string
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          payload?: Json
+        }
+        Relationships: []
+      }
       blocked_customers: {
         Row: {
           blocked_by: string | null
@@ -85,6 +121,7 @@ export type Database = {
           name: string
           password_hash: string | null
           session_token: string | null
+          slug: string | null
           updated_at: string
           whatsapp: string
         }
@@ -98,6 +135,7 @@ export type Database = {
           name: string
           password_hash?: string | null
           session_token?: string | null
+          slug?: string | null
           updated_at?: string
           whatsapp: string
         }
@@ -111,8 +149,72 @@ export type Database = {
           name?: string
           password_hash?: string | null
           session_token?: string | null
+          slug?: string | null
           updated_at?: string
           whatsapp?: string
+        }
+        Relationships: []
+      }
+      commission_payouts: {
+        Row: {
+          amount_due: number
+          amount_paid: number
+          closeuse_idx: number
+          created_at: string
+          delivered_count: number
+          id: string
+          notes: string | null
+          paid_at: string | null
+          period_month: string
+          updated_at: string
+          validated_count: number
+        }
+        Insert: {
+          amount_due?: number
+          amount_paid?: number
+          closeuse_idx: number
+          created_at?: string
+          delivered_count?: number
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          period_month: string
+          updated_at?: string
+          validated_count?: number
+        }
+        Update: {
+          amount_due?: number
+          amount_paid?: number
+          closeuse_idx?: number
+          created_at?: string
+          delivered_count?: number
+          id?: string
+          notes?: string | null
+          paid_at?: string | null
+          period_month?: string
+          updated_at?: string
+          validated_count?: number
+        }
+        Relationships: []
+      }
+      commission_settings: {
+        Row: {
+          commission_per_delivered_order: number
+          commission_per_validated_order: number
+          id: number
+          updated_at: string
+        }
+        Insert: {
+          commission_per_delivered_order?: number
+          commission_per_validated_order?: number
+          id?: number
+          updated_at?: string
+        }
+        Update: {
+          commission_per_delivered_order?: number
+          commission_per_validated_order?: number
+          id?: number
+          updated_at?: string
         }
         Relationships: []
       }
@@ -235,6 +337,114 @@ export type Database = {
         }
         Relationships: []
       }
+      lead_events: {
+        Row: {
+          closeuse_idx: number | null
+          created_at: string
+          event_type: string
+          from_status: string | null
+          id: string
+          lead_id: string
+          payload: Json
+          to_status: string | null
+        }
+        Insert: {
+          closeuse_idx?: number | null
+          created_at?: string
+          event_type: string
+          from_status?: string | null
+          id?: string
+          lead_id: string
+          payload?: Json
+          to_status?: string | null
+        }
+        Update: {
+          closeuse_idx?: number | null
+          created_at?: string
+          event_type?: string
+          from_status?: string | null
+          id?: string
+          lead_id?: string
+          payload?: Json
+          to_status?: string | null
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          address_detail: string | null
+          city: string | null
+          client_ip: string | null
+          closeuse_idx: number
+          closeuse_slug: string
+          country: string | null
+          created_at: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          neighborhood: string | null
+          notes: string | null
+          offer_label: string | null
+          order_id: string | null
+          product_name: string
+          product_price: number
+          product_slug: string
+          source: string | null
+          status: string
+          updated_at: string
+          validated_at: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          address_detail?: string | null
+          city?: string | null
+          client_ip?: string | null
+          closeuse_idx: number
+          closeuse_slug: string
+          country?: string | null
+          created_at?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          neighborhood?: string | null
+          notes?: string | null
+          offer_label?: string | null
+          order_id?: string | null
+          product_name: string
+          product_price?: number
+          product_slug: string
+          source?: string | null
+          status?: string
+          updated_at?: string
+          validated_at?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          address_detail?: string | null
+          city?: string | null
+          client_ip?: string | null
+          closeuse_idx?: number
+          closeuse_slug?: string
+          country?: string | null
+          created_at?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          neighborhood?: string | null
+          notes?: string | null
+          offer_label?: string | null
+          order_id?: string | null
+          product_name?: string
+          product_price?: number
+          product_slug?: string
+          source?: string | null
+          status?: string
+          updated_at?: string
+          validated_at?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
       livreurs: {
         Row: {
           active: boolean
@@ -291,12 +501,14 @@ export type Database = {
           address_detail: string | null
           ai_flags: string[] | null
           ai_score: number | null
+          assigned_at: string | null
           cancellation_reason: string | null
           car_transport: string | null
           cash_confirmed: boolean | null
           city: string | null
           client_ip: string | null
           closeuse_idx: number | null
+          closeuse_slug: string | null
           confirmed_via_whatsapp_at: string | null
           country: string | null
           created_at: string | null
@@ -307,6 +519,7 @@ export type Database = {
           id: string
           is_available: boolean | null
           last_name: string | null
+          lead_id: string | null
           livreur_idx: number | null
           neighborhood: string | null
           notes: string | null
@@ -327,12 +540,14 @@ export type Database = {
           address_detail?: string | null
           ai_flags?: string[] | null
           ai_score?: number | null
+          assigned_at?: string | null
           cancellation_reason?: string | null
           car_transport?: string | null
           cash_confirmed?: boolean | null
           city?: string | null
           client_ip?: string | null
           closeuse_idx?: number | null
+          closeuse_slug?: string | null
           confirmed_via_whatsapp_at?: string | null
           country?: string | null
           created_at?: string | null
@@ -343,6 +558,7 @@ export type Database = {
           id?: string
           is_available?: boolean | null
           last_name?: string | null
+          lead_id?: string | null
           livreur_idx?: number | null
           neighborhood?: string | null
           notes?: string | null
@@ -363,12 +579,14 @@ export type Database = {
           address_detail?: string | null
           ai_flags?: string[] | null
           ai_score?: number | null
+          assigned_at?: string | null
           cancellation_reason?: string | null
           car_transport?: string | null
           cash_confirmed?: boolean | null
           city?: string | null
           client_ip?: string | null
           closeuse_idx?: number | null
+          closeuse_slug?: string | null
           confirmed_via_whatsapp_at?: string | null
           country?: string | null
           created_at?: string | null
@@ -379,6 +597,7 @@ export type Database = {
           id?: string
           is_available?: boolean | null
           last_name?: string | null
+          lead_id?: string | null
           livreur_idx?: number | null
           neighborhood?: string | null
           notes?: string | null
