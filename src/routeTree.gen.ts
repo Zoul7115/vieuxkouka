@@ -21,7 +21,6 @@ import { Route as LivreurIndexRouteImport } from './routes/livreur.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as LivreurBilanRouteImport } from './routes/livreur.bilan'
 import { Route as CloseuseSlugAntiDiabeteRouteImport } from './routes/$closeuseSlug.anti-diabete'
-import { Route as CloseuseSlugProductSlugRouteImport } from './routes/$closeuseSlug.$productSlug'
 import { Route as ApiPublicHooksWeeklyReportRouteImport } from './routes/api/public/hooks/weekly-report'
 
 const TonicKoukaRoute = TonicKoukaRouteImport.update({
@@ -84,11 +83,6 @@ const CloseuseSlugAntiDiabeteRoute = CloseuseSlugAntiDiabeteRouteImport.update({
   path: '/$closeuseSlug/anti-diabete',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CloseuseSlugProductSlugRoute = CloseuseSlugProductSlugRouteImport.update({
-  id: '/$closeuseSlug/$productSlug',
-  path: '/$closeuseSlug/$productSlug',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiPublicHooksWeeklyReportRoute =
   ApiPublicHooksWeeklyReportRouteImport.update({
     id: '/api/public/hooks/weekly-report',
@@ -105,7 +99,6 @@ export interface FileRoutesByFullPath {
   '/livreur': typeof LivreurRouteWithChildren
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
-  '/$closeuseSlug/$productSlug': typeof CloseuseSlugProductSlugRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -120,7 +113,6 @@ export interface FileRoutesByTo {
   '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
-  '/$closeuseSlug/$productSlug': typeof CloseuseSlugProductSlugRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -137,7 +129,6 @@ export interface FileRoutesById {
   '/livreur': typeof LivreurRouteWithChildren
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
-  '/$closeuseSlug/$productSlug': typeof CloseuseSlugProductSlugRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -155,7 +146,6 @@ export interface FileRouteTypes {
     | '/livreur'
     | '/thank-you'
     | '/tonic-kouka'
-    | '/$closeuseSlug/$productSlug'
     | '/$closeuseSlug/anti-diabete'
     | '/livreur/bilan'
     | '/product/$slug'
@@ -170,7 +160,6 @@ export interface FileRouteTypes {
     | '/diagnostic'
     | '/thank-you'
     | '/tonic-kouka'
-    | '/$closeuseSlug/$productSlug'
     | '/$closeuseSlug/anti-diabete'
     | '/livreur/bilan'
     | '/product/$slug'
@@ -186,7 +175,6 @@ export interface FileRouteTypes {
     | '/livreur'
     | '/thank-you'
     | '/tonic-kouka'
-    | '/$closeuseSlug/$productSlug'
     | '/$closeuseSlug/anti-diabete'
     | '/livreur/bilan'
     | '/product/$slug'
@@ -203,7 +191,6 @@ export interface RootRouteChildren {
   LivreurRoute: typeof LivreurRouteWithChildren
   ThankYouRoute: typeof ThankYouRoute
   TonicKoukaRoute: typeof TonicKoukaRoute
-  CloseuseSlugProductSlugRoute: typeof CloseuseSlugProductSlugRoute
   CloseuseSlugAntiDiabeteRoute: typeof CloseuseSlugAntiDiabeteRoute
   ProductSlugRoute: typeof ProductSlugRoute
   ApiPublicHooksWeeklyReportRoute: typeof ApiPublicHooksWeeklyReportRoute
@@ -295,13 +282,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CloseuseSlugAntiDiabeteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/$closeuseSlug/$productSlug': {
-      id: '/$closeuseSlug/$productSlug'
-      path: '/$closeuseSlug/$productSlug'
-      fullPath: '/$closeuseSlug/$productSlug'
-      preLoaderRoute: typeof CloseuseSlugProductSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/public/hooks/weekly-report': {
       id: '/api/public/hooks/weekly-report'
       path: '/api/public/hooks/weekly-report'
@@ -334,7 +314,6 @@ const rootRouteChildren: RootRouteChildren = {
   LivreurRoute: LivreurRouteWithChildren,
   ThankYouRoute: ThankYouRoute,
   TonicKoukaRoute: TonicKoukaRoute,
-  CloseuseSlugProductSlugRoute: CloseuseSlugProductSlugRoute,
   CloseuseSlugAntiDiabeteRoute: CloseuseSlugAntiDiabeteRoute,
   ProductSlugRoute: ProductSlugRoute,
   ApiPublicHooksWeeklyReportRoute: ApiPublicHooksWeeklyReportRoute,
@@ -342,3 +321,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
