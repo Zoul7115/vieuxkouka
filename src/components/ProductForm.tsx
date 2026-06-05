@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { OfferSelector } from './OfferSelector';
+import { useAssignedCloseuse } from '@/lib/assignedCloseuseContext';
 
 import { COUNTRIES, COUNTRY_DELIVERY, formatFCFA, type Offer, type Product } from '@/lib/products';
 import { supabase } from '@/integrations/supabase/client';
@@ -54,7 +55,9 @@ function getSessionId(): string {
 
 export type AssignedCloseuse = { idx: number; slug: string; name: string };
 
-export function ProductForm({ product, assignedCloseuse }: { product: Product; assignedCloseuse?: AssignedCloseuse }) {
+export function ProductForm({ product, assignedCloseuse: assignedProp }: { product: Product; assignedCloseuse?: AssignedCloseuse }) {
+  const ctxCloseuse = useAssignedCloseuse();
+  const assignedCloseuse = assignedProp ?? ctxCloseuse ?? undefined;
   const navigate = useNavigate();
   const recommended = product.offers.find((o) => o.recommended) || product.offers[0];
   const [offer, setOffer] = useState<Offer>(recommended);
