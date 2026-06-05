@@ -20,6 +20,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LivreurIndexRouteImport } from './routes/livreur.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as LivreurBilanRouteImport } from './routes/livreur.bilan'
+import { Route as CloseuseSlugProductSlugRouteImport } from './routes/$closeuseSlug.$productSlug'
 import { Route as ApiPublicHooksWeeklyReportRouteImport } from './routes/api/public/hooks/weekly-report'
 
 const TonicKoukaRoute = TonicKoukaRouteImport.update({
@@ -77,6 +78,11 @@ const LivreurBilanRoute = LivreurBilanRouteImport.update({
   path: '/bilan',
   getParentRoute: () => LivreurRoute,
 } as any)
+const CloseuseSlugProductSlugRoute = CloseuseSlugProductSlugRouteImport.update({
+  id: '/$closeuseSlug/$productSlug',
+  path: '/$closeuseSlug/$productSlug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicHooksWeeklyReportRoute =
   ApiPublicHooksWeeklyReportRouteImport.update({
     id: '/api/public/hooks/weekly-report',
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/livreur': typeof LivreurRouteWithChildren
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
+  '/$closeuseSlug/$productSlug': typeof CloseuseSlugProductSlugRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur/': typeof LivreurIndexRoute
@@ -106,6 +113,7 @@ export interface FileRoutesByTo {
   '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
+  '/$closeuseSlug/$productSlug': typeof CloseuseSlugProductSlugRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur': typeof LivreurIndexRoute
@@ -121,6 +129,7 @@ export interface FileRoutesById {
   '/livreur': typeof LivreurRouteWithChildren
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
+  '/$closeuseSlug/$productSlug': typeof CloseuseSlugProductSlugRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur/': typeof LivreurIndexRoute
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/livreur'
     | '/thank-you'
     | '/tonic-kouka'
+    | '/$closeuseSlug/$productSlug'
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur/'
@@ -150,6 +160,7 @@ export interface FileRouteTypes {
     | '/diagnostic'
     | '/thank-you'
     | '/tonic-kouka'
+    | '/$closeuseSlug/$productSlug'
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur'
@@ -164,6 +175,7 @@ export interface FileRouteTypes {
     | '/livreur'
     | '/thank-you'
     | '/tonic-kouka'
+    | '/$closeuseSlug/$productSlug'
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur/'
@@ -179,6 +191,7 @@ export interface RootRouteChildren {
   LivreurRoute: typeof LivreurRouteWithChildren
   ThankYouRoute: typeof ThankYouRoute
   TonicKoukaRoute: typeof TonicKoukaRoute
+  CloseuseSlugProductSlugRoute: typeof CloseuseSlugProductSlugRoute
   ProductSlugRoute: typeof ProductSlugRoute
   ApiPublicHooksWeeklyReportRoute: typeof ApiPublicHooksWeeklyReportRoute
 }
@@ -262,6 +275,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LivreurBilanRouteImport
       parentRoute: typeof LivreurRoute
     }
+    '/$closeuseSlug/$productSlug': {
+      id: '/$closeuseSlug/$productSlug'
+      path: '/$closeuseSlug/$productSlug'
+      fullPath: '/$closeuseSlug/$productSlug'
+      preLoaderRoute: typeof CloseuseSlugProductSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/weekly-report': {
       id: '/api/public/hooks/weekly-report'
       path: '/api/public/hooks/weekly-report'
@@ -294,6 +314,7 @@ const rootRouteChildren: RootRouteChildren = {
   LivreurRoute: LivreurRouteWithChildren,
   ThankYouRoute: ThankYouRoute,
   TonicKoukaRoute: TonicKoukaRoute,
+  CloseuseSlugProductSlugRoute: CloseuseSlugProductSlugRoute,
   ProductSlugRoute: ProductSlugRoute,
   ApiPublicHooksWeeklyReportRoute: ApiPublicHooksWeeklyReportRoute,
 }
