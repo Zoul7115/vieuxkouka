@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
+import { RecommendedCureSection } from '@/components/RecommendedCureSection';
 import { VisitTracker } from '@/components/VisitTracker';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { ANTI_DIABETE } from '@/lib/products';
@@ -439,6 +440,8 @@ function AntiDiabetePage() {
           </div>
         </div>
       </section>
+
+      <RecommendedCureSection product={product} />
 
       <ProductForm product={product} />
 
