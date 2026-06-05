@@ -14,6 +14,10 @@ import { DraftsTab } from '@/components/admin/DraftsTab';
 import { CloseusesTab } from '@/components/admin/CloseusesTab';
 import { SalairesTab } from '@/components/admin/SalairesTab';
 import { NotifDiagnostic } from '@/components/admin/NotifDiagnostic';
+import { ValidatedOrdersTab, DeliveredOrdersTab, RefusedTab, LostLeadsTab, OrdersByCloseuseTab } from '@/components/admin/LeadAdminTabs';
+import { PerformanceTab } from '@/components/admin/PerformanceTab';
+import { CommissionsTab } from '@/components/admin/CommissionsTab';
+import { AuditLogTab } from '@/components/admin/AuditLogTab';
 import { usePWAAdmin } from '@/hooks/usePWAAdmin';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
 
@@ -32,7 +36,7 @@ type Visit = {
   visited_at: string | null;
 };
 
-type Tab = 'orders' | 'drafts' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs' | 'closeuses' | 'salaires';
+type Tab = 'orders' | 'validated' | 'delivered' | 'refused' | 'lost' | 'by-closeuse' | 'perf' | 'commissions' | 'audit' | 'drafts' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs' | 'closeuses' | 'salaires';
 
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
@@ -173,15 +177,23 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
   const TABS: { k: Tab; label: string; emoji: string }[] = [
     { k: 'orders', label: 'Commandes', emoji: '📦' },
-    { k: 'drafts', label: 'Brouillons', emoji: '📝' },
-    { k: 'sav', label: 'SAV', emoji: '🤝' },
-    { k: 'bilan', label: 'Bilan', emoji: '🧠' },
-    { k: 'livreurs', label: 'Livreurs', emoji: '🛵' },
+    { k: 'validated', label: 'Validées', emoji: '✅' },
+    { k: 'delivered', label: 'Livrées', emoji: '🎉' },
+    { k: 'refused', label: 'Refusées', emoji: '❌' },
+    { k: 'lost', label: 'Perdues', emoji: '💀' },
+    { k: 'by-closeuse', label: 'Par closeuse', emoji: '👥' },
+    { k: 'perf', label: 'Performance', emoji: '🏆' },
+    { k: 'commissions', label: 'Commissions', emoji: '💸' },
     { k: 'closeuses', label: 'Closeuses', emoji: '👩‍💼' },
     { k: 'salaires', label: 'Salaires', emoji: '💰' },
+    { k: 'drafts', label: 'Brouillons', emoji: '📝' },
+    { k: 'sav', label: 'SAV', emoji: '🤝' },
+    { k: 'livreurs', label: 'Livreurs', emoji: '🛵' },
+    { k: 'bilan', label: 'Bilan', emoji: '🧠' },
     { k: 'stock', label: 'Stock', emoji: '📊' },
     { k: 'compta', label: 'Compta', emoji: '💰' },
     { k: 'stats', label: 'Stats', emoji: '📈' },
+    { k: 'audit', label: 'Journal', emoji: '📜' },
   ];
 
   const { canInstall, install, permission, requestNotifications, testAlert } = usePWAAdmin(true);
@@ -278,6 +290,13 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
         {(!loading || orders.length > 0) && (
           <>
             {tab === 'orders' && <OrdersTab orders={orders} onUpdateStatus={updateStatus} onAssignLivreur={assignLivreur} />}
+            {tab === 'validated' && <ValidatedOrdersTab orders={orders} />}
+            {tab === 'delivered' && <DeliveredOrdersTab orders={orders} />}
+            {tab === 'refused' && <RefusedTab />}
+            {tab === 'lost' && <LostLeadsTab />}
+            {tab === 'by-closeuse' && <OrdersByCloseuseTab orders={orders} />}
+            {tab === 'perf' && <PerformanceTab />}
+            {tab === 'commissions' && <CommissionsTab />}
             {tab === 'drafts' && <DraftsTab />}
             {tab === 'sav' && <SAVTab orders={orders} onChange={() => load(true)} />}
             {tab === 'bilan' && <BilanTab />}
@@ -287,6 +306,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             {tab === 'stock' && <StockTab />}
             {tab === 'compta' && <ComptaTab orders={orders} />}
             {tab === 'stats' && <StatsTab orders={orders} visits={visits} visitsTotal={visitsTotal} visitsToday={visitsToday} />}
+            {tab === 'audit' && <AuditLogTab />}
           </>
         )}
       </main>
