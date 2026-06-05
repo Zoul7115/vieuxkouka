@@ -18,6 +18,9 @@ import { ValidatedOrdersTab, DeliveredOrdersTab, RefusedTab, LostLeadsTab, Order
 import { PerformanceTab } from '@/components/admin/PerformanceTab';
 import { CommissionsTab } from '@/components/admin/CommissionsTab';
 import { AuditLogTab } from '@/components/admin/AuditLogTab';
+import { SummaryTab } from '@/components/admin/SummaryTab';
+import { RankingTab } from '@/components/admin/RankingTab';
+import { ExportsTab } from '@/components/admin/ExportsTab';
 import { usePWAAdmin } from '@/hooks/usePWAAdmin';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
 
