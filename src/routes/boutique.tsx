@@ -89,7 +89,7 @@ const CATALOG: CatalogItem[] = [
     badgeColor: 'bg-vert text-white',
     priceFrom: 10000,
     image: '/images/poudre-vieux-kouka-hero.png',
-    to: '/poudre-kouka',
+    to: '/',
     tags: ['digestif'],
     popular: true,
   },
@@ -244,7 +244,7 @@ function BrandHomePage() {
             {[
               { i: '👨', t: 'Faiblesse sexuelle', to: '/product/$slug', params: { slug: 'sirop-kouka' } as Record<string, string> },
               { i: '🩸', t: 'Diabète', to: '/anti-diabete' },
-              { i: '🌿', t: 'Troubles digestifs', to: '/poudre-kouka' },
+              { i: '🌿', t: 'Troubles digestifs', to: '/' },
               { i: '⚡', t: 'Vitalité', to: '/tonic-kouka' },
             ].map((q) => (
               <Link
@@ -383,7 +383,7 @@ function BrandHomePage() {
               <ul className="space-y-2 text-sm">
                 <li><Link to="/product/$slug" params={{ slug: 'sirop-kouka' }} className="text-white/80 hover:text-white">🍯 Sirop KOUKA</Link></li>
                 <li><Link to="/anti-diabete" className="text-white/80 hover:text-white">🩸 Anti-Diabète</Link></li>
-                <li><Link to="/poudre-kouka" className="text-white/80 hover:text-white">🌿 Poudre KOUKA</Link></li>
+                <li><Link to="/" className="text-white/80 hover:text-white">🌿 Poudre KOUKA</Link></li>
                 <li><Link to="/tonic-kouka" className="text-white/80 hover:text-white">⚡ Tonic KOUKA</Link></li>
               </ul>
             </div>
