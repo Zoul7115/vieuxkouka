@@ -23,6 +23,8 @@ import { RankingTab } from '@/components/admin/RankingTab';
 import { ExportsTab } from '@/components/admin/ExportsTab';
 import { usePWAAdmin } from '@/hooks/usePWAAdmin';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
+import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
+import { AdminSidebar, getTabBreadcrumb, type AdminTabKey } from '@/components/admin/AdminSidebar';
 
 export const Route = createFileRoute('/admin')({
   head: () => ({ meta: [{ title: 'Admin — ShopAfrik' }] }),
