@@ -10,6 +10,7 @@ import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
+import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
 
 
 
@@ -36,6 +37,7 @@ function HomePage() {
 
   return (
     <div className="bg-background pb-16 md:pb-0">
+      <StickyOfferBarRecommended product={product} stock={stock} unitLabel="sachets" />
       <VisitTracker page="home" />
       <LiveSocialProof product="Poudre KOUKA" />
       {/* StickyMobileCTA, ExitIntentPopup, AbandonRecovery removed for conversion */}
