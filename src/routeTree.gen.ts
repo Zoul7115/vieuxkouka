@@ -11,10 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TonicKoukaRouteImport } from './routes/tonic-kouka'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
-import { Route as PoudreKoukaRouteImport } from './routes/poudre-kouka'
 import { Route as LivreurRouteImport } from './routes/livreur'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
 import { Route as CloseuseRouteImport } from './routes/closeuse'
+import { Route as BoutiqueRouteImport } from './routes/boutique'
 import { Route as AntiDiabeteRouteImport } from './routes/anti-diabete'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -34,11 +34,6 @@ const ThankYouRoute = ThankYouRouteImport.update({
   path: '/thank-you',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PoudreKoukaRoute = PoudreKoukaRouteImport.update({
-  id: '/poudre-kouka',
-  path: '/poudre-kouka',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LivreurRoute = LivreurRouteImport.update({
   id: '/livreur',
   path: '/livreur',
@@ -52,6 +47,11 @@ const DiagnosticRoute = DiagnosticRouteImport.update({
 const CloseuseRoute = CloseuseRouteImport.update({
   id: '/closeuse',
   path: '/closeuse',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BoutiqueRoute = BoutiqueRouteImport.update({
+  id: '/boutique',
+  path: '/boutique',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AntiDiabeteRoute = AntiDiabeteRouteImport.update({
@@ -100,10 +100,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/anti-diabete': typeof AntiDiabeteRoute
+  '/boutique': typeof BoutiqueRoute
   '/closeuse': typeof CloseuseRoute
   '/diagnostic': typeof DiagnosticRoute
   '/livreur': typeof LivreurRouteWithChildren
-  '/poudre-kouka': typeof PoudreKoukaRoute
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
@@ -116,9 +116,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/anti-diabete': typeof AntiDiabeteRoute
+  '/boutique': typeof BoutiqueRoute
   '/closeuse': typeof CloseuseRoute
   '/diagnostic': typeof DiagnosticRoute
-  '/poudre-kouka': typeof PoudreKoukaRoute
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
@@ -132,10 +132,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/anti-diabete': typeof AntiDiabeteRoute
+  '/boutique': typeof BoutiqueRoute
   '/closeuse': typeof CloseuseRoute
   '/diagnostic': typeof DiagnosticRoute
   '/livreur': typeof LivreurRouteWithChildren
-  '/poudre-kouka': typeof PoudreKoukaRoute
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
@@ -150,10 +150,10 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/anti-diabete'
+    | '/boutique'
     | '/closeuse'
     | '/diagnostic'
     | '/livreur'
-    | '/poudre-kouka'
     | '/thank-you'
     | '/tonic-kouka'
     | '/$closeuseSlug/anti-diabete'
@@ -166,9 +166,9 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/anti-diabete'
+    | '/boutique'
     | '/closeuse'
     | '/diagnostic'
-    | '/poudre-kouka'
     | '/thank-you'
     | '/tonic-kouka'
     | '/$closeuseSlug/anti-diabete'
@@ -181,10 +181,10 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/anti-diabete'
+    | '/boutique'
     | '/closeuse'
     | '/diagnostic'
     | '/livreur'
-    | '/poudre-kouka'
     | '/thank-you'
     | '/tonic-kouka'
     | '/$closeuseSlug/anti-diabete'
@@ -198,10 +198,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   AntiDiabeteRoute: typeof AntiDiabeteRoute
+  BoutiqueRoute: typeof BoutiqueRoute
   CloseuseRoute: typeof CloseuseRoute
   DiagnosticRoute: typeof DiagnosticRoute
   LivreurRoute: typeof LivreurRouteWithChildren
-  PoudreKoukaRoute: typeof PoudreKoukaRoute
   ThankYouRoute: typeof ThankYouRoute
   TonicKoukaRoute: typeof TonicKoukaRoute
   CloseuseSlugAntiDiabeteRoute: typeof CloseuseSlugAntiDiabeteRoute
@@ -225,13 +225,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ThankYouRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/poudre-kouka': {
-      id: '/poudre-kouka'
-      path: '/poudre-kouka'
-      fullPath: '/poudre-kouka'
-      preLoaderRoute: typeof PoudreKoukaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/livreur': {
       id: '/livreur'
       path: '/livreur'
@@ -251,6 +244,13 @@ declare module '@tanstack/react-router' {
       path: '/closeuse'
       fullPath: '/closeuse'
       preLoaderRoute: typeof CloseuseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/boutique': {
+      id: '/boutique'
+      path: '/boutique'
+      fullPath: '/boutique'
+      preLoaderRoute: typeof BoutiqueRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/anti-diabete': {
@@ -329,10 +329,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   AntiDiabeteRoute: AntiDiabeteRoute,
+  BoutiqueRoute: BoutiqueRoute,
   CloseuseRoute: CloseuseRoute,
   DiagnosticRoute: DiagnosticRoute,
   LivreurRoute: LivreurRouteWithChildren,
-  PoudreKoukaRoute: PoudreKoukaRoute,
   ThankYouRoute: ThankYouRoute,
   TonicKoukaRoute: TonicKoukaRoute,
   CloseuseSlugAntiDiabeteRoute: CloseuseSlugAntiDiabeteRoute,
