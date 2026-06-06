@@ -99,7 +99,13 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [visits, setVisits] = useState<Visit[]>([]);
   const [visitsTotal, setVisitsTotal] = useState(0);
   const [visitsToday, setVisitsToday] = useState(0);
-  const [tab, setTab] = useState<Tab>('summary');
+  const [tab, setTab] = useState<Tab>(() => {
+    if (typeof window === 'undefined') return 'summary';
+    return (localStorage.getItem('sa_admin_tab') as Tab) || 'summary';
+  });
+  useEffect(() => {
+    if (typeof window !== 'undefined') localStorage.setItem('sa_admin_tab', tab);
+  }, [tab]);
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState<PeriodKey>('today');
   const [customFrom, setCustomFrom] = useState('');
