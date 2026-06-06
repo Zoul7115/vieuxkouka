@@ -48,7 +48,7 @@ function TonicKoukaPage() {
 
   return (
     <div className="bg-cream pb-[180px] sm:pb-32" style={{ paddingBottom: 'calc(180px + env(safe-area-inset-bottom))' }}>
-      <StickyOfferBarTonic stock={stock} />
+      <StickyOfferBarRecommended product={product} stock={stock} unitLabel="bouteilles" />
       <VisitTracker page="tonic-kouka" />
 
       {/* TOP BANNER */}
