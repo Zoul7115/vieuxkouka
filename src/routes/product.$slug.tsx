@@ -5,6 +5,7 @@ import { RecommendedCureSection } from '@/components/RecommendedCureSection';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ComparisonTable } from '@/components/ComparisonTable';
 import { SocialProofChatSirop } from '@/components/sirop/SocialProofChatSirop';
+import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
 
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 
