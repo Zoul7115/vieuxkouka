@@ -6,7 +6,7 @@ import { VisitTracker } from '@/components/VisitTracker';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { TONIC_KOUKA } from '@/lib/products';
 import { SocialProofChatTonic } from '@/components/tonic/SocialProofChatTonic';
-import { StickyOfferBarTonic } from '@/components/tonic/StickyOfferBarTonic';
+import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
 import { useCtaVariant, trackCtaClick } from '@/hooks/useCtaVariant';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
