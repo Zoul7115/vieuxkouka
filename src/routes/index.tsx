@@ -13,7 +13,7 @@ import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
 
 
 
-export const Route = createFileRoute('/poudre-kouka')({
+export const Route = createFileRoute('/')({
   head: () => ({
     meta: [
       { title: KOUKA.metaTitle },
