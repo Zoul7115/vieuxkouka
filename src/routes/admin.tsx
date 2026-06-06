@@ -41,7 +41,7 @@ type Visit = {
   visited_at: string | null;
 };
 
-type Tab = 'summary' | 'orders' | 'validated' | 'delivered' | 'refused' | 'lost' | 'by-closeuse' | 'ranking' | 'perf' | 'commissions' | 'exports' | 'audit' | 'drafts' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs' | 'closeuses' | 'salaires';
+type Tab = AdminTabKey;
 
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
