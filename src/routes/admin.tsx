@@ -23,6 +23,8 @@ import { RankingTab } from '@/components/admin/RankingTab';
 import { ExportsTab } from '@/components/admin/ExportsTab';
 import { usePWAAdmin } from '@/hooks/usePWAAdmin';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
+import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
+import { AdminSidebar, getTabBreadcrumb, type AdminTabKey } from '@/components/admin/AdminSidebar';
 
 export const Route = createFileRoute('/admin')({
   head: () => ({ meta: [{ title: 'Admin — ShopAfrik' }] }),
@@ -39,7 +41,7 @@ type Visit = {
   visited_at: string | null;
 };
 
-type Tab = 'summary' | 'orders' | 'validated' | 'delivered' | 'refused' | 'lost' | 'by-closeuse' | 'ranking' | 'perf' | 'commissions' | 'exports' | 'audit' | 'drafts' | 'sav' | 'bilan' | 'stats' | 'stock' | 'compta' | 'livreurs' | 'closeuses' | 'salaires';
+type Tab = AdminTabKey;
 
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
@@ -178,147 +180,118 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     };
   }, [orders, period, customFrom, customTo]);
 
-  const TABS: { k: Tab; label: string; emoji: string }[] = [
-    { k: 'summary', label: 'Résumé', emoji: '🏠' },
-    { k: 'orders', label: 'Commandes', emoji: '📦' },
-    { k: 'validated', label: 'Validées', emoji: '✅' },
-    { k: 'delivered', label: 'Livrées', emoji: '🎉' },
-    { k: 'refused', label: 'Refusées', emoji: '❌' },
-    { k: 'lost', label: 'Perdues', emoji: '💀' },
-    { k: 'by-closeuse', label: 'Par closeuse', emoji: '👥' },
-    { k: 'ranking', label: 'Classement', emoji: '🏆' },
-    { k: 'perf', label: 'Performance', emoji: '📈' },
-    { k: 'commissions', label: 'Commissions', emoji: '💸' },
-    { k: 'exports', label: 'Exports', emoji: '📤' },
-    { k: 'closeuses', label: 'Closeuses', emoji: '👩‍💼' },
-    { k: 'salaires', label: 'Salaires', emoji: '💰' },
-    { k: 'drafts', label: 'Brouillons', emoji: '📝' },
-    { k: 'sav', label: 'SAV', emoji: '🤝' },
-    { k: 'livreurs', label: 'Livreurs', emoji: '🛵' },
-    { k: 'bilan', label: 'Bilan', emoji: '🧠' },
-    { k: 'stock', label: 'Stock', emoji: '📊' },
-    { k: 'compta', label: 'Compta', emoji: '💰' },
-    { k: 'stats', label: 'Stats', emoji: '📈' },
-    { k: 'audit', label: 'Journal', emoji: '📜' },
-  ];
-
   const { canInstall, install, permission, requestNotifications, testAlert } = usePWAAdmin(true);
 
   // Auto-prompt notif au login si non accordé
   useEffect(() => {
     if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
-      // léger délai pour ne pas être agressif
       const t = setTimeout(() => requestNotifications(), 800);
       return () => clearTimeout(t);
     }
   }, [requestNotifications]);
 
   const periodLabel = PERIODS.find((p) => p.k === period)?.label || '';
+  const crumb = getTabBreadcrumb(tab);
 
   return (
-    <div className="min-h-screen bg-cream">
-      <header className="bg-vert text-white px-5 py-4 flex justify-between items-center sticky top-0 z-30 shadow-md flex-wrap gap-2">
-        <div className="font-extrabold">🌿 ShopAfrik Admin</div>
-        <div className="flex gap-2 items-center flex-wrap">
-          {canInstall && (
-            <button onClick={install} className="text-xs bg-or text-vert font-extrabold px-3 py-1.5 rounded-lg hover:bg-or-light">
-              📲 Installer
-            </button>
-          )}
-          {permission !== 'granted' && (
-            <button onClick={requestNotifications} className="text-xs bg-or text-vert font-extrabold px-3 py-1.5 rounded-lg hover:bg-or-light">
-              🔔 Activer son + notifs
-            </button>
-          )}
-          {permission === 'granted' && (
-            <button onClick={testAlert} className="text-xs bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">
-              🔊 Test
-            </button>
-          )}
-          <button onClick={() => load()} className="text-sm bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">🔄</button>
-          <Link to="/" className="text-white/80 text-sm hover:text-white">Boutique</Link>
-          <button onClick={onLogout} className="text-sm bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">
-            Déconnexion
-          </button>
-        </div>
-      </header>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-cream">
+        <AdminSidebar tab={tab} onChange={(t) => setTab(t)} />
 
-      <main className="max-w-6xl mx-auto p-5">
-        {/* Sélecteur période */}
-        <div className="mb-3 flex flex-wrap items-center gap-2">
-          {PERIODS.map((p) => (
-            <button
-              key={p.k}
-              onClick={() => setPeriod(p.k)}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors ${
-                period === p.k ? 'bg-vert text-white' : 'bg-white border-2 border-vert-bg text-muted-foreground hover:border-vert-mid'
-              }`}
-            >
-              {p.label}
-            </button>
-          ))}
-          {period === 'custom' && (
-            <div className="flex items-center gap-1.5 bg-white border-2 border-vert-bg rounded-full px-2 py-1">
-              <input type="date" value={customFrom} onChange={(e) => setCustomFrom(e.target.value)} className="text-xs outline-none bg-transparent" />
-              <span className="text-xs text-muted-foreground">→</span>
-              <input type="date" value={customTo} onChange={(e) => setCustomTo(e.target.value)} className="text-xs outline-none bg-transparent" />
+        <SidebarInset className="flex-1 min-w-0">
+          <header className="bg-vert text-white px-4 py-3 flex justify-between items-center sticky top-0 z-30 shadow-md flex-wrap gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <SidebarTrigger className="text-white hover:bg-white/15" />
+              <div className="text-sm font-bold opacity-80 hidden sm:block">{crumb.group}</div>
+              <span className="text-white/40 hidden sm:inline">/</span>
+              <div className="font-extrabold truncate">{crumb.item}</div>
             </div>
-          )}
-        </div>
+            <div className="flex gap-2 items-center flex-wrap">
+              {canInstall && (
+                <button onClick={install} className="text-xs bg-or text-vert font-extrabold px-3 py-1.5 rounded-lg hover:bg-or-light">
+                  📲 Installer
+                </button>
+              )}
+              {permission !== 'granted' && (
+                <button onClick={requestNotifications} className="text-xs bg-or text-vert font-extrabold px-3 py-1.5 rounded-lg hover:bg-or-light">
+                  🔔 Activer
+                </button>
+              )}
+              {permission === 'granted' && (
+                <button onClick={testAlert} className="text-xs bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">
+                  🔊
+                </button>
+              )}
+              <button onClick={() => load()} className="text-sm bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">🔄</button>
+              <Link to="/" className="text-white/80 text-sm hover:text-white hidden sm:inline">Boutique</Link>
+              <button onClick={onLogout} className="text-sm bg-white/15 px-3 py-1.5 rounded-lg hover:bg-white/25">
+                Sortir
+              </button>
+            </div>
+          </header>
 
-        {/* Diagnostic notifications */}
-        <NotifDiagnostic />
+          <main className="p-5 max-w-7xl mx-auto w-full">
+            {/* Sélecteur période */}
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              {PERIODS.map((p) => (
+                <button
+                  key={p.k}
+                  onClick={() => setPeriod(p.k)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-colors ${
+                    period === p.k ? 'bg-vert text-white' : 'bg-white border-2 border-vert-bg text-muted-foreground hover:border-vert-mid'
+                  }`}
+                >
+                  {p.label}
+                </button>
+              ))}
+              {period === 'custom' && (
+                <div className="flex items-center gap-1.5 bg-white border-2 border-vert-bg rounded-full px-2 py-1">
+                  <input type="date" value={customFrom} onChange={(e) => setCustomFrom(e.target.value)} className="text-xs outline-none bg-transparent" />
+                  <span className="text-xs text-muted-foreground">→</span>
+                  <input type="date" value={customTo} onChange={(e) => setCustomTo(e.target.value)} className="text-xs outline-none bg-transparent" />
+                </div>
+              )}
+            </div>
 
-        {/* KPI résumé scopé période */}
-        <div className="bg-gradient-to-br from-rouge to-[oklch(0.40_0.20_28)] text-white rounded-2xl p-6 mb-5">
-          <div className="text-sm opacity-90 font-semibold">CA livré · {periodLabel}</div>
-          <div className="text-4xl font-extrabold mt-1">{formatFCFA(kpi.ca)}</div>
-          <div className="text-sm opacity-90 mt-1">{kpi.total} commandes · {kpi.delivered} livrées · {kpi.pending} en attente</div>
-        </div>
+            <NotifDiagnostic />
 
-        {/* Tabs */}
-        <div className="flex gap-1 mb-5 bg-white p-1 rounded-2xl border-2 border-vert-bg overflow-x-auto">
-          {TABS.map((t) => (
-            <button
-              key={t.k}
-              onClick={() => setTab(t.k)}
-              className={`flex-1 min-w-fit px-3 py-2 rounded-xl text-sm font-extrabold transition-all whitespace-nowrap ${
-                tab === t.k ? 'bg-vert-mid text-white shadow' : 'text-muted-foreground hover:bg-vert-bg/50'
-              }`}
-            >
-              <span className="mr-1">{t.emoji}</span>{t.label}
-            </button>
-          ))}
-        </div>
+            <div className="bg-gradient-to-br from-rouge to-[oklch(0.40_0.20_28)] text-white rounded-2xl p-6 mb-5">
+              <div className="text-sm opacity-90 font-semibold">CA livré · {periodLabel}</div>
+              <div className="text-4xl font-extrabold mt-1">{formatFCFA(kpi.ca)}</div>
+              <div className="text-sm opacity-90 mt-1">{kpi.total} commandes · {kpi.delivered} livrées · {kpi.pending} en attente</div>
+            </div>
 
-        {loading && orders.length === 0 && <div className="text-center py-10 text-muted-foreground">Chargement…</div>}
+            {loading && orders.length === 0 && <div className="text-center py-10 text-muted-foreground">Chargement…</div>}
 
-        {(!loading || orders.length > 0) && (
-          <>
-            {tab === 'summary' && <SummaryTab orders={orders} />}
-            {tab === 'orders' && <OrdersTab orders={orders} onUpdateStatus={updateStatus} onAssignLivreur={assignLivreur} />}
-            {tab === 'ranking' && <RankingTab />}
-            {tab === 'exports' && <ExportsTab orders={orders} />}
-            {tab === 'validated' && <ValidatedOrdersTab orders={orders} />}
-            {tab === 'delivered' && <DeliveredOrdersTab orders={orders} />}
-            {tab === 'refused' && <RefusedTab />}
-            {tab === 'lost' && <LostLeadsTab />}
-            {tab === 'by-closeuse' && <OrdersByCloseuseTab orders={orders} />}
-            {tab === 'perf' && <PerformanceTab />}
-            {tab === 'commissions' && <CommissionsTab />}
-            {tab === 'drafts' && <DraftsTab />}
-            {tab === 'sav' && <SAVTab orders={orders} onChange={() => load(true)} />}
-            {tab === 'bilan' && <BilanTab />}
-            {tab === 'livreurs' && <LivreursTab orders={orders} onChange={() => load(true)} />}
-            {tab === 'closeuses' && <CloseusesTab orders={orders} />}
-            {tab === 'salaires' && <SalairesTab orders={orders} />}
-            {tab === 'stock' && <StockTab />}
-            {tab === 'compta' && <ComptaTab orders={orders} />}
-            {tab === 'stats' && <StatsTab orders={orders} visits={visits} visitsTotal={visitsTotal} visitsToday={visitsToday} />}
-            {tab === 'audit' && <AuditLogTab />}
-          </>
-        )}
-      </main>
-    </div>
+            {(!loading || orders.length > 0) && (
+              <>
+                {tab === 'summary' && <SummaryTab orders={orders} />}
+                {tab === 'orders' && <OrdersTab orders={orders} onUpdateStatus={updateStatus} onAssignLivreur={assignLivreur} />}
+                {tab === 'ranking' && <RankingTab />}
+                {tab === 'exports' && <ExportsTab orders={orders} />}
+                {tab === 'validated' && <ValidatedOrdersTab orders={orders} />}
+                {tab === 'delivered' && <DeliveredOrdersTab orders={orders} />}
+                {tab === 'refused' && <RefusedTab />}
+                {tab === 'lost' && <LostLeadsTab />}
+                {tab === 'by-closeuse' && <OrdersByCloseuseTab orders={orders} />}
+                {tab === 'perf' && <PerformanceTab />}
+                {tab === 'commissions' && <CommissionsTab />}
+                {tab === 'drafts' && <DraftsTab />}
+                {tab === 'sav' && <SAVTab orders={orders} onChange={() => load(true)} />}
+                {tab === 'bilan' && <BilanTab />}
+                {tab === 'livreurs' && <LivreursTab orders={orders} onChange={() => load(true)} />}
+                {tab === 'closeuses' && <CloseusesTab orders={orders} />}
+                {tab === 'salaires' && <SalairesTab orders={orders} />}
+                {tab === 'stock' && <StockTab />}
+                {tab === 'compta' && <ComptaTab orders={orders} />}
+                {tab === 'stats' && <StatsTab orders={orders} visits={visits} visitsTotal={visitsTotal} visitsToday={visitsToday} />}
+                {tab === 'audit' && <AuditLogTab />}
+              </>
+            )}
+          </main>
+        </SidebarInset>
+      </div>
+    </SidebarProvider>
   );
 }
+
