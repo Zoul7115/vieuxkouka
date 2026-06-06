@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { PRODUCTS, ADMIN_WHATSAPP, formatFCFA } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
 import logoAsset from '@/assets/logo-vieux-kouka.png.asset.json';
+import tonicImage from '@/assets/tonic-kouka-bouteille-reelle.png';
 
 const LOGO = logoAsset.url;
 
@@ -100,7 +101,7 @@ const CATALOG: CatalogItem[] = [
     badge: '⚡ Vitalité',
     badgeColor: 'bg-[oklch(0.55_0.18_45)] text-white',
     priceFrom: 11000,
-    image: '/images/kouka-flacon.png',
+    image: tonicImage,
     to: '/tonic-kouka',
     tags: ['vitalite'],
     isNew: true,
