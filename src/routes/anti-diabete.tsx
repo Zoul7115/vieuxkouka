@@ -6,7 +6,7 @@ import { VisitTracker } from '@/components/VisitTracker';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { ANTI_DIABETE } from '@/lib/products';
 import { UrgencyBadge } from '@/components/anti-diabete/UrgencyBadge';
-import { StickyOfferBar } from '@/components/anti-diabete/StickyOfferBar';
+import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
 import { SocialProofChat } from '@/components/anti-diabete/SocialProofChat';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
