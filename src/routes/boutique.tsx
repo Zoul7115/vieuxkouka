@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { PRODUCTS, ADMIN_WHATSAPP, formatFCFA } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
 import logoAsset from '@/assets/logo-vieux-kouka.png.asset.json';
+import tonicImage from '@/assets/tonic-kouka-bouteille-reelle.png';
 
 const LOGO = logoAsset.url;
 
