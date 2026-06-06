@@ -101,7 +101,7 @@ const CATALOG: CatalogItem[] = [
     badge: '⚡ Vitalité',
     badgeColor: 'bg-[oklch(0.55_0.18_45)] text-white',
     priceFrom: 11000,
-    image: '/images/kouka-flacon.png',
+    image: tonicImage,
     to: '/tonic-kouka',
     tags: ['vitalite'],
     isNew: true,
