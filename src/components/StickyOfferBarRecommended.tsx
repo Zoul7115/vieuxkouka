@@ -10,17 +10,17 @@ function preselect(offerId: number) {
 }
 
 /**
- * Sticky offer bar (mobile) qui met EN AVANT l'offre recommandée (2+1 OFFERT).
- * Les autres offres restent accessibles via "Voir les autres offres".
- * Générique pour tous les produits — récupère prix/labels depuis `product.offers`.
+ * Sticky offer bar (mobile) — version compacte.
+ * Une seule ligne : badge ⭐ + prix + bouton COMMANDER.
+ * Les autres offres restent accessibles via "Autres formules".
  */
 export function StickyOfferBarRecommended({
   product,
-  stock,
-  unitLabel = 'unités',
+  stock: _stock,
+  unitLabel: _unitLabel = 'unités',
 }: {
   product: Product;
-  stock: number;
+  stock?: number;
   unitLabel?: string;
 }) {
   const [show, setShow] = useState(false);
@@ -33,7 +33,6 @@ export function StickyOfferBarRecommended({
     product.offers[1] ||
     product.offers[0];
   const others = product.offers.filter((o) => o.id !== reco.id);
-  const economy = Math.max(0, reco.oldPrice - reco.price);
 
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > 500);
@@ -53,64 +52,48 @@ export function StickyOfferBarRecommended({
 
   return (
     <div
-      className="md:hidden fixed inset-x-0 z-50 bg-white border-t-2 border-rouge shadow-[0_-10px_30px_rgba(0,0,0,0.18)] animate-in slide-in-from-bottom"
+      className="md:hidden fixed inset-x-0 z-50 bg-white border-t border-rouge/40 shadow-[0_-6px_18px_rgba(0,0,0,0.14)] animate-in slide-in-from-bottom"
       style={{
         bottom: 0,
-        paddingBottom: 'max(env(safe-area-inset-bottom), 6px)',
+        paddingBottom: 'max(env(safe-area-inset-bottom), 4px)',
         paddingLeft: 'env(safe-area-inset-left)',
         paddingRight: 'env(safe-area-inset-right)',
       }}
     >
-      <div className="container-kouka pt-2 pb-1.5">
-        {/* Bandeau stock */}
-        <div className="flex items-center justify-center gap-1.5 text-[11px] font-bold text-rouge mb-1.5 leading-none">
-          <span className="w-1.5 h-1.5 rounded-full bg-rouge animate-pulse" />
-          Stock limité : {stock} {unitLabel} restant{stock > 1 ? 's' : ''} aujourd'hui
-        </div>
-
-        {/* Carte offre recommandée */}
-        <div className="relative bg-gradient-to-r from-rouge to-[oklch(0.55_0.20_25)] text-white rounded-xl px-3 py-2 shadow-[0_4px_14px_rgba(198,40,40,0.45)]">
-          <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-or text-foreground text-[10px] font-extrabold px-2.5 py-0.5 rounded-full whitespace-nowrap shadow leading-none">
-            ⭐ OFFRE LA PLUS CHOISIE
-          </div>
-
-          <div className="flex items-center justify-between gap-2 mt-1">
-            <div className="leading-tight">
-              <div className="text-[11px] font-bold uppercase tracking-wide text-white/90">
-                {reco.paidUnits}+{reco.bonusUnits} OFFERT{reco.bonusUnits > 1 ? 'S' : ''} · Cure complète
-              </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-lg font-extrabold">{formatFCFA(reco.price)}</span>
-                {reco.oldPrice > reco.price && (
-                  <span className="text-[11px] line-through opacity-80">{formatFCFA(reco.oldPrice)}</span>
-                )}
-              </div>
-              {economy > 0 && (
-                <div className="text-[10px] font-extrabold text-or leading-none">
-                  Économie {formatFCFA(economy)}
-                </div>
+      <div className="container-kouka py-1.5">
+        <div className="flex items-center gap-2">
+          {/* Infos offre */}
+          <div className="flex-1 min-w-0 leading-tight">
+            <div className="flex items-center gap-1 text-[10px] font-extrabold text-rouge uppercase tracking-wide truncate">
+              <span>⭐</span>
+              <span className="truncate">Offre la plus choisie</span>
+            </div>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-base font-extrabold text-foreground tabular-nums">
+                {formatFCFA(reco.price)}
+              </span>
+              {reco.oldPrice > reco.price && (
+                <span className="text-[10px] line-through text-muted-foreground tabular-nums">
+                  {formatFCFA(reco.oldPrice)}
+                </span>
               )}
             </div>
-            <button
-              onClick={() => preselect(reco.id)}
-              className="shrink-0 bg-white text-rouge font-extrabold text-sm px-4 py-2.5 rounded-lg shadow active:scale-95 transition touch-manipulation"
-            >
-              COMMANDER
-            </button>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-x-2 gap-y-0.5 mt-1.5 text-[10px] text-white/90 leading-none">
-            <span>✔ La plus choisie</span>
-            <span>✔ Cure complète</span>
-            <span>✔ Évite les ruptures</span>
-          </div>
+          {/* CTA */}
+          <button
+            onClick={() => preselect(reco.id)}
+            className="shrink-0 bg-rouge text-white font-extrabold text-sm px-4 py-2.5 rounded-lg shadow-[0_3px_10px_rgba(198,40,40,0.35)] active:scale-95 transition touch-manipulation"
+          >
+            COMMANDER
+          </button>
         </div>
 
         {/* Lien discret : autres offres */}
         <Sheet open={openOther} onOpenChange={setOpenOther}>
           <SheetTrigger asChild>
-            <button className="block mx-auto mt-1 text-[11px] underline text-muted-foreground active:text-foreground leading-tight">
-              Choisir une autre formule
+            <button className="block mx-auto mt-0.5 text-[10px] underline text-muted-foreground active:text-foreground leading-none">
+              Autres formules
             </button>
           </SheetTrigger>
           <SheetContent side="bottom" className="rounded-t-2xl max-h-[85vh] overflow-y-auto">
