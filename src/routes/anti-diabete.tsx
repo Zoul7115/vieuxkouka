@@ -46,7 +46,7 @@ export function AntiDiabetePage() {
 
   return (
     <div className="bg-bleu-bg pb-32">
-      <StickyOfferBar stock={stock} />
+      <StickyOfferBarRecommended product={product} stock={stock} unitLabel="sachets" />
       <VisitTracker page="anti-diabete" />
 
       {/* Bandeau bleu médical */}
