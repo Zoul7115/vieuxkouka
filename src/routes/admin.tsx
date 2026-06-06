@@ -99,7 +99,13 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
   const [visits, setVisits] = useState<Visit[]>([]);
   const [visitsTotal, setVisitsTotal] = useState(0);
   const [visitsToday, setVisitsToday] = useState(0);
-  const [tab, setTab] = useState<Tab>('summary');
+  const [tab, setTab] = useState<Tab>(() => {
+    if (typeof window === 'undefined') return 'summary';
+    return (localStorage.getItem('sa_admin_tab') as Tab) || 'summary';
+  });
+  useEffect(() => {
+    if (typeof window !== 'undefined') localStorage.setItem('sa_admin_tab', tab);
+  }, [tab]);
   const [loading, setLoading] = useState(true);
   const [period, setPeriod] = useState<PeriodKey>('today');
   const [customFrom, setCustomFrom] = useState('');
@@ -231,6 +237,29 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
           </header>
 
           <main className="p-5 max-w-7xl mx-auto w-full">
+            {/* Onglets rapides — vues principales */}
+            <div className="mb-4 flex gap-2 bg-white border-2 border-vert-bg rounded-2xl p-1.5 shadow-sm sticky top-[60px] z-20">
+              <button
+                onClick={() => setTab('summary')}
+                className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
+                  tab === 'summary' ? 'bg-vert text-white shadow' : 'text-vert hover:bg-vert-bg'
+                }`}
+              >
+                📊 <span>Tableau de bord</span>
+              </button>
+              <button
+                onClick={() => setTab('orders')}
+                className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 ${
+                  tab === 'orders' ? 'bg-vert text-white shadow' : 'text-vert hover:bg-vert-bg'
+                }`}
+              >
+                📦 <span>Toutes les commandes</span>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${tab === 'orders' ? 'bg-white/20' : 'bg-vert-bg'}`}>
+                  {orders.length}
+                </span>
+              </button>
+            </div>
+
             {/* Sélecteur période */}
             <div className="mb-3 flex flex-wrap items-center gap-2">
               {PERIODS.map((p) => (
