@@ -146,11 +146,16 @@ export async function updateLeadStatus(lead: Lead, to: LeadStatus, opts?: { note
       source: lead.source || 'closeuse-lead',
       locked: true,
     }).select('id').single();
-    if (!oErr && created) {
+    if (oErr) {
+      console.error('[updateLeadStatus] order insert failed', oErr);
+      throw new Error(`Création commande échouée: ${oErr.message || oErr}`);
+    }
+    if (created) {
       await db.from('leads').update({ order_id: created.id }).eq('id', lead.id);
     }
   }
 }
+
 
 export async function appendLeadNote(lead: Lead, note: string) {
   const merged = lead.notes ? `${lead.notes}\n[${new Date().toLocaleString('fr-FR')}] ${note}` : `[${new Date().toLocaleString('fr-FR')}] ${note}`;
