@@ -4,6 +4,7 @@ import { type Lead, LEAD_STATUS_META, type LeadStatus, updateLeadStatus, appendL
 import { formatFCFA } from '@/lib/products';
 import { supabase } from '@/integrations/supabase/client';
 import { RefusalModal } from './RefusalModal';
+import { LivreurAssign } from './LivreurAssign';
 
 const ORDER_STATUS_LABEL: Record<string, { label: string; cls: string }> = {
   pending:   { label: 'En attente',  cls: 'bg-blue-100 text-blue-700' },
@@ -136,6 +137,8 @@ export function LeadCard({ lead }: { lead: Lead }) {
           </div>
         </div>
       )}
+
+      {lead.order_id && <LivreurAssign orderId={lead.order_id} />}
 
 
       {isValidated && (
