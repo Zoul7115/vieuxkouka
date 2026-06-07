@@ -123,6 +123,21 @@ function Dashboard({ session, tab, setTab, dailyObjective, closeuseSlug }: { ses
 
   return (
     <div className="space-y-3">
+      <button
+        onClick={() => setManualOpen(true)}
+        className="w-full bg-rose-600 hover:bg-rose-700 text-white font-extrabold py-3 rounded-2xl shadow-md text-sm"
+      >
+        ➕ Nouvelle commande manuelle
+      </button>
+
+      <ManualLeadModal
+        open={manualOpen}
+        onClose={() => setManualOpen(false)}
+        onCreated={reload}
+        session={session}
+        closeuseSlug={closeuseSlug}
+      />
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <DailyObjective done={doneToday} goal={dailyObjective} />
         <CloseuseStatsCard stats={stats} />
