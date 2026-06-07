@@ -6,6 +6,7 @@ import { LeadCard } from '@/components/closeuse/LeadCard';
 import { DailyObjective } from '@/components/closeuse/DailyObjective';
 import { CloseuseStatsCard } from '@/components/closeuse/CloseuseStatsCard';
 import { RelancesView } from '@/components/closeuse/RelancesView';
+import { ManualLeadModal } from '@/components/closeuse/ManualLeadModal';
 import { getStoredSession, clearSession, type CloseuseSession } from '@/lib/closeuse-auth';
 import { useLeads, type LeadStatus, LEAD_STATUS_META } from '@/lib/leads';
 import { computeCloseuseStats, validatedToday } from '@/lib/closeuseScore';
@@ -95,14 +96,15 @@ function CloseusePage() {
 
       <main className="max-w-2xl mx-auto px-3 py-4 pb-20 space-y-4">
         {slug && <ShareLinks slug={slug} />}
-        <Dashboard session={session} tab={tab} setTab={setTab} dailyObjective={dailyObjective} />
+        <Dashboard session={session} tab={tab} setTab={setTab} dailyObjective={dailyObjective} closeuseSlug={slug} />
       </main>
     </div>
   );
 }
 
-function Dashboard({ session, tab, setTab, dailyObjective }: { session: CloseuseSession; tab: TabKey; setTab: (t: TabKey) => void; dailyObjective: number }) {
-  const { leads, loading } = useLeads(session.idx);
+function Dashboard({ session, tab, setTab, dailyObjective, closeuseSlug }: { session: CloseuseSession; tab: TabKey; setTab: (t: TabKey) => void; dailyObjective: number; closeuseSlug: string | null }) {
+  const { leads, loading, reload } = useLeads(session.idx);
+  const [manualOpen, setManualOpen] = useState(false);
 
   const stats = useMemo(() => computeCloseuseStats(leads), [leads]);
   const doneToday = useMemo(() => validatedToday(leads), [leads]);
