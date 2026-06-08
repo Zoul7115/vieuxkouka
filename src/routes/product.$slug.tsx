@@ -31,7 +31,7 @@ export const Route = createFileRoute('/product/$slug')({
   component: SiropPage,
 });
 
-function SiropPage() {
+export function SiropPage() {
   const product = SIROP_KOUKA;
   const stock = useDynamicStock('sirop-kouka', 14);
   
