@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { CloseuseLogin } from '@/components/closeuse/CloseuseLogin';
 import { ShareLinks } from '@/components/closeuse/ShareLinks';
 import { LeadCard } from '@/components/closeuse/LeadCard';
+import { ManualLeadModal } from '@/components/closeuse/ManualLeadModal';
 import { getStoredSession, clearSession, type CloseuseSession } from '@/lib/closeuse-auth';
 import { useLeads, type LeadStatus } from '@/lib/leads';
 import { touchCloseuseActivity } from '@/lib/closeuseActivity';
@@ -71,9 +72,10 @@ function CloseusePage() {
   );
 }
 
-function LeadList({ session }: { session: CloseuseSession }) {
-  const { leads, loading } = useLeads(session.idx);
+function LeadList({ session, slug }: { session: CloseuseSession; slug: string | null }) {
+  const { leads, loading, reload } = useLeads(session.idx);
   const [filter, setFilter] = useState<FilterKey>('all');
+  const [manualOpen, setManualOpen] = useState(false);
 
   const counts = useMemo(() => {
     const c: Record<FilterKey, number> = { all: leads.length, attente: 0, approche: 0, suivi: 0, confirmee: 0, livree: 0, annulee: 0 };
