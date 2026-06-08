@@ -253,7 +253,7 @@ export function BrandHomePage() {
       </section>
 
       {/* CATALOGUE */}
-      <ProductCatalog id="catalogue" />
+      <ProductCatalog id="catalogue" prefix={prefix} />
 
       {/* QUIZ NAVIGATION */}
       <section className="sec bg-white">
