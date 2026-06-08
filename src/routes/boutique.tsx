@@ -425,7 +425,7 @@ export function BrandHomePage() {
   );
 }
 
-function ProductCatalog({ id }: { id?: string }) {
+function ProductCatalog({ id, prefix = '' }: { id?: string; prefix?: string }) {
   return (
     <section id={id} className="sec bg-vert-bg/30">
       <div className="container-kouka">
