@@ -2,10 +2,28 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { PRODUCTS, ADMIN_WHATSAPP, formatFCFA } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
+import { useAssignedCloseuse } from '@/lib/assignedCloseuseContext';
 import logoAsset from '@/assets/logo-vieux-kouka.png.asset.json';
 import tonicImage from '@/assets/tonic-kouka-bouteille-reelle.png';
 
 const LOGO = logoAsset.url;
+
+function applyParams(path: string, params?: Record<string, string>): string {
+  if (!params) return path;
+  let out = path;
+  for (const [k, v] of Object.entries(params)) {
+    out = out.replace(`$${k}`, v);
+  }
+  return out;
+}
+
+function buildHref(to: string, params: Record<string, string> | undefined, prefix: string): string {
+  // "/" on closeuse pages points to the per-closeuse poudre kouka page
+  if (to === '/') return prefix ? `${prefix}/kouka` : '/';
+  const resolved = applyParams(to, params);
+  return prefix ? `${prefix}${resolved}` : resolved;
+}
+
 
 export const Route = createFileRoute('/boutique')({
   head: () => ({
@@ -128,9 +146,11 @@ function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function BrandHomePage() {
+export function BrandHomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const assigned = useAssignedCloseuse();
+  const prefix = assigned ? `/${assigned.slug}` : '';
 
   return (
     <div className="bg-background text-foreground">
@@ -233,7 +253,7 @@ function BrandHomePage() {
       </section>
 
       {/* CATALOGUE */}
-      <ProductCatalog id="catalogue" />
+      <ProductCatalog id="catalogue" prefix={prefix} />
 
       {/* QUIZ NAVIGATION */}
       <section className="sec bg-white">
@@ -247,16 +267,15 @@ function BrandHomePage() {
               { i: '🌿', t: 'Troubles digestifs', to: '/' },
               { i: '⚡', t: 'Vitalité', to: '/tonic-kouka' },
             ].map((q) => (
-              <Link
+              <a
                 key={q.t}
-                to={q.to}
-                {...(q.params ? { params: q.params } : {})}
-                className="bg-gradient-to-br from-vert-bg/60 to-white border-2 border-vert-bg rounded-2xl p-5 text-center hover:-translate-y-1 hover:border-vert transition-all shadow-sm"
+                href={buildHref(q.to, q.params, prefix)}
+                className="bg-gradient-to-br from-vert-bg/60 to-white border-2 border-vert-bg rounded-2xl p-5 text-center hover:-translate-y-1 hover:border-vert transition-all shadow-sm block"
               >
                 <div className="text-4xl md:text-5xl mb-2">{q.i}</div>
                 <div className="font-extrabold text-vert text-sm md:text-base">{q.t}</div>
                 <div className="text-xs text-rouge font-bold mt-1.5">Voir le remède →</div>
-              </Link>
+              </a>
             ))}
           </div>
         </div>
@@ -381,10 +400,10 @@ function BrandHomePage() {
             <div>
               <h4 className="font-extrabold mb-3 text-or">Nos Remèdes</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/product/$slug" params={{ slug: 'sirop-kouka' }} className="text-white/80 hover:text-white">🍯 Sirop KOUKA</Link></li>
-                <li><Link to="/anti-diabete" className="text-white/80 hover:text-white">🩸 Anti-Diabète</Link></li>
-                <li><Link to="/" className="text-white/80 hover:text-white">🌿 Poudre KOUKA</Link></li>
-                <li><Link to="/tonic-kouka" className="text-white/80 hover:text-white">⚡ Tonic KOUKA</Link></li>
+                <li><a href={buildHref('/product/$slug', { slug: 'sirop-kouka' }, prefix)} className="text-white/80 hover:text-white">🍯 Sirop KOUKA</a></li>
+                <li><a href={buildHref('/anti-diabete', undefined, prefix)} className="text-white/80 hover:text-white">🩸 Anti-Diabète</a></li>
+                <li><a href={buildHref('/', undefined, prefix)} className="text-white/80 hover:text-white">🌿 Poudre KOUKA</a></li>
+                <li><a href={buildHref('/tonic-kouka', undefined, prefix)} className="text-white/80 hover:text-white">⚡ Tonic KOUKA</a></li>
               </ul>
             </div>
             <div>
@@ -406,7 +425,7 @@ function BrandHomePage() {
   );
 }
 
-function ProductCatalog({ id }: { id?: string }) {
+function ProductCatalog({ id, prefix = '' }: { id?: string; prefix?: string }) {
   return (
     <section id={id} className="sec bg-vert-bg/30">
       <div className="container-kouka">
@@ -417,22 +436,21 @@ function ProductCatalog({ id }: { id?: string }) {
           <h2 className="text-vert mb-2">Nos remèdes naturels</h2>
           <p className="text-muted-foreground max-w-xl mx-auto">Chaque formule est conçue pour un besoin précis — sélectionnée et préparée avec le savoir-faire du Vieux KOUKA.</p>
         </div>
-        <ProductGrid />
+        <ProductGrid prefix={prefix} />
       </div>
     </section>
   );
 }
 
-function ProductGrid() {
+function ProductGrid({ prefix = '' }: { prefix?: string }) {
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
       {CATALOG.map((p) => {
         const price = getPriceFrom(p);
         return (
-          <Link
+          <a
             key={p.key}
-            to={p.to}
-            {...(p.params ? { params: p.params } : {})}
+            href={buildHref(p.to, p.params, prefix)}
             className="group bg-white rounded-2xl border-2 border-vert-bg overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(46,125,50,0.18)] transition-all"
           >
             <div className="relative aspect-square bg-gradient-to-br from-vert-bg/40 to-white overflow-hidden">
@@ -465,7 +483,7 @@ function ProductGrid() {
                 </span>
               </div>
             </div>
-          </Link>
+          </a>
         );
       })}
     </div>

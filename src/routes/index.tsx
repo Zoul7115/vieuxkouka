@@ -31,7 +31,7 @@ function scrollToOrder() {
   document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' });
 }
 
-function HomePage() {
+export function HomePage() {
   const product = KOUKA;
   const stock = useDynamicStock('kouka', 18);
 
