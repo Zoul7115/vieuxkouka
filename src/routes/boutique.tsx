@@ -159,6 +159,9 @@ export function BrandHomePage() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const assigned = useAssignedCloseuse();
   const prefix = assigned ? `/${assigned.slug}` : '';
+  const waNumber = (assigned?.whatsapp && assigned.whatsapp.replace(/\D/g, '')) || ADMIN_WHATSAPP;
+  const waUrl = `https://wa.me/${waNumber}?text=${WA_TEXT}`;
+  const waDisplay = formatWaDisplay(waNumber);
 
   return (
     <div className="bg-background text-foreground">
