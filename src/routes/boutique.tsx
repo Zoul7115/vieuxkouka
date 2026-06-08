@@ -436,7 +436,7 @@ function ProductCatalog({ id, prefix = '' }: { id?: string; prefix?: string }) {
           <h2 className="text-vert mb-2">Nos remèdes naturels</h2>
           <p className="text-muted-foreground max-w-xl mx-auto">Chaque formule est conçue pour un besoin précis — sélectionnée et préparée avec le savoir-faire du Vieux KOUKA.</p>
         </div>
-        <ProductGrid />
+        <ProductGrid prefix={prefix} />
       </div>
     </section>
   );
