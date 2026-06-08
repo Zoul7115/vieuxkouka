@@ -93,6 +93,21 @@ function LeadList({ session, slug }: { session: CloseuseSession; slug: string | 
 
   return (
     <div className="space-y-3">
+      <button
+        onClick={() => setManualOpen(true)}
+        className="w-full bg-rose-600 hover:bg-rose-700 text-white font-extrabold py-3 rounded-2xl shadow-md text-sm"
+      >
+        ➕ Nouvelle commande manuelle
+      </button>
+
+      <ManualLeadModal
+        open={manualOpen}
+        onClose={() => setManualOpen(false)}
+        onCreated={reload}
+        session={session}
+        closeuseSlug={slug}
+      />
+
       <div className="flex gap-1.5 overflow-x-auto bg-white p-1.5 rounded-2xl border-2 border-rose-200">
         {FILTERS.map((f) => (
           <button
