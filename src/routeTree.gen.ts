@@ -22,6 +22,7 @@ import { Route as LivreurIndexRouteImport } from './routes/livreur.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as LivreurBilanRouteImport } from './routes/livreur.bilan'
 import { Route as CloseuseSlugTonicKoukaRouteImport } from './routes/$closeuseSlug.tonic-kouka'
+import { Route as CloseuseSlugKoukaRouteImport } from './routes/$closeuseSlug.kouka'
 import { Route as CloseuseSlugBoutiqueRouteImport } from './routes/$closeuseSlug.boutique'
 import { Route as CloseuseSlugAntiDiabeteRouteImport } from './routes/$closeuseSlug.anti-diabete'
 import { Route as CloseuseSlugProductSlugRouteImport } from './routes/$closeuseSlug.product.$slug'
@@ -92,6 +93,11 @@ const CloseuseSlugTonicKoukaRoute = CloseuseSlugTonicKoukaRouteImport.update({
   path: '/$closeuseSlug/tonic-kouka',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CloseuseSlugKoukaRoute = CloseuseSlugKoukaRouteImport.update({
+  id: '/$closeuseSlug/kouka',
+  path: '/$closeuseSlug/kouka',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CloseuseSlugBoutiqueRoute = CloseuseSlugBoutiqueRouteImport.update({
   id: '/$closeuseSlug/boutique',
   path: '/$closeuseSlug/boutique',
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/tonic-kouka': typeof TonicKoukaRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
   '/$closeuseSlug/boutique': typeof CloseuseSlugBoutiqueRoute
+  '/$closeuseSlug/kouka': typeof CloseuseSlugKoukaRoute
   '/$closeuseSlug/tonic-kouka': typeof CloseuseSlugTonicKoukaRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/tonic-kouka': typeof TonicKoukaRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
   '/$closeuseSlug/boutique': typeof CloseuseSlugBoutiqueRoute
+  '/$closeuseSlug/kouka': typeof CloseuseSlugKoukaRoute
   '/$closeuseSlug/tonic-kouka': typeof CloseuseSlugTonicKoukaRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -164,6 +172,7 @@ export interface FileRoutesById {
   '/tonic-kouka': typeof TonicKoukaRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
   '/$closeuseSlug/boutique': typeof CloseuseSlugBoutiqueRoute
+  '/$closeuseSlug/kouka': typeof CloseuseSlugKoukaRoute
   '/$closeuseSlug/tonic-kouka': typeof CloseuseSlugTonicKoukaRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -185,6 +194,7 @@ export interface FileRouteTypes {
     | '/tonic-kouka'
     | '/$closeuseSlug/anti-diabete'
     | '/$closeuseSlug/boutique'
+    | '/$closeuseSlug/kouka'
     | '/$closeuseSlug/tonic-kouka'
     | '/livreur/bilan'
     | '/product/$slug'
@@ -203,6 +213,7 @@ export interface FileRouteTypes {
     | '/tonic-kouka'
     | '/$closeuseSlug/anti-diabete'
     | '/$closeuseSlug/boutique'
+    | '/$closeuseSlug/kouka'
     | '/$closeuseSlug/tonic-kouka'
     | '/livreur/bilan'
     | '/product/$slug'
@@ -222,6 +233,7 @@ export interface FileRouteTypes {
     | '/tonic-kouka'
     | '/$closeuseSlug/anti-diabete'
     | '/$closeuseSlug/boutique'
+    | '/$closeuseSlug/kouka'
     | '/$closeuseSlug/tonic-kouka'
     | '/livreur/bilan'
     | '/product/$slug'
@@ -242,6 +254,7 @@ export interface RootRouteChildren {
   TonicKoukaRoute: typeof TonicKoukaRoute
   CloseuseSlugAntiDiabeteRoute: typeof CloseuseSlugAntiDiabeteRoute
   CloseuseSlugBoutiqueRoute: typeof CloseuseSlugBoutiqueRoute
+  CloseuseSlugKoukaRoute: typeof CloseuseSlugKoukaRoute
   CloseuseSlugTonicKoukaRoute: typeof CloseuseSlugTonicKoukaRoute
   ProductSlugRoute: typeof ProductSlugRoute
   CloseuseSlugProductSlugRoute: typeof CloseuseSlugProductSlugRoute
@@ -341,6 +354,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CloseuseSlugTonicKoukaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$closeuseSlug/kouka': {
+      id: '/$closeuseSlug/kouka'
+      path: '/$closeuseSlug/kouka'
+      fullPath: '/$closeuseSlug/kouka'
+      preLoaderRoute: typeof CloseuseSlugKoukaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$closeuseSlug/boutique': {
       id: '/$closeuseSlug/boutique'
       path: '/$closeuseSlug/boutique'
@@ -397,6 +417,7 @@ const rootRouteChildren: RootRouteChildren = {
   TonicKoukaRoute: TonicKoukaRoute,
   CloseuseSlugAntiDiabeteRoute: CloseuseSlugAntiDiabeteRoute,
   CloseuseSlugBoutiqueRoute: CloseuseSlugBoutiqueRoute,
+  CloseuseSlugKoukaRoute: CloseuseSlugKoukaRoute,
   CloseuseSlugTonicKoukaRoute: CloseuseSlugTonicKoukaRoute,
   ProductSlugRoute: ProductSlugRoute,
   CloseuseSlugProductSlugRoute: CloseuseSlugProductSlugRoute,
