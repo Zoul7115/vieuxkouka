@@ -45,7 +45,7 @@ export function CloseuseSlugGate({ slug, fallbackHref = '/boutique', children }:
   }
 
   return (
-    <AssignedCloseuseProvider value={{ idx: closeuse.idx, slug: closeuse.slug || slug, name: closeuse.name }}>
+    <AssignedCloseuseProvider value={{ idx: closeuse.idx, slug: closeuse.slug || slug, name: closeuse.name, whatsapp: closeuse.whatsapp }}>
       {children}
     </AssignedCloseuseProvider>
   );
