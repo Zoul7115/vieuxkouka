@@ -2,10 +2,28 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { PRODUCTS, ADMIN_WHATSAPP, formatFCFA } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
+import { useAssignedCloseuse } from '@/lib/assignedCloseuseContext';
 import logoAsset from '@/assets/logo-vieux-kouka.png.asset.json';
 import tonicImage from '@/assets/tonic-kouka-bouteille-reelle.png';
 
 const LOGO = logoAsset.url;
+
+function applyParams(path: string, params?: Record<string, string>): string {
+  if (!params) return path;
+  let out = path;
+  for (const [k, v] of Object.entries(params)) {
+    out = out.replace(`$${k}`, v);
+  }
+  return out;
+}
+
+function buildHref(to: string, params: Record<string, string> | undefined, prefix: string): string {
+  // "/" on closeuse pages points to the per-closeuse poudre kouka page
+  if (to === '/') return prefix ? `${prefix}/kouka` : '/';
+  const resolved = applyParams(to, params);
+  return prefix ? `${prefix}${resolved}` : resolved;
+}
+
 
 export const Route = createFileRoute('/boutique')({
   head: () => ({
