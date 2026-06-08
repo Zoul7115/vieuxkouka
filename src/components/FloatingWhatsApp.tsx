@@ -1,7 +1,10 @@
 import { ADMIN_WHATSAPP } from '@/lib/products';
+import { useAssignedCloseuse } from '@/lib/assignedCloseuseContext';
 
 export function FloatingWhatsApp() {
-  const url = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent('Bonjour, j\'ai une question sur les produits KOUKA')}`;
+  const assigned = useAssignedCloseuse();
+  const number = (assigned?.whatsapp && assigned.whatsapp.replace(/\D/g, '')) || ADMIN_WHATSAPP;
+  const url = `https://wa.me/${number}?text=${encodeURIComponent('Bonjour, j\'ai une question sur les produits KOUKA')}`;
   return (
     <a
       href={url}
