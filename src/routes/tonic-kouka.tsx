@@ -41,7 +41,7 @@ export const Route = createFileRoute('/tonic-kouka')({
 
 function scrollToOrder() { preselectAndScroll(32, 'main-cta'); }
 
-function TonicKoukaPage() {
+export function TonicKoukaPage() {
   const product = TONIC_KOUKA;
   const stock = useDynamicStock('tonic-kouka', 18);
   const cta = useCtaVariant();
