@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router';
 import { supabase } from '@/integrations/supabase/client';
 import { AssignedCloseuseProvider } from '@/lib/assignedCloseuseContext';
 
-type Closeuse = { id: string; idx: number; name: string; emoji: string | null; slug: string | null; active: boolean };
+type Closeuse = { id: string; idx: number; name: string; emoji: string | null; slug: string | null; active: boolean; whatsapp: string | null };
 
 export function CloseuseSlugGate({ slug, fallbackHref = '/boutique', children }: { slug: string; fallbackHref?: string; children: ReactNode }) {
   const [closeuse, setCloseuse] = useState<Closeuse | null>(null);
