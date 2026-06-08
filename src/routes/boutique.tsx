@@ -382,7 +382,7 @@ export function BrandHomePage() {
 
       {/* WhatsApp flottant */}
       <a
-        href={WHATSAPP_URL}
+        href={waUrl}
         target="_blank"
         rel="noreferrer"
         className="fixed bottom-5 right-4 z-40 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-[0_4px_18px_rgba(37,211,102,0.45)] font-extrabold flex items-center gap-2 hover:scale-105 transition-transform"
