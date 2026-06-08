@@ -24,6 +24,7 @@ import { Route as LivreurBilanRouteImport } from './routes/livreur.bilan'
 import { Route as CloseuseSlugTonicKoukaRouteImport } from './routes/$closeuseSlug.tonic-kouka'
 import { Route as CloseuseSlugBoutiqueRouteImport } from './routes/$closeuseSlug.boutique'
 import { Route as CloseuseSlugAntiDiabeteRouteImport } from './routes/$closeuseSlug.anti-diabete'
+import { Route as CloseuseSlugProductSlugRouteImport } from './routes/$closeuseSlug.product.$slug'
 import { Route as ApiPublicHooksWeeklyReportRouteImport } from './routes/api/public/hooks/weekly-report'
 
 const TonicKoukaRoute = TonicKoukaRouteImport.update({
@@ -101,6 +102,11 @@ const CloseuseSlugAntiDiabeteRoute = CloseuseSlugAntiDiabeteRouteImport.update({
   path: '/$closeuseSlug/anti-diabete',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CloseuseSlugProductSlugRoute = CloseuseSlugProductSlugRouteImport.update({
+  id: '/$closeuseSlug/product/$slug',
+  path: '/$closeuseSlug/product/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicHooksWeeklyReportRoute =
   ApiPublicHooksWeeklyReportRouteImport.update({
     id: '/api/public/hooks/weekly-report',
@@ -124,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur/': typeof LivreurIndexRoute
+  '/$closeuseSlug/product/$slug': typeof CloseuseSlugProductSlugRoute
   '/api/public/hooks/weekly-report': typeof ApiPublicHooksWeeklyReportRoute
 }
 export interface FileRoutesByTo {
@@ -141,6 +148,7 @@ export interface FileRoutesByTo {
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur': typeof LivreurIndexRoute
+  '/$closeuseSlug/product/$slug': typeof CloseuseSlugProductSlugRoute
   '/api/public/hooks/weekly-report': typeof ApiPublicHooksWeeklyReportRoute
 }
 export interface FileRoutesById {
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur/': typeof LivreurIndexRoute
+  '/$closeuseSlug/product/$slug': typeof CloseuseSlugProductSlugRoute
   '/api/public/hooks/weekly-report': typeof ApiPublicHooksWeeklyReportRoute
 }
 export interface FileRouteTypes {
@@ -180,6 +189,7 @@ export interface FileRouteTypes {
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur/'
+    | '/$closeuseSlug/product/$slug'
     | '/api/public/hooks/weekly-report'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -197,6 +207,7 @@ export interface FileRouteTypes {
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur'
+    | '/$closeuseSlug/product/$slug'
     | '/api/public/hooks/weekly-report'
   id:
     | '__root__'
@@ -215,6 +226,7 @@ export interface FileRouteTypes {
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur/'
+    | '/$closeuseSlug/product/$slug'
     | '/api/public/hooks/weekly-report'
   fileRoutesById: FileRoutesById
 }
@@ -232,6 +244,7 @@ export interface RootRouteChildren {
   CloseuseSlugBoutiqueRoute: typeof CloseuseSlugBoutiqueRoute
   CloseuseSlugTonicKoukaRoute: typeof CloseuseSlugTonicKoukaRoute
   ProductSlugRoute: typeof ProductSlugRoute
+  CloseuseSlugProductSlugRoute: typeof CloseuseSlugProductSlugRoute
   ApiPublicHooksWeeklyReportRoute: typeof ApiPublicHooksWeeklyReportRoute
 }
 
@@ -342,6 +355,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CloseuseSlugAntiDiabeteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$closeuseSlug/product/$slug': {
+      id: '/$closeuseSlug/product/$slug'
+      path: '/$closeuseSlug/product/$slug'
+      fullPath: '/$closeuseSlug/product/$slug'
+      preLoaderRoute: typeof CloseuseSlugProductSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/weekly-report': {
       id: '/api/public/hooks/weekly-report'
       path: '/api/public/hooks/weekly-report'
@@ -379,6 +399,7 @@ const rootRouteChildren: RootRouteChildren = {
   CloseuseSlugBoutiqueRoute: CloseuseSlugBoutiqueRoute,
   CloseuseSlugTonicKoukaRoute: CloseuseSlugTonicKoukaRoute,
   ProductSlugRoute: ProductSlugRoute,
+  CloseuseSlugProductSlugRoute: CloseuseSlugProductSlugRoute,
   ApiPublicHooksWeeklyReportRoute: ApiPublicHooksWeeklyReportRoute,
 }
 export const routeTree = rootRouteImport
