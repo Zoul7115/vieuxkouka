@@ -203,7 +203,7 @@ export function BrandHomePage() {
               <button onClick={() => { scrollToId('catalogue'); setMobileMenu(false); }} className="text-left py-2">🌿 Nos Remèdes</button>
               <button onClick={() => { scrollToId('temoignages'); setMobileMenu(false); }} className="text-left py-2">⭐ Témoignages</button>
               <button onClick={() => { scrollToId('faq'); setMobileMenu(false); }} className="text-left py-2">❓ FAQ</button>
-              <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-3 py-2.5 rounded-lg text-center">💬 WhatsApp</a>
+              <a href={waUrl} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-3 py-2.5 rounded-lg text-center">💬 WhatsApp</a>
             </div>
           </div>
         )}
