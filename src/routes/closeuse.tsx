@@ -66,7 +66,7 @@ function CloseusePage() {
 
       <main className="max-w-2xl mx-auto px-3 py-4 pb-20 space-y-4">
         {slug && <ShareLinks slug={slug} />}
-        <LeadList session={session} />
+        <LeadList session={session} slug={slug} />
       </main>
     </div>
   );
