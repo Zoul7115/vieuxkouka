@@ -140,7 +140,15 @@ function getPriceFrom(item: CatalogItem): number {
   return Math.min(...p.offers.map((o) => o.price));
 }
 
-const WHATSAPP_URL = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent('Bonjour, je viens du site Les Remèdes Naturels du Vieux KOUKA.')}`;
+const WA_TEXT = encodeURIComponent('Bonjour, je viens du site Les Remèdes Naturels du Vieux KOUKA.');
+const WHATSAPP_URL = `https://wa.me/${ADMIN_WHATSAPP}?text=${WA_TEXT}`;
+
+function formatWaDisplay(num: string) {
+  const digits = (num || '').replace(/\D/g, '');
+  const local = digits.startsWith('226') ? digits.slice(3) : digits;
+  const grouped = local.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
+  return `+226 ${grouped}`;
+}
 
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -151,6 +159,9 @@ export function BrandHomePage() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const assigned = useAssignedCloseuse();
   const prefix = assigned ? `/${assigned.slug}` : '';
+  const waNumber = (assigned?.whatsapp && assigned.whatsapp.replace(/\D/g, '')) || ADMIN_WHATSAPP;
+  const waUrl = `https://wa.me/${waNumber}?text=${WA_TEXT}`;
+  const waDisplay = formatWaDisplay(waNumber);
 
   return (
     <div className="bg-background text-foreground">
@@ -171,7 +182,7 @@ export function BrandHomePage() {
             <button onClick={() => scrollToId('catalogue')} className="hover:text-vert">Nos Remèdes</button>
             <button onClick={() => scrollToId('temoignages')} className="hover:text-vert">Témoignages</button>
             <button onClick={() => scrollToId('faq')} className="hover:text-vert">FAQ</button>
-            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-3.5 py-2 rounded-lg font-extrabold hover:scale-105 transition-transform">
+            <a href={waUrl} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-3.5 py-2 rounded-lg font-extrabold hover:scale-105 transition-transform">
               💬 WhatsApp
             </a>
           </nav>
@@ -192,7 +203,7 @@ export function BrandHomePage() {
               <button onClick={() => { scrollToId('catalogue'); setMobileMenu(false); }} className="text-left py-2">🌿 Nos Remèdes</button>
               <button onClick={() => { scrollToId('temoignages'); setMobileMenu(false); }} className="text-left py-2">⭐ Témoignages</button>
               <button onClick={() => { scrollToId('faq'); setMobileMenu(false); }} className="text-left py-2">❓ FAQ</button>
-              <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-3 py-2.5 rounded-lg text-center">💬 WhatsApp</a>
+              <a href={waUrl} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-3 py-2.5 rounded-lg text-center">💬 WhatsApp</a>
             </div>
           </div>
         )}
@@ -371,7 +382,7 @@ export function BrandHomePage() {
 
       {/* WhatsApp flottant */}
       <a
-        href={WHATSAPP_URL}
+        href={waUrl}
         target="_blank"
         rel="noreferrer"
         className="fixed bottom-5 right-4 z-40 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-[0_4px_18px_rgba(37,211,102,0.45)] font-extrabold flex items-center gap-2 hover:scale-105 transition-transform"
@@ -410,7 +421,7 @@ export function BrandHomePage() {
               <h4 className="font-extrabold mb-3 text-or">Contact</h4>
               <ul className="space-y-2 text-sm text-white/80">
                 <li>
-                  <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-white">💬 WhatsApp : +226 58 44 48 18</a>
+                  <a href={waUrl} target="_blank" rel="noreferrer" className="hover:text-white">💬 WhatsApp : {waDisplay}</a>
                 </li>
                 <li className="text-xs">Réponse rapide tous les jours</li>
               </ul>
