@@ -182,7 +182,7 @@ export function BrandHomePage() {
             <button onClick={() => scrollToId('catalogue')} className="hover:text-vert">Nos Remèdes</button>
             <button onClick={() => scrollToId('temoignages')} className="hover:text-vert">Témoignages</button>
             <button onClick={() => scrollToId('faq')} className="hover:text-vert">FAQ</button>
-            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-3.5 py-2 rounded-lg font-extrabold hover:scale-105 transition-transform">
+            <a href={waUrl} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-3.5 py-2 rounded-lg font-extrabold hover:scale-105 transition-transform">
               💬 WhatsApp
             </a>
           </nav>
