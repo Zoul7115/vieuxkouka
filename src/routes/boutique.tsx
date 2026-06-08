@@ -140,7 +140,15 @@ function getPriceFrom(item: CatalogItem): number {
   return Math.min(...p.offers.map((o) => o.price));
 }
 
-const WHATSAPP_URL = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent('Bonjour, je viens du site Les Remèdes Naturels du Vieux KOUKA.')}`;
+const WA_TEXT = encodeURIComponent('Bonjour, je viens du site Les Remèdes Naturels du Vieux KOUKA.');
+const WHATSAPP_URL = `https://wa.me/${ADMIN_WHATSAPP}?text=${WA_TEXT}`;
+
+function formatWaDisplay(num: string) {
+  const digits = (num || '').replace(/\D/g, '');
+  const local = digits.startsWith('226') ? digits.slice(3) : digits;
+  const grouped = local.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
+  return `+226 ${grouped}`;
+}
 
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
