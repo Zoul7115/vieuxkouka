@@ -421,7 +421,7 @@ export function BrandHomePage() {
               <h4 className="font-extrabold mb-3 text-or">Contact</h4>
               <ul className="space-y-2 text-sm text-white/80">
                 <li>
-                  <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-white">💬 WhatsApp : +226 58 44 48 18</a>
+                  <a href={waUrl} target="_blank" rel="noreferrer" className="hover:text-white">💬 WhatsApp : {waDisplay}</a>
                 </li>
                 <li className="text-xs">Réponse rapide tous les jours</li>
               </ul>
