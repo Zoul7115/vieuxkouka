@@ -53,7 +53,7 @@ function getSessionId(): string {
   }
 }
 
-export type AssignedCloseuse = { idx: number; slug: string; name: string };
+export type AssignedCloseuse = { idx: number; slug: string; name: string; whatsapp?: string | null };
 
 export function ProductForm({ product, assignedCloseuse: assignedProp }: { product: Product; assignedCloseuse?: AssignedCloseuse }) {
   const ctxCloseuse = useAssignedCloseuse();
