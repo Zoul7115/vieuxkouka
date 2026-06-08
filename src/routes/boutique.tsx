@@ -267,16 +267,15 @@ export function BrandHomePage() {
               { i: '🌿', t: 'Troubles digestifs', to: '/' },
               { i: '⚡', t: 'Vitalité', to: '/tonic-kouka' },
             ].map((q) => (
-              <Link
+              <a
                 key={q.t}
-                to={q.to}
-                {...(q.params ? { params: q.params } : {})}
-                className="bg-gradient-to-br from-vert-bg/60 to-white border-2 border-vert-bg rounded-2xl p-5 text-center hover:-translate-y-1 hover:border-vert transition-all shadow-sm"
+                href={buildHref(q.to, q.params, prefix)}
+                className="bg-gradient-to-br from-vert-bg/60 to-white border-2 border-vert-bg rounded-2xl p-5 text-center hover:-translate-y-1 hover:border-vert transition-all shadow-sm block"
               >
                 <div className="text-4xl md:text-5xl mb-2">{q.i}</div>
                 <div className="font-extrabold text-vert text-sm md:text-base">{q.t}</div>
                 <div className="text-xs text-rouge font-bold mt-1.5">Voir le remède →</div>
-              </Link>
+              </a>
             ))}
           </div>
         </div>
