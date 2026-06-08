@@ -442,16 +442,15 @@ function ProductCatalog({ id, prefix = '' }: { id?: string; prefix?: string }) {
   );
 }
 
-function ProductGrid() {
+function ProductGrid({ prefix = '' }: { prefix?: string }) {
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
       {CATALOG.map((p) => {
         const price = getPriceFrom(p);
         return (
-          <Link
+          <a
             key={p.key}
-            to={p.to}
-            {...(p.params ? { params: p.params } : {})}
+            href={buildHref(p.to, p.params, prefix)}
             className="group bg-white rounded-2xl border-2 border-vert-bg overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(46,125,50,0.18)] transition-all"
           >
             <div className="relative aspect-square bg-gradient-to-br from-vert-bg/40 to-white overflow-hidden">
@@ -484,7 +483,7 @@ function ProductGrid() {
                 </span>
               </div>
             </div>
-          </Link>
+          </a>
         );
       })}
     </div>
