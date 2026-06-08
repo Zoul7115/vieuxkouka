@@ -400,10 +400,10 @@ export function BrandHomePage() {
             <div>
               <h4 className="font-extrabold mb-3 text-or">Nos Remèdes</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link to="/product/$slug" params={{ slug: 'sirop-kouka' }} className="text-white/80 hover:text-white">🍯 Sirop KOUKA</Link></li>
-                <li><Link to="/anti-diabete" className="text-white/80 hover:text-white">🩸 Anti-Diabète</Link></li>
-                <li><Link to="/" className="text-white/80 hover:text-white">🌿 Poudre KOUKA</Link></li>
-                <li><Link to="/tonic-kouka" className="text-white/80 hover:text-white">⚡ Tonic KOUKA</Link></li>
+                <li><a href={buildHref('/product/$slug', { slug: 'sirop-kouka' }, prefix)} className="text-white/80 hover:text-white">🍯 Sirop KOUKA</a></li>
+                <li><a href={buildHref('/anti-diabete', undefined, prefix)} className="text-white/80 hover:text-white">🩸 Anti-Diabète</a></li>
+                <li><a href={buildHref('/', undefined, prefix)} className="text-white/80 hover:text-white">🌿 Poudre KOUKA</a></li>
+                <li><a href={buildHref('/tonic-kouka', undefined, prefix)} className="text-white/80 hover:text-white">⚡ Tonic KOUKA</a></li>
               </ul>
             </div>
             <div>
