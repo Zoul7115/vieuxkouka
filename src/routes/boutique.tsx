@@ -146,9 +146,11 @@ function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function BrandHomePage() {
+export function BrandHomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const assigned = useAssignedCloseuse();
+  const prefix = assigned ? `/${assigned.slug}` : '';
 
   return (
     <div className="bg-background text-foreground">
