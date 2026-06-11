@@ -321,7 +321,9 @@ export function AntiDiabetePage() {
       </section>
 
       {/* PREUVE SOCIALE — WhatsApp + Facebook */}
-      <SocialProofChat />
+      <div id="testimonies-section">
+        <SocialProofChat />
+      </div>
 
       <section className="py-8 bg-bleu-bg">
         <div className="container-kouka max-w-3xl">
