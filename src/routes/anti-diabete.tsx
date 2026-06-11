@@ -36,8 +36,13 @@ export const Route = createFileRoute('/anti-diabete')({
   component: AntiDiabetePage,
 });
 
+
 function scrollToOrder() {
   preselectAndScroll(22);
+}
+
+function scrollToTestimonies() {
+  document.getElementById('testimonies-section')?.scrollIntoView({ behavior: 'smooth' });
 }
 
 export function AntiDiabetePage() {
@@ -54,77 +59,96 @@ export function AntiDiabetePage() {
         🩺 Traitement complet recommandé · Livraison Ouaga & Niamey · Stock limité : <b className="text-bleu-light">{stock}</b>
       </div>
 
-      {/* HERO — fond bleu/blanc, style "fiche médicale" */}
-      <section className="bg-gradient-to-b from-bleu-bg via-white to-bleu-bg py-12 border-b-[3px] border-bleu-light/40">
-        <div className="container-kouka">
-          <div className="max-w-3xl mx-auto text-center">
-            <span className="inline-block bg-bleu text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-3">
-              🩺 Recette traditionnelle · 60+ ans
+      {/* HERO — Modifié selon les directives de continuité publicitaire */}
+      <section className="bg-gradient-to-b from-bleu-bg via-white to-bleu-bg py-8 md:py-12 border-b-[3px] border-bleu-light/40">
+        <div className="container-kouka max-w-4xl mx-auto px-4">
+          <div className="text-center mb-8">
+            <span className="inline-block bg-bleu text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-4 shadow-sm">
+              🩺 Recette traditionnelle · 60+ ans d'histoire
             </span>
-            <h1 className="text-bleu mb-3 leading-tight">
-              Poudre Anti-Diabète du Vieux KOUKA<br />
-              <span className="text-foreground text-[0.85em]">Guérir du Diabète en un temps record sans dépenser une fortune</span>
+            
+            <h1 className="text-rouge font-extrabold text-2xl md:text-3xl lg:text-4xl uppercase tracking-tight max-w-2xl mx-auto leading-tight mb-2">
+              VOUS SOUFFREZ DE L'UN DE CES SYMPTÔMES ?
             </h1>
-            <p className="text-muted-foreground mb-5 text-base leading-relaxed">
-              Une cure intensive de 3 sachets pour réguler ta glycémie en profondeur — naturellement,
-              avec la formule du Vieux KOUKA.
-            </p>
-
-            <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-bold text-bleu mb-6">
-              <span className="bg-white border border-bleu-light/40 px-2.5 py-1 rounded-full">🌿 100% plantes</span>
-              <span className="bg-white border border-bleu-light/40 px-2.5 py-1 rounded-full">🇧🇫 Burkina</span>
-              <span className="bg-white border border-bleu-light/40 px-2.5 py-1 rounded-full">🩺 Sans dépendance</span>
-            </div>
-
-            {/* OFFRE PRINCIPALE — mise en avant */}
-            <div className="relative bg-white border-[3px] border-bleu rounded-3xl p-6 shadow-[0_12px_30px_rgba(31,108,159,0.18)] max-w-xl mx-auto">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-rouge text-white text-xs font-extrabold px-4 py-1.5 rounded-full whitespace-nowrap shadow">
-                ⭐ LE PLUS RECOMMANDÉ
-              </div>
-              <div className="text-[11px] uppercase font-extrabold text-bleu tracking-wider mt-2 mb-1">
-                Traitement complet
-              </div>
-              <div className="text-2xl font-extrabold text-foreground leading-tight">
-                3 sachets — Cure complète
-              </div>
-              <div className="text-4xl font-extrabold text-bleu mt-2">25 000 FCFA</div>
-              <ul className="text-left text-sm text-foreground mt-4 space-y-1.5 max-w-xs mx-auto">
-                <li>✔ Cure complète recommandée</li>
-                <li>✔ Résultats durables</li>
-                <li>✔ Offre la plus choisie</li>
-                <li>✔ Meilleur rapport efficacité/prix</li>
-              </ul>
-              <button
-                onClick={scrollToOrder}
-                className="mt-5 w-full bg-rouge text-white py-4 rounded-xl text-base font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.45)] hover:-translate-y-0.5 transition-transform"
-              >
-                Commander le traitement complet
-              </button>
-              <p className="text-[11px] text-muted-foreground mt-2">📦 Livraison Ouaga & Niamey · Cash à la livraison</p>
-              <div className="mt-3 flex justify-center">
-                <UrgencyBadge stock={stock} />
+            
+            {/* Boîte des Symptômes - Continuité Pub */}
+            <div className="bg-white border-2 border-rouge/30 rounded-2xl p-5 md:p-6 shadow-[0_8px_30px_rgb(198,40,40,0.06)] max-w-2xl mx-auto my-6">
+              <div className="grid grid-cols-2 gap-3 md:gap-4 text-left">
+                {[
+                  'Pieds qui picotent',
+                  'Pieds qui chauffent',
+                  'Urines fréquentes',
+                  'Soif excessive',
+                  'Fatigue constante',
+                  'Vision floue'
+                ].map((symp, index) => (
+                  <div key={index} className="flex items-center gap-2.5 bg-rouge-light/40 hover:bg-rouge-light/60 transition-colors py-2.5 px-3 rounded-xl border border-rouge/10">
+                    <span className="text-rouge font-extrabold text-lg">✓</span>
+                    <span className="text-foreground font-semibold text-xs md:text-sm leading-tight">{symp}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* OFFRE SECONDAIRE — visible avec bouton */}
-            <div className="mt-5 bg-white border-2 border-bleu-light/60 rounded-2xl p-5 max-w-xl mx-auto shadow-sm">
-              <div className="flex items-center justify-between gap-3 flex-wrap">
-                <div className="text-left">
-                  <div className="text-[11px] uppercase font-extrabold text-muted-foreground tracking-wider">Offre découverte</div>
-                  <div className="text-lg font-extrabold text-foreground">1 sachet pour tester</div>
-                  <div className="text-2xl font-extrabold text-bleu">12 500 FCFA</div>
+            {/* Texte d'accroche */}
+            <div className="max-w-2xl mx-auto space-y-4 text-left md:text-center mt-6 text-foreground/90">
+              <p className="text-base md:text-lg font-bold text-bleu bg-bleu-bg/50 py-2.5 px-4 rounded-xl border border-bleu/10 inline-block w-full">
+                Ces signes sont souvent associés à une glycémie difficile à contrôler.
+              </p>
+              <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
+                Depuis plusieurs années, de nombreuses personnes font confiance à la <strong className="text-foreground font-extrabold">Poudre Anti-Diabète du Vieux Kouka</strong> pour accompagner naturellement leur équilibre glycémique.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-12 gap-8 items-center mt-8 pt-4 border-t border-dashed border-bleu-light/50">
+            {/* Visuel Produit */}
+            <div className="md:col-span-5 flex flex-col items-center">
+              <div className="relative bg-white rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.05)] border-2 border-bleu-light/30 max-w-[280px] md:max-w-full">
+                <img src={product.heroImage} alt={product.name} className="w-full h-auto object-contain" />
+                <div className="absolute -bottom-3 right-4 bg-bleu text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow-sm">
+                  100% Naturel
                 </div>
+              </div>
+            </div>
+
+            {/* Actions et Réassurance */}
+            <div className="md:col-span-7 space-y-6">
+              {/* Bloc de réassurance */}
+              <div className="bg-emerald-50/50 border border-emerald-500/20 rounded-2xl p-4 md:p-5 space-y-2.5 shadow-sm">
+                {[
+                  'Paiement à la livraison',
+                  'Livraison partout au Burkina Faso',
+                  'Produit naturel inspiré du savoir-faire traditionnel'
+                ].map((reassur, index) => (
+                  <div key={index} className="flex items-start gap-2 text-left">
+                    <span className="text-emerald-600 font-bold mt-0.5 text-base leading-none">✓</span>
+                    <span className="text-emerald-900/90 font-medium text-xs md:text-sm leading-snug">{reassur}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Boutons d'action */}
+              <div className="flex flex-col gap-3">
                 <button
-                  onClick={() => preselectAndScroll(21)}
-                  className="bg-bleu text-white px-5 py-3 rounded-xl text-sm font-extrabold shadow hover:-translate-y-0.5 transition-transform"
+                  onClick={scrollToOrder}
+                  className="w-full bg-rouge hover:bg-rouge-mid text-white py-4 md:py-4.5 rounded-xl text-base md:text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all uppercase tracking-wide px-4"
                 >
-                  Tester maintenant
+                  JE DÉCOUVRE LA POUDRE DU VIEUX KOUKA
+                </button>
+                
+                <button
+                  onClick={scrollToTestimonies}
+                  className="w-full bg-white hover:bg-slate-50 text-bleu border-2 border-bleu py-3 md:py-3.5 rounded-xl text-sm md:text-base font-extrabold transition-all uppercase"
+                >
+                  VOIR LES TÉMOIGNAGES
                 </button>
               </div>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* GIF test glycémie — urgence visuelle */}
       <section className="bg-white py-10 border-b border-bleu-light/20">
@@ -297,7 +321,9 @@ export function AntiDiabetePage() {
       </section>
 
       {/* PREUVE SOCIALE — WhatsApp + Facebook */}
-      <SocialProofChat />
+      <div id="testimonies-section">
+        <SocialProofChat />
+      </div>
 
       <section className="py-8 bg-bleu-bg">
         <div className="container-kouka max-w-3xl">
