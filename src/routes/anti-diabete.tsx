@@ -302,6 +302,11 @@ export function AntiDiabetePage() {
           <div className="text-center mb-8">
             <span className="text-bleu text-xs font-bold uppercase tracking-widest">💊 Le produit</span>
             <h2 className="text-bleu mt-2">Ce que t'apporte la Poudre Anti-Diabète</h2>
+            <div className="flex flex-wrap justify-center gap-2 mt-4">
+              <span className="inline-flex items-center gap-1.5 bg-or/15 text-foreground border border-or/40 text-[11px] md:text-xs font-extrabold px-3 py-1.5 rounded-full">⭐ Recette traditionnelle du Vieux Kouka</span>
+              <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-500/30 text-[11px] md:text-xs font-extrabold px-3 py-1.5 rounded-full">🌿 100% naturel</span>
+              <span className="inline-flex items-center gap-1.5 bg-bleu-bg text-bleu border border-bleu/30 text-[11px] md:text-xs font-extrabold px-3 py-1.5 rounded-full">🇧🇫 Utilisé par de nombreuses familles burkinabè</span>
+            </div>
           </div>
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="rounded-3xl overflow-hidden shadow-xl border-2 border-bleu-light/40 bg-bleu-bg">
