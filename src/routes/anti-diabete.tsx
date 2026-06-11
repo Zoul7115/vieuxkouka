@@ -149,6 +149,65 @@ export function AntiDiabetePage() {
         </div>
       </section>
 
+      {/* BANDEAU PREMIUM RÉASSURANCE — sous le Hero */}
+      <section className="bg-white py-6 border-b border-bleu-light/20">
+        <div className="container-kouka max-w-5xl px-4">
+          <div className="bg-gradient-to-br from-bleu-bg via-white to-bleu-bg rounded-2xl border-2 border-bleu/15 shadow-sm p-4 md:p-5">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
+              {[
+                { icon: '🌿', label: 'Recette traditionnelle du Vieux Kouka' },
+                { icon: '🚚', label: 'Livraison partout au Burkina Faso' },
+                { icon: '💰', label: 'Paiement à la livraison' },
+                { icon: '📞', label: 'Confirmation téléphonique avant expédition' },
+                { icon: '⭐', label: 'Clients satisfaits partout au Burkina' },
+              ].map((r, i) => (
+                <div key={i} className="flex md:flex-col items-center md:text-center gap-2 bg-white rounded-xl border border-bleu-light/30 p-3 shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
+                  <span className="text-2xl md:text-3xl shrink-0">{r.icon}</span>
+                  <span className="text-[11px] md:text-xs font-bold text-bleu leading-tight">{r.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* POURQUOI CES SYMPTÔMES MÉRITENT VOTRE ATTENTION */}
+      <section className="py-10 md:py-12 bg-bleu-bg">
+        <div className="container-kouka max-w-4xl px-4">
+          <div className="text-center mb-6">
+            <span className="text-rouge text-xs font-bold uppercase tracking-widest">⚠️ À ne pas ignorer</span>
+            <h2 className="text-bleu mt-2 text-xl md:text-2xl font-extrabold uppercase">
+              Pourquoi ces symptômes méritent votre attention ?
+            </h2>
+            <p className="text-muted-foreground text-sm mt-2 max-w-xl mx-auto">
+              Ces signes peuvent fortement impacter votre confort et votre qualité de vie au quotidien.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+            {[
+              { icon: '⚡', t: 'Picotements fréquents', d: 'Mains et pieds qui fourmillent' },
+              { icon: '🔥', t: 'Pieds qui chauffent', d: 'Sensation de brûlure persistante' },
+              { icon: '💧', t: 'Soif excessive', d: 'Bouche sèche en permanence' },
+              { icon: '🌙', t: 'Réveils fréquents', d: 'Pour uriner la nuit' },
+              { icon: '😴', t: 'Fatigue persistante', d: 'Même après une nuit complète' },
+              { icon: '👁️', t: 'Vision floue', d: 'Difficulté à voir net' },
+            ].map((s, i) => (
+              <div key={i} className="bg-white rounded-xl p-3 md:p-4 border border-bleu-light/40 shadow-sm">
+                <div className="text-2xl md:text-3xl mb-1.5">{s.icon}</div>
+                <div className="font-extrabold text-bleu text-sm md:text-base leading-tight">{s.t}</div>
+                <div className="text-[11px] md:text-xs text-muted-foreground mt-1 leading-snug">{s.d}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-6">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-6 py-3.5 rounded-xl text-base font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform uppercase">
+              Découvrir la solution naturelle
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* GIF test glycémie — urgence visuelle */}
       <section className="bg-white py-10 border-b border-bleu-light/20">
@@ -243,6 +302,11 @@ export function AntiDiabetePage() {
           <div className="text-center mb-8">
             <span className="text-bleu text-xs font-bold uppercase tracking-widest">💊 Le produit</span>
             <h2 className="text-bleu mt-2">Ce que t'apporte la Poudre Anti-Diabète</h2>
+            <div className="flex flex-wrap justify-center gap-2 mt-4">
+              <span className="inline-flex items-center gap-1.5 bg-or/15 text-foreground border border-or/40 text-[11px] md:text-xs font-extrabold px-3 py-1.5 rounded-full">⭐ Recette traditionnelle du Vieux Kouka</span>
+              <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-500/30 text-[11px] md:text-xs font-extrabold px-3 py-1.5 rounded-full">🌿 100% naturel</span>
+              <span className="inline-flex items-center gap-1.5 bg-bleu-bg text-bleu border border-bleu/30 text-[11px] md:text-xs font-extrabold px-3 py-1.5 rounded-full">🇧🇫 Utilisé par de nombreuses familles burkinabè</span>
+            </div>
           </div>
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="rounded-3xl overflow-hidden shadow-xl border-2 border-bleu-light/40 bg-bleu-bg">
@@ -487,7 +551,75 @@ export function AntiDiabetePage() {
 
       <ReassuranceBar />
 
+      {/* MISE EN AVANT OFFRE 2+1 */}
+      <section className="py-10 bg-gradient-to-b from-bleu-bg to-white">
+        <div className="container-kouka max-w-2xl px-4">
+          <div className="relative bg-white rounded-3xl border-[3px] border-rouge shadow-[0_12px_40px_rgba(198,40,40,0.20)] p-5 md:p-7 overflow-hidden">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-rouge text-white text-[11px] font-extrabold px-4 py-1.5 rounded-full whitespace-nowrap shadow">
+              🔥 OFFRE LA PLUS DEMANDÉE
+            </div>
+            <div className="text-center mt-3">
+              <div className="flex flex-wrap justify-center gap-2 mb-3">
+                <span className="bg-or/20 text-foreground border border-or/40 text-[11px] font-extrabold px-2.5 py-1 rounded-full">🎁 1 sachet offert</span>
+                <span className="bg-emerald-50 text-emerald-800 border border-emerald-500/30 text-[11px] font-extrabold px-2.5 py-1 rounded-full">⭐ Meilleur rapport qualité/prix</span>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-extrabold text-bleu uppercase leading-tight">
+                2 sachets achetés <span className="text-rouge">+ 1 sachet OFFERT</span>
+              </h3>
+              <p className="text-sm text-muted-foreground mt-2">La cure complète recommandée pour des résultats durables.</p>
+              <button onClick={scrollToOrder} className="mt-5 w-full bg-rouge text-white py-4 rounded-xl text-base md:text-lg font-extrabold uppercase shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform">
+                Je veux cette offre
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* COMMENT SE PASSE LA COMMANDE */}
+      <section className="py-10 bg-white">
+        <div className="container-kouka max-w-3xl px-4">
+          <div className="text-center mb-6">
+            <span className="text-bleu text-xs font-bold uppercase tracking-widest">📦 Processus simple</span>
+            <h2 className="text-bleu mt-2 text-xl md:text-2xl font-extrabold uppercase">
+              Comment se passe la commande ?
+            </h2>
+          </div>
+
+          <ol className="grid gap-3 md:gap-4">
+            {[
+              { n: '1', t: 'Remplissez le formulaire', d: 'Nom, numéro, ville — 30 secondes' },
+              { n: '2', t: 'Nous vous appelons', d: 'Un conseiller vous contacte rapidement' },
+              { n: '3', t: 'Nous confirmons votre commande', d: 'Adresse et offre validées' },
+              { n: '4', t: 'Nous expédions votre colis', d: 'Emballage discret et soigné' },
+              { n: '5', t: 'Vous payez à la livraison', d: 'Cash, à la réception du colis' },
+            ].map((s) => (
+              <li key={s.n} className="flex items-start gap-3 bg-bleu-bg rounded-2xl p-3.5 md:p-4 border border-bleu-light/40">
+                <div className="shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-full bg-bleu text-white font-extrabold flex items-center justify-center shadow">{s.n}</div>
+                <div className="min-w-0">
+                  <div className="font-extrabold text-bleu text-sm md:text-base leading-tight">{s.t}</div>
+                  <div className="text-xs md:text-sm text-muted-foreground mt-0.5">{s.d}</div>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div className="grid grid-cols-2 gap-2.5 md:gap-3 mt-5">
+            {[
+              '✓ Paiement à la réception',
+              '✓ Livraison partout au Burkina Faso',
+              '✓ Confirmation avant expédition',
+              '✓ Assistance WhatsApp',
+            ].map((r, i) => (
+              <div key={i} className="bg-emerald-50 border border-emerald-500/30 text-emerald-900 text-[11px] md:text-xs font-bold px-3 py-2.5 rounded-xl text-center leading-tight">
+                {r}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <ProductForm product={product} />
+
 
       
 
