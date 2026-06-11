@@ -149,6 +149,65 @@ export function AntiDiabetePage() {
         </div>
       </section>
 
+      {/* BANDEAU PREMIUM RÉASSURANCE — sous le Hero */}
+      <section className="bg-white py-6 border-b border-bleu-light/20">
+        <div className="container-kouka max-w-5xl px-4">
+          <div className="bg-gradient-to-br from-bleu-bg via-white to-bleu-bg rounded-2xl border-2 border-bleu/15 shadow-sm p-4 md:p-5">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
+              {[
+                { icon: '🌿', label: 'Recette traditionnelle du Vieux Kouka' },
+                { icon: '🚚', label: 'Livraison partout au Burkina Faso' },
+                { icon: '💰', label: 'Paiement à la livraison' },
+                { icon: '📞', label: 'Confirmation téléphonique avant expédition' },
+                { icon: '⭐', label: 'Clients satisfaits partout au Burkina' },
+              ].map((r, i) => (
+                <div key={i} className="flex md:flex-col items-center md:text-center gap-2 bg-white rounded-xl border border-bleu-light/30 p-3 shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
+                  <span className="text-2xl md:text-3xl shrink-0">{r.icon}</span>
+                  <span className="text-[11px] md:text-xs font-bold text-bleu leading-tight">{r.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* POURQUOI CES SYMPTÔMES MÉRITENT VOTRE ATTENTION */}
+      <section className="py-10 md:py-12 bg-bleu-bg">
+        <div className="container-kouka max-w-4xl px-4">
+          <div className="text-center mb-6">
+            <span className="text-rouge text-xs font-bold uppercase tracking-widest">⚠️ À ne pas ignorer</span>
+            <h2 className="text-bleu mt-2 text-xl md:text-2xl font-extrabold uppercase">
+              Pourquoi ces symptômes méritent votre attention ?
+            </h2>
+            <p className="text-muted-foreground text-sm mt-2 max-w-xl mx-auto">
+              Ces signes peuvent fortement impacter votre confort et votre qualité de vie au quotidien.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+            {[
+              { icon: '⚡', t: 'Picotements fréquents', d: 'Mains et pieds qui fourmillent' },
+              { icon: '🔥', t: 'Pieds qui chauffent', d: 'Sensation de brûlure persistante' },
+              { icon: '💧', t: 'Soif excessive', d: 'Bouche sèche en permanence' },
+              { icon: '🌙', t: 'Réveils fréquents', d: 'Pour uriner la nuit' },
+              { icon: '😴', t: 'Fatigue persistante', d: 'Même après une nuit complète' },
+              { icon: '👁️', t: 'Vision floue', d: 'Difficulté à voir net' },
+            ].map((s, i) => (
+              <div key={i} className="bg-white rounded-xl p-3 md:p-4 border border-bleu-light/40 shadow-sm">
+                <div className="text-2xl md:text-3xl mb-1.5">{s.icon}</div>
+                <div className="font-extrabold text-bleu text-sm md:text-base leading-tight">{s.t}</div>
+                <div className="text-[11px] md:text-xs text-muted-foreground mt-1 leading-snug">{s.d}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-6">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-6 py-3.5 rounded-xl text-base font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform uppercase">
+              Découvrir la solution naturelle
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* GIF test glycémie — urgence visuelle */}
       <section className="bg-white py-10 border-b border-bleu-light/20">
