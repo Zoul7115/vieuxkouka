@@ -551,7 +551,75 @@ export function AntiDiabetePage() {
 
       <ReassuranceBar />
 
+      {/* MISE EN AVANT OFFRE 2+1 */}
+      <section className="py-10 bg-gradient-to-b from-bleu-bg to-white">
+        <div className="container-kouka max-w-2xl px-4">
+          <div className="relative bg-white rounded-3xl border-[3px] border-rouge shadow-[0_12px_40px_rgba(198,40,40,0.20)] p-5 md:p-7 overflow-hidden">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-rouge text-white text-[11px] font-extrabold px-4 py-1.5 rounded-full whitespace-nowrap shadow">
+              🔥 OFFRE LA PLUS DEMANDÉE
+            </div>
+            <div className="text-center mt-3">
+              <div className="flex flex-wrap justify-center gap-2 mb-3">
+                <span className="bg-or/20 text-foreground border border-or/40 text-[11px] font-extrabold px-2.5 py-1 rounded-full">🎁 1 sachet offert</span>
+                <span className="bg-emerald-50 text-emerald-800 border border-emerald-500/30 text-[11px] font-extrabold px-2.5 py-1 rounded-full">⭐ Meilleur rapport qualité/prix</span>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-extrabold text-bleu uppercase leading-tight">
+                2 sachets achetés <span className="text-rouge">+ 1 sachet OFFERT</span>
+              </h3>
+              <p className="text-sm text-muted-foreground mt-2">La cure complète recommandée pour des résultats durables.</p>
+              <button onClick={scrollToOrder} className="mt-5 w-full bg-rouge text-white py-4 rounded-xl text-base md:text-lg font-extrabold uppercase shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform">
+                Je veux cette offre
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* COMMENT SE PASSE LA COMMANDE */}
+      <section className="py-10 bg-white">
+        <div className="container-kouka max-w-3xl px-4">
+          <div className="text-center mb-6">
+            <span className="text-bleu text-xs font-bold uppercase tracking-widest">📦 Processus simple</span>
+            <h2 className="text-bleu mt-2 text-xl md:text-2xl font-extrabold uppercase">
+              Comment se passe la commande ?
+            </h2>
+          </div>
+
+          <ol className="grid gap-3 md:gap-4">
+            {[
+              { n: '1', t: 'Remplissez le formulaire', d: 'Nom, numéro, ville — 30 secondes' },
+              { n: '2', t: 'Nous vous appelons', d: 'Un conseiller vous contacte rapidement' },
+              { n: '3', t: 'Nous confirmons votre commande', d: 'Adresse et offre validées' },
+              { n: '4', t: 'Nous expédions votre colis', d: 'Emballage discret et soigné' },
+              { n: '5', t: 'Vous payez à la livraison', d: 'Cash, à la réception du colis' },
+            ].map((s) => (
+              <li key={s.n} className="flex items-start gap-3 bg-bleu-bg rounded-2xl p-3.5 md:p-4 border border-bleu-light/40">
+                <div className="shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-full bg-bleu text-white font-extrabold flex items-center justify-center shadow">{s.n}</div>
+                <div className="min-w-0">
+                  <div className="font-extrabold text-bleu text-sm md:text-base leading-tight">{s.t}</div>
+                  <div className="text-xs md:text-sm text-muted-foreground mt-0.5">{s.d}</div>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          <div className="grid grid-cols-2 gap-2.5 md:gap-3 mt-5">
+            {[
+              '✓ Paiement à la réception',
+              '✓ Livraison partout au Burkina Faso',
+              '✓ Confirmation avant expédition',
+              '✓ Assistance WhatsApp',
+            ].map((r, i) => (
+              <div key={i} className="bg-emerald-50 border border-emerald-500/30 text-emerald-900 text-[11px] md:text-xs font-bold px-3 py-2.5 rounded-xl text-center leading-tight">
+                {r}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <ProductForm product={product} />
+
 
       
 
