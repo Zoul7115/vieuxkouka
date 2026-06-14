@@ -141,6 +141,17 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
           <span className="text-sm font-semibold text-emerald-900">✅ Valider immédiatement (créer la commande)</span>
         </label>
 
+        <label className="block mb-3">
+          <span className="text-xs font-bold text-gray-600 uppercase">📅 Date de la commande</span>
+          <input
+            type="datetime-local"
+            value={orderDate}
+            onChange={(e) => setOrderDate(e.target.value)}
+            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+          />
+          <span className="text-[11px] text-gray-500">Utilisée pour l'historique, la compta et les stats.</span>
+        </label>
+
         <button onClick={submit} disabled={submitting} className="w-full rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 disabled:opacity-40">
           {submitting ? '...' : 'Créer'}
         </button>
