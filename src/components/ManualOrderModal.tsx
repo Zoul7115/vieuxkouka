@@ -62,6 +62,7 @@ export function ManualOrderModal({ open, onClose, onCreated, forceLivreurIdx, or
     try {
       const orderNumber = `${orderPrefix}-${Date.now().toString(36).toUpperCase()}`;
       const offerLabel = `${qty} ${productLabel.toUpperCase()} — Saisie manuelle`;
+      const whenIso = new Date(orderDate).toISOString();
 
       // Insertion en pending d'abord pour déclencher correctement les triggers de stock
       const { data: inserted, error: insErr } = await supabase
