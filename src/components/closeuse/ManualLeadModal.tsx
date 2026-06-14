@@ -29,6 +29,7 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
   const [neighborhood, setNeighborhood] = useState('');
   const [addressDetail, setAddressDetail] = useState('');
   const [validateNow, setValidateNow] = useState(true);
+  const [markDelivered, setMarkDelivered] = useState(false);
   const [orderDate, setOrderDate] = useState<string>(() => {
     const d = new Date();
     const pad = (n: number) => String(n).padStart(2, '0');
@@ -81,9 +82,23 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
 
       if (validateNow && inserted) {
         await updateLeadStatus(inserted as Lead, 'valide', { at: whenIso });
+
+        if (markDelivered) {
+          // Marquer la commande comme livrée à la date choisie (pour compta/bilan/salaires)
+          await db.from('orders')
+            .update({ status: 'delivered', delivered_at: whenIso })
+            .eq('lead_id', inserted.id);
+          await db.from('leads')
+            .update({ status: 'livree' })
+            .eq('id', inserted.id);
+        }
       }
 
-      toast.success(validateNow ? '✅ Commande créée et validée' : '✅ Lead créé');
+      toast.success(
+        markDelivered ? '✅ Commande créée et marquée livrée'
+        : validateNow ? '✅ Commande créée et validée'
+        : '✅ Lead créé'
+      );
       reset();
       onCreated();
       onClose();
@@ -139,6 +154,11 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
         <label className="flex items-center gap-2 my-3 bg-emerald-50 rounded-lg px-3 py-2 cursor-pointer">
           <input type="checkbox" checked={validateNow} onChange={(e) => setValidateNow(e.target.checked)} className="w-4 h-4 accent-emerald-600" />
           <span className="text-sm font-semibold text-emerald-900">✅ Valider immédiatement (créer la commande)</span>
+        </label>
+
+        <label className="flex items-center gap-2 my-2 bg-green-50 rounded-lg px-3 py-2 cursor-pointer">
+          <input type="checkbox" checked={markDelivered} onChange={(e) => setMarkDelivered(e.target.checked)} className="w-4 h-4 accent-green-600" disabled={!validateNow} />
+          <span className="text-sm font-semibold text-green-900">🎉 Marquer comme livrée à cette date (compta + bilan + salaires)</span>
         </label>
 
         <label className="block mb-3">
