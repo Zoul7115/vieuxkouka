@@ -204,6 +204,19 @@ export function ManualOrderModal({ open, onClose, onCreated, forceLivreurIdx, or
           </label>
         )}
 
+        <label className="block mb-3">
+          <span className="text-xs font-bold text-gray-600 uppercase">📅 Date de la commande</span>
+          <input
+            type="datetime-local"
+            value={orderDate}
+            onChange={(e) => setOrderDate(e.target.value)}
+            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+          />
+          <span className="text-[11px] text-gray-500">Utilisée pour l'historique, la compta, le bilan et les stats.</span>
+        </label>
+
+
+
         <button
           onClick={submit}
           disabled={submitting}
