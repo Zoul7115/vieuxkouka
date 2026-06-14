@@ -82,9 +82,23 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
 
       if (validateNow && inserted) {
         await updateLeadStatus(inserted as Lead, 'valide', { at: whenIso });
+
+        if (markDelivered) {
+          // Marquer la commande comme livrée à la date choisie (pour compta/bilan/salaires)
+          await db.from('orders')
+            .update({ status: 'delivered', delivered_at: whenIso })
+            .eq('lead_id', inserted.id);
+          await db.from('leads')
+            .update({ status: 'livree' })
+            .eq('id', inserted.id);
+        }
       }
 
-      toast.success(validateNow ? '✅ Commande créée et validée' : '✅ Lead créé');
+      toast.success(
+        markDelivered ? '✅ Commande créée et marquée livrée'
+        : validateNow ? '✅ Commande créée et validée'
+        : '✅ Lead créé'
+      );
       reset();
       onCreated();
       onClose();
