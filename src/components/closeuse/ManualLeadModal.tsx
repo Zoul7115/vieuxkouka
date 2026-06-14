@@ -29,6 +29,7 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
   const [neighborhood, setNeighborhood] = useState('');
   const [addressDetail, setAddressDetail] = useState('');
   const [validateNow, setValidateNow] = useState(true);
+  const [markDelivered, setMarkDelivered] = useState(false);
   const [orderDate, setOrderDate] = useState<string>(() => {
     const d = new Date();
     const pad = (n: number) => String(n).padStart(2, '0');
