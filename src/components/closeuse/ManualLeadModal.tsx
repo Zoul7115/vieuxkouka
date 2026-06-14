@@ -29,6 +29,11 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
   const [neighborhood, setNeighborhood] = useState('');
   const [addressDetail, setAddressDetail] = useState('');
   const [validateNow, setValidateNow] = useState(true);
+  const [orderDate, setOrderDate] = useState<string>(() => {
+    const d = new Date();
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  });
   const [submitting, setSubmitting] = useState(false);
 
   if (!open) return null;
@@ -53,6 +58,7 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
     setSubmitting(true);
     try {
       const country = COUNTRIES.find((c) => c.code === countryCode)?.label.replace(/^[^\s]+\s/, '') || '';
+      const whenIso = new Date(orderDate).toISOString();
       const { data: inserted, error } = await db.from('leads').insert({
         closeuse_idx: session.idx,
         closeuse_slug: closeuseSlug || session.name.toLowerCase(),
@@ -69,11 +75,12 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
         address_detail: addressDetail.trim() || null,
         status: 'nouveau_lead',
         source: 'closeuse-manual',
+        created_at: whenIso,
       }).select('*').single();
       if (error) throw error;
 
       if (validateNow && inserted) {
-        await updateLeadStatus(inserted as Lead, 'valide');
+        await updateLeadStatus(inserted as Lead, 'valide', { at: whenIso });
       }
 
       toast.success(validateNow ? '✅ Commande créée et validée' : '✅ Lead créé');
@@ -132,6 +139,17 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
         <label className="flex items-center gap-2 my-3 bg-emerald-50 rounded-lg px-3 py-2 cursor-pointer">
           <input type="checkbox" checked={validateNow} onChange={(e) => setValidateNow(e.target.checked)} className="w-4 h-4 accent-emerald-600" />
           <span className="text-sm font-semibold text-emerald-900">✅ Valider immédiatement (créer la commande)</span>
+        </label>
+
+        <label className="block mb-3">
+          <span className="text-xs font-bold text-gray-600 uppercase">📅 Date de la commande</span>
+          <input
+            type="datetime-local"
+            value={orderDate}
+            onChange={(e) => setOrderDate(e.target.value)}
+            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+          />
+          <span className="text-[11px] text-gray-500">Utilisée pour l'historique, la compta et les stats.</span>
         </label>
 
         <button onClick={submit} disabled={submitting} className="w-full rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 disabled:opacity-40">

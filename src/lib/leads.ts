@@ -99,9 +99,10 @@ export function useLeads(closeuseIdx?: number | null) {
   return { leads, loading, reload: load };
 }
 
-export async function updateLeadStatus(lead: Lead, to: LeadStatus, opts?: { note?: string; refusal_reason?: string; refusal_comment?: string }) {
+export async function updateLeadStatus(lead: Lead, to: LeadStatus, opts?: { note?: string; refusal_reason?: string; refusal_comment?: string; at?: string }) {
   const patch: Record<string, unknown> = { status: to };
-  if (to === 'valide' && !lead.validated_at) patch.validated_at = new Date().toISOString();
+  const whenIso = opts?.at || new Date().toISOString();
+  if (to === 'valide' && !lead.validated_at) patch.validated_at = whenIso;
   if (opts?.note) patch.notes = opts.note;
   if (opts?.refusal_reason) patch.refusal_reason = opts.refusal_reason;
   if (opts?.refusal_comment) patch.refusal_comment = opts.refusal_comment;
@@ -141,7 +142,8 @@ export async function updateLeadStatus(lead: Lead, to: LeadStatus, opts?: { note
       closeuse_idx: lead.closeuse_idx,
       closeuse_slug: lead.closeuse_slug,
       lead_id: lead.id,
-      assigned_at: new Date().toISOString(),
+      assigned_at: whenIso,
+      created_at: whenIso,
       client_ip: lead.client_ip,
       source: lead.source || 'closeuse-lead',
       locked: true,
