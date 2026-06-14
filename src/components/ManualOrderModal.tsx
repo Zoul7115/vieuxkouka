@@ -85,6 +85,7 @@ export function ManualOrderModal({ open, onClose, onCreated, forceLivreurIdx, or
           ai_score: 100,
           created_at: whenIso,
           assigned_at: whenIso,
+        })
         .select('id')
         .single();
 
@@ -94,7 +95,7 @@ export function ManualOrderModal({ open, onClose, onCreated, forceLivreurIdx, or
       if (delivered && inserted?.id) {
         const { error: upErr } = await supabase
           .from('orders')
-          .update({ status: 'delivered' })
+          .update({ status: 'delivered', delivered_at: whenIso })
           .eq('id', inserted.id);
         if (upErr) throw upErr;
       }
