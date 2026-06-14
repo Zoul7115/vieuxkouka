@@ -58,6 +58,7 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
     setSubmitting(true);
     try {
       const country = COUNTRIES.find((c) => c.code === countryCode)?.label.replace(/^[^\s]+\s/, '') || '';
+      const whenIso = new Date(orderDate).toISOString();
       const { data: inserted, error } = await db.from('leads').insert({
         closeuse_idx: session.idx,
         closeuse_slug: closeuseSlug || session.name.toLowerCase(),
@@ -74,11 +75,12 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
         address_detail: addressDetail.trim() || null,
         status: 'nouveau_lead',
         source: 'closeuse-manual',
+        created_at: whenIso,
       }).select('*').single();
       if (error) throw error;
 
       if (validateNow && inserted) {
-        await updateLeadStatus(inserted as Lead, 'valide');
+        await updateLeadStatus(inserted as Lead, 'valide', { at: whenIso });
       }
 
       toast.success(validateNow ? '✅ Commande créée et validée' : '✅ Lead créé');
