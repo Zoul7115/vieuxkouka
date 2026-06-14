@@ -83,7 +83,8 @@ export function ManualOrderModal({ open, onClose, onCreated, forceLivreurIdx, or
           delivery_fee: deliveryFee.trim() === '' ? null : Math.max(0, parseInt(deliveryFee, 10) || 0),
           source: 'Manuelle',
           ai_score: 100,
-        })
+          created_at: whenIso,
+          assigned_at: whenIso,
         .select('id')
         .single();
 
