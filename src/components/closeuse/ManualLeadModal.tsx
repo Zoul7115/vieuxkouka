@@ -156,6 +156,11 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
           <span className="text-sm font-semibold text-emerald-900">✅ Valider immédiatement (créer la commande)</span>
         </label>
 
+        <label className="flex items-center gap-2 my-2 bg-green-50 rounded-lg px-3 py-2 cursor-pointer">
+          <input type="checkbox" checked={markDelivered} onChange={(e) => setMarkDelivered(e.target.checked)} className="w-4 h-4 accent-green-600" disabled={!validateNow} />
+          <span className="text-sm font-semibold text-green-900">🎉 Marquer comme livrée à cette date (compta + bilan + salaires)</span>
+        </label>
+
         <label className="block mb-3">
           <span className="text-xs font-bold text-gray-600 uppercase">📅 Date de la commande</span>
           <input
