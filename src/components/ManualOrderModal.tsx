@@ -27,6 +27,11 @@ export function ManualOrderModal({ open, onClose, onCreated, forceLivreurIdx, or
   const [livreurIdx, setLivreurIdx] = useState<number | ''>(forceLivreurIdx ?? '');
   const [delivered, setDelivered] = useState(false);
   const [deliveryFee, setDeliveryFee] = useState('');
+  const [orderDate, setOrderDate] = useState<string>(() => {
+    const d = new Date();
+    const pad = (n: number) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  });
   const [submitting, setSubmitting] = useState(false);
 
   const product = useMemo<Product>(() => PRODUCTS.find((p) => p.slug === productSlug) || PRODUCTS[0], [productSlug]);
