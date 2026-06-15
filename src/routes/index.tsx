@@ -373,6 +373,47 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* PHOTOS RÉELLES */}
+      <section className="sec bg-cream-2">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">COMMENT CONSOMMER LA <span className="text-vert">POUDRE DU VIEUX KOUKA</span> ?</h2>
+          <p className="text-center text-muted-foreground mb-7 text-sm">Photos réelles du produit.</p>
+          <div className="grid sm:grid-cols-2 gap-5 max-w-3xl mx-auto">
+            <figure className="group bg-white rounded-2xl overflow-hidden border-2 border-vert-bg shadow-md">
+              <div className="overflow-hidden">
+                <img
+                  src="/images/poudre-vieux-kouka-hero.png"
+                  alt="Préparation du Vieux Kouka dans une boisson chaude"
+                  loading="lazy"
+                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <figcaption className="p-4 text-sm font-semibold text-vert text-center">
+                Préparation traditionnelle du Vieux Kouka dans une boisson chaude.
+              </figcaption>
+            </figure>
+            <figure className="group bg-white rounded-2xl overflow-hidden border-2 border-vert-bg shadow-md">
+              <div className="overflow-hidden">
+                <img
+                  src="/images/pexels-ojochenemi-anyinda-gbako-2156547775-36424104.jpg"
+                  alt="Consommation quotidienne de la Poudre du Vieux Kouka"
+                  loading="lazy"
+                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <figcaption className="p-4 text-sm font-semibold text-vert text-center">
+                Consommation quotidienne simple et pratique.
+              </figcaption>
+            </figure>
+          </div>
+          <div className="text-center mt-7">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
+              🛒 COMMANDER MAINTENANT
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* TÉMOIGNAGES */}
       <section className="sec">
         <div className="container-kouka">
