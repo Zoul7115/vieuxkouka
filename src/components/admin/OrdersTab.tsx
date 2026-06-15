@@ -90,6 +90,7 @@ export function OrdersTab({
   const [manualOpen, setManualOpen] = useState(false);
   const [search, setSearch] = useState('');
   const { livreurs } = useLivreurs();
+  const { closeuses } = useCloseuses();
   const q = search.trim().toLowerCase();
   const byStatus = filter === 'all' ? orders : orders.filter((o) => o.status === filter);
   const filtered = q
