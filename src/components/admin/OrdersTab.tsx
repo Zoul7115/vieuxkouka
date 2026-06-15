@@ -421,18 +421,56 @@ function OrderCard({
                   if (newIdx != null && !target) { toast.error('Closeuse introuvable'); return; }
                   const label = target ? `${target.emoji ?? ''} ${target.name}` : 'aucune closeuse';
                   if (!window.confirm(`Transférer la commande ${order.order_number} à ${label} ?`)) return;
+                  const nowIso = new Date().toISOString();
                   const { error } = await (supabase.from('orders') as any).update({
                     closeuse_idx: newIdx,
                     closeuse_slug: target?.slug ?? null,
-                    assigned_at: newIdx != null ? new Date().toISOString() : null,
+                    assigned_at: newIdx != null ? nowIso : null,
                   }).eq('id', order.id);
                   if (error) { toast.error(error.message); return; }
+
                   if (order.lead_id) {
+                    // Lead existant → on le réassigne pour qu'il apparaisse chez la nouvelle closeuse
                     const { error: lErr } = await (supabase.from('leads') as any).update({
                       closeuse_idx: newIdx,
                       closeuse_slug: target?.slug ?? null,
                     }).eq('id', order.lead_id);
                     if (lErr) toast.error(`Lead non synchronisé : ${lErr.message}`);
+                  } else if (newIdx != null && target) {
+                    // Pas de lead → on en crée un pour que la commande apparaisse côté closeuse
+                    const statusMap: Record<string, string> = {
+                      pending: 'nouveau_lead',
+                      confirmed: 'valide',
+                      expediee: 'expediee',
+                      delivered: 'livree',
+                      cancelled: 'annulee',
+                    };
+                    const leadStatus = statusMap[order.status] || 'valide';
+                    const o = order as any;
+                    const { data: newLead, error: nlErr } = await (supabase.from('leads') as any).insert({
+                      closeuse_idx: newIdx,
+                      closeuse_slug: target.slug,
+                      product_slug: o.product_slug || 'kouka',
+                      product_name: order.product_name,
+                      product_price: order.product_price,
+                      offer_label: o.offer_label ?? null,
+                      first_name: order.first_name,
+                      last_name: o.last_name ?? null,
+                      whatsapp: o.whatsapp ?? null,
+                      country: o.country ?? null,
+                      city: order.city,
+                      neighborhood: o.neighborhood ?? null,
+                      address_detail: o.address_detail ?? null,
+                      status: leadStatus,
+                      source: 'admin-transfer',
+                      order_id: order.id,
+                      validated_at: leadStatus === 'valide' ? nowIso : null,
+                    }).select('id').single();
+                    if (nlErr) {
+                      toast.error(`Lead non créé : ${nlErr.message}`);
+                    } else if (newLead) {
+                      await (supabase.from('orders') as any).update({ lead_id: newLead.id }).eq('id', order.id);
+                    }
                   }
                   toast.success(target ? `✅ Transférée à ${target.name}` : '✅ Détachée');
                 }}
