@@ -404,6 +404,54 @@ function OrderCard({
           </div>
 
           <div>
+            <div className="text-xs font-bold uppercase text-muted-foreground mb-2">
+              Transférer à une closeuse
+              {order.closeuse_idx != null && (() => {
+                const c = closeuses.find((x) => x.idx === order.closeuse_idx);
+                return c ? <span className="ml-2 normal-case text-vert">· Actuellement : {c.emoji} {c.name}</span> : null;
+              })()}
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <select
+                value={order.closeuse_idx ?? ''}
+                onChange={async (e) => {
+                  const val = e.target.value;
+                  const newIdx = val === '' ? null : parseInt(val, 10);
+                  const target = newIdx == null ? null : closeuses.find((c) => c.idx === newIdx) || null;
+                  if (newIdx != null && !target) { toast.error('Closeuse introuvable'); return; }
+                  const label = target ? `${target.emoji ?? ''} ${target.name}` : 'aucune closeuse';
+                  if (!window.confirm(`Transférer la commande ${order.order_number} à ${label} ?`)) return;
+                  const patch: Record<string, unknown> = {
+                    closeuse_idx: newIdx,
+                    closeuse_slug: target?.slug ?? null,
+                    assigned_at: newIdx != null ? new Date().toISOString() : null,
+                  };
+                  const { error } = await supabase.from('orders').update(patch).eq('id', order.id);
+                  if (error) { toast.error(error.message); return; }
+                  if (order.lead_id) {
+                    const { error: lErr } = await supabase.from('leads').update({
+                      closeuse_idx: newIdx,
+                      closeuse_slug: target?.slug ?? null,
+                    }).eq('id', order.lead_id);
+                    if (lErr) toast.error(`Lead non synchronisé : ${lErr.message}`);
+                  }
+                  toast.success(target ? `✅ Transférée à ${target.name}` : '✅ Détachée');
+                }}
+                className="text-sm border-2 border-vert-bg rounded-lg px-3 py-1.5 outline-none focus:border-vert-mid"
+              >
+                <option value="">— Aucune (détacher) —</option>
+                {closeuses.filter((c) => c.active).map((c) => (
+                  <option key={c.id} value={c.idx}>{c.emoji} {c.name}</option>
+                ))}
+              </select>
+              <span className="text-[11px] text-muted-foreground">
+                La commande apparaîtra dans le tableau de bord de la closeuse choisie.
+              </span>
+            </div>
+          </div>
+
+
+          <div>
             <div className="text-xs font-bold uppercase text-muted-foreground mb-2">Frais de livraison</div>
             <div className="flex flex-wrap items-center gap-2">
               <input
