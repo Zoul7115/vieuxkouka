@@ -140,6 +140,80 @@ export function HomePage() {
       {/* PREUVE SOCIALE LIVE — vraies stats BDD */}
       
 
+      {/* PRODUIT — POUDRE DU VIEUX KOUKA */}
+      <section className="sec bg-white">
+        <div className="container-kouka text-center">
+          <h2 className="text-vert mb-3">POUDRE DU VIEUX KOUKA</h2>
+          <p className="text-muted-foreground max-w-xl mx-auto mb-6 text-base leading-relaxed">
+            La recette traditionnelle du Vieux Kouka utilisée pour <strong className="text-foreground">traiter efficacement les hémorroïdes, les ulcères gastriques, les brûlures d'estomac, la colopathie et les ballonnements</strong>.
+          </p>
+          <div className="max-w-[460px] mx-auto mb-6 rounded-3xl overflow-hidden shadow-[0_12px_40px_rgba(46,125,50,0.30)] border-[3px] border-vert-bg">
+            <img src={product.heroImage} alt="Poudre du Vieux KOUKA — sachet" className="w-full block" />
+          </div>
+
+          <ul className="grid grid-cols-2 sm:grid-cols-5 gap-3 max-w-3xl mx-auto mb-7">
+            {[
+              { i: '🌱', t: '100% Naturel' },
+              { i: '📖', t: 'Recette Traditionnelle' },
+              { i: '🥄', t: 'Facile à Consommer' },
+              { i: '🚚', t: 'Livraison Rapide' },
+              { i: '💵', t: 'Paiement à la Livraison' },
+            ].map((x) => (
+              <li key={x.t} className="bg-vert-bg/60 border-2 border-vert-bg rounded-xl p-3 text-center">
+                <div className="text-2xl mb-1">{x.i}</div>
+                <div className="text-xs sm:text-sm font-extrabold text-vert leading-tight">✅ {x.t}</div>
+              </li>
+            ))}
+          </ul>
+
+          <button
+            onClick={scrollToOrder}
+            className="w-full sm:w-auto sm:px-10 bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
+          >
+            🛒 JE COMMANDE MAINTENANT
+          </button>
+        </div>
+      </section>
+
+      {/* POSOLOGIE */}
+      <section className="sec bg-vert-bg">
+        <div className="container-kouka">
+          <h2 className="text-center mb-6">COMMENT CONSOMMER LA <span className="text-vert">POUDRE DU VIEUX KOUKA</span> ?</h2>
+          <div className="max-w-xl mx-auto bg-white border-2 border-vert-mid rounded-3xl p-7 shadow-[0_10px_30px_rgba(46,125,50,0.18)] text-center">
+            <div className="text-5xl mb-3">🍵</div>
+            <p className="text-lg sm:text-xl font-extrabold text-foreground leading-relaxed mb-4">
+              Une cuillérée à café dans de l'eau tiède ou dans du Lipton, <span className="text-vert">matin et soir</span>.
+            </p>
+            <div className="flex justify-center gap-6 text-sm font-bold text-vert">
+              <div className="flex items-center gap-2"><span className="text-2xl">🌅</span> Matin</div>
+              <div className="flex items-center gap-2"><span className="text-2xl">🌙</span> Soir</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CONFIANCE VIEUX KOUKA */}
+      <section className="sec bg-vert-bg/40">
+        <div className="container-kouka">
+          <h2 className="text-center mb-7">POURQUOI TANT DE FAMILLES FONT <span className="text-vert">CONFIANCE AU VIEUX KOUKA</span> ?</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            {[
+              { i: '📖', t: 'Recette Traditionnelle Reconnue' },
+              { i: '🌿', t: 'Produit 100% Naturel' },
+              { i: '🎯', t: 'Traite Efficacement les Troubles Digestifs' },
+              { i: '🇧🇫🇳🇪', t: 'Livraison Partout au Burkina Faso et au Niger' },
+              { i: '💵', t: 'Paiement à la Réception' },
+              { i: '👨‍👩‍👧‍👦', t: 'Déjà Utilisé par de Nombreuses Familles' },
+            ].map((x) => (
+              <div key={x.t} className="bg-white border-2 border-vert-bg rounded-2xl p-5 text-center shadow-md hover:-translate-y-0.5 transition-transform">
+                <div className="text-3xl mb-2">{x.i}</div>
+                <div className="font-extrabold text-vert text-sm leading-snug">✅ {x.t}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* UN SEUL PRODUIT — 5 PATHOLOGIES */}
       <section className="sec bg-vert-bg/40">
         <div className="container-kouka">
