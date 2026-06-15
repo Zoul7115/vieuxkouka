@@ -475,6 +475,15 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* CTA après témoignages */}
+      <section className="py-8 bg-background">
+        <div className="container-kouka text-center">
+          <button onClick={scrollToOrder} className="w-full sm:w-auto sm:px-10 bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
+            🛒 COMMANDER MAINTENANT
+          </button>
+        </div>
+      </section>
+
       {/* AVANT / APRÈS visuel */}
       <section className="sec bg-cream-2">
         <div className="container-kouka">
