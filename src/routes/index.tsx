@@ -60,14 +60,28 @@ export function HomePage() {
             ⭐ +200 clients guéris · 87% soulagés dès J3
           </span>
 
-          <h1 className="text-vert mb-3">
-            Hémorroïdes, ulcères, gaz dans le ventre (colopathie) ?<br />
-            <em className="text-rouge not-italic">Soulagé en 3 jours.</em>
+          <h1 className="text-vert mb-4 text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight">
+            VOUS SOUFFREZ D'UN OU PLUSIEURS DE CES <span className="text-rouge">TROUBLES DIGESTIFS</span> ?
           </h1>
 
+          <ul className="max-w-md mx-auto mb-5 grid grid-cols-1 sm:grid-cols-2 gap-2 text-left text-base font-semibold text-foreground">
+            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Hémorroïdes</li>
+            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Gaz et Ballonnements</li>
+            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Brûlures d'Estomac</li>
+            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Ulcères Gastriques</li>
+            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2 sm:col-span-2">✅ Colopathie</li>
+          </ul>
+
           <p className="text-muted-foreground max-w-lg mx-auto mb-5 text-base leading-relaxed">
-            Saignements, brûlures d'estomac, ballonnements — <strong className="text-foreground">la Poudre du Vieux KOUKA traite la cause, pas le symptôme.</strong>
+            Découvrez la <strong className="text-foreground">recette traditionnelle du Vieux Kouka</strong> qui <strong className="text-vert">traite efficacement les troubles digestifs</strong> grâce à sa formule naturelle.
           </p>
+
+          <button
+            onClick={scrollToOrder}
+            className="w-full sm:w-auto sm:px-10 bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform mb-6"
+          >
+            🛒 COMMANDER MAINTENANT
+          </button>
 
           {/* Photo produit */}
           <div className="max-w-[420px] mx-auto mb-5 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(46,125,50,0.25)] border-[3px] border-[oklch(0.85_0.06_145)]">
@@ -125,6 +139,80 @@ export function HomePage() {
 
       {/* PREUVE SOCIALE LIVE — vraies stats BDD */}
       
+
+      {/* PRODUIT — POUDRE DU VIEUX KOUKA */}
+      <section className="sec bg-white">
+        <div className="container-kouka text-center">
+          <h2 className="text-vert mb-3">POUDRE DU VIEUX KOUKA</h2>
+          <p className="text-muted-foreground max-w-xl mx-auto mb-6 text-base leading-relaxed">
+            La recette traditionnelle du Vieux Kouka utilisée pour <strong className="text-foreground">traiter efficacement les hémorroïdes, les ulcères gastriques, les brûlures d'estomac, la colopathie et les ballonnements</strong>.
+          </p>
+          <div className="max-w-[460px] mx-auto mb-6 rounded-3xl overflow-hidden shadow-[0_12px_40px_rgba(46,125,50,0.30)] border-[3px] border-vert-bg">
+            <img src={product.heroImage} alt="Poudre du Vieux KOUKA — sachet" className="w-full block" />
+          </div>
+
+          <ul className="grid grid-cols-2 sm:grid-cols-5 gap-3 max-w-3xl mx-auto mb-7">
+            {[
+              { i: '🌱', t: '100% Naturel' },
+              { i: '📖', t: 'Recette Traditionnelle' },
+              { i: '🥄', t: 'Facile à Consommer' },
+              { i: '🚚', t: 'Livraison Rapide' },
+              { i: '💵', t: 'Paiement à la Livraison' },
+            ].map((x) => (
+              <li key={x.t} className="bg-vert-bg/60 border-2 border-vert-bg rounded-xl p-3 text-center">
+                <div className="text-2xl mb-1">{x.i}</div>
+                <div className="text-xs sm:text-sm font-extrabold text-vert leading-tight">✅ {x.t}</div>
+              </li>
+            ))}
+          </ul>
+
+          <button
+            onClick={scrollToOrder}
+            className="w-full sm:w-auto sm:px-10 bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
+          >
+            🛒 JE COMMANDE MAINTENANT
+          </button>
+        </div>
+      </section>
+
+      {/* POSOLOGIE */}
+      <section className="sec bg-vert-bg">
+        <div className="container-kouka">
+          <h2 className="text-center mb-6">COMMENT CONSOMMER LA <span className="text-vert">POUDRE DU VIEUX KOUKA</span> ?</h2>
+          <div className="max-w-xl mx-auto bg-white border-2 border-vert-mid rounded-3xl p-7 shadow-[0_10px_30px_rgba(46,125,50,0.18)] text-center">
+            <div className="text-5xl mb-3">🍵</div>
+            <p className="text-lg sm:text-xl font-extrabold text-foreground leading-relaxed mb-4">
+              Une cuillérée à café dans de l'eau tiède ou dans du Lipton, <span className="text-vert">matin et soir</span>.
+            </p>
+            <div className="flex justify-center gap-6 text-sm font-bold text-vert">
+              <div className="flex items-center gap-2"><span className="text-2xl">🌅</span> Matin</div>
+              <div className="flex items-center gap-2"><span className="text-2xl">🌙</span> Soir</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CONFIANCE VIEUX KOUKA */}
+      <section className="sec bg-vert-bg/40">
+        <div className="container-kouka">
+          <h2 className="text-center mb-7">POURQUOI TANT DE FAMILLES FONT <span className="text-vert">CONFIANCE AU VIEUX KOUKA</span> ?</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            {[
+              { i: '📖', t: 'Recette Traditionnelle Reconnue' },
+              { i: '🌿', t: 'Produit 100% Naturel' },
+              { i: '🎯', t: 'Traite Efficacement les Troubles Digestifs' },
+              { i: '🇧🇫🇳🇪', t: 'Livraison Partout au Burkina Faso et au Niger' },
+              { i: '💵', t: 'Paiement à la Réception' },
+              { i: '👨‍👩‍👧‍👦', t: 'Déjà Utilisé par de Nombreuses Familles' },
+            ].map((x) => (
+              <div key={x.t} className="bg-white border-2 border-vert-bg rounded-2xl p-5 text-center shadow-md hover:-translate-y-0.5 transition-transform">
+                <div className="text-3xl mb-2">{x.i}</div>
+                <div className="font-extrabold text-vert text-sm leading-snug">✅ {x.t}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* UN SEUL PRODUIT — 5 PATHOLOGIES */}
       <section className="sec bg-vert-bg/40">
@@ -285,6 +373,47 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* PHOTOS RÉELLES */}
+      <section className="sec bg-cream-2">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">COMMENT CONSOMMER LA <span className="text-vert">POUDRE DU VIEUX KOUKA</span> ?</h2>
+          <p className="text-center text-muted-foreground mb-7 text-sm">Photos réelles du produit.</p>
+          <div className="grid sm:grid-cols-2 gap-5 max-w-3xl mx-auto">
+            <figure className="group bg-white rounded-2xl overflow-hidden border-2 border-vert-bg shadow-md">
+              <div className="overflow-hidden">
+                <img
+                  src="/images/poudre-vieux-kouka-hero.png"
+                  alt="Préparation du Vieux Kouka dans une boisson chaude"
+                  loading="lazy"
+                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <figcaption className="p-4 text-sm font-semibold text-vert text-center">
+                Préparation traditionnelle du Vieux Kouka dans une boisson chaude.
+              </figcaption>
+            </figure>
+            <figure className="group bg-white rounded-2xl overflow-hidden border-2 border-vert-bg shadow-md">
+              <div className="overflow-hidden">
+                <img
+                  src="/images/pexels-ojochenemi-anyinda-gbako-2156547775-36424104.jpg"
+                  alt="Consommation quotidienne de la Poudre du Vieux Kouka"
+                  loading="lazy"
+                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <figcaption className="p-4 text-sm font-semibold text-vert text-center">
+                Consommation quotidienne simple et pratique.
+              </figcaption>
+            </figure>
+          </div>
+          <div className="text-center mt-7">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
+              🛒 COMMANDER MAINTENANT
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* TÉMOIGNAGES */}
       <section className="sec">
         <div className="container-kouka">
@@ -343,6 +472,15 @@ export function HomePage() {
             <p className="font-bold mb-1">💵 Paiement uniquement à la livraison</p>
             <p className="text-sm">Tu ne paies <strong>RIEN à l'avance</strong>. Le livreur passe chez toi, tu vérifies le produit, et tu paies <strong>cash à la réception</strong>. Aucun risque, aucune carte, aucun acompte.</p>
           </div>
+        </div>
+      </section>
+
+      {/* CTA après témoignages */}
+      <section className="py-8 bg-background">
+        <div className="container-kouka text-center">
+          <button onClick={scrollToOrder} className="w-full sm:w-auto sm:px-10 bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
+            🛒 COMMANDER MAINTENANT
+          </button>
         </div>
       </section>
 
