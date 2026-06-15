@@ -11,6 +11,8 @@ import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
 import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
+import koukaPrep1 from '@/assets/kouka-preparation-1.jpeg.asset.json';
+import koukaPrep2 from '@/assets/kouka-preparation-2.jpeg.asset.json';
 
 
 
@@ -373,40 +375,49 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* PHOTOS RÉELLES */}
+      {/* PHOTOS RÉELLES DU PRODUIT */}
       <section className="sec bg-cream-2">
         <div className="container-kouka">
           <h2 className="text-center mb-2">COMMENT CONSOMMER LA <span className="text-vert">POUDRE DU VIEUX KOUKA</span> ?</h2>
-          <p className="text-center text-muted-foreground mb-7 text-sm">Photos réelles du produit.</p>
-          <div className="grid sm:grid-cols-2 gap-5 max-w-3xl mx-auto">
-            <figure className="group bg-white rounded-2xl overflow-hidden border-2 border-vert-bg shadow-md">
-              <div className="overflow-hidden">
+          <p className="text-center text-muted-foreground mb-8 text-sm md:text-base">Préparation simple et naturelle au quotidien.</p>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <figure className="flex flex-col">
+              <div className="rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
                 <img
-                  src="/images/poudre-vieux-kouka-hero.png"
-                  alt="Préparation du Vieux Kouka dans une boisson chaude"
+                  src={koukaPrep1.url}
+                  alt="Deux sachets de Poudre du Vieux Kouka avec un verre de préparation"
                   loading="lazy"
-                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-auto object-cover"
                 />
               </div>
-              <figcaption className="p-4 text-sm font-semibold text-vert text-center">
-                Préparation traditionnelle du Vieux Kouka dans une boisson chaude.
+              <figcaption className="mt-4 text-center">
+                <div className="text-vert font-extrabold tracking-wide text-sm md:text-base">PRÉPARATION TRADITIONNELLE</div>
+                <p className="text-foreground/80 text-sm md:text-base mt-1">
+                  Mélangez une cuillérée à café dans de l'eau tiède ou du Lipton matin et soir.
+                </p>
               </figcaption>
             </figure>
-            <figure className="group bg-white rounded-2xl overflow-hidden border-2 border-vert-bg shadow-md">
-              <div className="overflow-hidden">
+
+            <figure className="flex flex-col">
+              <div className="rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.12)]">
                 <img
-                  src="/images/pexels-ojochenemi-anyinda-gbako-2156547775-36424104.jpg"
-                  alt="Consommation quotidienne de la Poudre du Vieux Kouka"
+                  src={koukaPrep2.url}
+                  alt="Sachet de Poudre du Vieux Kouka avec un verre prêt à être consommé"
                   loading="lazy"
-                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-auto object-cover"
                 />
               </div>
-              <figcaption className="p-4 text-sm font-semibold text-vert text-center">
-                Consommation quotidienne simple et pratique.
+              <figcaption className="mt-4 text-center">
+                <div className="text-vert font-extrabold tracking-wide text-sm md:text-base">CONSOMMATION QUOTIDIENNE</div>
+                <p className="text-foreground/80 text-sm md:text-base mt-1">
+                  Une utilisation simple pour profiter pleinement des bienfaits du Vieux Kouka.
+                </p>
               </figcaption>
             </figure>
           </div>
-          <div className="text-center mt-7">
+
+          <div className="text-center mt-8">
             <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
               🛒 COMMANDER MAINTENANT
             </button>
