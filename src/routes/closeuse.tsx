@@ -107,7 +107,7 @@ function LeadList({ session, slug }: { session: CloseuseSession; slug: string | 
       <ManualLeadModal
         open={manualOpen}
         onClose={() => setManualOpen(false)}
-        onCreated={reload}
+        onCreated={() => { reload(); reloadOrders(); }}
         session={session}
         closeuseSlug={slug}
       />
