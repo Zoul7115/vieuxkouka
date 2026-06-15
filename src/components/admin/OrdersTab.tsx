@@ -158,6 +158,7 @@ export function OrdersTab({
             order={o}
             livreurs={livreurs}
             activeLivreurs={activeLivreurs}
+            closeuses={closeuses}
             onUpdateStatus={onUpdateStatus}
             onAssignLivreur={onAssignLivreur}
           />
