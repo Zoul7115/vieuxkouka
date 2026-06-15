@@ -74,10 +74,12 @@ export async function updateCloseuseOrderStatus(order: CloseuseOrder, status: st
   const { error } = await db.from('orders').update(patch).eq('id', order.id);
   if (error) throw error;
 
-  if (order.lead_id && ['pending', 'confirmed', 'delivered', 'cancelled'].includes(status)) {
+  if (order.lead_id) {
     const leadStatus = status === 'confirmed' ? 'valide'
       : status === 'delivered' ? 'livree'
       : status === 'cancelled' ? 'annulee'
+      : status === 'approche' ? 'discussion'
+      : status === 'suivi' ? 'a_relancer'
       : 'nouveau_lead';
     const leadPatch: Record<string, unknown> = { status: leadStatus };
     if (leadStatus === 'valide') leadPatch.validated_at = nowIso;
