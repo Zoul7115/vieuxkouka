@@ -76,7 +76,6 @@ export function ManualLeadModal({ open, onClose, onCreated, session, closeuseSlu
         address_detail: addressDetail.trim() || null,
         status: 'nouveau_lead',
         source: 'closeuse-manual',
-        created_at: whenIso,
       }).select('*').single();
       if (error) throw error;
 

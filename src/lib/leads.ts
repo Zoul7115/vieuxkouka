@@ -143,7 +143,6 @@ export async function updateLeadStatus(lead: Lead, to: LeadStatus, opts?: { note
       closeuse_slug: lead.closeuse_slug,
       lead_id: lead.id,
       assigned_at: whenIso,
-      created_at: whenIso,
       client_ip: lead.client_ip,
       source: lead.source || 'closeuse-lead',
       locked: true,
