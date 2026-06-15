@@ -3,9 +3,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { CloseuseLogin } from '@/components/closeuse/CloseuseLogin';
 import { ShareLinks } from '@/components/closeuse/ShareLinks';
 import { LeadCard } from '@/components/closeuse/LeadCard';
+import { CloseuseOrderCard } from '@/components/closeuse/CloseuseOrderCard';
 import { ManualLeadModal } from '@/components/closeuse/ManualLeadModal';
 import { getStoredSession, clearSession, type CloseuseSession } from '@/lib/closeuse-auth';
 import { useLeads, type LeadStatus } from '@/lib/leads';
+import { useCloseuseOrders } from '@/lib/closeuse-orders';
 import { touchCloseuseActivity } from '@/lib/closeuseActivity';
 import { supabase } from '@/integrations/supabase/client';
 
@@ -74,8 +76,10 @@ function CloseusePage() {
 
 function LeadList({ session, slug }: { session: CloseuseSession; slug: string | null }) {
   const { leads, loading, reload } = useLeads(session.idx);
+  const { orders, loading: ordersLoading, reload: reloadOrders } = useCloseuseOrders(session.idx);
   const [filter, setFilter] = useState<FilterKey>('all');
   const [manualOpen, setManualOpen] = useState(false);
+  const [section, setSection] = useState<'leads' | 'orders'>('orders');
 
   const counts = useMemo(() => {
     const c: Record<FilterKey, number> = { all: leads.length, attente: 0, approche: 0, suivi: 0, confirmee: 0, livree: 0, annulee: 0 };
@@ -108,6 +112,36 @@ function LeadList({ session, slug }: { session: CloseuseSession; slug: string | 
         closeuseSlug={slug}
       />
 
+      <div className="grid grid-cols-2 gap-2 bg-white p-1.5 rounded-2xl border-2 border-rose-200">
+        <button
+          onClick={() => setSection('orders')}
+          className={`px-3 py-2 rounded-xl text-xs font-extrabold ${section === 'orders' ? 'bg-rose-600 text-white' : 'text-rose-700 hover:bg-rose-50'}`}
+        >
+          📥 Commandes admin <span className="opacity-70">{orders.length}</span>
+        </button>
+        <button
+          onClick={() => setSection('leads')}
+          className={`px-3 py-2 rounded-xl text-xs font-extrabold ${section === 'leads' ? 'bg-rose-600 text-white' : 'text-rose-700 hover:bg-rose-50'}`}
+        >
+          📋 Leads boutique <span className="opacity-70">{leads.length}</span>
+        </button>
+      </div>
+
+      {section === 'orders' && (
+        <div className="space-y-3">
+          {ordersLoading && <div className="text-center text-rose-700 py-6">Chargement…</div>}
+          {!ordersLoading && orders.length === 0 && (
+            <div className="bg-white rounded-2xl p-8 text-center text-gray-500 border-2 border-rose-100">
+              Aucune commande transférée par l’admin pour le moment.
+            </div>
+          )}
+          {orders.map((o) => <CloseuseOrderCard key={o.id} order={o} onChanged={reloadOrders} />)}
+        </div>
+      )}
+
+      {section === 'leads' && (
+        <>
+
       <div className="flex gap-1.5 overflow-x-auto bg-white p-1.5 rounded-2xl border-2 border-rose-200">
         {FILTERS.map((f) => (
           <button
@@ -133,6 +167,8 @@ function LeadList({ session, slug }: { session: CloseuseSession; slug: string | 
       <div className="space-y-3">
         {visible.map((l) => <LeadCard key={l.id} lead={l} />)}
       </div>
+        </>
+      )}
     </div>
   );
 }
