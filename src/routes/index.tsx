@@ -60,14 +60,28 @@ export function HomePage() {
             ⭐ +200 clients guéris · 87% soulagés dès J3
           </span>
 
-          <h1 className="text-vert mb-3">
-            Hémorroïdes, ulcères, gaz dans le ventre (colopathie) ?<br />
-            <em className="text-rouge not-italic">Soulagé en 3 jours.</em>
+          <h1 className="text-vert mb-4 text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight">
+            VOUS SOUFFREZ D'UN OU PLUSIEURS DE CES <span className="text-rouge">TROUBLES DIGESTIFS</span> ?
           </h1>
 
+          <ul className="max-w-md mx-auto mb-5 grid grid-cols-1 sm:grid-cols-2 gap-2 text-left text-base font-semibold text-foreground">
+            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Hémorroïdes</li>
+            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Gaz et Ballonnements</li>
+            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Brûlures d'Estomac</li>
+            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Ulcères Gastriques</li>
+            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2 sm:col-span-2">✅ Colopathie</li>
+          </ul>
+
           <p className="text-muted-foreground max-w-lg mx-auto mb-5 text-base leading-relaxed">
-            Saignements, brûlures d'estomac, ballonnements — <strong className="text-foreground">la Poudre du Vieux KOUKA traite la cause, pas le symptôme.</strong>
+            Découvrez la <strong className="text-foreground">recette traditionnelle du Vieux Kouka</strong> qui <strong className="text-vert">traite efficacement les troubles digestifs</strong> grâce à sa formule naturelle.
           </p>
+
+          <button
+            onClick={scrollToOrder}
+            className="w-full sm:w-auto sm:px-10 bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform mb-6"
+          >
+            🛒 COMMANDER MAINTENANT
+          </button>
 
           {/* Photo produit */}
           <div className="max-w-[420px] mx-auto mb-5 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(46,125,50,0.25)] border-[3px] border-[oklch(0.85_0.06_145)]">
