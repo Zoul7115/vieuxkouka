@@ -421,15 +421,14 @@ function OrderCard({
                   if (newIdx != null && !target) { toast.error('Closeuse introuvable'); return; }
                   const label = target ? `${target.emoji ?? ''} ${target.name}` : 'aucune closeuse';
                   if (!window.confirm(`Transférer la commande ${order.order_number} à ${label} ?`)) return;
-                  const patch: Record<string, unknown> = {
+                  const { error } = await (supabase.from('orders') as any).update({
                     closeuse_idx: newIdx,
                     closeuse_slug: target?.slug ?? null,
                     assigned_at: newIdx != null ? new Date().toISOString() : null,
-                  };
-                  const { error } = await supabase.from('orders').update(patch).eq('id', order.id);
+                  }).eq('id', order.id);
                   if (error) { toast.error(error.message); return; }
                   if (order.lead_id) {
-                    const { error: lErr } = await supabase.from('leads').update({
+                    const { error: lErr } = await (supabase.from('leads') as any).update({
                       closeuse_idx: newIdx,
                       closeuse_slug: target?.slug ?? null,
                     }).eq('id', order.lead_id);
