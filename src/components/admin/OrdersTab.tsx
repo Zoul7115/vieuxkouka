@@ -185,12 +185,14 @@ function OrderCard({
   order,
   livreurs,
   activeLivreurs,
+  closeuses,
   onUpdateStatus,
   onAssignLivreur,
 }: {
   order: Order;
   livreurs: Livreur[];
   activeLivreurs: Livreur[];
+  closeuses: Closeuse[];
   onUpdateStatus: (id: string, status: string) => void;
   onAssignLivreur: (id: string, livreurIdx: number | null) => void;
 }) {
