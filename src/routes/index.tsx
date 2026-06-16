@@ -539,7 +539,7 @@ export function HomePage() {
           <p className="opacity-80 mb-3">Savoir ancestral · Burkina Faso · Afrique de l'Ouest</p>
           <p className="mb-4">
             <a href={WA_LINK} target="_blank" rel="noreferrer" className="text-white font-bold underline">
-              📱 WhatsApp : {WA_DISPLAY}
+              📱 Nous contacter sur WhatsApp
             </a>
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-xs">
