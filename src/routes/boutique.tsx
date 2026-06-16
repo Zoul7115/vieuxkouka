@@ -252,13 +252,13 @@ export function BrandHomePage() {
       <section className="sec bg-white">
         <div className="container-kouka">
           <h2 className="text-center text-vert mb-2">Pourquoi tant de personnes font confiance au Vieux KOUKA ?</h2>
-          <p className="text-center text-muted-foreground mb-8 max-w-2xl mx-auto">Une marque burkinabè reconnue pour la qualité de ses formules et la satisfaction de ses clients.</p>
+          <p className="text-center text-muted-foreground mb-8 max-w-2xl mx-auto">Plus de 60 ans de recettes familiales. Plus de 480 clients satisfaits. Plantes ramassées au Burkina Faso.</p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
             {[
               { i: '🌿', t: 'Formules naturelles', d: 'Plantes africaines sélectionnées avec soin.' },
               { i: '📦', t: 'Livraison rapide', d: 'Partout au Burkina Faso · Ouaga 24h.' },
               { i: '💵', t: 'Paiement à la livraison', d: 'Vous payez uniquement à la réception.' },
-              { i: '⭐', t: 'Des centaines de clients', d: 'Accompagnés et satisfaits depuis des années.' },
+              { i: '⭐', t: '480+ clients satisfaits', d: 'Soulagés au Burkina et au Niger depuis des années.' },
               { i: '📞', t: 'Conseils personnalisés', d: 'Notre équipe répond à vos questions.' },
               { i: '🏆', t: 'Expérience & savoir-faire', d: 'Une expertise reconnue du Vieux KOUKA.' },
             ].map((c) => (
@@ -268,6 +268,14 @@ export function BrandHomePage() {
                 <div className="text-xs md:text-sm text-muted-foreground leading-relaxed">{c.d}</div>
               </div>
             ))}
+          </div>
+          <div className="text-center mt-8">
+            <button
+              onClick={() => scrollToId('catalogue')}
+              className="bg-[#C0392B] text-white px-7 py-3.5 rounded-xl text-base font-extrabold shadow-[0_8px_24px_rgba(192,57,43,0.35)] hover:-translate-y-0.5 transition-transform"
+            >
+              👉 Voir tous nos remèdes — Paiement à la livraison
+            </button>
           </div>
         </div>
       </section>
