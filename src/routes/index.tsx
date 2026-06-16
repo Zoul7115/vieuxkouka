@@ -288,9 +288,12 @@ export function HomePage() {
       {/* UN SEUL PRODUIT — 5 PATHOLOGIES */}
       <section className="sec bg-vert-bg/40">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">UN seul produit · <span className="text-vert">5 pathologies digestives</span></h2>
-          <p className="text-center text-muted-foreground mb-7 max-w-lg mx-auto">
-            La Poudre du Vieux KOUKA agit sur tout le système digestif. Une formule unique, plusieurs maux soulagés.
+          <h2 className="text-center mb-2">POURQUOI <span className="text-vert">UNE SEULE FORMULE</span> AGIT SUR PLUSIEURS TROUBLES DIGESTIFS ?</h2>
+          <p className="text-center text-muted-foreground mb-7 max-w-xl mx-auto">
+            Quand le ventre va mal, ce n'est jamais un seul problème : les hémorroïdes, les gaz, les brûlures et la colopathie
+            viennent souvent du même <strong>déséquilibre du système digestif</strong>. La Poudre du Vieux Kouka <strong>nettoie l'intérieur du ventre</strong>,
+            <strong> calme les inflammations</strong> et <strong>aide le corps à se réparer naturellement</strong>. C'est pour cela qu'une seule
+            recette suffit pour soulager plusieurs maux à la fois.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             {[
