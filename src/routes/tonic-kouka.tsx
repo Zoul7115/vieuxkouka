@@ -52,7 +52,7 @@ export function TonicKoukaPage() {
   );
 
   return (
-    <div className="bg-cream pb-[180px] sm:pb-32" style={{ paddingBottom: 'calc(180px + env(safe-area-inset-bottom))' }}>
+    <div className="bg-cream pb-24 sm:pb-16" style={{ paddingBottom: 'calc(90px + env(safe-area-inset-bottom))' }}>
       <StickyOfferBarRecommended product={product} stock={stock} unitLabel="bouteilles" />
       <VisitTracker page="tonic-kouka" />
 
@@ -301,6 +301,7 @@ export function TonicKoukaPage() {
               <tbody>
                 {[
                   ['Maux soignés', '✅ 5 d\'un coup', '❌ 1 par produit'],
+                  ['Paiement', '✅ À la livraison', '❌ Avant de recevoir'],
                   ['Coût par mois', '22 000 F', 'Plus de 50 000 F'],
                   ['Effets secondaires', '✅ Aucun', '⚠️ Abîme foie, reins'],
                   ['D\'où ça vient', '🌿 Plantes du Burkina', 'Produits chimiques'],

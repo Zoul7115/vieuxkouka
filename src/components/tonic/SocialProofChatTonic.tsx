@@ -218,15 +218,8 @@ export function SocialProofChatTonic() {
   return (
     <>
       {/* WhatsApp conversations */}
-      <section className="py-14 bg-[#0f2a1c] text-white">
+      <section className="pb-14 bg-[#0f2a1c] text-white">
         <div className="container-kouka max-w-5xl">
-          <div className="text-center mb-8">
-            <span className="text-[#dcf8c6] text-xs font-bold uppercase tracking-[0.2em]">💬 Messages WhatsApp privés</span>
-            <h2 className="text-[oklch(0.92_0.08_85)] mt-3 font-serif">Ce que les familles m'écrivent.</h2>
-            <p className="text-white/70 text-sm mt-2 max-w-xl mx-auto">
-              Captures de vraies discussions après leur cure (noms abrégés — confidentialité 🔒).
-            </p>
-          </div>
           <div className="grid md:grid-cols-2 gap-5">
             {CONVERSATIONS.map((c, i) => <WhatsAppCard key={i} conv={c} />)}
           </div>
