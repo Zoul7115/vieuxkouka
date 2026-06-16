@@ -317,9 +317,9 @@ export function BrandHomePage() {
 
           <div className="grid md:grid-cols-3 gap-4 mb-6">
             {[
-              { txt: "Je suis totalement guérie. Les ballonnements sont finis, le rectum ne sort plus. Merci au Vieux KOUKA 🙏", auth: 'Cliente WhatsApp · Burkina Faso' },
-              { txt: "Ton produit est vraiment efficace. J'ai suivi la cure complète et je ne souffre plus. Je recommande.", auth: 'Client WhatsApp · Renouvellement' },
-              { txt: "Depuis ce traitement naturel ma santé s'est améliorée et je me sens plus en forme qu'avant.", auth: 'Client WhatsApp' },
+              { txt: "Ça fait 4 ans que je traînais ulcères + tension + fatigue. J'achetais 3-4 médicaments chaque mois, ça me ruinait. Avec le Tonic, un seul flacon a suffi. J30 : ma tension est stable à 13/8.", auth: 'Issa M. · Bobo-Dioulasso · Client WhatsApp ✅' },
+              { txt: "Diabétique depuis 12 ans, sous insuline tous les jours. J'ai pris le Tonic en complément. Ma glycémie est passée de 2,20 à 1,30 en 6 semaines. Mon médecin a réduit mes doses d'insuline.", auth: 'Madi T. · Tenkodogo · Page Facebook ✅' },
+              { txt: "À 58 ans j'avais hémorroïdes + ulcères + paludisme à répétition. Le médecin m'avait donné 5 ordonnances. 1 mois avec le Tonic : tout est calmé.", auth: 'Boukary S. · Koudougou · Page Facebook ✅' },
             ].map((t, i) => (
               <div key={i} className="bg-white rounded-2xl p-5 border-2 border-vert-bg shadow-sm">
                 <div className="text-or text-lg mb-2">★★★★★</div>
