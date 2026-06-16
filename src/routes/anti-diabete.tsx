@@ -486,23 +486,7 @@ export function AntiDiabetePage() {
         </div>
       </section>
 
-      <section className="py-10 bg-white border-t border-bleu-light/20">
-        <div className="container-kouka max-w-3xl text-center">
-          <p className="text-xs uppercase tracking-widest text-bleu font-bold mb-2">💊 Programme complet</p>
-          <h3 className="text-bleu mb-2">Traitement complet — 3 sachets · 25 000 FCFA</h3>
-          <p className="text-sm text-muted-foreground mb-4">L'option la plus choisie pour des résultats durables. Stock limité — restant : <b className="text-rouge">{stock}</b></p>
-          <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform pulse-ring">
-            Commander le traitement complet
-          </button>
-          <p className="text-xs text-muted-foreground mt-3">📦 Livraison à Ouaga & Niamey · Cash à la livraison</p>
-          <div className="mt-4 flex justify-center">
-            <span className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-bold border-2 bg-rouge-light border-rouge text-rouge">
-              <span className="w-2 h-2 rounded-full bg-rouge animate-ping" />
-              Stock limité : <b>{stock}</b> sachets restants
-            </span>
-          </div>
-        </div>
-      </section>
+      {/* Section "Programme complet" supprimée — doublon avec "Tout est inclus" */}
 
       <OfferComparisonTable product={product} />
 
