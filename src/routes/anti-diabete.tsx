@@ -506,19 +506,7 @@ export function AntiDiabetePage() {
         </div>
       </section>
 
-      <DiagnosticQuiz
-        title="Votre situation actuelle ?"
-        questions={[
-          'Diabète récemment diagnostiqué',
-          'Diabète ancien (plusieurs années)',
-          'Glycémie élevée / instable',
-          'Traitement actuel peu efficace',
-        ]}
-      />
-
       <OfferComparisonTable product={product} />
-
-      <RecommendedCureSection product={product} />
 
       <ReassuranceBar />
 
