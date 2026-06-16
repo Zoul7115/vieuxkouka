@@ -59,28 +59,25 @@ export function HomePage() {
           </div>
 
           <span className="inline-block bg-vert-mid text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-4">
-            ⭐ +200 clients guéris · 87% soulagés dès J3
+            ⭐ +200 familles soulagées · 87% dès J3
           </span>
 
-          <h1 className="text-vert mb-5 text-2xl sm:text-3xl md:text-4xl font-black leading-[1.05] tracking-tight max-w-sm sm:max-w-md md:max-w-xl mx-auto uppercase">
-            <span className="block text-vert">Vous souffrez d'un ou</span>
-            <span className="block text-vert">plusieurs de ces</span>
-            <span className="block text-[38px] sm:text-[52px] md:text-[68px] lg:text-[76px] text-rouge font-black mt-2 leading-[0.9] tracking-tighter">
-              Troubles Digestifs ?
-            </span>
+          <h1 className="text-vert mb-5 font-black leading-[0.92] tracking-tight max-w-sm sm:max-w-md md:max-w-2xl mx-auto uppercase">
+            <span className="block text-[34px] sm:text-[46px] md:text-[58px] text-vert">Votre ventre</span>
+            <span className="block text-[38px] sm:text-[54px] md:text-[68px] text-rouge mt-1">vous fait souffrir</span>
+            <span className="block text-[34px] sm:text-[46px] md:text-[58px] text-vert mt-1">chaque jour ?</span>
           </h1>
 
-          <ul className="max-w-md mx-auto mb-5 grid grid-cols-1 sm:grid-cols-2 gap-2 text-left text-base font-semibold text-foreground">
-            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Hémorroïdes</li>
-            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Gaz et Ballonnements</li>
-            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Brûlures d'Estomac</li>
-            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Ulcères Gastriques</li>
-            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2 sm:col-span-2">✅ Colopathie</li>
-          </ul>
-
-          <p className="text-muted-foreground max-w-lg mx-auto mb-5 text-base leading-relaxed">
-            Découvrez la <strong className="text-foreground">recette traditionnelle du Vieux Kouka</strong> qui <strong className="text-vert">traite efficacement les troubles digestifs</strong> grâce à sa formule naturelle.
+          <p className="text-foreground max-w-lg mx-auto mb-5 text-base sm:text-lg leading-relaxed font-semibold">
+            Douleurs, saignements, ventre gonflé, brûlures d'estomac, constipation ou colopathie ?<br/>
+            <span className="text-vert font-bold">Découvrez la recette traditionnelle du Vieux Kouka.</span>
           </p>
+
+          <div className="flex flex-wrap justify-center gap-2 max-w-md mx-auto mb-5">
+            {['Hémorroïdes', 'Ulcère', 'Gaz / Ballonnements', 'Brûlures', 'Colopathie'].map((t) => (
+              <span key={t} className="bg-white border-2 border-vert-bg rounded-full px-3 py-1 text-sm font-bold text-foreground">✅ {t}</span>
+            ))}
+          </div>
 
           <button
             onClick={scrollToOrder}
@@ -140,6 +137,22 @@ export function HomePage() {
             🌿 JE COMMANDE — JE PAIE À LA LIVRAISON
           </button>
           <p className="text-sm text-muted-foreground mt-3">🚚 Livraison rapide · 💵 Paiement uniquement à la réception</p>
+
+          {/* Badges de confiance */}
+          <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-2 max-w-2xl mx-auto">
+            {[
+              '💵 Paiement à la livraison',
+              '🇧🇫 Livraison Burkina Faso',
+              '🇳🇪 Livraison Niger',
+              '🌿 Produit 100% naturel',
+              '💬 Assistance WhatsApp',
+              '📞 Service client disponible',
+            ].map((b) => (
+              <div key={b} className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2 text-xs sm:text-sm font-bold text-foreground text-center">
+                ✅ {b}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -180,6 +193,58 @@ export function HomePage() {
           </button>
         </div>
       </section>
+
+
+      {/* QUI EST LE VIEUX KOUKA ? — section remontée pour confiance précoce */}
+      <section className="sec bg-white">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">QUI EST LE <span className="text-vert">VIEUX KOUKA</span> ?</h2>
+          <p className="text-center text-muted-foreground mb-6 max-w-xl mx-auto">
+            Plus de 60 ans d'expérience dans les recettes traditionnelles africaines.
+          </p>
+
+          <div className="max-w-3xl mx-auto bg-vert-bg/40 border-2 border-vert-bg rounded-3xl overflow-hidden shadow-md">
+            <img src="/images/vieux-kouka.jpg" alt="Le Vieux Kouka" className="w-full max-h-72 object-cover" />
+            <div className="p-5 sm:p-6">
+              <div className="text-sm font-bold text-vert mb-2">📍 Région des Kuilsés · Burkina Faso 🇧🇫</div>
+              <p className="text-foreground/90 leading-relaxed mb-4">
+                Le <strong>Vieux Kouka</strong> est un thérapeute traditionnel héritier d'un savoir-faire familial transmis
+                de génération en génération depuis <strong>plus de 60 ans</strong>. Sa recette est le fruit d'un héritage
+                ancestral et d'une connaissance profonde des plantes africaines.
+              </p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                {[
+                  { i: '👴', t: '+60 ans d\'expérience' },
+                  { i: '🌿', t: 'Plantes africaines' },
+                  { i: '📖', t: 'Recette familiale' },
+                  { i: '🤝', t: 'Savoir-faire transmis' },
+                ].map((x) => (
+                  <div key={x.t} className="bg-white border-2 border-vert-bg rounded-xl p-2">
+                    <div className="text-xl">{x.i}</div>
+                    <div className="text-[11px] sm:text-xs font-bold text-vert leading-tight mt-1">{x.t}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="text-center mt-5">
+                <button onClick={scrollToOrder} className="bg-rouge text-white px-6 py-3 rounded-xl font-extrabold shadow-md">
+                  🛒 Je commande maintenant
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* MINI-DIAGNOSTIC remonté */}
+      <DiagnosticQuiz
+        title="Quels symptômes ressentez-vous ?"
+        questions={[
+          'Ulcère / brûlures d\'estomac',
+          'Colopathie / ballonnements',
+          'Hémorroïdes (koko)',
+          'Constipation chronique',
+        ]}
+      />
 
       {/* POSOLOGIE */}
       <section className="sec bg-vert-bg">
@@ -223,9 +288,12 @@ export function HomePage() {
       {/* UN SEUL PRODUIT — 5 PATHOLOGIES */}
       <section className="sec bg-vert-bg/40">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">UN seul produit · <span className="text-vert">5 pathologies digestives</span></h2>
-          <p className="text-center text-muted-foreground mb-7 max-w-lg mx-auto">
-            La Poudre du Vieux KOUKA agit sur tout le système digestif. Une formule unique, plusieurs maux soulagés.
+          <h2 className="text-center mb-2">POURQUOI <span className="text-vert">UNE SEULE FORMULE</span> AGIT SUR PLUSIEURS TROUBLES DIGESTIFS ?</h2>
+          <p className="text-center text-muted-foreground mb-7 max-w-xl mx-auto">
+            Quand le ventre va mal, ce n'est jamais un seul problème : les hémorroïdes, les gaz, les brûlures et la colopathie
+            viennent souvent du même <strong>déséquilibre du système digestif</strong>. La Poudre du Vieux Kouka <strong>nettoie l'intérieur du ventre</strong>,
+            <strong> calme les inflammations</strong> et <strong>aide le corps à se réparer naturellement</strong>. C'est pour cela qu'une seule
+            recette suffit pour soulager plusieurs maux à la fois.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             {[
@@ -346,8 +414,8 @@ export function HomePage() {
       {/* TIMELINE */}
       <section className="sec bg-cream-2">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">Ce qui se passe <span className="text-vert">semaine par semaine</span></h2>
-          <p className="text-center text-muted-foreground mb-7">Les résultats que tu vas vivre avec le traitement complet</p>
+          <h2 className="text-center mb-2">Ce que nos clients <span className="text-vert">constatent après avoir commencé le traitement</span></h2>
+          <p className="text-center text-muted-foreground mb-7">Semaine après semaine, les résultats vécus par les familles qui suivent la cure</p>
 
           <div className="grid">
             {[
@@ -534,7 +602,7 @@ export function HomePage() {
       {/* COMPARATIF */}
       <section className="sec bg-vert-bg/30">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">Pourquoi KOUKA <span className="text-vert">plutôt qu'autre chose</span> ?</h2>
+          <h2 className="text-center mb-2">Pourquoi <span className="text-vert">de nombreuses familles choisissent le Vieux Kouka</span> ?</h2>
           <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto">
             Compare honnêtement avec les solutions classiques. Le choix devient évident.
           </p>
@@ -561,7 +629,7 @@ export function HomePage() {
       {/* FAQ — avant le formulaire pour lever les objections */}
       <section className="sec">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">Tes questions</h2>
+          <h2 className="text-center mb-2">Les réponses aux <span className="text-vert">questions que nos clients nous posent le plus</span></h2>
           <p className="text-center text-muted-foreground mb-4">Les vraies réponses sans détours</p>
           <FAQ />
           <div className="text-center mt-6">
@@ -572,15 +640,6 @@ export function HomePage() {
         </div>
       </section>
 
-      <DiagnosticQuiz
-        title="Quels symptômes ressentez-vous ?"
-        questions={[
-          'Ulcère / brûlures d\'estomac',
-          'Colopathie / ballonnements',
-          'Hémorroïdes (koko)',
-          'Constipation chronique',
-        ]}
-      />
 
       <OfferComparisonTable product={product} />
 
