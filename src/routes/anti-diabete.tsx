@@ -522,18 +522,7 @@ export function AntiDiabetePage() {
             ))}
           </ol>
 
-          <div className="grid grid-cols-2 gap-2.5 md:gap-3 mt-5">
-            {[
-              '✓ Paiement à la réception',
-              '✓ Livraison partout au Burkina Faso',
-              '✓ Confirmation avant expédition',
-              '✓ Assistance WhatsApp',
-            ].map((r, i) => (
-              <div key={i} className="bg-emerald-50 border border-emerald-500/30 text-emerald-900 text-[11px] md:text-xs font-bold px-3 py-2.5 rounded-xl text-center leading-tight">
-                {r}
-              </div>
-            ))}
-          </div>
+          {/* Badges réassurance supprimés — doublon avec <ReassuranceBar /> plus haut */}
         </div>
       </section>
 
