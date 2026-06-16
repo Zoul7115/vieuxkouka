@@ -421,13 +421,15 @@ export function TonicKoukaPage() {
       <ReassuranceBar />
 
       {/* 16. FORMULAIRE — intro */}
-      <section className="pt-10 pb-2 bg-cream">
+      <section className="py-12 bg-vert text-white">
         <div className="container-kouka max-w-2xl text-center">
-          <h2 className="text-vert">Tu es à 2 minutes de ta commande</h2>
-          <p className="text-muted-foreground text-sm mt-2">
-            Remplis les champs ci-dessous — on te contacte sur WhatsApp dans les 2h pour confirmer ta livraison.
+          <h2 className="text-white">Tu es à 2 minutes de ta commande</h2>
+          <p className="text-white/90 text-sm mt-3 font-semibold leading-relaxed">
+            Remplis les champs — on te contacte sur WhatsApp dans les 2h pour confirmer ta livraison.
           </p>
-          <p className="mt-3 font-extrabold text-vert">Tu ne paies rien maintenant. Seulement quand tu reçois ton flacon.</p>
+          <p className="mt-4 text-base font-extrabold text-or-light">
+            <u>Tu ne paies rien maintenant. Seulement quand tu reçois ton flacon.</u>
+          </p>
         </div>
       </section>
 
