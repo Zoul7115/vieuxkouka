@@ -217,10 +217,10 @@ export function TonicKoukaPage() {
                 { t: "Hypertension", d: "Fait baisser la tension · Protège le cœur" },
               ].map((b, i) => (
                 <div key={b.t} className="bg-vert-bg border border-vert/20 rounded-xl p-4">
-                  <div className="font-extrabold text-vert text-[15px] flex items-start gap-2">
-                    <span className="text-or font-extrabold">{String(i + 1).padStart(2, '0')}</span>
+                  <div className="font-extrabold text-vert text-[15px] flex items-start gap-1">
+                    <span className="text-or font-extrabold">{String(i + 1).padStart(2, '0')} · </span>
                     <span className="leading-tight">
-                      · <span className="text-vert font-extrabold">{b.t}</span> — <span className="font-semibold text-foreground">{b.d}</span>
+                      <span className="text-vert font-extrabold">{b.t}</span> — <span className="font-semibold text-foreground">{b.d}</span>
                     </span>
                   </div>
                 </div>
