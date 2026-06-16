@@ -2,7 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { KOUKA, ADMIN_WHATSAPP } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ProductForm } from '@/components/ProductForm';
-import { RecommendedCureSection } from '@/components/RecommendedCureSection';
+
 import { FAQ, FAQ_DATA } from '@/components/FAQ';
 import { ComparisonTable } from '@/components/ComparisonTable';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
