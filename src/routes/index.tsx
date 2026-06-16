@@ -196,12 +196,9 @@ export function HomePage() {
           </a>
 
           <div>
-            <button
-              onClick={scrollToOrder}
-              className="w-full sm:w-auto sm:px-10 bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
-            >
-              🛒 JE COMMANDE MAINTENANT
-            </button>
+            <a href="#formulaire" className="inline-block text-vert text-sm font-bold underline underline-offset-4 hover:text-vert-mid">
+              → Commander et payer à la livraison
+            </a>
           </div>
         </div>
       </section>
@@ -252,15 +249,15 @@ export function HomePage() {
           </div>
 
           <div className="text-center mt-7">
-            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)]">
-              🛒 COMMANDER MAINTENANT
-            </button>
+            <a href="#resultats" className="inline-block bg-rouge text-white px-7 py-3.5 rounded-xl text-base font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] no-underline">
+              📋 Voir les résultats semaine après semaine ↓
+            </a>
           </div>
         </div>
       </section>
 
       {/* 7. TIMELINE + AVANT/APRÈS FUSIONNÉS */}
-      <section className="sec bg-cream-2">
+      <section id="resultats" className="sec bg-cream-2 scroll-mt-20">
         <div className="container-kouka">
           <h2 className="text-center mb-2">Ce que nos clients <span className="text-vert">constatent jour après jour</span></h2>
           <p className="text-center text-muted-foreground mb-7">De J1 à la guérison complète</p>
@@ -363,9 +360,12 @@ export function HomePage() {
                 <audio controls preload="none" className="w-full">
                   <source src={`/audio/temoignage${n}.opus`} type="audio/ogg; codecs=opus" />
                 </audio>
-                <a href={WA_LINK} target="_blank" rel="noreferrer" className="block mt-2 text-xs text-vert font-bold underline">
-                  🎙️ Audio aussi disponible sur WhatsApp → {WA_DISPLAY}
-                </a>
+                <p className="mt-2 text-xs text-foreground/80">
+                  🎙️ Audio aussi disponible sur{' '}
+                  <a href={WA_LINK} target="_blank" rel="noreferrer" className="text-vert font-bold underline">
+                    WhatsApp → {WA_DISPLAY}
+                  </a>
+                </p>
               </div>
             ))}
           </div>
@@ -472,12 +472,13 @@ export function HomePage() {
 
       {/* 12. PACKS */}
       <OfferComparisonTable product={product} />
-      <RecommendedCureSection product={product} />
 
       <ReassuranceBar />
 
       {/* 13. FORMULAIRE */}
-      <ProductForm product={product} />
+      <div id="formulaire" className="scroll-mt-20">
+        <ProductForm product={product} />
+      </div>
 
       {/* 14. BLOC RÉASSURANCE FINALE */}
       <section className="sec bg-vert-bg">

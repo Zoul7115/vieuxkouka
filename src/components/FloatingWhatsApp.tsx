@@ -10,9 +10,10 @@ export function FloatingWhatsApp() {
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="fixed bottom-5 right-4 z-50 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-[0_4px_18px_rgba(37,211,102,0.45)] font-extrabold flex items-center gap-2 hover:scale-105 transition-transform pulse-ring"
+      className="fixed bottom-6 right-5 z-[9999] bg-[#25D366] text-white px-5 py-3 rounded-full shadow-[0_3px_12px_rgba(0,0,0,0.28)] font-extrabold text-sm flex items-center gap-2 hover:scale-105 transition-transform pulse-ring"
+      aria-label="Contacter sur WhatsApp"
     >
-      💬 Une question ?
+      💬 WhatsApp
     </a>
   );
 }
