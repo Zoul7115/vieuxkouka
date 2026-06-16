@@ -325,15 +325,13 @@ export function TonicKoukaPage() {
           <h3 className="text-vert text-center mb-5">🚚 Livraison Burkina · Niger</h3>
           <div className="grid sm:grid-cols-2 gap-3 text-sm">
             {[
-              { city: '🇧🇫 Ouagadougou', delay: 'Même jour ou 24h', price: 'Gratuit', free: true },
-              { city: '🇧🇫 Autres villes BF', delay: '2-3 jours (car de transport)', price: '1 000 F', free: false },
-              { city: '🇳🇪 Niamey', delay: '24-48h', price: 'Gratuit', free: true },
-              { city: '🇳🇪 Autres villes Niger', delay: '3-4 jours (car de transport)', price: '1 500 F', free: false },
-            ].map((x) => (
-              <div key={x.city} className={`bg-white border-2 rounded-xl p-3 ${x.free ? 'border-vert' : 'border-vert/20'}`}>
-                <div className="font-extrabold text-foreground text-[13px]">{x.city}</div>
-                <div className="text-xs text-muted-foreground mt-1">{x.delay}</div>
-                <div className={`text-xs font-extrabold mt-1 ${x.free ? 'text-vert' : 'text-foreground'}`}>{x.price}</div>
+              { text: "🇧🇫 Ouagadougou — Même jour ou 24h — Gratuit", free: true },
+              { text: "🇧🇫 Autres villes BF — 2-3 jours (car de transport) — 1 000 F", free: false },
+              { text: "🇳🇪 Niamey — 24-48h — Gratuit", free: true },
+              { text: "🇳🇪 Autres villes Niger — 3-4 jours (car de transport) — 1 500 F", free: false },
+            ].map((x, idx) => (
+              <div key={idx} className={`bg-white border-2 rounded-xl p-4 flex items-center ${x.free ? 'border-vert shadow-sm' : 'border-vert/20'}`}>
+                <div className="font-extrabold text-foreground text-sm leading-snug">{x.text}</div>
               </div>
             ))}
           </div>
