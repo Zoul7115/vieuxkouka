@@ -37,7 +37,7 @@ export function SiropPage() {
   
 
   return (
-    <div className="bg-background pb-[170px] md:pb-0" style={{ paddingBottom: 'calc(170px + env(safe-area-inset-bottom))' }}>
+    <div className="bg-background" style={{ paddingBottom: 'calc(90px + env(safe-area-inset-bottom))' }}>
       <VisitTracker page="sirop-kouka" />
       <StickyOfferBarRecommended product={product} stock={stock} unitLabel="flacons" />
 
