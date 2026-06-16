@@ -62,10 +62,10 @@ export function HomePage() {
             ⭐ +200 clients guéris · 87% soulagés dès J3
           </span>
 
-          <h1 className="text-vert mb-5 text-3xl sm:text-4xl md:text-5xl font-black leading-[1.05] tracking-tight max-w-sm sm:max-w-lg md:max-w-xl mx-auto uppercase">
+          <h1 className="text-vert mb-5 text-2xl sm:text-3xl md:text-4xl font-black leading-[1.05] tracking-tight max-w-sm sm:max-w-md md:max-w-xl mx-auto uppercase">
             <span className="block text-vert">Vous souffrez d'un ou</span>
             <span className="block text-vert">plusieurs de ces</span>
-            <span className="block text-[34px] sm:text-[46px] md:text-[58px] lg:text-[64px] text-rouge font-black mt-2 leading-[0.95] tracking-tighter">
+            <span className="block text-[38px] sm:text-[52px] md:text-[68px] lg:text-[76px] text-rouge font-black mt-2 leading-[0.9] tracking-tighter">
               Troubles Digestifs ?
             </span>
           </h1>
