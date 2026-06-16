@@ -468,6 +468,36 @@ export function HomePage() {
 
       <ReassuranceBar />
 
+      {/* Livraison discrète Burkina + Niger */}
+      <section className="sec py-8 bg-white">
+        <div className="container-kouka max-w-lg">
+          <div className="bg-white border-2 border-vert-bg rounded-2xl p-5">
+            <h3 className="text-vert text-center mb-3">🚚 Livraison 100% discrète</h3>
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
+                <div className="font-extrabold">🇧🇫 Ouagadougou</div>
+                <div className="text-xs text-vert font-bold">Gratuite · même jour</div>
+              </div>
+              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
+                <div className="font-extrabold">🇧🇫 Autres villes BF</div>
+                <div className="text-xs text-muted-foreground">1 000 FCFA · par car</div>
+              </div>
+              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
+                <div className="font-extrabold">🇳🇪 Niamey</div>
+                <div className="text-xs text-vert font-bold">Gratuite</div>
+              </div>
+              <div className="bg-vert-bg/50 rounded-lg p-2.5 text-center">
+                <div className="font-extrabold">🇳🇪 Autres villes Niger</div>
+                <div className="text-xs text-muted-foreground">1 500 FCFA · par car</div>
+              </div>
+            </div>
+            <p className="text-center text-xs text-muted-foreground mt-3">
+              💵 Paiement cash à la livraison · 📦 Colis neutre, sans logo
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* VALUE STACK — Tout est inclus */}
       <section className="sec bg-gradient-to-b from-white to-vert-bg">
         <div className="container-kouka max-w-3xl">

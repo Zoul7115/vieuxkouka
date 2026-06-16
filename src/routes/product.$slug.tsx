@@ -1,7 +1,7 @@
 import { createFileRoute, Link, redirect } from '@tanstack/react-router';
 import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
-import { RecommendedCureSection } from '@/components/RecommendedCureSection';
+
 import { VisitTracker } from '@/components/VisitTracker';
 import { ComparisonTable } from '@/components/ComparisonTable';
 import { SocialProofChatSirop } from '@/components/sirop/SocialProofChatSirop';
@@ -37,7 +37,7 @@ export function SiropPage() {
   
 
   return (
-    <div className="bg-background pb-[170px] md:pb-0" style={{ paddingBottom: 'calc(170px + env(safe-area-inset-bottom))' }}>
+    <div className="bg-background" style={{ paddingBottom: 'calc(90px + env(safe-area-inset-bottom))' }}>
       <VisitTracker page="sirop-kouka" />
       <StickyOfferBarRecommended product={product} stock={stock} unitLabel="flacons" />
 
@@ -100,7 +100,17 @@ export function SiropPage() {
         </div>
       </section>
 
-      
+      <DiagnosticQuiz
+        title="Quel est votre problème principal ?"
+        questions={[
+          'Érection faible / molle',
+          'Éjaculation précoce',
+          'Baisse de libido / désir',
+          'Fatigue / manque d\'énergie',
+        ]}
+      />
+
+
       <section className="sec bg-cream-2">
         <div className="container-kouka">
           <h2 className="text-center mb-2">Ce que tu vis <span className="text-rouge">en silence</span></h2>
@@ -254,7 +264,30 @@ export function SiropPage() {
       <section className="sec">
         <div className="container-kouka">
           <h2 className="text-center mb-2">Questions fréquentes</h2>
-          <FAQ />
+          <FAQ
+            items={[
+              {
+                q: "C'est vraiment discret — personne ne saura ?",
+                a: "Absolument. Colis neutre sans logo ni nom de produit. Le livreur ne sait pas ce qu'il transporte. Ton numéro WhatsApp n'est jamais partagé. Aucun appel public — message privé uniquement.",
+              },
+              {
+                q: "En combien de temps je ressens les effets ?",
+                a: "La majorité des clients ressentent une différence dès <strong>J2</strong> — l'énergie revient, l'envie se réveille. Entre <strong>J3 et J5</strong>, l'érection tient plus longtemps. La pleine puissance arrive entre <strong>J10 et J15</strong> avec la cure complète.",
+              },
+              {
+                q: "Est-ce que ça marche si j'ai ce problème depuis longtemps ?",
+                a: "Oui. Beaucoup de clients avaient le problème depuis 3, 5, parfois 10 ans. La formule travaille en profondeur sur la circulation sanguine et la production naturelle. Plus tu suis la cure complète, plus le résultat est durable.",
+              },
+              {
+                q: "Je dois payer d'avance ?",
+                a: "Non. Le livreur passe chez toi, tu vérifies le colis discret, et tu paies <strong>cash à la réception</strong>. Aucun acompte, aucune carte.",
+              },
+              {
+                q: "Et si ça ne marche pas pour moi ?",
+                a: "Tu es remboursé. La garantie est inscrite sur le flacon : <strong>Satisfait ou remboursé</strong>. Contacte-nous sur WhatsApp.",
+              },
+            ]}
+          />
           <div className="text-center mt-6">
             <button
               onClick={() => document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' })}
@@ -266,25 +299,11 @@ export function SiropPage() {
         </div>
       </section>
 
-      <DiagnosticQuiz
-        title="Quel est votre problème principal ?"
-        questions={[
-          'Érection faible / molle',
-          'Éjaculation précoce',
-          'Baisse de libido / désir',
-          'Fatigue / manque d\'énergie',
-        ]}
-      />
-
       <OfferComparisonTable product={product} />
-
-      <RecommendedCureSection product={product} />
 
       <ReassuranceBar />
 
       <ProductForm product={product} />
-
-      
 
       <section className="sec bg-cream-2">
         <div className="container-kouka text-center">
@@ -294,3 +313,4 @@ export function SiropPage() {
     </div>
   );
 }
+
