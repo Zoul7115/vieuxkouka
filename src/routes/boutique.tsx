@@ -382,20 +382,6 @@ export function BrandHomePage() {
         </div>
       </section>
 
-      {/* CTA FINAL */}
-      <section className="sec bg-gradient-to-b from-vert-bg to-white">
-        <div className="container-kouka text-center">
-          <h2 className="text-vert mb-2">Choisissez le remède adapté à votre besoin</h2>
-          <p className="text-muted-foreground mb-7 max-w-xl mx-auto">Tous nos remèdes sont 100% naturels, payables à la livraison.</p>
-          <ProductGrid />
-          <button
-            onClick={() => scrollToId('catalogue')}
-            className="mt-8 bg-vert text-white px-8 py-4 rounded-xl text-base md:text-lg font-extrabold shadow-[0_8px_24px_rgba(46,125,50,0.40)] hover:-translate-y-0.5 transition-transform"
-          >
-            🌿 Découvrir nos remèdes
-          </button>
-        </div>
-      </section>
 
       {/* WhatsApp flottant */}
       <a
