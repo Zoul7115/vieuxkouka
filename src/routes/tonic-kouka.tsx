@@ -1,20 +1,17 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
-import { RecommendedCureSection } from '@/components/RecommendedCureSection';
 import { VisitTracker } from '@/components/VisitTracker';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { TONIC_KOUKA } from '@/lib/products';
 import { SocialProofChatTonic } from '@/components/tonic/SocialProofChatTonic';
 import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
 import { useCtaVariant, trackCtaClick } from '@/hooks/useCtaVariant';
-import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
 
 import bouteilleTonic from '@/assets/tonic-kouka-bouteille-reelle.png';
 import etiquetteTonic from '@/assets/tonic-kouka-etiquette-reelle.png';
-import afficheTonic5Maux from '@/assets/tonic-kouka-affiche-5-maux.png';
 
 function preselectAndScroll(offerId: number, location = 'cta') {
   trackCtaClick(location);
@@ -23,7 +20,6 @@ function preselectAndScroll(offerId: number, location = 'cta') {
   document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' });
 }
 
-// Classes communes pour garantir une zone de tap nette sur mobile
 const TAP = 'leading-none touch-manipulation select-none active:scale-[0.98] will-change-transform';
 
 export const Route = createFileRoute('/tonic-kouka')({
@@ -43,126 +39,81 @@ function scrollToOrder() { preselectAndScroll(32, 'main-cta'); }
 
 export function TonicKoukaPage() {
   const product = TONIC_KOUKA;
-  const stock = useDynamicStock('tonic-kouka', 18);
+  const stock = useDynamicStock('tonic-kouka', 14);
   const cta = useCtaVariant();
+
+  const RedCTA = ({ children, location = 'cta' }: { children: React.ReactNode; location?: string }) => (
+    <button
+      onClick={() => preselectAndScroll(32, location)}
+      className={`bg-[#D94F00] text-white px-8 ${cta.sizeClass} rounded-xl font-extrabold shadow-[0_8px_24px_rgba(217,79,0,0.45)] hover:-translate-y-0.5 transition-transform border-2 border-white/20 ${TAP}`}
+    >
+      {children}
+    </button>
+  );
 
   return (
     <div className="bg-cream pb-[180px] sm:pb-32" style={{ paddingBottom: 'calc(180px + env(safe-area-inset-bottom))' }}>
       <StickyOfferBarRecommended product={product} stock={stock} unitLabel="bouteilles" />
       <VisitTracker page="tonic-kouka" />
 
-      {/* TOP BANNER */}
-      <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🌿 1 bouteille = 5 maux soignés · Plus que <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> bouteilles aujourd'hui
+      {/* 1. TOP BANNER */}
+      <div className="bg-[#D94F00] text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
+        🔴 STOCK LIMITÉ · Il reste <b>{stock}</b> flacons ce soir · 1 flacon = 5 maux soignés
       </div>
 
-      {/* HERO */}
-      <section className="bg-gradient-to-b from-vert-bg via-white to-vert-bg py-10 md:py-12 border-b-[3px] border-vert/20">
+      {/* 2. HERO */}
+      <section className="bg-gradient-to-b from-vert-bg via-white to-vert-bg py-8 md:py-12 border-b-[3px] border-vert/20">
         <div className="container-kouka">
-          <div className="grid md:grid-cols-2 gap-8 items-center max-w-5xl mx-auto">
-            {/* Bottle */}
-            <div className="order-1 md:order-2 text-center">
-              <div className="relative inline-block">
-                <div className="absolute -inset-4 bg-or/20 rounded-full blur-2xl" />
-                <img src={bouteilleTonic} alt="Bouteille Tonic du Vieux KOUKA" className="relative w-full max-w-[280px] mx-auto rounded-2xl shadow-2xl" width={1024} height={1280} />
-                <div className="absolute -top-2 -right-2 bg-rouge text-white text-[10px] font-extrabold px-3 py-2 rounded-full rotate-[8deg] shadow-lg">
+          <div className="max-w-5xl mx-auto md:grid md:grid-cols-2 md:gap-8 md:items-center">
+            {/* Bottle — full width on mobile, before text */}
+            <div className="md:order-2 -mx-4 md:mx-0 mb-6 md:mb-0">
+              <div className="relative">
+                <img
+                  src={bouteilleTonic}
+                  alt="Bouteille Tonic du Vieux KOUKA"
+                  className="w-full md:max-w-[320px] md:mx-auto rounded-none md:rounded-2xl shadow-2xl"
+                  width={1024}
+                  height={1280}
+                />
+                <div className="absolute top-3 right-3 bg-[#D94F00] text-white text-xs font-extrabold px-3 py-2 rounded-full rotate-[8deg] shadow-lg">
                   -40%
                 </div>
               </div>
             </div>
 
-            {/* Text + price */}
-            <div className="order-2 md:order-1 text-center md:text-left">
+            <div className="md:order-1 text-center md:text-left">
               <span className="inline-block bg-or text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-3">
                 🌿 La vraie recette du Vieux
               </span>
-              <h1 className="text-vert mb-3 leading-tight">
-                Tonic du Vieux KOUKA<br />
-                <span className="text-foreground text-[0.8em]">1 seule bouteille pour 5 maux.</span>
-              </h1>
+              <h1 className="text-vert mb-2 leading-tight">Tonic du Vieux KOUKA</h1>
+              <h2 className="text-foreground text-xl md:text-2xl font-extrabold mb-3 leading-snug">
+                Tu souffres de 2, 3 ou 5 de ces maux à la fois ?
+              </h2>
               <p className="text-muted-foreground mb-5 text-base leading-relaxed">
-                Insomnie, manque d'appétit, fatigue, ulcères, hypertension…
-                <strong className="text-foreground"> tout dans une seule bouteille, fait avec les plantes du pays.</strong>
+                Insomnie · Fatigue · Hypertension · Ulcères · Manque d'appétit — <strong className="text-foreground">1 seul flacon les soigne tous.</strong> Recette de plantes du Burkina. Payable à la réception.
               </p>
 
-              <div className="flex flex-wrap justify-center md:justify-start gap-2 text-xs font-bold text-vert mb-6">
+              <div className="flex flex-wrap justify-center md:justify-start gap-2 text-xs font-bold text-vert mb-3">
                 <span className="bg-white border border-vert/20 px-2.5 py-1 rounded-full">🌿 100% plantes</span>
                 <span className="bg-white border border-vert/20 px-2.5 py-1 rounded-full">🇧🇫 Fait au Burkina</span>
                 <span className="bg-white border border-vert/20 px-2.5 py-1 rounded-full">💵 Tu paies à la livraison</span>
               </div>
 
-              {/* MAIN OFFER CARD */}
-              <div className="relative bg-white border-[3px] border-vert rounded-3xl p-5 shadow-[0_12px_30px_rgba(46,125,50,0.18)] text-left">
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-rouge text-white text-xs font-extrabold px-4 py-1.5 rounded-full whitespace-nowrap shadow">
-                  ⭐ 9 CLIENTS SUR 10 CHOISISSENT ÇA
-                </div>
-                <div className="text-[11px] uppercase font-extrabold text-vert tracking-wider mt-2 mb-1">
-                  Traitement complet 30 jours
-                </div>
-                <div className="text-xl font-extrabold text-foreground leading-tight">
-                  2 bouteilles + 1 GRATUITE 🎁
-                </div>
-                <div className="flex items-baseline gap-3 mt-2">
-                  <span className="text-4xl font-extrabold text-vert">22 000 F</span>
-                  <span className="text-base text-muted-foreground line-through">33 000 F</span>
-                  <span className="text-xs font-bold text-rouge bg-rouge-light px-2 py-0.5 rounded">Tu gagnes 11 000 F</span>
-                </div>
-                <ul className="text-sm text-foreground mt-3 space-y-1">
-                  <li>✔ 3 bouteilles reçues (1 GRATUITE)</li>
-                  <li>✔ Assez pour 30 jours de cure</li>
-                  <li>✔ Livré chez toi à Ouaga & Niamey</li>
-                </ul>
-                <button onClick={scrollToOrder} className={`mt-4 w-full bg-rouge text-white ${cta.sizeClass} rounded-xl font-extrabold shadow-[0_10px_28px_rgba(198,40,40,0.50)] hover:-translate-y-0.5 transition-transform border-2 border-white/20 ${TAP}`}>
-                  {cta.primary}
-                </button>
-                <p className="text-[11px] text-muted-foreground mt-2 text-center leading-snug">📦 Livré chez toi · 💵 Tu paies seulement à la réception · 🔒 Aucun risque</p>
-              </div>
+              <p className="text-sm font-bold text-vert mb-6">⭐ Plus de 480 familles soulagées au Burkina et au Niger</p>
 
-              {/* SECONDARY OFFER */}
-              <div className="mt-3 bg-white border-2 border-vert/30 rounded-2xl p-4 shadow-sm">
-                <div className="flex items-center justify-between gap-3 flex-wrap">
-                  <div className="text-left">
-                    <div className="text-[11px] uppercase font-extrabold text-muted-foreground tracking-wider">Pour essayer d'abord</div>
-                    <div className="text-base font-extrabold text-foreground">1 bouteille</div>
-                    <div className="text-xl font-extrabold text-vert">11 000 F</div>
-                  </div>
-                  <button onClick={() => preselectAndScroll(31, 'hero-try')} className={`bg-vert text-white px-6 py-4 rounded-xl text-base font-extrabold shadow-lg hover:-translate-y-0.5 transition-transform min-h-[52px] ${TAP}`}>
-                    Je veux essayer
-                  </button>
-                </div>
-              </div>
+              <RedCTA location="hero-main">👉 JE VEUX MON TONIC — Je paie à la livraison</RedCTA>
             </div>
           </div>
         </div>
       </section>
 
-      {/* AFFICHE 5 MAUX */}
-      <section className="py-10 bg-white">
-        <div className="container-kouka max-w-3xl">
-          <div className="text-center mb-6">
-            <span className="text-vert text-xs font-bold uppercase tracking-widest">🌿 1 bouteille · 5 maux</span>
-            <h2 className="text-vert mt-2">Ce que le Tonic soigne en un coup d'œil</h2>
-          </div>
-          <div className="rounded-2xl overflow-hidden shadow-2xl border-2 border-vert/20 bg-black">
-            <img
-              src={afficheTonic5Maux}
-              alt="Tonic du Vieux KOUKA — Insomnie, Manque d'appétit, Fatigue, Ulcères, Hypertension"
-              className="w-full h-auto block"
-              width={1024}
-              height={1536}
-              loading="lazy"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* AUTO-DIAGNOSTIC */}
+      {/* 3. MINI-DIAGNOSTIC */}
       <section className="py-14 bg-white">
         <div className="container-kouka max-w-3xl">
           <div className="text-center mb-8">
             <span className="text-vert text-xs font-bold uppercase tracking-widest">📋 Petit test</span>
             <h2 className="text-vert mt-2">Est-ce que tu as un de ces problèmes ?</h2>
-            <p className="text-muted-foreground text-sm mt-2 max-w-xl mx-auto">Coche ce qui te concerne. <strong>Si tu coches 2 cases ou plus → le Tonic peut t'aider.</strong></p>
+            <p className="text-muted-foreground text-sm mt-2 max-w-xl mx-auto">Coche ce qui te concerne.</p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
@@ -186,30 +137,45 @@ export function TonicKoukaPage() {
             ))}
           </div>
 
-          <div className="mt-6 bg-rouge-light border-l-4 border-rouge rounded-r-2xl p-5">
-            <p className="font-extrabold text-rouge mb-2">⚠️ Si tu ne fais rien, ça devient grave :</p>
-            <p className="text-sm leading-relaxed">
-              Insomnie → fatigue chronique · manque d'appétit → corps qui s'affaiblit · ulcères qui percent · hypertension → AVC · fatigue qui devient permanente.
-            </p>
+          <div className="mt-6 bg-vert-bg border-2 border-vert rounded-2xl p-5 text-center">
+            <p className="font-extrabold text-vert">✅ Tu as coché 2 cases ou plus ? Le Tonic du Vieux KOUKA a été créé pour toi.</p>
           </div>
 
-          <div className="text-center mt-7">
-            <button onClick={scrollToOrder} className={`bg-rouge text-white px-8 ${cta.sizeClass} rounded-xl font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.48)] hover:-translate-y-0.5 transition-transform border-2 border-white/20 ${TAP}`}>
-              👉 Je commande maintenant
-            </button>
-            <p className="text-[11px] text-muted-foreground mt-2">Tu paies seulement quand le livreur arrive</p>
+          <div className="text-center mt-6">
+            <RedCTA location="diag">👉 JE COMMANDE MON TONIC — Paiement à la livraison</RedCTA>
           </div>
         </div>
       </section>
 
-      {/* PRÉSENTATION VIEUX KOUKA */}
+      {/* 4. URGENCE */}
+      <section className="py-12 bg-white">
+        <div className="container-kouka max-w-3xl">
+          <div className="bg-[#FFF1ED] border-l-4 border-[#D94F00] rounded-r-2xl p-6 shadow-sm">
+            <p className="font-extrabold text-[#D94F00] mb-3 text-lg">⚠️ Si tu ne fais rien aujourd'hui, voilà ce qui arrive :</p>
+            <ul className="space-y-2 text-sm text-foreground">
+              <li>😴 <strong>Insomnie</strong> → fatigue qui ne part plus</li>
+              <li>🍽️ <strong>Tu manges moins</strong> → ton corps s'affaiblit</li>
+              <li>🔥 <strong>Les ulcères s'aggravent</strong> → douleurs permanentes</li>
+              <li>❤️ <strong>L'hypertension monte</strong> → risque d'AVC et de paralysie</li>
+            </ul>
+            <p className="mt-4 text-sm italic text-muted-foreground">Beaucoup de familles attendent trop longtemps. Ne fais pas cette erreur.</p>
+          </div>
+          <div className="text-center mt-6">
+            <RedCTA location="urgence">👉 JE COMMANDE MAINTENANT</RedCTA>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. VIEUX KOUKA */}
       <section className="py-14 bg-gradient-to-br from-vert to-vert-mid text-white">
         <div className="container-kouka max-w-3xl">
           <div className="text-center mb-8">
             <span className="text-or-light text-xs font-bold uppercase tracking-widest">🌿 La recette</span>
-            <h2 className="text-white mt-2">Le Tonic du Vieux KOUKA</h2>
-            <p className="text-white/85 max-w-xl mx-auto mt-3">
-              Racines, écorces et feuilles ramassées au Burkina. Une recette de famille de plus de 60 ans — <strong>une boisson amère qui nettoie le foie, les reins et le sang</strong> pour soigner plusieurs maladies en même temps.
+            <h2 className="text-white mt-2">L'homme derrière le Tonic</h2>
+            <p className="text-white/85 max-w-xl mx-auto mt-3 leading-relaxed">
+              Vieux KOUKA est guérisseur traditionnel depuis plus de 60 ans dans la région des Kuilsés.
+              <br /><br />
+              Sa recette secrète : <strong>racines, écorces et feuilles du Burkina qui nettoient le foie, les reins et le sang</strong> — et quand ces 3 organes fonctionnent bien, les 5 maux partent ensemble.
             </p>
           </div>
 
@@ -231,7 +197,7 @@ export function TonicKoukaPage() {
         </div>
       </section>
 
-      {/* LE PRODUIT — bouteille + bénéfices */}
+      {/* 6. LES 5 MAUX (fusionné) */}
       <section className="py-14 bg-white">
         <div className="container-kouka max-w-5xl">
           <div className="text-center mb-8">
@@ -244,31 +210,28 @@ export function TonicKoukaPage() {
             </div>
             <div className="grid grid-cols-1 gap-2.5">
               {[
-                'Insomnie',
-                'Manque d\'appétit',
-                'Fatigue',
-                'Ulcères',
-                'Hypertension',
+                { t: 'Insomnie', d: 'Endort naturellement · Tu te réveilles reposé' },
+                { t: 'Manque d\'appétit', d: 'Réveille l\'estomac · Tu manges avec plaisir' },
+                { t: 'Fatigue chronique', d: 'Ramène l\'énergie · Tu tiens toute la journée' },
+                { t: 'Ulcères & brûlures', d: 'Calme l\'estomac · Mange sans souffrir' },
+                { t: 'Hypertension', d: 'Fait baisser la tension · Protège le cœur' },
               ].map((b, i) => (
-                <div key={b} className="bg-vert-bg border border-vert/20 rounded-xl p-3">
+                <div key={b.t} className="bg-vert-bg border border-vert/20 rounded-xl p-4">
                   <div className="font-extrabold text-vert text-[15px] flex items-start gap-2">
                     <span className="text-or font-extrabold">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="leading-tight">{b}</span>
+                    <span className="leading-tight">{b.t} — <span className="font-semibold text-foreground">{b.d}</span></span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="text-center mt-8">
-            <button onClick={scrollToOrder} className={`bg-rouge text-white px-8 ${cta.sizeClass} rounded-xl font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.48)] hover:-translate-y-0.5 transition-transform border-2 border-white/20 ${TAP}`}>
-              ✅ Je commande mon Tonic
-            </button>
-            <p className="text-[11px] text-muted-foreground mt-2">Paiement uniquement quand tu reçois</p>
-          </div>
+          <p className="text-center italic mt-8 text-muted-foreground max-w-xl mx-auto text-sm">
+            "Quand le foie, les reins et le sang travaillent bien — la plupart des maladies partent toutes seules. C'est ça, la médecine de chez nous."
+          </p>
         </div>
       </section>
 
-      {/* POSOLOGIE */}
+      {/* 7. POSOLOGIE */}
       <section className="py-12 bg-cream-2">
         <div className="container-kouka max-w-4xl">
           <div className="text-center mb-6">
@@ -291,7 +254,7 @@ export function TonicKoukaPage() {
               <p className="text-xs uppercase tracking-widest text-rouge font-extrabold mb-3">⚠️ Attention</p>
               <ul className="text-sm space-y-2">
                 <li className="flex gap-2"><span>🚫</span><span><strong>Pas d'alcool</strong> pendant toute la cure</span></li>
-                <li className="flex gap-2"><span>🚫</span><span><strong>Ne pas conduire</strong> juste après avoir bu</span></li>
+                <li className="flex gap-2"><span>⚠️</span><span><strong>Éviter de conduire dans la 1ère heure</strong> après la prise</span></li>
                 <li className="flex gap-2"><span>🚫</span><span><strong>Femmes enceintes</strong> : interdit</span></li>
                 <li className="flex gap-2"><span>👶</span><span><strong>Enfants 5-12 ans :</strong> 1 cuillère à café le soir</span></li>
               </ul>
@@ -300,57 +263,24 @@ export function TonicKoukaPage() {
         </div>
       </section>
 
-      {/* COMMENT ÇA AGIT — 5 maux */}
-      <section className="py-14 bg-white">
-        <div className="container-kouka max-w-4xl">
-          <div className="text-center mb-8">
-            <span className="text-vert text-xs font-bold uppercase tracking-widest">🌿 Comment ça marche</span>
-            <h2 className="text-vert mt-2">Pourquoi 1 bouteille soigne 5 maux</h2>
-            <p className="text-muted-foreground text-sm mt-2 max-w-xl mx-auto">
-              C'est une <strong>boisson amère</strong> qui réveille les 3 organes qui nettoient ton corps.
-            </p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { i: '😴', t: 'Insomnie', d: 'Endort naturellement · répare le sommeil profond · tu te réveilles reposé.' },
-              { i: '🍽️', t: 'Manque d\'appétit', d: 'Réveille l\'estomac · ouvre l\'appétit · tu manges avec plaisir.' },
-              { i: '⚡', t: 'Fatigue', d: 'Ramène l\'énergie · enlève la faiblesse · tu tiens toute la journée.' },
-              { i: '🔥', t: 'Ulcères', d: 'Calme l\'estomac · guérit les brûlures · mange sans souffrir.' },
-              { i: '❤️', t: 'Hypertension', d: 'Fait baisser la tension · soulage les vertiges · protège le cœur.' },
-            ].map((x) => (
-              <div key={x.t} className="bg-vert-bg border-2 border-vert/20 rounded-2xl p-5 text-center">
-                <div className="text-5xl mb-3">{x.i}</div>
-                <div className="font-extrabold text-vert text-lg mb-1">{x.t}</div>
-                <div className="text-sm text-muted-foreground">{x.d}</div>
-              </div>
-            ))}
-          </div>
-          <p className="text-center italic mt-6 text-muted-foreground max-w-xl mx-auto text-sm">
-            "Quand le foie, les reins et le sang travaillent bien — la plupart des maladies partent toutes seules. C'est ça, la médecine de chez nous."
+      {/* 8-9. WHATSAPP + FACEBOOK (intro chapeau then component) */}
+      <section className="pt-14 pb-2 bg-[#0f2a1c] text-white">
+        <div className="container-kouka max-w-3xl text-center">
+          <span className="inline-block bg-[#dcf8c6] text-[#0f2a1c] text-xs font-extrabold uppercase tracking-[0.2em] px-3 py-1.5 rounded-full">📱 Messages WhatsApp privés</span>
+          <h2 className="text-[oklch(0.92_0.08_85)] mt-3 font-serif">Ce que les familles écrivent après leur cure</h2>
+          <p className="text-white/70 text-sm mt-2 max-w-xl mx-auto">
+            Prénoms abrégés pour la confidentialité · Messages réels reçus par Le Vieux KOUKA
           </p>
         </div>
       </section>
-
-      {/* SOCIAL PROOF */}
       <SocialProofChatTonic />
-
-      {/* PAIEMENT À LA LIVRAISON */}
-      <section className="py-10 bg-vert-bg">
-        <div className="container-kouka max-w-3xl">
-          <div className="bg-white border-2 border-vert rounded-2xl p-5 text-center">
-            <p className="font-extrabold text-vert mb-1 text-lg">💵 Tu paies SEULEMENT à la livraison</p>
-            <p className="text-sm">Tu ne donnes <strong>aucun franc à l'avance</strong>. Le livreur vient chez toi, tu regardes la bouteille, et tu paies <strong>cash quand tu reçois</strong>. Zéro risque.</p>
-          </div>
-          <div className="text-center mt-6">
-            <button onClick={scrollToOrder} className={`bg-rouge text-white px-8 ${cta.sizeClass} rounded-xl font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.48)] hover:-translate-y-0.5 transition-transform border-2 border-white/20 ${TAP}`}>
-              👉 Commander maintenant
-            </button>
-            <p className="text-[11px] text-muted-foreground mt-2">🔒 Aucun paiement avant de recevoir</p>
-          </div>
+      <section className="py-4 bg-[#f5f0e0]/40">
+        <div className="container-kouka max-w-2xl text-center text-sm text-[#0f2a1c]">
+          Voici ce que disent nos clients sur notre <strong>page Facebook officielle (48 000 abonnés)</strong> :
         </div>
       </section>
 
-      {/* COMPARATIF */}
+      {/* 10. COMPARATIF */}
       <section className="py-14 bg-white">
         <div className="container-kouka max-w-3xl">
           <div className="text-center mb-8">
@@ -374,7 +304,6 @@ export function TonicKoukaPage() {
                   ['D\'où ça vient', '🌿 Plantes du Burkina', 'Produits chimiques'],
                   ['Dépendance', '✅ Aucune', '❌ Souvent à vie'],
                   ['Discrétion', '✅ 100%', 'Pharmacie au vu de tous'],
-                  ['Paiement', '✅ À la livraison', '❌ Avant de recevoir'],
                 ].map((r, i) => (
                   <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-vert-bg/40'}>
                     <td className="px-3 py-3 font-bold text-foreground">{r[0]}</td>
@@ -388,28 +317,32 @@ export function TonicKoukaPage() {
         </div>
       </section>
 
-      {/* LIVRAISON */}
+      {/* 11. LIVRAISON */}
       <section className="py-10 bg-cream-2">
         <div className="container-kouka max-w-2xl">
           <h3 className="text-vert text-center mb-5">🚚 Livraison Burkina · Niger</h3>
-          <div className="grid grid-cols-2 gap-3 text-sm">
+          <div className="grid sm:grid-cols-2 gap-3 text-sm">
             {[
-              { city: '🇧🇫 Ouagadougou', note: 'Gratuit · même jour', free: true },
-              { city: '🇧🇫 Autres villes BF', note: '1 000 F · par car', free: false },
-              { city: '🇳🇪 Niamey', note: 'Gratuit', free: true },
-              { city: '🇳🇪 Autres villes Niger', note: '1 500 F · par car', free: false },
+              { city: '🇧🇫 Ouagadougou', delay: 'Même jour ou 24h', price: 'Gratuit', free: true },
+              { city: '🇧🇫 Autres villes BF', delay: '2-3 jours (car de transport)', price: '1 000 F', free: false },
+              { city: '🇳🇪 Niamey', delay: '24-48h', price: 'Gratuit', free: true },
+              { city: '🇳🇪 Autres villes Niger', delay: '3-4 jours (car de transport)', price: '1 500 F', free: false },
             ].map((x) => (
-              <div key={x.city} className={`bg-white border-2 rounded-xl p-3 text-center ${x.free ? 'border-vert' : 'border-vert/20'}`}>
+              <div key={x.city} className={`bg-white border-2 rounded-xl p-3 ${x.free ? 'border-vert' : 'border-vert/20'}`}>
                 <div className="font-extrabold text-foreground text-[13px]">{x.city}</div>
-                <div className={`text-xs font-bold mt-1 ${x.free ? 'text-vert' : 'text-muted-foreground'}`}>{x.note}</div>
+                <div className="text-xs text-muted-foreground mt-1">{x.delay}</div>
+                <div className={`text-xs font-extrabold mt-1 ${x.free ? 'text-vert' : 'text-foreground'}`}>{x.price}</div>
               </div>
             ))}
           </div>
-          <p className="text-center text-xs text-muted-foreground mt-4">💵 Cash · 📦 Tu vérifies la bouteille avant de payer</p>
+          <p className="text-center text-xs text-muted-foreground mt-4">✅ Cash · Tu vérifies la bouteille avant de payer</p>
+          <div className="text-center mt-6">
+            <RedCTA location="livraison">👉 JE COMMANDE — Paiement à la livraison</RedCTA>
+          </div>
         </div>
       </section>
 
-      {/* FAQ */}
+      {/* 12. FAQ */}
       <section className="py-14 bg-vert-bg">
         <div className="container-kouka max-w-3xl">
           <div className="text-center mb-6">
@@ -418,26 +351,20 @@ export function TonicKoukaPage() {
           </div>
           <FAQ
             items={[
+              { q: "C'est vraiment naturel ou il y a du chimique dedans ?", a: "<strong>100% naturel.</strong> Racines, écorces et feuilles ramassées au Burkina. Aucun médicament chimique, aucun additif. La recette existe depuis plus de 60 ans." },
               { q: "Comment 1 seul produit peut soigner 5 maux ?", a: "Parce que c'est une <strong>boisson amère</strong> qui ne soigne pas les symptômes un par un — elle réveille les 3 organes nettoyeurs (foie, reins, sang). Quand ces organes marchent bien, le sommeil revient, l'appétit revient, la fatigue part, l'estomac se calme et la tension baisse." },
-              { q: "En combien de temps je vais voir les résultats ?", a: "<strong>Dès la 1ère semaine :</strong> tu te sens plus léger, tu as plus d'énergie. <strong>Entre J15 et J30 :</strong> les douleurs (ulcère, règles, hémorroïdes) baissent, la tension et le sucre se stabilisent. <strong>À la fin de la cure :</strong> changement durable." },
-              { q: "Combien de bouteilles je dois prendre ?", a: "<strong>1 bouteille</strong> = pour essayer. <strong>Pack 2 + 1 GRATUITE (22 000 F)</strong> = la cure complète conseillée (9 clients sur 10 prennent celle-là). <strong>Pack 3 + 2 GRATUITES (33 000 F)</strong> = pour toute la famille." },
+              { q: "En combien de temps je vais voir les résultats ?", a: "<strong>Dès la 1ère semaine :</strong> tu te sens plus léger, tu as plus d'énergie. <strong>Entre J15 et J30 :</strong> les douleurs (ulcère, règles, hémorroïdes) baissent, la tension et le sucre se stabilisent." },
+              { q: "Combien de bouteilles je dois prendre ?", a: "<strong>1 bouteille</strong> = pour essayer. <strong>Pack 2 + 1 GRATUITE (22 000 F)</strong> = la cure complète conseillée. <strong>Pack 3 + 2 GRATUITES (33 000 F)</strong> = pour toute la famille." },
               { q: "Comment je dois prendre le Tonic ?", a: "<strong>Adulte :</strong> un verre et demi de thé, <strong>seulement le soir, avant de manger</strong>. Bien secouer avant. Cure de 30 jours, puis 15 jours de repos." },
-              { q: "Est-ce qu'il y a des effets secondaires ?", a: "Aucun — 100% plantes africaines, zéro chimie, zéro dépendance. <strong>Attention :</strong> pas d'alcool pendant la cure, ne pas conduire juste après, interdit aux femmes enceintes." },
+              { q: "Est-ce qu'il y a des effets secondaires ?", a: "Aucun — 100% plantes africaines, zéro chimie, zéro dépendance. Pas d'alcool pendant la cure, éviter de conduire dans la 1ère heure après la prise, interdit aux femmes enceintes." },
               { q: "Je peux le prendre avec mes médicaments ?", a: "Oui, c'est un complément naturel. <strong>N'arrête jamais tes médicaments d'un coup</strong> — continue ton traitement et parle à ton médecin avant de changer quelque chose." },
-              { q: "Comment je paie ?", a: "<strong>Cash, seulement à la livraison.</strong> Tu reçois la bouteille, tu vérifies, tu paies. Aucun acompte, aucun risque." },
-              { q: "La livraison est discrète ?", a: "Oui — emballage neutre sans logo. Personne (livreur, voisin, famille) ne peut deviner ce que tu as commandé." },
+              { q: "La livraison est discrète ?", a: "Oui — emballage neutre sans logo. Personne ne peut deviner ce que tu as commandé." },
             ]}
           />
-          <div className="text-center mt-6">
-            <button onClick={scrollToOrder} className={`bg-rouge text-white px-8 ${cta.sizeClass} rounded-xl font-extrabold shadow-[0_8px_24px_rgba(198,40,40,0.48)] hover:-translate-y-0.5 transition-transform border-2 border-white/20 ${TAP}`}>
-              ✅ Je commande mon Tonic
-            </button>
-            <p className="text-[11px] text-muted-foreground mt-2">Paiement uniquement quand tu reçois</p>
-          </div>
         </div>
       </section>
 
-      {/* VALUE STACK */}
+      {/* 13. VALUE STACK */}
       <section className="py-12 bg-gradient-to-b from-white to-vert-bg">
         <div className="container-kouka max-w-3xl">
           <div className="text-center mb-6">
@@ -466,60 +393,45 @@ export function TonicKoukaPage() {
                 <span className="font-extrabold text-foreground">Total à payer</span>
                 <span className="block text-xs text-muted-foreground line-through">au lieu de 33 000 F</span>
               </div>
-              <span className="text-3xl font-extrabold text-vert">22 000 F</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-3 mt-6">
-            <div className="bg-white rounded-xl p-3 border border-vert/20 text-center">
-              <div className="text-2xl">🚚</div>
-              <div className="text-[11px] font-bold text-vert mt-1">Livraison rapide</div>
-            </div>
-            <div className="bg-white rounded-xl p-3 border border-vert/20 text-center">
-              <div className="text-2xl">💵</div>
-              <div className="text-[11px] font-bold text-vert mt-1">Cash à la livraison</div>
-            </div>
-            <div className="bg-white rounded-xl p-3 border border-vert/20 text-center">
-              <div className="text-2xl">🤝</div>
-              <div className="text-[11px] font-bold text-vert mt-1">Suivi WhatsApp</div>
+              <div className="text-right">
+                <span className="text-3xl font-extrabold text-vert">22 000 F</span>
+                <span className="block text-[11px] font-bold text-vert mt-1">💵 Paiement à la livraison</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FINAL CTA */}
-      <section className="py-10 bg-white border-t border-vert/20">
-        <div className="container-kouka max-w-3xl text-center">
-          <p className="text-xs uppercase tracking-widest text-vert font-bold mb-2">🌿 La cure conseillée</p>
-          <h3 className="text-vert mb-2">2 bouteilles + 1 GRATUITE · 22 000 FCFA</h3>
-          <p className="text-sm text-muted-foreground mb-4">9 clients sur 10 prennent cette offre. Plus que <b className="text-rouge">{stock}</b> bouteilles aujourd'hui.</p>
-          <button onClick={scrollToOrder} className={`bg-rouge text-white px-8 ${cta.sizeClass} rounded-xl font-extrabold shadow-[0_10px_28px_rgba(198,40,40,0.50)] hover:-translate-y-0.5 transition-transform border-2 border-white/20 ${TAP}`}>
-            ✅ JE COMMANDE — Paiement à la livraison
-          </button>
-          <p className="text-xs text-muted-foreground mt-3">📦 Livré à Ouaga & Niamey · 💵 Tu paies cash quand tu reçois</p>
+      {/* 14. ENCADRÉ "L'ERREUR DES CLIENTS" */}
+      <section className="py-10 bg-white">
+        <div className="container-kouka max-w-3xl">
+          <div className="bg-[#FFF8DC] border-l-4 border-[#E5B800] rounded-r-2xl p-6 shadow-sm">
+            <p className="font-extrabold text-foreground mb-3 text-lg">⚠️ L'erreur que font la plupart des clients</p>
+            <p className="text-sm text-foreground leading-relaxed">
+              Beaucoup commandent <strong>1 flacon pour tester</strong>... puis ressentent les premiers effets positifs. Mais le produit se termine avant la guérison. Ils commandent en urgence — parfois en rupture de stock — et le mal revient.
+            </p>
+            <p className="mt-3 text-sm font-extrabold text-vert">👉 La cure complète (2+1) évite cette erreur dès le départ.</p>
+          </div>
         </div>
       </section>
 
-      <DiagnosticQuiz
-        title="Quels maux souhaitez-vous soulager ?"
-        questions={[
-          'Insomnie / mauvais sommeil',
-          'Manque d\'appétit',
-          'Fatigue chronique',
-          'Ulcères / brûlures',
-          'Hypertension',
-        ]}
-      />
-
+      {/* 15. TABLEAU 3 OFFRES */}
       <OfferComparisonTable product={product} />
-
-      <RecommendedCureSection product={product} />
 
       <ReassuranceBar />
 
-      <ProductForm product={product} />
+      {/* 16. FORMULAIRE — intro */}
+      <section className="pt-10 pb-2 bg-cream">
+        <div className="container-kouka max-w-2xl text-center">
+          <h2 className="text-vert">Tu es à 2 minutes de ta commande</h2>
+          <p className="text-muted-foreground text-sm mt-2">
+            Remplis les champs ci-dessous — on te contacte sur WhatsApp dans les 2h pour confirmer ta livraison.
+          </p>
+          <p className="mt-3 font-extrabold text-vert">Tu ne paies rien maintenant. Seulement quand tu reçois ton flacon.</p>
+        </div>
+      </section>
 
-      
+      <ProductForm product={product} />
 
       <section className="py-8 bg-white border-t border-vert/20">
         <div className="container-kouka text-center">
