@@ -8,7 +8,7 @@ import { ComparisonTable } from '@/components/ComparisonTable';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
 import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
-import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
+
 import { useAssignedCloseuse } from '@/lib/assignedCloseuseContext';
 import koukaPrep1 from '@/assets/kouka-preparation-1.jpeg.asset.json';
 import koukaPrep2 from '@/assets/kouka-preparation-2.jpeg.asset.json';
