@@ -492,29 +492,7 @@ export function AntiDiabetePage() {
 
       <ReassuranceBar />
 
-      {/* MISE EN AVANT OFFRE 2+1 */}
-      <section className="py-10 bg-gradient-to-b from-bleu-bg to-white">
-        <div className="container-kouka max-w-2xl px-4">
-          <div className="relative bg-white rounded-3xl border-[3px] border-rouge shadow-[0_12px_40px_rgba(198,40,40,0.20)] p-5 md:p-7 overflow-hidden">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-rouge text-white text-[11px] font-extrabold px-4 py-1.5 rounded-full whitespace-nowrap shadow">
-              🔥 OFFRE LA PLUS DEMANDÉE
-            </div>
-            <div className="text-center mt-3">
-              <div className="flex flex-wrap justify-center gap-2 mb-3">
-                <span className="bg-or/20 text-foreground border border-or/40 text-[11px] font-extrabold px-2.5 py-1 rounded-full">🎁 1 sachet offert</span>
-                <span className="bg-emerald-50 text-emerald-800 border border-emerald-500/30 text-[11px] font-extrabold px-2.5 py-1 rounded-full">⭐ Meilleur rapport qualité/prix</span>
-              </div>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-bleu uppercase leading-tight">
-                2 sachets achetés <span className="text-rouge">+ 1 sachet OFFERT</span>
-              </h3>
-              <p className="text-sm text-muted-foreground mt-2">La cure complète recommandée pour des résultats durables.</p>
-              <button onClick={scrollToOrder} className="mt-5 w-full bg-rouge text-white py-4 rounded-xl text-base md:text-lg font-extrabold uppercase shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform">
-                Je veux cette offre
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Bloc 2+1 isolé supprimé — déjà présent dans "Comparez les 3 offres" */}
 
       {/* COMMENT SE PASSE LA COMMANDE */}
       <section className="py-10 bg-white">
