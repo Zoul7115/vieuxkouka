@@ -522,11 +522,6 @@ export function HomePage() {
         <div className="container-kouka">
           <div className="font-extrabold mb-2">🌿 KOUKA Thérapies</div>
           <p className="opacity-80 mb-3">Savoir ancestral · Burkina Faso · Afrique de l'Ouest</p>
-          <p className="mb-4">
-            <a href={WA_LINK} target="_blank" rel="noreferrer" className="text-white font-bold underline">
-              📱 Nous contacter sur WhatsApp
-            </a>
-          </p>
           <div className="flex flex-wrap justify-center gap-4 text-xs">
             <Link to="/tonic-kouka" className="text-white/80 hover:text-white">🌿 Tonic du Vieux KOUKA</Link>
             <span className="text-white/30">·</span>
