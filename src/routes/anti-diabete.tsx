@@ -233,50 +233,7 @@ export function AntiDiabetePage() {
         </div>
       </section>
 
-      {/* SYMPTÔMES — style "diagnostic médical" */}
-      <section className="py-14 bg-white">
-        <div className="container-kouka max-w-3xl">
-          <div className="text-center mb-8">
-            <span className="text-bleu text-xs font-bold uppercase tracking-widest">📋 Auto-diagnostic</span>
-            <h2 className="text-bleu mt-2">Reconnais-tu ces signes ?</h2>
-            <p className="text-muted-foreground text-sm mt-2">Coche ce que tu vis. Si 3+ → ta glycémie n'est pas sous contrôle.</p>
-          </div>
-
-          <div className="bg-bleu-bg border-l-4 border-bleu rounded-r-2xl p-6 shadow-sm">
-            <div className="grid sm:grid-cols-2 gap-3">
-              {[
-                'Picotements aux mains et pieds',
-                'Soif constante, même après avoir bu',
-                'Toilettes la nuit (3 fois +)',
-                'Fatigue dès le réveil',
-                'Vision qui devient floue',
-                'Glycémie qui monte/descend',
-                'Plaies qui cicatrisent mal',
-                'Perte de poids inexpliquée',
-                'Démangeaisons intimes / peau',
-              ].map((s) => (
-                <label key={s} className="flex items-start gap-2 cursor-pointer text-sm">
-                  <input type="checkbox" className="mt-1 w-4 h-4 accent-bleu" />
-                  <span>{s}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-6 bg-rouge-light border-l-4 border-rouge rounded-r-2xl p-5">
-            <p className="font-extrabold text-rouge mb-2">⚠️ Sans intervention :</p>
-            <p className="text-sm leading-relaxed">
-              Reins, cœur, yeux atteints · plaies du pied → amputation · coma diabétique · médicaments à vie · dialyse.
-            </p>
-          </div>
-
-          <div className="text-center mt-7">
-            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              Commander le traitement complet
-            </button>
-          </div>
-        </div>
-      </section>
+      {/* Auto-diagnostic supprimé (doublon avec hero + mini-diagnostic) */}
 
       {/* SOLUTION — fond bleu profond, contraste fort */}
       <section className="py-14 bg-gradient-to-br from-bleu to-bleu-mid text-white">
