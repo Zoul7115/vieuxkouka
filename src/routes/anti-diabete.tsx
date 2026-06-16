@@ -1,11 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
-import { RecommendedCureSection } from '@/components/RecommendedCureSection';
 import { VisitTracker } from '@/components/VisitTracker';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { ANTI_DIABETE } from '@/lib/products';
-import { UrgencyBadge } from '@/components/anti-diabete/UrgencyBadge';
 import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
 import { SocialProofChat } from '@/components/anti-diabete/SocialProofChat';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
