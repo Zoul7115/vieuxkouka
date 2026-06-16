@@ -158,7 +158,7 @@ export function AntiDiabetePage() {
                 { icon: '🌿', label: 'Recette traditionnelle du Vieux Kouka' },
                 { icon: '🚚', label: 'Livraison partout au Burkina Faso' },
                 { icon: '💰', label: 'Paiement à la livraison' },
-                { icon: '📞', label: 'Confirmation téléphonique avant expédition' },
+                { icon: '💬', label: 'Confirmation WhatsApp sous 2h' },
                 { icon: '⭐', label: 'Clients satisfaits partout au Burkina' },
               ].map((r, i) => (
                 <div key={i} className="flex md:flex-col items-center md:text-center gap-2 bg-white rounded-xl border border-bleu-light/30 p-3 shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
