@@ -45,7 +45,7 @@ const FAQ_4 = [
   },
   {
     q: 'Et si ça ne marche pas — je suis vraiment remboursé ?',
-    a: `Oui. La garantie \"Satisfait ou Remboursé\" est inscrite sur le sachet. Si après la cure complète tu ne vois aucune amélioration, contacte-nous sur WhatsApp au <strong>${WA_DISPLAY}</strong> et nous traitons ton remboursement.`,
+    a: `Oui. La garantie "Satisfait ou Remboursé" est inscrite sur le sachet. Si après la cure complète tu ne vois aucune amélioration, <a href="${WA_LINK}" target="_blank" rel="noreferrer" class="text-vert font-bold underline">contactez-nous sur WhatsApp</a> et nous traitons ton remboursement.`,
   },
 ];
 
