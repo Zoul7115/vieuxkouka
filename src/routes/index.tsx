@@ -497,7 +497,7 @@ export function HomePage() {
               rel="noreferrer"
               className="mt-5 block text-center bg-[#25D366] text-white font-extrabold px-5 py-4 rounded-xl shadow-md"
             >
-              📱 Une question avant de commander ? WhatsApp : {WA_DISPLAY}
+              📱 Une question avant de valider ? → WhatsApp
             </a>
           </div>
         </div>
