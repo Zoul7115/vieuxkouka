@@ -536,7 +536,7 @@ export function HomePage() {
         </div>
       </footer>
 
-      <FloatingWhatsApp />
+      
     </div>
   );
 }
