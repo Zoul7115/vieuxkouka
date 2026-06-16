@@ -100,7 +100,17 @@ export function SiropPage() {
         </div>
       </section>
 
-      
+      <DiagnosticQuiz
+        title="Quel est votre problème principal ?"
+        questions={[
+          'Érection faible / molle',
+          'Éjaculation précoce',
+          'Baisse de libido / désir',
+          'Fatigue / manque d\'énergie',
+        ]}
+      />
+
+
       <section className="sec bg-cream-2">
         <div className="container-kouka">
           <h2 className="text-center mb-2">Ce que tu vis <span className="text-rouge">en silence</span></h2>
