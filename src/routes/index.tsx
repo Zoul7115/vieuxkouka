@@ -137,6 +137,22 @@ export function HomePage() {
             🌿 JE COMMANDE — JE PAIE À LA LIVRAISON
           </button>
           <p className="text-sm text-muted-foreground mt-3">🚚 Livraison rapide · 💵 Paiement uniquement à la réception</p>
+
+          {/* Badges de confiance */}
+          <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-2 max-w-2xl mx-auto">
+            {[
+              '💵 Paiement à la livraison',
+              '🇧🇫 Livraison Burkina Faso',
+              '🇳🇪 Livraison Niger',
+              '🌿 Produit 100% naturel',
+              '💬 Assistance WhatsApp',
+              '📞 Service client disponible',
+            ].map((b) => (
+              <div key={b} className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2 text-xs sm:text-sm font-bold text-foreground text-center">
+                ✅ {b}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
