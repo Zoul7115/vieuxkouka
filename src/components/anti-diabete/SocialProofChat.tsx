@@ -242,10 +242,10 @@ export function SocialProofChat() {
       <section className="py-12 bg-white">
         <div className="container-kouka max-w-2xl">
           <div className="text-center mb-7">
-            <span className="text-[#1877f2] text-xs font-bold uppercase tracking-widest">📘 Commentaires Facebook</span>
+            <span className="text-[#1877f2] text-xs font-bold uppercase tracking-widest">📘 Page Facebook officielle</span>
             <h2 className="text-bleu mt-2">Ce qu'ils disent en public.</h2>
             <p className="text-muted-foreground text-sm mt-2">
-              Extraits de commentaires sous nos publications.
+              Page · Santé naturelle · <strong>48 K abonnés</strong>
             </p>
           </div>
 
