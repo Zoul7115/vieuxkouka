@@ -170,6 +170,31 @@ export function HomePage() {
             <img src={product.heroImage} alt="Poudre du Vieux KOUKA — sachet" className="w-full block" />
           </div>
 
+          <ul className="grid grid-cols-2 sm:grid-cols-5 gap-3 max-w-3xl mx-auto mb-7">
+            {[
+              { i: '🌱', t: '100% Naturel' },
+              { i: '📖', t: 'Recette Traditionnelle' },
+              { i: '🥄', t: 'Facile à Consommer' },
+              { i: '🚚', t: 'Livraison Rapide' },
+              { i: '💵', t: 'Paiement à la Livraison' },
+            ].map((x) => (
+              <li key={x.t} className="bg-vert-bg/60 border-2 border-vert-bg rounded-xl p-3 text-center">
+                <div className="text-2xl mb-1">{x.i}</div>
+                <div className="text-xs sm:text-sm font-extrabold text-vert leading-tight">✅ {x.t}</div>
+              </li>
+            ))}
+          </ul>
+
+          <button
+            onClick={scrollToOrder}
+            className="w-full sm:w-auto sm:px-10 bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
+          >
+            🛒 JE COMMANDE MAINTENANT
+          </button>
+        </div>
+      </section>
+
+
       {/* QUI EST LE VIEUX KOUKA ? — section remontée pour confiance précoce */}
       <section className="sec bg-white">
         <div className="container-kouka">
