@@ -352,15 +352,23 @@ export function HomePage() {
                 <audio controls preload="none" className="w-full">
                   <source src={`/audio/temoignage${n}.opus`} type="audio/ogg; codecs=opus" />
                 </audio>
-                <p className="mt-2 text-xs text-foreground/80">
-                  🎙️ Audio aussi disponible sur{' '}
-                  <a href={WA_LINK} target="_blank" rel="noreferrer" className="text-vert font-bold underline">
-                    WhatsApp → {WA_DISPLAY}
-                  </a>
-                </p>
               </div>
             ))}
           </div>
+
+          <div className="bg-white rounded-2xl p-5 border-2 border-vert-bg shadow-sm mt-4 text-center">
+            <p className="text-sm font-bold text-foreground mb-1">🎙️ Vous voulez écouter les témoignages audio complets ?</p>
+            <p className="text-xs text-muted-foreground mb-3">Écrivez-nous sur WhatsApp — on vous les envoie directement.</p>
+            <a
+              href={WA_LINK}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-block bg-[#25D366] text-white font-extrabold px-5 py-3 rounded-xl shadow-md"
+            >
+              → Contacter sur WhatsApp
+            </a>
+          </div>
+
 
           <p className="text-center text-sm text-muted-foreground font-bold mt-7 mb-3">
             📦 Preuves de livraison
