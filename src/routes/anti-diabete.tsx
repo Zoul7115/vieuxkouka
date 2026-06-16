@@ -498,7 +498,10 @@ export function AntiDiabetePage() {
           </button>
           <p className="text-xs text-muted-foreground mt-3">📦 Livraison à Ouaga & Niamey · Cash à la livraison</p>
           <div className="mt-4 flex justify-center">
-            <UrgencyBadge stock={stock} />
+            <span className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-bold border-2 bg-rouge-light border-rouge text-rouge">
+              <span className="w-2 h-2 rounded-full bg-rouge animate-ping" />
+              Stock limité : <b>{stock}</b> sachets restants
+            </span>
           </div>
         </div>
       </section>
