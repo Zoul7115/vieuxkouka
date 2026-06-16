@@ -186,14 +186,6 @@ export function HomePage() {
             <img src={product.heroImage} alt="Poudre du Vieux KOUKA — sachet" className="w-full block" />
           </div>
 
-          <a
-            href={WA_LINK}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-block bg-[#25D366] text-white font-extrabold px-5 py-3 rounded-xl shadow-md mb-6"
-          >
-            📞 Une question ? WhatsApp direct : {WA_DISPLAY}
-          </a>
 
           <div>
             <a href="#formulaire" className="inline-block text-vert text-sm font-bold underline underline-offset-4 hover:text-vert-mid">
