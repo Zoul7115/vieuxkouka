@@ -45,7 +45,7 @@ const FAQ_4 = [
   },
   {
     q: 'Et si ça ne marche pas — je suis vraiment remboursé ?',
-    a: `Oui. La garantie \"Satisfait ou Remboursé\" est inscrite sur le sachet. Si après la cure complète tu ne vois aucune amélioration, contacte-nous sur WhatsApp au <strong>${WA_DISPLAY}</strong> et nous traitons ton remboursement.`,
+    a: `Oui. La garantie "Satisfait ou Remboursé" est inscrite sur le sachet. Si après la cure complète tu ne vois aucune amélioration, <a href="${WA_LINK}" target="_blank" rel="noreferrer" class="text-vert font-bold underline">contactez-nous sur WhatsApp</a> et nous traitons ton remboursement.`,
   },
 ];
 
@@ -186,14 +186,6 @@ export function HomePage() {
             <img src={product.heroImage} alt="Poudre du Vieux KOUKA — sachet" className="w-full block" />
           </div>
 
-          <a
-            href={WA_LINK}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-block bg-[#25D366] text-white font-extrabold px-5 py-3 rounded-xl shadow-md mb-6"
-          >
-            📞 Une question ? WhatsApp direct : {WA_DISPLAY}
-          </a>
 
           <div>
             <a href="#formulaire" className="inline-block text-vert text-sm font-bold underline underline-offset-4 hover:text-vert-mid">
@@ -360,15 +352,23 @@ export function HomePage() {
                 <audio controls preload="none" className="w-full">
                   <source src={`/audio/temoignage${n}.opus`} type="audio/ogg; codecs=opus" />
                 </audio>
-                <p className="mt-2 text-xs text-foreground/80">
-                  🎙️ Audio aussi disponible sur{' '}
-                  <a href={WA_LINK} target="_blank" rel="noreferrer" className="text-vert font-bold underline">
-                    WhatsApp → {WA_DISPLAY}
-                  </a>
-                </p>
               </div>
             ))}
           </div>
+
+          <div className="bg-white rounded-2xl p-5 border-2 border-vert-bg shadow-sm mt-4 text-center">
+            <p className="text-sm font-bold text-foreground mb-1">🎙️ Vous voulez écouter les témoignages audio complets ?</p>
+            <p className="text-xs text-muted-foreground mb-3">Écrivez-nous sur WhatsApp — on vous les envoie directement.</p>
+            <a
+              href={WA_LINK}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-block bg-[#25D366] text-white font-extrabold px-5 py-3 rounded-xl shadow-md"
+            >
+              → Contacter sur WhatsApp
+            </a>
+          </div>
+
 
           <p className="text-center text-sm text-muted-foreground font-bold mt-7 mb-3">
             📦 Preuves de livraison
@@ -497,7 +497,7 @@ export function HomePage() {
               rel="noreferrer"
               className="mt-5 block text-center bg-[#25D366] text-white font-extrabold px-5 py-4 rounded-xl shadow-md"
             >
-              📱 Une question avant de commander ? WhatsApp : {WA_DISPLAY}
+              📱 Une question avant de valider ? → WhatsApp
             </a>
           </div>
         </div>
@@ -539,7 +539,7 @@ export function HomePage() {
           <p className="opacity-80 mb-3">Savoir ancestral · Burkina Faso · Afrique de l'Ouest</p>
           <p className="mb-4">
             <a href={WA_LINK} target="_blank" rel="noreferrer" className="text-white font-bold underline">
-              📱 WhatsApp : {WA_DISPLAY}
+              📱 Nous contacter sur WhatsApp
             </a>
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-xs">
