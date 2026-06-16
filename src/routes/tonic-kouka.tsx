@@ -210,16 +210,18 @@ export function TonicKoukaPage() {
             </div>
             <div className="grid grid-cols-1 gap-2.5">
               {[
-                { t: 'Insomnie', d: 'Endort naturellement · Tu te réveilles reposé' },
-                { t: 'Manque d\'appétit', d: 'Réveille l\'estomac · Tu manges avec plaisir' },
-                { t: 'Fatigue chronique', d: 'Ramène l\'énergie · Tu tiens toute la journée' },
-                { t: 'Ulcères & brûlures', d: 'Calme l\'estomac · Mange sans souffrir' },
-                { t: 'Hypertension', d: 'Fait baisser la tension · Protège le cœur' },
+                { t: "Insomnie", d: "Endort naturellement · Tu te réveilles reposé" },
+                { t: "Manque d'appétit", d: "Réveille l'estomac · Tu manges avec plaisir" },
+                { t: "Fatigue chronique", d: "Ramène l'énergie · Tu tiens toute la journée" },
+                { t: "Ulcères & brûlures", d: "Calme l'estomac · Mange sans souffrir" },
+                { t: "Hypertension", d: "Fait baisser la tension · Protège le cœur" },
               ].map((b, i) => (
                 <div key={b.t} className="bg-vert-bg border border-vert/20 rounded-xl p-4">
-                  <div className="font-extrabold text-vert text-[15px] flex items-start gap-2">
-                    <span className="text-or font-extrabold">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="leading-tight">{b.t} — <span className="font-semibold text-foreground">{b.d}</span></span>
+                  <div className="font-extrabold text-vert text-[15px] flex items-start gap-1">
+                    <span className="text-or font-extrabold">{String(i + 1).padStart(2, '0')} · </span>
+                    <span className="leading-tight">
+                      <span className="text-vert font-extrabold">{b.t}</span> — <span className="font-semibold text-foreground">{b.d}</span>
+                    </span>
                   </div>
                 </div>
               ))}
@@ -323,15 +325,13 @@ export function TonicKoukaPage() {
           <h3 className="text-vert text-center mb-5">🚚 Livraison Burkina · Niger</h3>
           <div className="grid sm:grid-cols-2 gap-3 text-sm">
             {[
-              { city: '🇧🇫 Ouagadougou', delay: 'Même jour ou 24h', price: 'Gratuit', free: true },
-              { city: '🇧🇫 Autres villes BF', delay: '2-3 jours (car de transport)', price: '1 000 F', free: false },
-              { city: '🇳🇪 Niamey', delay: '24-48h', price: 'Gratuit', free: true },
-              { city: '🇳🇪 Autres villes Niger', delay: '3-4 jours (car de transport)', price: '1 500 F', free: false },
-            ].map((x) => (
-              <div key={x.city} className={`bg-white border-2 rounded-xl p-3 ${x.free ? 'border-vert' : 'border-vert/20'}`}>
-                <div className="font-extrabold text-foreground text-[13px]">{x.city}</div>
-                <div className="text-xs text-muted-foreground mt-1">{x.delay}</div>
-                <div className={`text-xs font-extrabold mt-1 ${x.free ? 'text-vert' : 'text-foreground'}`}>{x.price}</div>
+              { text: "🇧🇫 Ouagadougou — Même jour ou 24h — Gratuit", free: true },
+              { text: "🇧🇫 Autres villes BF — 2-3 jours (car de transport) — 1 000 F", free: false },
+              { text: "🇳🇪 Niamey — 24-48h — Gratuit", free: true },
+              { text: "🇳🇪 Autres villes Niger — 3-4 jours (car de transport) — 1 500 F", free: false },
+            ].map((x, idx) => (
+              <div key={idx} className={`bg-white border-2 rounded-xl p-4 flex items-center ${x.free ? 'border-vert shadow-sm' : 'border-vert/20'}`}>
+                <div className="font-extrabold text-foreground text-sm leading-snug">{x.text}</div>
               </div>
             ))}
           </div>
@@ -421,13 +421,15 @@ export function TonicKoukaPage() {
       <ReassuranceBar />
 
       {/* 16. FORMULAIRE — intro */}
-      <section className="pt-10 pb-2 bg-cream">
+      <section className="py-12 bg-vert text-white">
         <div className="container-kouka max-w-2xl text-center">
-          <h2 className="text-vert">Tu es à 2 minutes de ta commande</h2>
-          <p className="text-muted-foreground text-sm mt-2">
-            Remplis les champs ci-dessous — on te contacte sur WhatsApp dans les 2h pour confirmer ta livraison.
+          <h2 className="text-white">Tu es à 2 minutes de ta commande</h2>
+          <p className="text-white/90 text-sm mt-3 font-semibold leading-relaxed">
+            Remplis les champs — on te contacte sur WhatsApp dans les 2h pour confirmer ta livraison.
           </p>
-          <p className="mt-3 font-extrabold text-vert">Tu ne paies rien maintenant. Seulement quand tu reçois ton flacon.</p>
+          <p className="mt-4 text-base font-extrabold text-or-light">
+            <u>Tu ne paies rien maintenant. Seulement quand tu reçois ton flacon.</u>
+          </p>
         </div>
       </section>
 
