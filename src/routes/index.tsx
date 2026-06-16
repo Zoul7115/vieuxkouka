@@ -59,28 +59,25 @@ export function HomePage() {
           </div>
 
           <span className="inline-block bg-vert-mid text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-4">
-            ⭐ +200 clients guéris · 87% soulagés dès J3
+            ⭐ +200 familles soulagées · 87% dès J3
           </span>
 
-          <h1 className="text-vert mb-5 text-2xl sm:text-3xl md:text-4xl font-black leading-[1.05] tracking-tight max-w-sm sm:max-w-md md:max-w-xl mx-auto uppercase">
-            <span className="block text-vert">Vous souffrez d'un ou</span>
-            <span className="block text-vert">plusieurs de ces</span>
-            <span className="block text-[38px] sm:text-[52px] md:text-[68px] lg:text-[76px] text-rouge font-black mt-2 leading-[0.9] tracking-tighter">
-              Troubles Digestifs ?
-            </span>
+          <h1 className="text-vert mb-5 font-black leading-[0.92] tracking-tight max-w-sm sm:max-w-md md:max-w-2xl mx-auto uppercase">
+            <span className="block text-[34px] sm:text-[46px] md:text-[58px] text-vert">Votre ventre</span>
+            <span className="block text-[38px] sm:text-[54px] md:text-[68px] text-rouge mt-1">vous fait souffrir</span>
+            <span className="block text-[34px] sm:text-[46px] md:text-[58px] text-vert mt-1">chaque jour ?</span>
           </h1>
 
-          <ul className="max-w-md mx-auto mb-5 grid grid-cols-1 sm:grid-cols-2 gap-2 text-left text-base font-semibold text-foreground">
-            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Hémorroïdes</li>
-            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Gaz et Ballonnements</li>
-            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Brûlures d'Estomac</li>
-            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2">✅ Ulcères Gastriques</li>
-            <li className="bg-white border-2 border-vert-bg rounded-lg px-3 py-2 sm:col-span-2">✅ Colopathie</li>
-          </ul>
-
-          <p className="text-muted-foreground max-w-lg mx-auto mb-5 text-base leading-relaxed">
-            Découvrez la <strong className="text-foreground">recette traditionnelle du Vieux Kouka</strong> qui <strong className="text-vert">traite efficacement les troubles digestifs</strong> grâce à sa formule naturelle.
+          <p className="text-foreground max-w-lg mx-auto mb-5 text-base sm:text-lg leading-relaxed font-semibold">
+            Douleurs, saignements, ventre gonflé, brûlures d'estomac, constipation ou colopathie ?<br/>
+            <span className="text-vert font-bold">Découvrez la recette traditionnelle du Vieux Kouka.</span>
           </p>
+
+          <div className="flex flex-wrap justify-center gap-2 max-w-md mx-auto mb-5">
+            {['Hémorroïdes', 'Ulcère', 'Gaz / Ballonnements', 'Brûlures', 'Colopathie'].map((t) => (
+              <span key={t} className="bg-white border-2 border-vert-bg rounded-full px-3 py-1 text-sm font-bold text-foreground">✅ {t}</span>
+            ))}
+          </div>
 
           <button
             onClick={scrollToOrder}
