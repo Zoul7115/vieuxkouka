@@ -484,14 +484,6 @@ export function HomePage() {
               <li>✅ <strong>Autres villes</strong> du Burkina et du Niger : 24 à 48h</li>
               <li>✅ <strong>Satisfait ou remboursé</strong> — garantie inscrite sur le sachet</li>
             </ul>
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-5 block text-center bg-[#25D366] text-white font-extrabold px-5 py-4 rounded-xl shadow-md"
-            >
-              📱 Une question avant de valider ? → WhatsApp
-            </a>
           </div>
         </div>
       </section>
