@@ -9,6 +9,7 @@ import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTab
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
 import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
 import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
+import { useAssignedCloseuse } from '@/lib/assignedCloseuseContext';
 import koukaPrep1 from '@/assets/kouka-preparation-1.jpeg.asset.json';
 import koukaPrep2 from '@/assets/kouka-preparation-2.jpeg.asset.json';
 
@@ -25,9 +26,6 @@ export const Route = createFileRoute('/')({
   component: HomePage,
 });
 
-const WA_LINK = `https://wa.me/${ADMIN_WHATSAPP}`;
-const WA_DISPLAY = '+226 58 44 48 18';
-
 function scrollToOrder() {
   document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' });
 }
@@ -35,22 +33,27 @@ function scrollToKouka() {
   document.getElementById('vieux-kouka')?.scrollIntoView({ behavior: 'smooth' });
 }
 
-// FAQ réduite à 4 questions essentielles
-const FAQ_4 = [
-  FAQ_DATA[0], // effets secondaires
-  FAQ_DATA[1], // résultats
-  {
-    q: 'Je dois payer d\'avance ?',
-    a: "Non. Le livreur passe chez toi, tu vérifies le produit, et tu paies cash à la réception. Aucune carte, aucun acompte, aucun risque. Si tu n'es pas là au moment de la livraison, on te rappelle pour fixer un nouveau rendez-vous.",
-  },
-  {
-    q: 'Et si ça ne marche pas — je suis vraiment remboursé ?',
-    a: `Oui. La garantie "Satisfait ou Remboursé" est inscrite sur le sachet. Si après la cure complète tu ne vois aucune amélioration, <a href="${WA_LINK}" target="_blank" rel="noreferrer" class="text-vert font-bold underline">contactez-nous sur WhatsApp</a> et nous traitons ton remboursement.`,
-  },
-];
-
 export function HomePage() {
   const product = KOUKA;
+  const assigned = useAssignedCloseuse();
+  const waNumber = (assigned?.whatsapp && assigned.whatsapp.replace(/\D/g, '')) || ADMIN_WHATSAPP;
+  const WA_LINK = `https://wa.me/${waNumber}`;
+
+  // FAQ réduite à 4 questions essentielles
+  const FAQ_4 = [
+    FAQ_DATA[0],
+    FAQ_DATA[1],
+    {
+      q: 'Je dois payer d\'avance ?',
+      a: "Non. Le livreur passe chez toi, tu vérifies le produit, et tu paies cash à la réception. Aucune carte, aucun acompte, aucun risque. Si tu n'es pas là au moment de la livraison, on te rappelle pour fixer un nouveau rendez-vous.",
+    },
+    {
+      q: 'Et si ça ne marche pas — je suis vraiment remboursé ?',
+      a: `Oui. La garantie "Satisfait ou Remboursé" est inscrite sur le sachet. Si après la cure complète tu ne vois aucune amélioration, <a href="${WA_LINK}" target="_blank" rel="noreferrer" class="text-vert font-bold underline">contactez-nous sur WhatsApp</a> et nous traitons ton remboursement.`,
+    },
+  ];
+
+
 
   return (
     <div className="bg-background pb-16 md:pb-0">
