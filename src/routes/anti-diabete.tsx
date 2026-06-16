@@ -1,11 +1,9 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { FAQ } from '@/components/FAQ';
 import { ProductForm } from '@/components/ProductForm';
-import { RecommendedCureSection } from '@/components/RecommendedCureSection';
 import { VisitTracker } from '@/components/VisitTracker';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { ANTI_DIABETE } from '@/lib/products';
-import { UrgencyBadge } from '@/components/anti-diabete/UrgencyBadge';
 import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
 import { SocialProofChat } from '@/components/anti-diabete/SocialProofChat';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
@@ -158,7 +156,7 @@ export function AntiDiabetePage() {
                 { icon: '🌿', label: 'Recette traditionnelle du Vieux Kouka' },
                 { icon: '🚚', label: 'Livraison partout au Burkina Faso' },
                 { icon: '💰', label: 'Paiement à la livraison' },
-                { icon: '📞', label: 'Confirmation téléphonique avant expédition' },
+                { icon: '💬', label: 'Confirmation WhatsApp sous 2h' },
                 { icon: '⭐', label: 'Clients satisfaits partout au Burkina' },
               ].map((r, i) => (
                 <div key={i} className="flex md:flex-col items-center md:text-center gap-2 bg-white rounded-xl border border-bleu-light/30 p-3 shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
@@ -170,6 +168,17 @@ export function AntiDiabetePage() {
           </div>
         </div>
       </section>
+
+      {/* MINI-DIAGNOSTIC déplacé ici (juste après le hero) */}
+      <DiagnosticQuiz
+        title="Votre situation actuelle ?"
+        questions={[
+          'Diabète récemment diagnostiqué',
+          'Diabète ancien (plusieurs années)',
+          'Glycémie élevée / instable',
+          'Traitement actuel peu efficace',
+        ]}
+      />
 
       {/* POURQUOI CES SYMPTÔMES MÉRITENT VOTRE ATTENTION */}
       <section className="py-10 md:py-12 bg-bleu-bg">
@@ -222,50 +231,7 @@ export function AntiDiabetePage() {
         </div>
       </section>
 
-      {/* SYMPTÔMES — style "diagnostic médical" */}
-      <section className="py-14 bg-white">
-        <div className="container-kouka max-w-3xl">
-          <div className="text-center mb-8">
-            <span className="text-bleu text-xs font-bold uppercase tracking-widest">📋 Auto-diagnostic</span>
-            <h2 className="text-bleu mt-2">Reconnais-tu ces signes ?</h2>
-            <p className="text-muted-foreground text-sm mt-2">Coche ce que tu vis. Si 3+ → ta glycémie n'est pas sous contrôle.</p>
-          </div>
-
-          <div className="bg-bleu-bg border-l-4 border-bleu rounded-r-2xl p-6 shadow-sm">
-            <div className="grid sm:grid-cols-2 gap-3">
-              {[
-                'Picotements aux mains et pieds',
-                'Soif constante, même après avoir bu',
-                'Toilettes la nuit (3 fois +)',
-                'Fatigue dès le réveil',
-                'Vision qui devient floue',
-                'Glycémie qui monte/descend',
-                'Plaies qui cicatrisent mal',
-                'Perte de poids inexpliquée',
-                'Démangeaisons intimes / peau',
-              ].map((s) => (
-                <label key={s} className="flex items-start gap-2 cursor-pointer text-sm">
-                  <input type="checkbox" className="mt-1 w-4 h-4 accent-bleu" />
-                  <span>{s}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-6 bg-rouge-light border-l-4 border-rouge rounded-r-2xl p-5">
-            <p className="font-extrabold text-rouge mb-2">⚠️ Sans intervention :</p>
-            <p className="text-sm leading-relaxed">
-              Reins, cœur, yeux atteints · plaies du pied → amputation · coma diabétique · médicaments à vie · dialyse.
-            </p>
-          </div>
-
-          <div className="text-center mt-7">
-            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              Commander le traitement complet
-            </button>
-          </div>
-        </div>
-      </section>
+      {/* Auto-diagnostic supprimé (doublon avec hero + mini-diagnostic) */}
 
       {/* SOLUTION — fond bleu profond, contraste fort */}
       <section className="py-14 bg-gradient-to-br from-bleu to-bleu-mid text-white">
@@ -530,24 +496,15 @@ export function AntiDiabetePage() {
           </button>
           <p className="text-xs text-muted-foreground mt-3">📦 Livraison à Ouaga & Niamey · Cash à la livraison</p>
           <div className="mt-4 flex justify-center">
-            <UrgencyBadge stock={stock} />
+            <span className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-bold border-2 bg-rouge-light border-rouge text-rouge">
+              <span className="w-2 h-2 rounded-full bg-rouge animate-ping" />
+              Stock limité : <b>{stock}</b> sachets restants
+            </span>
           </div>
         </div>
       </section>
 
-      <DiagnosticQuiz
-        title="Votre situation actuelle ?"
-        questions={[
-          'Diabète récemment diagnostiqué',
-          'Diabète ancien (plusieurs années)',
-          'Glycémie élevée / instable',
-          'Traitement actuel peu efficace',
-        ]}
-      />
-
       <OfferComparisonTable product={product} />
-
-      <RecommendedCureSection product={product} />
 
       <ReassuranceBar />
 
@@ -615,6 +572,19 @@ export function AntiDiabetePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Transition avant le formulaire */}
+      <section className="py-6 bg-gradient-to-b from-white to-bleu-bg">
+        <div className="container-kouka max-w-2xl px-4 text-center">
+          <p className="text-bleu text-lg md:text-xl font-extrabold leading-tight">
+            ⏱️ Tu es à 2 minutes de commencer ta cure.
+          </p>
+          <p className="text-foreground text-sm md:text-base mt-2 leading-relaxed">
+            Remplis tes infos — on te contacte sur <strong>WhatsApp sous 2h</strong> pour confirmer ta livraison.
+          </p>
+          <p className="text-rouge text-sm font-bold mt-2">💵 Tu ne paies rien maintenant.</p>
         </div>
       </section>
 
