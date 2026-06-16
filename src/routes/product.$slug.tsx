@@ -270,31 +270,50 @@ export function SiropPage() {
               onClick={() => document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' })}
               className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
             >
+      {/* FAQ avant le formulaire — lever les objections avant la décision */}
+      <section className="sec">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">Questions fréquentes</h2>
+          <FAQ
+            items={[
+              {
+                q: "C'est vraiment discret — personne ne saura ?",
+                a: "Absolument. Colis neutre sans logo ni nom de produit. Le livreur ne sait pas ce qu'il transporte. Ton numéro WhatsApp n'est jamais partagé. Aucun appel public — message privé uniquement.",
+              },
+              {
+                q: "En combien de temps je ressens les effets ?",
+                a: "La majorité des clients ressentent une différence dès <strong>J2</strong> — l'énergie revient, l'envie se réveille. Entre <strong>J3 et J5</strong>, l'érection tient plus longtemps. La pleine puissance arrive entre <strong>J10 et J15</strong> avec la cure complète.",
+              },
+              {
+                q: "Est-ce que ça marche si j'ai ce problème depuis longtemps ?",
+                a: "Oui. Beaucoup de clients avaient le problème depuis 3, 5, parfois 10 ans. La formule travaille en profondeur sur la circulation sanguine et la production naturelle. Plus tu suis la cure complète, plus le résultat est durable.",
+              },
+              {
+                q: "Je dois payer d'avance ?",
+                a: "Non. Le livreur passe chez toi, tu vérifies le colis discret, et tu paies <strong>cash à la réception</strong>. Aucun acompte, aucune carte.",
+              },
+              {
+                q: "Et si ça ne marche pas pour moi ?",
+                a: "Tu es remboursé. La garantie est inscrite sur le flacon : <strong>Satisfait ou remboursé</strong>. Contacte-nous sur WhatsApp.",
+              },
+            ]}
+          />
+          <div className="text-center mt-6">
+            <button
+              onClick={() => document.getElementById('order-section')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
+            >
               🍯 OK, je commande maintenant
             </button>
           </div>
         </div>
       </section>
 
-      <DiagnosticQuiz
-        title="Quel est votre problème principal ?"
-        questions={[
-          'Érection faible / molle',
-          'Éjaculation précoce',
-          'Baisse de libido / désir',
-          'Fatigue / manque d\'énergie',
-        ]}
-      />
-
       <OfferComparisonTable product={product} />
-
-      <RecommendedCureSection product={product} />
 
       <ReassuranceBar />
 
       <ProductForm product={product} />
-
-      
 
       <section className="sec bg-cream-2">
         <div className="container-kouka text-center">
@@ -304,3 +323,4 @@ export function SiropPage() {
     </div>
   );
 }
+
