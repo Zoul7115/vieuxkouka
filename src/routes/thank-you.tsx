@@ -78,7 +78,8 @@ function ThankYouPage() {
     }
     setConfirmed(true);
     // Ouvre WhatsApp
-    window.open(`https://wa.me/${ADMIN_WHATSAPP}?text=${buildWaMessage()}`, '_blank');
+    const targetNumber = (order.closeuseWhatsapp && order.closeuseWhatsapp.replace(/\D/g, '')) || ADMIN_WHATSAPP;
+    window.open(`https://wa.me/${targetNumber}?text=${buildWaMessage()}`, '_blank');
   };
 
   return (
