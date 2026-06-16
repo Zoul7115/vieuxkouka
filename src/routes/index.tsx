@@ -640,15 +640,6 @@ export function HomePage() {
         </div>
       </section>
 
-      <DiagnosticQuiz
-        title="Quels symptômes ressentez-vous ?"
-        questions={[
-          'Ulcère / brûlures d\'estomac',
-          'Colopathie / ballonnements',
-          'Hémorroïdes (koko)',
-          'Constipation chronique',
-        ]}
-      />
 
       <OfferComparisonTable product={product} />
 
