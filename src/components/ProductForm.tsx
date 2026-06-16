@@ -344,8 +344,11 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
           whatsapp: fullPhone,
           city: form.city,
             deliverySlot: form.deliverySlot,
+          closeuseWhatsapp: assignedCloseuse?.whatsapp || null,
+          closeuseName: assignedCloseuse?.name || null,
         })
       );
+
 
       // Facebook Pixel + CAPI (event dédupliqué)
       trackFB('Purchase', {
