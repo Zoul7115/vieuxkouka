@@ -629,7 +629,7 @@ export function HomePage() {
       {/* FAQ — avant le formulaire pour lever les objections */}
       <section className="sec">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">Tes questions</h2>
+          <h2 className="text-center mb-2">Les réponses aux <span className="text-vert">questions que nos clients nous posent le plus</span></h2>
           <p className="text-center text-muted-foreground mb-4">Les vraies réponses sans détours</p>
           <FAQ />
           <div className="text-center mt-6">
