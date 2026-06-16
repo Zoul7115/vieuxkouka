@@ -602,7 +602,7 @@ export function HomePage() {
       {/* COMPARATIF */}
       <section className="sec bg-vert-bg/30">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">Pourquoi KOUKA <span className="text-vert">plutôt qu'autre chose</span> ?</h2>
+          <h2 className="text-center mb-2">Pourquoi <span className="text-vert">de nombreuses familles choisissent le Vieux Kouka</span> ?</h2>
           <p className="text-center text-muted-foreground mb-6 max-w-lg mx-auto">
             Compare honnêtement avec les solutions classiques. Le choix devient évident.
           </p>
