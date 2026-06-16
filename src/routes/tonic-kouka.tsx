@@ -301,6 +301,7 @@ export function TonicKoukaPage() {
               <tbody>
                 {[
                   ['Maux soignés', '✅ 5 d\'un coup', '❌ 1 par produit'],
+                  ['Paiement', '✅ À la livraison', '❌ Avant de recevoir'],
                   ['Coût par mois', '22 000 F', 'Plus de 50 000 F'],
                   ['Effets secondaires', '✅ Aucun', '⚠️ Abîme foie, reins'],
                   ['D\'où ça vient', '🌿 Plantes du Burkina', 'Produits chimiques'],
