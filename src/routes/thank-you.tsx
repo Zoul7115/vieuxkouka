@@ -21,7 +21,10 @@ type Order = {
   city: string;
   addressDetail?: string;
   deliverySlot?: string;
+  closeuseWhatsapp?: string | null;
+  closeuseName?: string | null;
 };
+
 
 const SLOT_LABELS: Record<string, string> = {
   morning: 'matin (8h-12h)',
