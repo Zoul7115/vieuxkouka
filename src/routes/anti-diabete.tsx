@@ -577,6 +577,19 @@ export function AntiDiabetePage() {
         </div>
       </section>
 
+      {/* Transition avant le formulaire */}
+      <section className="py-6 bg-gradient-to-b from-white to-bleu-bg">
+        <div className="container-kouka max-w-2xl px-4 text-center">
+          <p className="text-bleu text-lg md:text-xl font-extrabold leading-tight">
+            ⏱️ Tu es à 2 minutes de commencer ta cure.
+          </p>
+          <p className="text-foreground text-sm md:text-base mt-2 leading-relaxed">
+            Remplis tes infos — on te contacte sur <strong>WhatsApp sous 2h</strong> pour confirmer ta livraison.
+          </p>
+          <p className="text-rouge text-sm font-bold mt-2">💵 Tu ne paies rien maintenant.</p>
+        </div>
+      </section>
+
       <ProductForm product={product} />
 
 
