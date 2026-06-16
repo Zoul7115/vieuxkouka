@@ -8,7 +8,7 @@ import { ComparisonTable } from '@/components/ComparisonTable';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
 import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
-import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
+
 import { useAssignedCloseuse } from '@/lib/assignedCloseuseContext';
 import koukaPrep1 from '@/assets/kouka-preparation-1.jpeg.asset.json';
 import koukaPrep2 from '@/assets/kouka-preparation-2.jpeg.asset.json';
@@ -359,18 +359,8 @@ export function HomePage() {
             ))}
           </div>
 
-          <div className="bg-white rounded-2xl p-5 border-2 border-vert-bg shadow-sm mt-4 text-center">
-            <p className="text-sm font-bold text-foreground mb-1">🎙️ Vous voulez écouter les témoignages audio complets ?</p>
-            <p className="text-xs text-muted-foreground mb-3">Écrivez-nous sur WhatsApp — on vous les envoie directement.</p>
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-block bg-[#25D366] text-white font-extrabold px-5 py-3 rounded-xl shadow-md"
-            >
-              → Contacter sur WhatsApp
-            </a>
-          </div>
+
+
 
 
           <p className="text-center text-sm text-muted-foreground font-bold mt-7 mb-3">
@@ -494,14 +484,6 @@ export function HomePage() {
               <li>✅ <strong>Autres villes</strong> du Burkina et du Niger : 24 à 48h</li>
               <li>✅ <strong>Satisfait ou remboursé</strong> — garantie inscrite sur le sachet</li>
             </ul>
-            <a
-              href={WA_LINK}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-5 block text-center bg-[#25D366] text-white font-extrabold px-5 py-4 rounded-xl shadow-md"
-            >
-              📱 Une question avant de valider ? → WhatsApp
-            </a>
           </div>
         </div>
       </section>
@@ -540,11 +522,6 @@ export function HomePage() {
         <div className="container-kouka">
           <div className="font-extrabold mb-2">🌿 KOUKA Thérapies</div>
           <p className="opacity-80 mb-3">Savoir ancestral · Burkina Faso · Afrique de l'Ouest</p>
-          <p className="mb-4">
-            <a href={WA_LINK} target="_blank" rel="noreferrer" className="text-white font-bold underline">
-              📱 Nous contacter sur WhatsApp
-            </a>
-          </p>
           <div className="flex flex-wrap justify-center gap-4 text-xs">
             <Link to="/tonic-kouka" className="text-white/80 hover:text-white">🌿 Tonic du Vieux KOUKA</Link>
             <span className="text-white/30">·</span>
@@ -559,7 +536,7 @@ export function HomePage() {
         </div>
       </footer>
 
-      <FloatingWhatsApp />
+      
     </div>
   );
 }
