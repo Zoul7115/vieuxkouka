@@ -215,12 +215,21 @@ export function BrandHomePage() {
       <section className="relative overflow-hidden bg-gradient-to-b from-vert-bg via-background to-background border-b border-vert-bg">
         <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 20% 30%, oklch(0.55 0.15 145), transparent 50%), radial-gradient(circle at 80% 70%, oklch(0.78 0.14 85), transparent 50%)' }} />
         <div className="container-kouka relative text-center py-10 md:py-16">
-          <img src={LOGO} alt="Les Remèdes Naturels du Vieux KOUKA" className="mx-auto h-44 md:h-64 w-auto mb-4 drop-shadow-md" />
+          <span className="inline-block bg-or text-foreground text-xs font-extrabold uppercase tracking-wider px-3 py-1.5 rounded-full mb-4">
+            🌿 La vraie recette du Vieux
+          </span>
           <h1 className="text-vert font-extrabold text-2xl md:text-4xl leading-tight mb-3">
-            LES REMÈDES NATURELS DU VIEUX KOUKA
+            Tu souffres d'un de ces problèmes ?
           </h1>
-          <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-5">
-            Découvrez une gamme de remèdes naturels reconnus pour accompagner efficacement les personnes souffrant de <strong className="text-foreground">faiblesse sexuelle, diabète, troubles digestifs, ulcères, colopathies, hémorroïdes</strong> et autres problèmes de santé du quotidien.
+          <h2 className="text-foreground text-base md:text-xl max-w-2xl mx-auto leading-relaxed mb-4 font-semibold">
+            Diabète · Faiblesse sexuelle · Ulcères · Hémorroïdes · Fatigue
+            <br />
+            <span className="font-normal text-muted-foreground">Les remèdes naturels du Vieux KOUKA soignent à la racine.</span>
+            <br />
+            <span className="font-normal text-muted-foreground">Plantes du Burkina · Payable à la livraison.</span>
+          </h2>
+          <p className="text-vert font-bold text-sm md:text-base mb-5">
+            ⭐ Plus de 480 familles soulagées au Burkina et au Niger
           </p>
 
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-1.5 text-sm font-semibold text-vert mb-6">
@@ -232,9 +241,9 @@ export function BrandHomePage() {
 
           <button
             onClick={() => scrollToId('catalogue')}
-            className="bg-vert text-white px-8 py-4 rounded-xl text-base md:text-lg font-extrabold shadow-[0_8px_24px_rgba(46,125,50,0.40)] hover:-translate-y-0.5 transition-transform"
+            className="bg-[#C0392B] text-white px-8 py-4 rounded-xl text-base md:text-lg font-extrabold shadow-[0_8px_24px_rgba(192,57,43,0.40)] hover:-translate-y-0.5 transition-transform"
           >
-            🌿 Découvrir nos remèdes
+            👉 Trouver mon remède — Je paie à la livraison
           </button>
         </div>
       </section>
