@@ -210,16 +210,18 @@ export function TonicKoukaPage() {
             </div>
             <div className="grid grid-cols-1 gap-2.5">
               {[
-                { t: 'Insomnie', d: 'Endort naturellement · Tu te réveilles reposé' },
-                { t: 'Manque d\'appétit', d: 'Réveille l\'estomac · Tu manges avec plaisir' },
-                { t: 'Fatigue chronique', d: 'Ramène l\'énergie · Tu tiens toute la journée' },
-                { t: 'Ulcères & brûlures', d: 'Calme l\'estomac · Mange sans souffrir' },
-                { t: 'Hypertension', d: 'Fait baisser la tension · Protège le cœur' },
+                { t: "Insomnie", d: "Endort naturellement · Tu te réveilles reposé" },
+                { t: "Manque d'appétit", d: "Réveille l'estomac · Tu manges avec plaisir" },
+                { t: "Fatigue chronique", d: "Ramène l'énergie · Tu tiens toute la journée" },
+                { t: "Ulcères & brûlures", d: "Calme l'estomac · Mange sans souffrir" },
+                { t: "Hypertension", d: "Fait baisser la tension · Protège le cœur" },
               ].map((b, i) => (
                 <div key={b.t} className="bg-vert-bg border border-vert/20 rounded-xl p-4">
                   <div className="font-extrabold text-vert text-[15px] flex items-start gap-2">
                     <span className="text-or font-extrabold">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="leading-tight">{b.t} — <span className="font-semibold text-foreground">{b.d}</span></span>
+                    <span className="leading-tight">
+                      · <span className="text-vert font-extrabold">{b.t}</span> — <span className="font-semibold text-foreground">{b.d}</span>
+                    </span>
                   </div>
                 </div>
               ))}
