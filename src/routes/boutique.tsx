@@ -458,7 +458,7 @@ function ProductCatalog({ id, prefix = '' }: { id?: string; prefix?: string }) {
 
 function ProductGrid({ prefix = '' }: { prefix?: string }) {
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
       {CATALOG.map((p) => {
         const price = getPriceFrom(p);
         return (
@@ -488,11 +488,11 @@ function ProductGrid({ prefix = '' }: { prefix?: string }) {
               <h3 className="font-extrabold text-vert text-sm sm:text-base leading-snug mb-1.5">{p.title}</h3>
               <p className="hidden sm:block text-xs text-muted-foreground leading-relaxed mb-3 flex-1">{p.description}</p>
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mt-auto">
-                <div>
+                <div className="shrink-0">
                   <div className="text-[10px] uppercase text-muted-foreground font-bold">À partir de</div>
                   <div className="text-base sm:text-lg font-extrabold text-rouge leading-none">{formatFCFA(price)}</div>
                 </div>
-                <span className="bg-vert text-white text-[11px] sm:text-xs font-extrabold px-2.5 sm:px-3 py-2 rounded-lg group-hover:bg-vert-mid transition-colors text-center whitespace-nowrap">
+                <span className="bg-vert text-white text-[10px] sm:text-xs font-extrabold px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg group-hover:bg-vert-mid transition-colors text-center whitespace-nowrap overflow-hidden text-ellipsis">
                   Voir le remède →
                 </span>
               </div>
