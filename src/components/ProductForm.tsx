@@ -449,17 +449,25 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
           </Field>
 
           <Field label="Pays" required error={errors.countryCode}>
-            <select
-              value={form.countryCode}
-              onChange={(e) => update('countryCode', e.target.value)}
-              className={inputCls(errors.countryCode) + ' appearance-none'}
-            >
-              {COUNTRIES.map((c) => (
-                <option key={c.code} value={c.code}>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { code: 'BF', label: '🇧🇫 Burkina Faso' },
+                { code: 'NE', label: '🇳🇪 Niger' },
+              ].map((c) => (
+                <button
+                  key={c.code}
+                  type="button"
+                  onClick={() => update('countryCode', c.code)}
+                  className={`px-3 py-3.5 rounded-xl text-sm font-extrabold border-2 transition-colors ${
+                    form.countryCode === c.code
+                      ? 'bg-vert-mid text-white border-vert-mid'
+                      : 'bg-white border-vert-bg text-foreground hover:border-vert-mid'
+                  }`}
+                >
                   {c.label}
-                </option>
+                </button>
               ))}
-            </select>
+            </div>
           </Field>
 
           <Field label="WhatsApp" required error={errors.whatsapp}>
