@@ -414,8 +414,8 @@ export function HomePage() {
       {/* TIMELINE */}
       <section className="sec bg-cream-2">
         <div className="container-kouka">
-          <h2 className="text-center mb-2">Ce qui se passe <span className="text-vert">semaine par semaine</span></h2>
-          <p className="text-center text-muted-foreground mb-7">Les résultats que tu vas vivre avec le traitement complet</p>
+          <h2 className="text-center mb-2">Ce que nos clients <span className="text-vert">constatent après avoir commencé le traitement</span></h2>
+          <p className="text-center text-muted-foreground mb-7">Semaine après semaine, les résultats vécus par les familles qui suivent la cure</p>
 
           <div className="grid">
             {[
