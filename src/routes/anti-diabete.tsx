@@ -486,51 +486,13 @@ export function AntiDiabetePage() {
         </div>
       </section>
 
-      <section className="py-10 bg-white border-t border-bleu-light/20">
-        <div className="container-kouka max-w-3xl text-center">
-          <p className="text-xs uppercase tracking-widest text-bleu font-bold mb-2">💊 Programme complet</p>
-          <h3 className="text-bleu mb-2">Traitement complet — 3 sachets · 25 000 FCFA</h3>
-          <p className="text-sm text-muted-foreground mb-4">L'option la plus choisie pour des résultats durables. Stock limité — restant : <b className="text-rouge">{stock}</b></p>
-          <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform pulse-ring">
-            Commander le traitement complet
-          </button>
-          <p className="text-xs text-muted-foreground mt-3">📦 Livraison à Ouaga & Niamey · Cash à la livraison</p>
-          <div className="mt-4 flex justify-center">
-            <span className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-bold border-2 bg-rouge-light border-rouge text-rouge">
-              <span className="w-2 h-2 rounded-full bg-rouge animate-ping" />
-              Stock limité : <b>{stock}</b> sachets restants
-            </span>
-          </div>
-        </div>
-      </section>
+      {/* Section "Programme complet" supprimée — doublon avec "Tout est inclus" */}
 
       <OfferComparisonTable product={product} />
 
       <ReassuranceBar />
 
-      {/* MISE EN AVANT OFFRE 2+1 */}
-      <section className="py-10 bg-gradient-to-b from-bleu-bg to-white">
-        <div className="container-kouka max-w-2xl px-4">
-          <div className="relative bg-white rounded-3xl border-[3px] border-rouge shadow-[0_12px_40px_rgba(198,40,40,0.20)] p-5 md:p-7 overflow-hidden">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-rouge text-white text-[11px] font-extrabold px-4 py-1.5 rounded-full whitespace-nowrap shadow">
-              🔥 OFFRE LA PLUS DEMANDÉE
-            </div>
-            <div className="text-center mt-3">
-              <div className="flex flex-wrap justify-center gap-2 mb-3">
-                <span className="bg-or/20 text-foreground border border-or/40 text-[11px] font-extrabold px-2.5 py-1 rounded-full">🎁 1 sachet offert</span>
-                <span className="bg-emerald-50 text-emerald-800 border border-emerald-500/30 text-[11px] font-extrabold px-2.5 py-1 rounded-full">⭐ Meilleur rapport qualité/prix</span>
-              </div>
-              <h3 className="text-2xl md:text-3xl font-extrabold text-bleu uppercase leading-tight">
-                2 sachets achetés <span className="text-rouge">+ 1 sachet OFFERT</span>
-              </h3>
-              <p className="text-sm text-muted-foreground mt-2">La cure complète recommandée pour des résultats durables.</p>
-              <button onClick={scrollToOrder} className="mt-5 w-full bg-rouge text-white py-4 rounded-xl text-base md:text-lg font-extrabold uppercase shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform">
-                Je veux cette offre
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Bloc 2+1 isolé supprimé — déjà présent dans "Comparez les 3 offres" */}
 
       {/* COMMENT SE PASSE LA COMMANDE */}
       <section className="py-10 bg-white">
@@ -560,18 +522,7 @@ export function AntiDiabetePage() {
             ))}
           </ol>
 
-          <div className="grid grid-cols-2 gap-2.5 md:gap-3 mt-5">
-            {[
-              '✓ Paiement à la réception',
-              '✓ Livraison partout au Burkina Faso',
-              '✓ Confirmation avant expédition',
-              '✓ Assistance WhatsApp',
-            ].map((r, i) => (
-              <div key={i} className="bg-emerald-50 border border-emerald-500/30 text-emerald-900 text-[11px] md:text-xs font-bold px-3 py-2.5 rounded-xl text-center leading-tight">
-                {r}
-              </div>
-            ))}
-          </div>
+          {/* Badges réassurance supprimés — doublon avec <ReassuranceBar /> plus haut */}
         </div>
       </section>
 
