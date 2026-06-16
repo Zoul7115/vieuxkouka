@@ -171,6 +171,17 @@ export function AntiDiabetePage() {
         </div>
       </section>
 
+      {/* MINI-DIAGNOSTIC déplacé ici (juste après le hero) */}
+      <DiagnosticQuiz
+        title="Votre situation actuelle ?"
+        questions={[
+          'Diabète récemment diagnostiqué',
+          'Diabète ancien (plusieurs années)',
+          'Glycémie élevée / instable',
+          'Traitement actuel peu efficace',
+        ]}
+      />
+
       {/* POURQUOI CES SYMPTÔMES MÉRITENT VOTRE ATTENTION */}
       <section className="py-10 md:py-12 bg-bleu-bg">
         <div className="container-kouka max-w-4xl px-4">
