@@ -468,6 +468,80 @@ export function HomePage() {
 
       <ReassuranceBar />
 
+      {/* VALUE STACK — Tout est inclus */}
+      <section className="sec bg-gradient-to-b from-white to-vert-bg">
+        <div className="container-kouka max-w-3xl">
+          <div className="text-center mb-6">
+            <span className="text-vert text-xs font-bold uppercase tracking-widest">🎁 Ce que tu reçois</span>
+            <h2 className="text-vert mt-2">Tout est inclus dans ta cure complète</h2>
+          </div>
+          <div className="bg-white rounded-3xl p-6 shadow-xl border-2 border-vert-bg">
+            <ul className="divide-y divide-vert-bg">
+              {[
+                { t: '3 sachets de Poudre du Vieux Kouka', v: '25 000 F' },
+                { t: 'Posologie personnalisée par WhatsApp', v: 'Offert' },
+                { t: 'Suivi pendant toute la cure', v: 'Offert' },
+                { t: 'Livraison à domicile (Ouaga & Niamey)', v: 'Offert' },
+                { t: 'Paiement à la livraison — zéro risque', v: '✓' },
+              ].map((x, i) => (
+                <li key={i} className="flex items-center justify-between py-3">
+                  <span className="text-sm font-semibold text-foreground flex items-center gap-2">
+                    <span className="text-vert">✓</span> {x.t}
+                  </span>
+                  <span className="text-sm font-extrabold text-vert whitespace-nowrap">{x.v}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-4 pt-4 border-t-2 border-vert flex items-center justify-between">
+              <span className="font-extrabold text-foreground">Total à payer</span>
+              <span className="text-3xl font-extrabold text-vert">25 000 F</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* COMMENT SE PASSE LA COMMANDE */}
+      <section className="sec bg-white">
+        <div className="container-kouka max-w-3xl px-4">
+          <div className="text-center mb-6">
+            <span className="text-vert text-xs font-bold uppercase tracking-widest">📦 Processus simple</span>
+            <h2 className="text-vert mt-2 text-xl md:text-2xl font-extrabold uppercase">
+              Comment se passe la commande ?
+            </h2>
+          </div>
+          <ol className="grid gap-3 md:gap-4">
+            {[
+              { n: '1', t: 'Remplis le formulaire', d: 'Nom, numéro, ville — 30 secondes' },
+              { n: '2', t: 'On t\'appelle', d: 'Un conseiller te contacte sous 2h' },
+              { n: '3', t: 'On confirme ta commande', d: 'Adresse et offre validées' },
+              { n: '4', t: 'On expédie ton colis', d: 'Emballage discret et soigné' },
+              { n: '5', t: 'Tu paies à la livraison', d: 'Cash, à la réception du colis' },
+            ].map((s) => (
+              <li key={s.n} className="flex items-start gap-3 bg-vert-bg/40 rounded-2xl p-3.5 md:p-4 border border-vert-bg">
+                <div className="shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-full bg-vert text-white font-extrabold flex items-center justify-center shadow">{s.n}</div>
+                <div className="min-w-0">
+                  <div className="font-extrabold text-vert text-sm md:text-base leading-tight">{s.t}</div>
+                  <div className="text-xs md:text-sm text-muted-foreground mt-0.5">{s.d}</div>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Transition avant le formulaire */}
+      <section className="py-6 bg-gradient-to-b from-white to-vert-bg">
+        <div className="container-kouka max-w-2xl px-4 text-center">
+          <p className="text-vert text-lg md:text-xl font-extrabold leading-tight">
+            ⏱️ Tu es à 2 minutes de commencer ta cure.
+          </p>
+          <p className="text-foreground text-sm md:text-base mt-2 leading-relaxed">
+            Remplis tes infos — on te contacte sur <strong>WhatsApp sous 2h</strong> pour confirmer ta livraison.
+          </p>
+          <p className="text-rouge text-sm font-bold mt-2">💵 Tu ne paies rien maintenant.</p>
+        </div>
+      </section>
+
       {/* 13. FORMULAIRE */}
       <div id="formulaire" className="scroll-mt-20">
         <ProductForm product={product} />
