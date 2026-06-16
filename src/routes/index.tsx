@@ -170,29 +170,56 @@ export function HomePage() {
             <img src={product.heroImage} alt="Poudre du Vieux KOUKA — sachet" className="w-full block" />
           </div>
 
-          <ul className="grid grid-cols-2 sm:grid-cols-5 gap-3 max-w-3xl mx-auto mb-7">
-            {[
-              { i: '🌱', t: '100% Naturel' },
-              { i: '📖', t: 'Recette Traditionnelle' },
-              { i: '🥄', t: 'Facile à Consommer' },
-              { i: '🚚', t: 'Livraison Rapide' },
-              { i: '💵', t: 'Paiement à la Livraison' },
-            ].map((x) => (
-              <li key={x.t} className="bg-vert-bg/60 border-2 border-vert-bg rounded-xl p-3 text-center">
-                <div className="text-2xl mb-1">{x.i}</div>
-                <div className="text-xs sm:text-sm font-extrabold text-vert leading-tight">✅ {x.t}</div>
-              </li>
-            ))}
-          </ul>
+      {/* QUI EST LE VIEUX KOUKA ? — section remontée pour confiance précoce */}
+      <section className="sec bg-white">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">QUI EST LE <span className="text-vert">VIEUX KOUKA</span> ?</h2>
+          <p className="text-center text-muted-foreground mb-6 max-w-xl mx-auto">
+            Plus de 60 ans d'expérience dans les recettes traditionnelles africaines.
+          </p>
 
-          <button
-            onClick={scrollToOrder}
-            className="w-full sm:w-auto sm:px-10 bg-rouge text-white py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform"
-          >
-            🛒 JE COMMANDE MAINTENANT
-          </button>
+          <div className="max-w-3xl mx-auto bg-vert-bg/40 border-2 border-vert-bg rounded-3xl overflow-hidden shadow-md">
+            <img src="/images/vieux-kouka.jpg" alt="Le Vieux Kouka" className="w-full max-h-72 object-cover" />
+            <div className="p-5 sm:p-6">
+              <div className="text-sm font-bold text-vert mb-2">📍 Région des Kuilsés · Burkina Faso 🇧🇫</div>
+              <p className="text-foreground/90 leading-relaxed mb-4">
+                Le <strong>Vieux Kouka</strong> est un thérapeute traditionnel héritier d'un savoir-faire familial transmis
+                de génération en génération depuis <strong>plus de 60 ans</strong>. Sa recette est le fruit d'un héritage
+                ancestral et d'une connaissance profonde des plantes africaines.
+              </p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                {[
+                  { i: '👴', t: '+60 ans d\'expérience' },
+                  { i: '🌿', t: 'Plantes africaines' },
+                  { i: '📖', t: 'Recette familiale' },
+                  { i: '🤝', t: 'Savoir-faire transmis' },
+                ].map((x) => (
+                  <div key={x.t} className="bg-white border-2 border-vert-bg rounded-xl p-2">
+                    <div className="text-xl">{x.i}</div>
+                    <div className="text-[11px] sm:text-xs font-bold text-vert leading-tight mt-1">{x.t}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="text-center mt-5">
+                <button onClick={scrollToOrder} className="bg-rouge text-white px-6 py-3 rounded-xl font-extrabold shadow-md">
+                  🛒 Je commande maintenant
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
+
+      {/* MINI-DIAGNOSTIC remonté */}
+      <DiagnosticQuiz
+        title="Quels symptômes ressentez-vous ?"
+        questions={[
+          'Ulcère / brûlures d\'estomac',
+          'Colopathie / ballonnements',
+          'Hémorroïdes (koko)',
+          'Constipation chronique',
+        ]}
+      />
 
       {/* POSOLOGIE */}
       <section className="sec bg-vert-bg">
