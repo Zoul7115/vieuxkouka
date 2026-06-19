@@ -262,37 +262,43 @@ export function AntiDiabetePage() {
         </div>
       </section>
 
-      {/* SACHET + BÉNÉFICES */}
-      <section className="py-14 bg-white">
-        <div className="container-kouka max-w-5xl">
-          <div className="text-center mb-8">
-            <span className="text-bleu text-xs font-bold uppercase tracking-widest">💊 Le produit</span>
-            <h2 className="text-bleu mt-2">Ce que t'apporte la Poudre Anti-Diabète</h2>
-            <div className="flex flex-wrap justify-center gap-2 mt-4">
-              <span className="inline-flex items-center gap-1.5 bg-or/15 text-foreground border border-or/40 text-[11px] md:text-xs font-extrabold px-3 py-1.5 rounded-full">⭐ Recette traditionnelle du Vieux Kouka</span>
-              <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-500/30 text-[11px] md:text-xs font-extrabold px-3 py-1.5 rounded-full">🌿 100% naturel</span>
-              <span className="inline-flex items-center gap-1.5 bg-bleu-bg text-bleu border border-bleu/30 text-[11px] md:text-xs font-extrabold px-3 py-1.5 rounded-full">🇧🇫 Utilisé par de nombreuses familles burkinabè</span>
-            </div>
+      {/* FAIT POUR VOUS SI */}
+      <section className="py-14 bg-gradient-to-b from-bleu-bg to-white">
+        <div className="container-kouka max-w-6xl">
+          <div className="text-center mb-10">
+            <span className="text-bleu text-xs font-bold uppercase tracking-widest">🩺 Vérifiez les signes</span>
+            <h2 className="text-bleu mt-2">Ce traitement est fait pour vous si :</h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="rounded-3xl overflow-hidden shadow-xl border-2 border-bleu-light/40 bg-bleu-bg">
-              <img src="/images/anti-diabete-sachet-clean.png" alt="Sachet Poudre Anti-Diabète du Vieux KOUKA" className="w-full max-h-[420px] object-contain p-4" />
-            </div>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {[
-                { t: 'Glycémie stabilisée', d: 'Fini les pics et chutes' },
-                { t: 'Pancréas renforcé', d: 'Insuline mieux sécrétée' },
-                { t: 'Énergie restaurée', d: 'Fini la fatigue chronique' },
-                { t: 'Vision plus claire', d: 'En quelques jours' },
-                { t: 'Picotements stoppés', d: 'Mains et pieds soulagés' },
-                { t: 'Appétit régulé', d: 'Poids sain maintenu' },
-              ].map((b) => (
-                <div key={b.t} className="bg-bleu-bg border border-bleu-light/40 rounded-xl p-4">
-                  <div className="font-extrabold text-bleu flex items-center gap-2">✓ {b.t}</div>
-                  <div className="text-sm text-muted-foreground mt-1">{b.d}</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+            {[
+              { icon: '🩸', t: 'Vous êtes prédiabétique' },
+              { icon: '💉', t: 'Vous êtes diabétique de type 2' },
+              { icon: '📈', t: 'Votre glycémie est souvent élevée' },
+              { icon: '🚻', t: 'Vous urinez fréquemment' },
+              { icon: '💧', t: 'Vous avez constamment soif' },
+              { icon: '😩', t: 'Vous ressentez une fatigue inhabituelle' },
+              { icon: '🖐️', t: 'Vous avez les mains ou les pieds qui picotent' },
+              { icon: '👁️', t: 'Votre vision devient parfois floue' },
+            ].map((b) => (
+              <div
+                key={b.t}
+                className="bg-white border-2 border-bleu-light/40 rounded-2xl p-4 md:p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col items-start gap-2"
+              >
+                <div className="w-10 h-10 rounded-xl bg-bleu-bg text-2xl flex items-center justify-center">{b.icon}</div>
+                <div className="flex items-start gap-2 text-sm md:text-base font-extrabold text-bleu leading-snug">
+                  <span className="text-emerald-600 mt-0.5">✅</span>
+                  <span>{b.t}</span>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 rounded-3xl border-2 border-bleu/30 bg-white shadow-xl p-6 md:p-8 text-center max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-2 bg-or/15 text-foreground border border-or/40 text-[11px] md:text-xs font-extrabold px-3 py-1.5 rounded-full mb-3">⭐ Recette traditionnelle</div>
+            <h3 className="text-bleu font-extrabold text-xl md:text-2xl">Poudre Anti-Diabète du Vieux KOUKA</h3>
+            <p className="text-foreground mt-3 leading-relaxed">
+              Recette traditionnelle à base de plantes africaines utilisée par de nombreuses familles.
+            </p>
           </div>
         </div>
       </section>
