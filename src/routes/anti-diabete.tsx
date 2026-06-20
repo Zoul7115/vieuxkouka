@@ -66,7 +66,7 @@ export function AntiDiabetePage() {
             </span>
             
             <h1 className="text-rouge font-extrabold text-2xl md:text-3xl lg:text-4xl uppercase tracking-tight max-w-2xl mx-auto leading-tight mb-2">
-              VOUS SOUFFREZ DE L'UN DE CES SYMPTÔMES ?
+              VOUS RECONNAISSEZ L'UN DE CES SIGNES ?
             </h1>
             
             {/* Boîte des Symptômes - Continuité Pub */}
@@ -91,10 +91,10 @@ export function AntiDiabetePage() {
             {/* Texte d'accroche */}
             <div className="max-w-2xl mx-auto space-y-4 text-left md:text-center mt-6 text-foreground/90">
               <p className="text-base md:text-lg font-bold text-bleu bg-bleu-bg/50 py-2.5 px-4 rounded-xl border border-bleu/10 inline-block w-full">
-                Ces signes sont souvent associés à une glycémie difficile à contrôler.
+                Ces symptômes sont fréquemment observés chez les personnes souffrant d'un excès de sucre dans le sang.
               </p>
               <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
-                Depuis plusieurs années, de nombreuses personnes font confiance à la <strong className="text-foreground font-extrabold">Poudre Anti-Diabète du Vieux Kouka</strong> pour accompagner naturellement leur équilibre glycémique.
+                Depuis plus de 60 ans, la recette traditionnelle du <strong className="text-foreground font-extrabold">Vieux Kouka</strong> aide de nombreuses personnes confrontées aux problèmes liés à l'excès de sucre dans le sang.
               </p>
             </div>
           </div>
