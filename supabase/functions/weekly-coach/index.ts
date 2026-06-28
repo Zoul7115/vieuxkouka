@@ -21,14 +21,6 @@ type Payload = {
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
 
-  const cronSecret = Deno.env.get('CRON_SECRET');
-  const provided = req.headers.get('x-cron-secret');
-  if (!cronSecret || provided !== cronSecret) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-      status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
-  }
-
   try {
     const body = (await req.json()) as Payload;
     const { kpi, products, finance_rules, week_start, week_end } = body;
