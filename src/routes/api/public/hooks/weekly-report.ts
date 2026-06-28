@@ -7,8 +7,13 @@ import { createClient } from '@supabase/supabase-js';
 export const Route = createFileRoute('/api/public/hooks/weekly-report')({
   server: {
     handlers: {
-      POST: async () => {
+      POST: async ({ request }) => {
         try {
+          const cronSecret = process.env.CRON_SECRET;
+          const provided = request.headers.get('x-cron-secret') || request.headers.get('authorization')?.replace(/^Bearer\s+/i, '');
+          if (!cronSecret || provided !== cronSecret) {
+            return new Response('Unauthorized', { status: 401 });
+          }
           const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL!;
           const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
           const anonKey = process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY!;
@@ -116,7 +121,7 @@ export const Route = createFileRoute('/api/public/hooks/weekly-report')({
           // Appel edge function weekly-coach
           const coachRes = await fetch(`${supabaseUrl}/functions/v1/weekly-coach`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', apikey: anonKey, Authorization: `Bearer ${anonKey}` },
+            headers: { 'Content-Type': 'application/json', apikey: anonKey, Authorization: `Bearer ${anonKey}`, 'x-cron-secret': cronSecret },
             body: JSON.stringify({ week_start: kpi.week_start, week_end: kpi.week_end, kpi, products, finance_rules }),
           });
           if (!coachRes.ok) {
