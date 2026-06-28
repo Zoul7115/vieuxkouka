@@ -121,7 +121,7 @@ export const Route = createFileRoute('/api/public/hooks/weekly-report')({
           // Appel edge function weekly-coach
           const coachRes = await fetch(`${supabaseUrl}/functions/v1/weekly-coach`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', apikey: anonKey, Authorization: `Bearer ${anonKey}` },
+            headers: { 'Content-Type': 'application/json', apikey: anonKey, Authorization: `Bearer ${anonKey}`, 'x-cron-secret': cronSecret },
             body: JSON.stringify({ week_start: kpi.week_start, week_end: kpi.week_end, kpi, products, finance_rules }),
           });
           if (!coachRes.ok) {
