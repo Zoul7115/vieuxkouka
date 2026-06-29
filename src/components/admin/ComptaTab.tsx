@@ -43,6 +43,7 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
   const [customFrom, setCustomFrom] = useState('');
   const [customTo, setCustomTo] = useState('');
   const { livreurs } = useLivreurs();
+  const { closeuses } = useCloseuses();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [form, setForm] = useState({
     expense_date: new Date().toISOString().slice(0, 10),
@@ -51,6 +52,7 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
     amount: '',
     amount_usd: '',
     notes: '',
+    closeuse_idx: '' as string,
   });
 
   const loadExpenses = async () => {
