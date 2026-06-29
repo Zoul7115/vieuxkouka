@@ -36,7 +36,7 @@ export type AdminTabKey =
   | 'summary'
   | 'orders' | 'validated' | 'delivered' | 'refused' | 'sav'
   | 'lost' | 'by-closeuse' | 'drafts'
-  | 'closeuses' | 'ranking' | 'perf' | 'salaires'
+  | 'closeuses' | 'ranking' | 'perf' | 'salaires' | 'profitability'
   | 'livreurs'
   | 'stock'
   | 'compta' | 'bilan'
