@@ -20,6 +20,7 @@ import { CommissionsTab } from '@/components/admin/CommissionsTab';
 import { AuditLogTab } from '@/components/admin/AuditLogTab';
 import { SummaryTab } from '@/components/admin/SummaryTab';
 import { RankingTab } from '@/components/admin/RankingTab';
+import { ProfitabilityTab } from '@/components/admin/ProfitabilityTab';
 import { ExportsTab } from '@/components/admin/ExportsTab';
 import { usePWAAdmin } from '@/hooks/usePWAAdmin';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
@@ -311,6 +312,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                 {tab === 'livreurs' && <LivreursTab orders={orders} onChange={() => load(true)} />}
                 {tab === 'closeuses' && <CloseusesTab orders={orders} />}
                 {tab === 'salaires' && <SalairesTab orders={orders} />}
+                {tab === 'profitability' && <ProfitabilityTab />}
                 {tab === 'stock' && <StockTab />}
                 {tab === 'compta' && <ComptaTab orders={orders} />}
                 {tab === 'stats' && <StatsTab orders={orders} visits={visits} visitsTotal={visitsTotal} visitsToday={visitsToday} />}
