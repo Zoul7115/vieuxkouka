@@ -82,6 +82,7 @@ const GROUPS: Group[] = [
       { key: 'ranking', label: 'Classement' },
       { key: 'perf', label: 'Performance' },
       { key: 'salaires', label: 'Salaires' },
+      { key: 'profitability', label: '📊 Rentabilité' },
     ],
   },
   {
