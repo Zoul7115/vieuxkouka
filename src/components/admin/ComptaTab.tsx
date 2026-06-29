@@ -173,11 +173,12 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
       label: form.label.trim(),
       amount,
       notes: form.notes.trim() || null,
+      closeuse_idx: form.category === 'pub' && form.closeuse_idx ? Number(form.closeuse_idx) : null,
     });
     if (error) toast.error(error.message);
     else {
       toast.success('Dépense enregistrée');
-      setForm({ ...form, label: '', amount: '', amount_usd: '', notes: '' });
+      setForm({ ...form, label: '', amount: '', amount_usd: '', notes: '', closeuse_idx: '' });
       loadExpenses();
     }
   };
