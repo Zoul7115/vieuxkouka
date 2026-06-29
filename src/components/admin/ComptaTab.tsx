@@ -267,6 +267,18 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
               <Field label="ou Montant (FCFA)">
                 <input type="number" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value, amount_usd: '' })} placeholder="Ex: 3275" className="ce-input" />
               </Field>
+              <Field label="Closeuse (attribution rentabilité)" full>
+                <select
+                  value={form.closeuse_idx}
+                  onChange={(e) => setForm({ ...form, closeuse_idx: e.target.value })}
+                  className="ce-input"
+                >
+                  <option value="">— Non attribuée (répartie au prorata des leads) —</option>
+                  {closeuses.map((c) => (
+                    <option key={c.id} value={c.idx}>{c.emoji} {c.name}</option>
+                  ))}
+                </select>
+              </Field>
             </>
           ) : (
             <Field label="Montant (FCFA)">
