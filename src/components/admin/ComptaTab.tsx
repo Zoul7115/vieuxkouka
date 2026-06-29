@@ -27,6 +27,7 @@ type Expense = {
   label: string;
   amount: number;
   notes: string | null;
+  closeuse_idx?: number | null;
 };
 
 const CATEGORIES = [
