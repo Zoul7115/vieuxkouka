@@ -144,9 +144,10 @@ export function OrdersTab({
       <ManualOrderModal
         open={manualOpen}
         onClose={() => setManualOpen(false)}
-        onCreated={() => { /* le realtime du parent refresh */ }}
+        onCreated={() => { onChange?.(); }}
         orderPrefix="MANU"
       />
+
 
       {filtered.length === 0 && (
         <div className="text-center py-10 text-muted-foreground bg-white rounded-2xl border-2 border-dashed border-vert-bg">
