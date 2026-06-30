@@ -81,11 +81,14 @@ export function OrdersTab({
   orders,
   onUpdateStatus,
   onAssignLivreur,
+  onChange,
 }: {
   orders: Order[];
   onUpdateStatus: (id: string, status: string) => void;
   onAssignLivreur: (id: string, livreurIdx: number | null) => void;
+  onChange?: () => void;
 }) {
+
   const [filter, setFilter] = useState<string>('all');
   const [manualOpen, setManualOpen] = useState(false);
   const [search, setSearch] = useState('');
