@@ -81,11 +81,14 @@ export function OrdersTab({
   orders,
   onUpdateStatus,
   onAssignLivreur,
+  onChange,
 }: {
   orders: Order[];
   onUpdateStatus: (id: string, status: string) => void;
   onAssignLivreur: (id: string, livreurIdx: number | null) => void;
+  onChange?: () => void;
 }) {
+
   const [filter, setFilter] = useState<string>('all');
   const [manualOpen, setManualOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -141,9 +144,10 @@ export function OrdersTab({
       <ManualOrderModal
         open={manualOpen}
         onClose={() => setManualOpen(false)}
-        onCreated={() => { /* le realtime du parent refresh */ }}
+        onCreated={() => { onChange?.(); }}
         orderPrefix="MANU"
       />
+
 
       {filtered.length === 0 && (
         <div className="text-center py-10 text-muted-foreground bg-white rounded-2xl border-2 border-dashed border-vert-bg">
