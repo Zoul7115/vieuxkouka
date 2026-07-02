@@ -1,7 +1,7 @@
 // Helpers Facebook Pixel + Conversions API
-// Pixel ID: 848736567802748
+// Pixel ID: 2473604163119364
 
-export const FB_PIXEL_ID = '848736567802748';
+export const FB_PIXEL_ID = '2473604163119364';
 
 declare global {
   interface Window {
