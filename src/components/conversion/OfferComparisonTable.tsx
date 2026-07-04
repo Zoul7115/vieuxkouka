@@ -1,5 +1,4 @@
-import type { Product } from '@/lib/products';
-import { formatFCFA } from '@/lib/products';
+import { formatFCFA, isTwoPlusOneOffer, type Product } from '@/lib/products';
 
 function scrollToOrder(offerId?: number) {
   try {
