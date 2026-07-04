@@ -20,7 +20,6 @@ import { CommissionsTab } from '@/components/admin/CommissionsTab';
 import { AuditLogTab } from '@/components/admin/AuditLogTab';
 import { SummaryTab } from '@/components/admin/SummaryTab';
 import { RankingTab } from '@/components/admin/RankingTab';
-import { ProfitabilityTab } from '@/components/admin/ProfitabilityTab';
 import { ExportsTab } from '@/components/admin/ExportsTab';
 import { usePWAAdmin } from '@/hooks/usePWAAdmin';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
@@ -144,15 +143,14 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 
   useEffect(() => {
     load();
-    // Realtime: refresh on any order/lead/stock change
+    // Realtime: refresh on any order change
     const channel = supabase
       .channel('admin-orders-stream')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => load(true))
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'leads' }, () => load(true))
       .on('postgres_changes', { event: '*', schema: 'public', table: 'stock_transactions' }, () => load(true))
       .subscribe();
-    // Polling de secours toutes les 5s (en cas d'écart Realtime)
-    const itv = window.setInterval(() => load(true), 5000);
+    // Polling de secours toutes les 12s (en cas d'écart Realtime)
+    const itv = window.setInterval(() => load(true), 12000);
     // Refresh quand l'onglet redevient visible
     const onVis = () => { if (document.visibilityState === 'visible') load(true); };
     document.addEventListener('visibilitychange', onVis);
@@ -162,7 +160,6 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       document.removeEventListener('visibilitychange', onVis);
     };
   }, [load]);
-
 
   const updateStatus = async (id: string, status: string) => {
     const { error } = await supabase.from('orders').update({ status }).eq('id', id);
@@ -298,7 +295,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
             {(!loading || orders.length > 0) && (
               <>
                 {tab === 'summary' && <SummaryTab orders={orders} />}
-                {tab === 'orders' && <OrdersTab orders={orders} onUpdateStatus={updateStatus} onAssignLivreur={assignLivreur} onChange={() => load(true)} />}
+                {tab === 'orders' && <OrdersTab orders={orders} onUpdateStatus={updateStatus} onAssignLivreur={assignLivreur} />}
                 {tab === 'ranking' && <RankingTab />}
                 {tab === 'exports' && <ExportsTab orders={orders} />}
                 {tab === 'validated' && <ValidatedOrdersTab orders={orders} />}
@@ -314,7 +311,6 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
                 {tab === 'livreurs' && <LivreursTab orders={orders} onChange={() => load(true)} />}
                 {tab === 'closeuses' && <CloseusesTab orders={orders} />}
                 {tab === 'salaires' && <SalairesTab orders={orders} />}
-                {tab === 'profitability' && <ProfitabilityTab />}
                 {tab === 'stock' && <StockTab />}
                 {tab === 'compta' && <ComptaTab orders={orders} />}
                 {tab === 'stats' && <StatsTab orders={orders} visits={visits} visitsTotal={visitsTotal} visitsToday={visitsToday} />}

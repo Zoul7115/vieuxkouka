@@ -1,11 +1,8 @@
 import { ADMIN_WHATSAPP } from '@/lib/products';
-import { useAssignedCloseuse } from '@/lib/assignedCloseuseContext';
 
 export function PreFormWhatsApp({ productName }: { productName: string }) {
-  const assigned = useAssignedCloseuse();
-  const number = (assigned?.whatsapp && assigned.whatsapp.replace(/\D/g, '')) || ADMIN_WHATSAPP;
   const text = encodeURIComponent(`Bonjour, j'hésite à commander ${productName}. J'aimerais poser une question avant.`);
-  const url = `https://wa.me/${number}?text=${text}`;
+  const url = `https://wa.me/${ADMIN_WHATSAPP}?text=${text}`;
   return (
     <div className="max-w-[480px] mx-auto mb-4 bg-white/95 border-2 border-[#25D366]/40 rounded-xl p-3.5 flex items-center gap-3 shadow-md">
       <div className="text-2xl shrink-0">💬</div>

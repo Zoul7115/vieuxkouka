@@ -2,28 +2,10 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { PRODUCTS, ADMIN_WHATSAPP, formatFCFA } from '@/lib/products';
 import { VisitTracker } from '@/components/VisitTracker';
-import { useAssignedCloseuse } from '@/lib/assignedCloseuseContext';
 import logoAsset from '@/assets/logo-vieux-kouka.png.asset.json';
 import tonicImage from '@/assets/tonic-kouka-bouteille-reelle.png';
 
 const LOGO = logoAsset.url;
-
-function applyParams(path: string, params?: Record<string, string>): string {
-  if (!params) return path;
-  let out = path;
-  for (const [k, v] of Object.entries(params)) {
-    out = out.replace(`$${k}`, v);
-  }
-  return out;
-}
-
-function buildHref(to: string, params: Record<string, string> | undefined, prefix: string): string {
-  // "/" on closeuse pages points to the per-closeuse poudre kouka page
-  if (to === '/') return prefix ? `${prefix}/kouka` : '/';
-  const resolved = applyParams(to, params);
-  return prefix ? `${prefix}${resolved}` : resolved;
-}
-
 
 export const Route = createFileRoute('/boutique')({
   head: () => ({
@@ -140,28 +122,15 @@ function getPriceFrom(item: CatalogItem): number {
   return Math.min(...p.offers.map((o) => o.price));
 }
 
-const WA_TEXT = encodeURIComponent('Bonjour, je viens du site Les Remèdes Naturels du Vieux KOUKA.');
-const WHATSAPP_URL = `https://wa.me/${ADMIN_WHATSAPP}?text=${WA_TEXT}`;
-
-function formatWaDisplay(num: string) {
-  const digits = (num || '').replace(/\D/g, '');
-  const local = digits.startsWith('226') ? digits.slice(3) : digits;
-  const grouped = local.replace(/(\d{2})(?=\d)/g, '$1 ').trim();
-  return `+226 ${grouped}`;
-}
+const WHATSAPP_URL = `https://wa.me/${ADMIN_WHATSAPP}?text=${encodeURIComponent('Bonjour, je viens du site Les Remèdes Naturels du Vieux KOUKA.')}`;
 
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-export function BrandHomePage() {
+function BrandHomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [mobileMenu, setMobileMenu] = useState(false);
-  const assigned = useAssignedCloseuse();
-  const prefix = assigned ? `/${assigned.slug}` : '';
-  const waNumber = (assigned?.whatsapp && assigned.whatsapp.replace(/\D/g, '')) || ADMIN_WHATSAPP;
-  const waUrl = `https://wa.me/${waNumber}?text=${WA_TEXT}`;
-  const waDisplay = formatWaDisplay(waNumber);
 
   return (
     <div className="bg-background text-foreground">
@@ -182,7 +151,7 @@ export function BrandHomePage() {
             <button onClick={() => scrollToId('catalogue')} className="hover:text-vert">Nos Remèdes</button>
             <button onClick={() => scrollToId('temoignages')} className="hover:text-vert">Témoignages</button>
             <button onClick={() => scrollToId('faq')} className="hover:text-vert">FAQ</button>
-            <a href={waUrl} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-3.5 py-2 rounded-lg font-extrabold hover:scale-105 transition-transform">
+            <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-3.5 py-2 rounded-lg font-extrabold hover:scale-105 transition-transform">
               💬 WhatsApp
             </a>
           </nav>
@@ -203,7 +172,7 @@ export function BrandHomePage() {
               <button onClick={() => { scrollToId('catalogue'); setMobileMenu(false); }} className="text-left py-2">🌿 Nos Remèdes</button>
               <button onClick={() => { scrollToId('temoignages'); setMobileMenu(false); }} className="text-left py-2">⭐ Témoignages</button>
               <button onClick={() => { scrollToId('faq'); setMobileMenu(false); }} className="text-left py-2">❓ FAQ</button>
-              <a href={waUrl} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-3 py-2.5 rounded-lg text-center">💬 WhatsApp</a>
+              <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="bg-[#25D366] text-white px-3 py-2.5 rounded-lg text-center">💬 WhatsApp</a>
             </div>
           </div>
         )}
@@ -215,21 +184,12 @@ export function BrandHomePage() {
       <section className="relative overflow-hidden bg-gradient-to-b from-vert-bg via-background to-background border-b border-vert-bg">
         <div className="absolute inset-0 opacity-[0.06] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 20% 30%, oklch(0.55 0.15 145), transparent 50%), radial-gradient(circle at 80% 70%, oklch(0.78 0.14 85), transparent 50%)' }} />
         <div className="container-kouka relative text-center py-10 md:py-16">
-          <span className="inline-block bg-or text-foreground text-xs font-extrabold uppercase tracking-wider px-3 py-1.5 rounded-full mb-4">
-            🌿 La vraie recette du Vieux
-          </span>
+          <img src={LOGO} alt="Les Remèdes Naturels du Vieux KOUKA" className="mx-auto h-44 md:h-64 w-auto mb-4 drop-shadow-md" />
           <h1 className="text-vert font-extrabold text-2xl md:text-4xl leading-tight mb-3">
-            Tu souffres d'un de ces problèmes ?
+            LES REMÈDES NATURELS DU VIEUX KOUKA
           </h1>
-          <h2 className="text-foreground text-base md:text-xl max-w-2xl mx-auto leading-relaxed mb-4 font-semibold">
-            Diabète · Faiblesse sexuelle · Ulcères · Hémorroïdes · Fatigue
-            <br />
-            <span className="font-normal text-muted-foreground">Les remèdes naturels du Vieux KOUKA soignent à la racine.</span>
-            <br />
-            <span className="font-normal text-muted-foreground">Plantes du Burkina · Payable à la livraison.</span>
-          </h2>
-          <p className="text-vert font-bold text-sm md:text-base mb-5">
-            ⭐ Plus de 480 familles soulagées au Burkina et au Niger
+          <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-5">
+            Découvrez une gamme de remèdes naturels reconnus pour accompagner efficacement les personnes souffrant de <strong className="text-foreground">faiblesse sexuelle, diabète, troubles digestifs, ulcères, colopathies, hémorroïdes</strong> et autres problèmes de santé du quotidien.
           </p>
 
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-1.5 text-sm font-semibold text-vert mb-6">
@@ -241,9 +201,9 @@ export function BrandHomePage() {
 
           <button
             onClick={() => scrollToId('catalogue')}
-            className="bg-[#C0392B] text-white px-8 py-4 rounded-xl text-base md:text-lg font-extrabold shadow-[0_8px_24px_rgba(192,57,43,0.40)] hover:-translate-y-0.5 transition-transform"
+            className="bg-vert text-white px-8 py-4 rounded-xl text-base md:text-lg font-extrabold shadow-[0_8px_24px_rgba(46,125,50,0.40)] hover:-translate-y-0.5 transition-transform"
           >
-            👉 Trouver mon remède — Je paie à la livraison
+            🌿 Découvrir nos remèdes
           </button>
         </div>
       </section>
@@ -252,13 +212,13 @@ export function BrandHomePage() {
       <section className="sec bg-white">
         <div className="container-kouka">
           <h2 className="text-center text-vert mb-2">Pourquoi tant de personnes font confiance au Vieux KOUKA ?</h2>
-          <p className="text-center text-muted-foreground mb-8 max-w-2xl mx-auto">Plus de 60 ans de recettes familiales. Plus de 480 clients satisfaits. Plantes ramassées au Burkina Faso.</p>
+          <p className="text-center text-muted-foreground mb-8 max-w-2xl mx-auto">Une marque burkinabè reconnue pour la qualité de ses formules et la satisfaction de ses clients.</p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
             {[
               { i: '🌿', t: 'Formules naturelles', d: 'Plantes africaines sélectionnées avec soin.' },
               { i: '📦', t: 'Livraison rapide', d: 'Partout au Burkina Faso · Ouaga 24h.' },
               { i: '💵', t: 'Paiement à la livraison', d: 'Vous payez uniquement à la réception.' },
-              { i: '⭐', t: '480+ clients satisfaits', d: 'Soulagés au Burkina et au Niger depuis des années.' },
+              { i: '⭐', t: 'Des centaines de clients', d: 'Accompagnés et satisfaits depuis des années.' },
               { i: '📞', t: 'Conseils personnalisés', d: 'Notre équipe répond à vos questions.' },
               { i: '🏆', t: 'Expérience & savoir-faire', d: 'Une expertise reconnue du Vieux KOUKA.' },
             ].map((c) => (
@@ -269,19 +229,11 @@ export function BrandHomePage() {
               </div>
             ))}
           </div>
-          <div className="text-center mt-8">
-            <button
-              onClick={() => scrollToId('catalogue')}
-              className="bg-[#C0392B] text-white px-7 py-3.5 rounded-xl text-base font-extrabold shadow-[0_8px_24px_rgba(192,57,43,0.35)] hover:-translate-y-0.5 transition-transform"
-            >
-              👉 Voir tous nos remèdes — Paiement à la livraison
-            </button>
-          </div>
         </div>
       </section>
 
       {/* CATALOGUE */}
-      <ProductCatalog id="catalogue" prefix={prefix} />
+      <ProductCatalog id="catalogue" />
 
       {/* QUIZ NAVIGATION */}
       <section className="sec bg-white">
@@ -295,15 +247,16 @@ export function BrandHomePage() {
               { i: '🌿', t: 'Troubles digestifs', to: '/' },
               { i: '⚡', t: 'Vitalité', to: '/tonic-kouka' },
             ].map((q) => (
-              <a
+              <Link
                 key={q.t}
-                href={buildHref(q.to, q.params, prefix)}
-                className="bg-gradient-to-br from-vert-bg/60 to-white border-2 border-vert-bg rounded-2xl p-5 text-center hover:-translate-y-1 hover:border-vert transition-all shadow-sm block"
+                to={q.to}
+                {...(q.params ? { params: q.params } : {})}
+                className="bg-gradient-to-br from-vert-bg/60 to-white border-2 border-vert-bg rounded-2xl p-5 text-center hover:-translate-y-1 hover:border-vert transition-all shadow-sm"
               >
                 <div className="text-4xl md:text-5xl mb-2">{q.i}</div>
                 <div className="font-extrabold text-vert text-sm md:text-base">{q.t}</div>
                 <div className="text-xs text-rouge font-bold mt-1.5">Voir le remède →</div>
-              </a>
+              </Link>
             ))}
           </div>
         </div>
@@ -317,9 +270,9 @@ export function BrandHomePage() {
 
           <div className="grid md:grid-cols-3 gap-4 mb-6">
             {[
-              { txt: "Ça fait 4 ans que je traînais ulcères + tension + fatigue. J'achetais 3-4 médicaments chaque mois, ça me ruinait. Avec le Tonic, un seul flacon a suffi. J30 : ma tension est stable à 13/8.", auth: 'Issa M. · Bobo-Dioulasso · Client WhatsApp ✅' },
-              { txt: "Diabétique depuis 12 ans, sous insuline tous les jours. J'ai pris le Tonic en complément. Ma glycémie est passée de 2,20 à 1,30 en 6 semaines. Mon médecin a réduit mes doses d'insuline.", auth: 'Madi T. · Tenkodogo · Page Facebook ✅' },
-              { txt: "À 58 ans j'avais hémorroïdes + ulcères + paludisme à répétition. Le médecin m'avait donné 5 ordonnances. 1 mois avec le Tonic : tout est calmé.", auth: 'Boukary S. · Koudougou · Page Facebook ✅' },
+              { txt: "Je suis totalement guérie. Les ballonnements sont finis, le rectum ne sort plus. Merci au Vieux KOUKA 🙏", auth: 'Cliente WhatsApp · Burkina Faso' },
+              { txt: "Ton produit est vraiment efficace. J'ai suivi la cure complète et je ne souffre plus. Je recommande.", auth: 'Client WhatsApp · Renouvellement' },
+              { txt: "Depuis ce traitement naturel ma santé s'est améliorée et je me sens plus en forme qu'avant.", auth: 'Client WhatsApp' },
             ].map((t, i) => (
               <div key={i} className="bg-white rounded-2xl p-5 border-2 border-vert-bg shadow-sm">
                 <div className="text-or text-lg mb-2">★★★★★</div>
@@ -382,10 +335,24 @@ export function BrandHomePage() {
         </div>
       </section>
 
+      {/* CTA FINAL */}
+      <section className="sec bg-gradient-to-b from-vert-bg to-white">
+        <div className="container-kouka text-center">
+          <h2 className="text-vert mb-2">Choisissez le remède adapté à votre besoin</h2>
+          <p className="text-muted-foreground mb-7 max-w-xl mx-auto">Tous nos remèdes sont 100% naturels, payables à la livraison.</p>
+          <ProductGrid />
+          <button
+            onClick={() => scrollToId('catalogue')}
+            className="mt-8 bg-vert text-white px-8 py-4 rounded-xl text-base md:text-lg font-extrabold shadow-[0_8px_24px_rgba(46,125,50,0.40)] hover:-translate-y-0.5 transition-transform"
+          >
+            🌿 Découvrir nos remèdes
+          </button>
+        </div>
+      </section>
 
       {/* WhatsApp flottant */}
       <a
-        href={waUrl}
+        href={WHATSAPP_URL}
         target="_blank"
         rel="noreferrer"
         className="fixed bottom-5 right-4 z-40 bg-[#25D366] text-white px-4 py-3 rounded-full shadow-[0_4px_18px_rgba(37,211,102,0.45)] font-extrabold flex items-center gap-2 hover:scale-105 transition-transform"
@@ -414,17 +381,17 @@ export function BrandHomePage() {
             <div>
               <h4 className="font-extrabold mb-3 text-or">Nos Remèdes</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href={buildHref('/product/$slug', { slug: 'sirop-kouka' }, prefix)} className="text-white/80 hover:text-white">🍯 Sirop KOUKA</a></li>
-                <li><a href={buildHref('/anti-diabete', undefined, prefix)} className="text-white/80 hover:text-white">🩸 Anti-Diabète</a></li>
-                <li><a href={buildHref('/', undefined, prefix)} className="text-white/80 hover:text-white">🌿 Poudre KOUKA</a></li>
-                <li><a href={buildHref('/tonic-kouka', undefined, prefix)} className="text-white/80 hover:text-white">⚡ Tonic KOUKA</a></li>
+                <li><Link to="/product/$slug" params={{ slug: 'sirop-kouka' }} className="text-white/80 hover:text-white">🍯 Sirop KOUKA</Link></li>
+                <li><Link to="/anti-diabete" className="text-white/80 hover:text-white">🩸 Anti-Diabète</Link></li>
+                <li><Link to="/" className="text-white/80 hover:text-white">🌿 Poudre KOUKA</Link></li>
+                <li><Link to="/tonic-kouka" className="text-white/80 hover:text-white">⚡ Tonic KOUKA</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="font-extrabold mb-3 text-or">Contact</h4>
               <ul className="space-y-2 text-sm text-white/80">
                 <li>
-                  <a href={waUrl} target="_blank" rel="noreferrer" className="hover:text-white">💬 WhatsApp : {waDisplay}</a>
+                  <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="hover:text-white">💬 WhatsApp : +226 58 44 48 18</a>
                 </li>
                 <li className="text-xs">Réponse rapide tous les jours</li>
               </ul>
@@ -439,7 +406,7 @@ export function BrandHomePage() {
   );
 }
 
-function ProductCatalog({ id, prefix = '' }: { id?: string; prefix?: string }) {
+function ProductCatalog({ id }: { id?: string }) {
   return (
     <section id={id} className="sec bg-vert-bg/30">
       <div className="container-kouka">
@@ -450,21 +417,22 @@ function ProductCatalog({ id, prefix = '' }: { id?: string; prefix?: string }) {
           <h2 className="text-vert mb-2">Nos remèdes naturels</h2>
           <p className="text-muted-foreground max-w-xl mx-auto">Chaque formule est conçue pour un besoin précis — sélectionnée et préparée avec le savoir-faire du Vieux KOUKA.</p>
         </div>
-        <ProductGrid prefix={prefix} />
+        <ProductGrid />
       </div>
     </section>
   );
 }
 
-function ProductGrid({ prefix = '' }: { prefix?: string }) {
+function ProductGrid() {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
+    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
       {CATALOG.map((p) => {
         const price = getPriceFrom(p);
         return (
-          <a
+          <Link
             key={p.key}
-            href={buildHref(p.to, p.params, prefix)}
+            to={p.to}
+            {...(p.params ? { params: p.params } : {})}
             className="group bg-white rounded-2xl border-2 border-vert-bg overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(46,125,50,0.18)] transition-all"
           >
             <div className="relative aspect-square bg-gradient-to-br from-vert-bg/40 to-white overflow-hidden">
@@ -483,21 +451,21 @@ function ProductGrid({ prefix = '' }: { prefix?: string }) {
                 </span>
               )}
             </div>
-            <div className="p-3 sm:p-4 flex-1 flex flex-col">
-              <div className="text-xl sm:text-2xl mb-1">{p.emoji}</div>
-              <h3 className="font-extrabold text-vert text-sm sm:text-base leading-snug mb-1.5">{p.title}</h3>
-              <p className="hidden sm:block text-xs text-muted-foreground leading-relaxed mb-3 flex-1">{p.description}</p>
-              <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mt-auto">
-                <div className="shrink-0">
+            <div className="p-4 flex-1 flex flex-col">
+              <div className="text-2xl mb-1">{p.emoji}</div>
+              <h3 className="font-extrabold text-vert text-base leading-snug mb-1.5">{p.title}</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed mb-3 flex-1">{p.description}</p>
+              <div className="flex items-end justify-between gap-2 mt-auto">
+                <div>
                   <div className="text-[10px] uppercase text-muted-foreground font-bold">À partir de</div>
-                  <div className="text-base sm:text-lg font-extrabold text-rouge leading-none">{formatFCFA(price)}</div>
+                  <div className="text-lg font-extrabold text-rouge leading-none">{formatFCFA(price)}</div>
                 </div>
-                <span className="bg-vert text-white text-[10px] sm:text-xs font-extrabold px-2 py-1.5 sm:px-3 sm:py-2 rounded-lg group-hover:bg-vert-mid transition-colors text-center whitespace-nowrap overflow-hidden text-ellipsis">
+                <span className="bg-vert text-white text-xs font-extrabold px-3 py-2 rounded-lg group-hover:bg-vert-mid transition-colors">
                   Voir le remède →
                 </span>
               </div>
             </div>
-          </a>
+          </Link>
         );
       })}
     </div>

@@ -21,10 +21,7 @@ type Order = {
   city: string;
   addressDetail?: string;
   deliverySlot?: string;
-  closeuseWhatsapp?: string | null;
-  closeuseName?: string | null;
 };
-
 
 const SLOT_LABELS: Record<string, string> = {
   morning: 'matin (8h-12h)',
@@ -78,8 +75,7 @@ function ThankYouPage() {
     }
     setConfirmed(true);
     // Ouvre WhatsApp
-    const targetNumber = (order.closeuseWhatsapp && order.closeuseWhatsapp.replace(/\D/g, '')) || ADMIN_WHATSAPP;
-    window.open(`https://wa.me/${targetNumber}?text=${buildWaMessage()}`, '_blank');
+    window.open(`https://wa.me/${ADMIN_WHATSAPP}?text=${buildWaMessage()}`, '_blank');
   };
 
   return (

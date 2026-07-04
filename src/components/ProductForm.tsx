@@ -53,7 +53,7 @@ function getSessionId(): string {
   }
 }
 
-export type AssignedCloseuse = { idx: number; slug: string; name: string; whatsapp?: string | null };
+export type AssignedCloseuse = { idx: number; slug: string; name: string };
 
 export function ProductForm({ product, assignedCloseuse: assignedProp }: { product: Product; assignedCloseuse?: AssignedCloseuse }) {
   const ctxCloseuse = useAssignedCloseuse();
@@ -344,11 +344,8 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
           whatsapp: fullPhone,
           city: form.city,
             deliverySlot: form.deliverySlot,
-          closeuseWhatsapp: assignedCloseuse?.whatsapp || null,
-          closeuseName: assignedCloseuse?.name || null,
         })
       );
-
 
       // Facebook Pixel + CAPI (event dédupliqué)
       trackFB('Purchase', {
@@ -449,25 +446,17 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
           </Field>
 
           <Field label="Pays" required error={errors.countryCode}>
-            <div className="grid grid-cols-2 gap-2">
-              {[
-                { code: 'BF', label: '🇧🇫 Burkina Faso' },
-                { code: 'NE', label: '🇳🇪 Niger' },
-              ].map((c) => (
-                <button
-                  key={c.code}
-                  type="button"
-                  onClick={() => update('countryCode', c.code)}
-                  className={`px-3 py-3.5 rounded-xl text-sm font-extrabold border-2 transition-colors ${
-                    form.countryCode === c.code
-                      ? 'bg-vert-mid text-white border-vert-mid'
-                      : 'bg-white border-vert-bg text-foreground hover:border-vert-mid'
-                  }`}
-                >
+            <select
+              value={form.countryCode}
+              onChange={(e) => update('countryCode', e.target.value)}
+              className={inputCls(errors.countryCode) + ' appearance-none'}
+            >
+              {COUNTRIES.map((c) => (
+                <option key={c.code} value={c.code}>
                   {c.label}
-                </button>
+                </option>
               ))}
-            </div>
+            </select>
           </Field>
 
           <Field label="WhatsApp" required error={errors.whatsapp}>

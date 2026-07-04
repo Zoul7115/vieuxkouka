@@ -27,11 +27,6 @@ export function ManualOrderModal({ open, onClose, onCreated, forceLivreurIdx, or
   const [livreurIdx, setLivreurIdx] = useState<number | ''>(forceLivreurIdx ?? '');
   const [delivered, setDelivered] = useState(false);
   const [deliveryFee, setDeliveryFee] = useState('');
-  const [orderDate, setOrderDate] = useState<string>(() => {
-    const d = new Date();
-    const pad = (n: number) => String(n).padStart(2, '0');
-    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  });
   const [submitting, setSubmitting] = useState(false);
 
   const product = useMemo<Product>(() => PRODUCTS.find((p) => p.slug === productSlug) || PRODUCTS[0], [productSlug]);
@@ -62,7 +57,6 @@ export function ManualOrderModal({ open, onClose, onCreated, forceLivreurIdx, or
     try {
       const orderNumber = `${orderPrefix}-${Date.now().toString(36).toUpperCase()}`;
       const offerLabel = `${qty} ${productLabel.toUpperCase()} — Saisie manuelle`;
-      const whenIso = new Date(orderDate).toISOString();
 
       // Insertion en pending d'abord pour déclencher correctement les triggers de stock
       const { data: inserted, error: insErr } = await supabase
@@ -83,8 +77,6 @@ export function ManualOrderModal({ open, onClose, onCreated, forceLivreurIdx, or
           delivery_fee: deliveryFee.trim() === '' ? null : Math.max(0, parseInt(deliveryFee, 10) || 0),
           source: 'Manuelle',
           ai_score: 100,
-          created_at: whenIso,
-          assigned_at: whenIso,
         })
         .select('id')
         .single();
@@ -95,7 +87,7 @@ export function ManualOrderModal({ open, onClose, onCreated, forceLivreurIdx, or
       if (delivered && inserted?.id) {
         const { error: upErr } = await supabase
           .from('orders')
-          .update({ status: 'delivered', delivered_at: whenIso })
+          .update({ status: 'delivered' })
           .eq('id', inserted.id);
         if (upErr) throw upErr;
       }
@@ -203,19 +195,6 @@ export function ManualOrderModal({ open, onClose, onCreated, forceLivreurIdx, or
             />
           </label>
         )}
-
-        <label className="block mb-3">
-          <span className="text-xs font-bold text-gray-600 uppercase">📅 Date de la commande</span>
-          <input
-            type="datetime-local"
-            value={orderDate}
-            onChange={(e) => setOrderDate(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
-          />
-          <span className="text-[11px] text-gray-500">Utilisée pour l'historique, la compta, le bilan et les stats.</span>
-        </label>
-
-
 
         <button
           onClick={submit}
