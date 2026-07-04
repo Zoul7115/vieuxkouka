@@ -334,7 +334,7 @@ function HomePage() {
           </div>
 
           <div className="text-center mt-6">
-            <button onClick={scrollToOrder} className="btn-cta">
+            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
               🛒 Je commande ma cure de 40 jours
             </button>
           </div>
