@@ -1,5 +1,4 @@
-import type { Product } from '@/lib/products';
-import { formatFCFA } from '@/lib/products';
+import { formatFCFA, isTwoPlusOneOffer, type Product } from '@/lib/products';
 
 function scrollToOrder(offerId?: number) {
   try {
@@ -53,6 +52,11 @@ export function OfferComparisonTable({ product }: { product: Product }) {
               ⭐ OFFRE LA PLUS CHOISIE
             </div>
             <div className="text-xs font-extrabold uppercase tracking-wide text-rouge mb-1 mt-1">Offre recommandée</div>
+            {isTwoPlusOneOffer(reco) && (
+              <div className="mb-1.5 inline-flex items-center gap-1 bg-vert-bg text-vert text-[11px] font-extrabold px-2.5 py-1 rounded-full">
+                🎁 + 1 Traitement complet de 40 jours OFFERT
+              </div>
+            )}
             <div className="text-lg font-extrabold text-foreground mb-1">{reco.units} {reco.units > 1 ? 'unités' : 'unité'} · Cure complète</div>
             <div className="flex items-baseline gap-2 mb-3">
               <span className="text-2xl font-extrabold text-rouge">{formatFCFA(reco.price)}</span>
