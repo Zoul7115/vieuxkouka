@@ -79,6 +79,11 @@ export function OfferSelector({
                 <div className={`mt-1 ${isDiscovery ? 'text-xs text-muted-foreground' : 'text-sm text-muted-foreground'}`}>
                   {o.description}
                 </div>
+                {isTwoPlusOneOffer(o) && (
+                  <div className="mt-1.5 inline-flex items-center gap-1 bg-vert-bg text-vert text-[11px] font-extrabold px-2.5 py-1 rounded-full">
+                    🎁 + 1 Traitement complet de 40 jours OFFERT
+                  </div>
+                )}
                 {o.saving && isHero && (
                   <div className={`text-xs font-extrabold mt-1.5 ${isPremium ? 'text-or' : 'text-rouge'}`}>{o.saving}</div>
                 )}
