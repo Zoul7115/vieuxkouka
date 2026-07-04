@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import type { Product, Offer } from '@/lib/products';
-import { formatFCFA } from '@/lib/products';
+import { formatFCFA, isTwoPlusOneOffer, type Offer, type Product } from '@/lib/products';
 
 function preselect(offerId: number) {
   try { sessionStorage.setItem('preselect_offer_id', String(offerId)); } catch {}
