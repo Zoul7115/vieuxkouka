@@ -287,6 +287,60 @@ function HomePage() {
         </div>
       </section>
 
+      {/* À QUOI RESSEMBLE LE TRAITEMENT */}
+      <section className="sec">
+        <div className="container-kouka">
+          <h2 className="text-center mb-2">À quoi ressemble <span className="text-vert">votre traitement ?</span></h2>
+          <p className="text-center text-muted-foreground mb-6">
+            Voici le traitement préparé exactement comme il est consommé par nos clients pendant leur cure.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-4 mb-3">
+            <img
+              src={prepPhoto1.url}
+              alt="Deux sachets de Poudre du Vieux KOUKA avec un verre de traitement préparé"
+              loading="lazy"
+              className="w-full h-full object-cover rounded-2xl shadow-md border-2 border-vert-bg aspect-[4/5]"
+            />
+            <img
+              src={prepPhoto2.url}
+              alt="Un sachet de Poudre du Vieux KOUKA avec un verre de traitement préparé"
+              loading="lazy"
+              className="w-full h-full object-cover rounded-2xl shadow-md border-2 border-vert-bg aspect-[4/5]"
+            />
+          </div>
+          <p className="text-center text-xs text-muted-foreground italic mb-6">
+            Photos réelles du traitement préparé par nos clients pendant leur cure de 40 jours.
+          </p>
+
+          <div className="bg-vert-bg/60 border-2 border-vert-bg rounded-2xl p-5 md:p-7">
+            <h3 className="text-vert text-xl font-extrabold mb-3">🌿 Une cure complète de 40 jours</h3>
+            <p className="text-muted-foreground leading-relaxed mb-3">
+              La <strong className="text-foreground">Poudre du Vieux KOUKA</strong> est proposée sous forme d'une cure traditionnelle de <strong className="text-foreground">40 jours</strong>.
+            </p>
+            <p className="text-muted-foreground leading-relaxed mb-3">
+              Chaque jour, la poudre est préparée selon les indications fournies afin d'accompagner la cure du début jusqu'à la fin.
+            </p>
+            <p className="text-muted-foreground leading-relaxed mb-5">
+              Le traitement est simple à préparer et s'intègre facilement dans votre routine quotidienne.
+            </p>
+
+            <div className="bg-white rounded-xl p-4 border border-vert-bg grid gap-2">
+              <div className="flex items-start gap-2"><span className="text-vert font-extrabold">✓</span><span className="font-semibold">Cure complète de 40 jours</span></div>
+              <div className="flex items-start gap-2"><span className="text-vert font-extrabold">✓</span><span className="font-semibold">Préparation simple</span></div>
+              <div className="flex items-start gap-2"><span className="text-vert font-extrabold">✓</span><span className="font-semibold">À base de plantes naturelles</span></div>
+              <div className="flex items-start gap-2"><span className="text-vert font-extrabold">✓</span><span className="font-semibold">Consignes d'utilisation fournies</span></div>
+            </div>
+          </div>
+
+          <div className="text-center mt-6">
+            <button onClick={scrollToOrder} className="btn-cta">
+              🛒 Je commande ma cure de 40 jours
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* TÉMOIGNAGES */}
       <section className="sec">
         <div className="container-kouka">
