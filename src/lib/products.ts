@@ -1,4 +1,4 @@
-import type { Offer } from './products';
+export type Offer = {
   id: number;
   label: string;
   /** Nombre total de sachets reçus (achetés + offerts) */
