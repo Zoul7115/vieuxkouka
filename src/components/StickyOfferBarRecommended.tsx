@@ -127,9 +127,14 @@ export function StickyOfferBarRecommended({
                       )}
                     </div>
                     <div className="flex items-baseline justify-between gap-2">
-                      <div className={`font-extrabold leading-tight ${isDiscovery ? 'text-sm text-foreground/80' : 'text-base'}`}>
-                        {o.label}
+                    <div className={`font-extrabold leading-tight ${isDiscovery ? 'text-sm text-foreground/80' : 'text-base'}`}>
+                      {o.label}
+                    </div>
+                    {isTwoPlusOneOffer(o) && (
+                      <div className="mt-1 inline-flex items-center gap-1 bg-vert-bg text-vert text-[10px] font-extrabold px-2 py-0.5 rounded-full">
+                        🎁 + 1 Traitement complet de 40 jours OFFERT
                       </div>
+                    )}
                       <div className={`font-extrabold whitespace-nowrap ${
                         isReco ? 'text-xl text-rouge' : isPremium ? 'text-xl text-vert' : 'text-base text-muted-foreground'
                       }`}>
