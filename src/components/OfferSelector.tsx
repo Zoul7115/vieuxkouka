@@ -1,5 +1,4 @@
-import type { Offer } from '@/lib/products';
-import { formatFCFA } from '@/lib/products';
+import { formatFCFA, isTwoPlusOneOffer, type Offer } from '@/lib/products';
 
 export function OfferSelector({
   offers,
