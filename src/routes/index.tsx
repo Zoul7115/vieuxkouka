@@ -11,6 +11,8 @@ import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
 import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
+import prepPhoto1 from '@/assets/kouka-preparation-2sachets.jpg.asset.json';
+import prepPhoto2 from '@/assets/kouka-preparation-1sachet.jpg.asset.json';
 
 
 
