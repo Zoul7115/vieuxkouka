@@ -1,139 +1,148 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { type Lead, LEAD_STATUS_META, type LeadStatus, updateLeadStatus, appendLeadNote } from '@/lib/leads';
+import { type Lead, LEAD_STATUS_META, type LeadStatus, updateLeadStatus } from '@/lib/leads';
 import { formatFCFA } from '@/lib/products';
-import { RefusalModal } from './RefusalModal';
+import { buildClientMessage, buildLivreurMessage, waUrl, type WAOrder } from '@/lib/whatsappMessages';
 
-const ACTIONS: { to: LeadStatus; label: string; cls: string }[] = [
-  { to: 'discussion', label: '💬 En discussion', cls: 'bg-amber-600 hover:bg-amber-700' },
-  { to: 'a_relancer', label: '🔁 À relancer', cls: 'bg-orange-600 hover:bg-orange-700' },
-  { to: 'valide', label: '✅ Valider', cls: 'bg-emerald-600 hover:bg-emerald-700' },
-  { to: 'refusee', label: '❌ Refuser', cls: 'bg-red-600 hover:bg-red-700' },
-  { to: 'annulee', label: '🚫 Annuler', cls: 'bg-gray-500 hover:bg-gray-600' },
-  { to: 'perdue', label: '💀 Perdu', cls: 'bg-zinc-600 hover:bg-zinc-700' },
+const LIVREUR_GROUP_URL = 'https://chat.whatsapp.com/IeoZRclWk6H0rsHaOiO1dc';
+
+// Statuts simples demandés
+const SIMPLE_STATUSES: { to: LeadStatus; label: string; emoji: string; cls: string }[] = [
+  { to: 'nouveau_lead', label: 'En attente', emoji: '🕒', cls: 'bg-blue-600 hover:bg-blue-700' },
+  { to: 'discussion',   label: 'Approche',   emoji: '💬', cls: 'bg-amber-600 hover:bg-amber-700' },
+  { to: 'a_relancer',   label: 'Suivi',      emoji: '🔁', cls: 'bg-orange-600 hover:bg-orange-700' },
+  { to: 'valide',       label: 'Confirmée',  emoji: '✅', cls: 'bg-emerald-600 hover:bg-emerald-700' },
+  { to: 'livree',       label: 'Livrée',     emoji: '🎉', cls: 'bg-green-700 hover:bg-green-800' },
+  { to: 'annulee',      label: 'Annulée',    emoji: '🚫', cls: 'bg-red-600 hover:bg-red-700' },
 ];
 
+// Mapping statut interne → libellé simple affiché en pastille
+const SIMPLE_LABEL: Partial<Record<LeadStatus, { label: string; emoji: string; cls: string }>> = {
+  nouveau_lead: { label: 'En attente', emoji: '🕒', cls: 'bg-blue-100 text-blue-700' },
+  discussion:   { label: 'Approche',   emoji: '💬', cls: 'bg-amber-100 text-amber-700' },
+  a_relancer:   { label: 'Suivi',      emoji: '🔁', cls: 'bg-orange-100 text-orange-700' },
+  valide:       { label: 'Confirmée',  emoji: '✅', cls: 'bg-emerald-100 text-emerald-700' },
+  expediee:     { label: 'Confirmée',  emoji: '✅', cls: 'bg-emerald-100 text-emerald-700' },
+  livree:       { label: 'Livrée',     emoji: '🎉', cls: 'bg-green-100 text-green-700' },
+  annulee:      { label: 'Annulée',    emoji: '🚫', cls: 'bg-gray-200 text-gray-700' },
+  refusee:      { label: 'Annulée',    emoji: '🚫', cls: 'bg-gray-200 text-gray-700' },
+  perdue:       { label: 'Annulée',    emoji: '🚫', cls: 'bg-gray-200 text-gray-700' },
+};
+
 export function LeadCard({ lead }: { lead: Lead }) {
+  const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [noteOpen, setNoteOpen] = useState(false);
-  const [note, setNote] = useState('');
-  const [refusalFor, setRefusalFor] = useState<LeadStatus | null>(null);
-  const meta = LEAD_STATUS_META[lead.status] || LEAD_STATUS_META.nouveau_lead;
-  const isValidated = ['valide', 'expediee', 'livree'].includes(lead.status);
-  const REFUSAL_STATUSES: LeadStatus[] = ['refusee', 'annulee', 'perdue'];
+  const badge = SIMPLE_LABEL[lead.status] || { label: LEAD_STATUS_META[lead.status]?.label || lead.status, emoji: '•', cls: 'bg-gray-100 text-gray-700' };
 
   const setStatus = async (to: LeadStatus) => {
-    if (to === lead.status) return;
-    if (REFUSAL_STATUSES.includes(to)) { setRefusalFor(to); return; }
+    if (to === lead.status || busy) return;
     setBusy(true);
     try {
       await updateLeadStatus(lead, to);
-      toast.success(`Statut → ${LEAD_STATUS_META[to].label}`);
-    } catch (e: any) {
-      toast.error(e.message || 'Erreur');
+      toast.success(`Statut → ${SIMPLE_LABEL[to]?.label || to}`);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : 'Erreur');
     } finally { setBusy(false); }
   };
 
-  const confirmRefusal = async (reason: string, comment: string) => {
-    if (!refusalFor) return;
-    setBusy(true);
-    try {
-      await updateLeadStatus(lead, refusalFor, { refusal_reason: reason, refusal_comment: comment });
-      toast.success(`Statut → ${LEAD_STATUS_META[refusalFor].label}`);
-      setRefusalFor(null);
-    } catch (e: any) {
-      toast.error(e.message);
-    } finally { setBusy(false); }
+  const wa: WAOrder = {
+    order_number: lead.id.slice(0, 7).toUpperCase(),
+    product_name: lead.product_name,
+    product_slug: lead.product_slug,
+    product_price: lead.product_price,
+    offer_label: lead.offer_label,
+    first_name: lead.first_name,
+    last_name: lead.last_name,
+    whatsapp: lead.whatsapp,
+    country: lead.country,
+    city: lead.city,
+    neighborhood: lead.neighborhood,
+    car_transport: null,
+    delivery_slot: null,
   };
 
-  const saveNote = async () => {
-    if (!note.trim()) return;
-    setBusy(true);
-    try {
-      await appendLeadNote(lead, note.trim());
-      toast.success('Note ajoutée');
-      setNote(''); setNoteOpen(false);
-    } catch (e: any) { toast.error(e.message); } finally { setBusy(false); }
-  };
+  const clientUrl = lead.whatsapp ? waUrl(lead.whatsapp, buildClientMessage(wa)) : null;
 
-  const phone = (lead.whatsapp || '').replace(/[^\d]/g, '');
-  const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(`Bonjour ${lead.first_name || ''} 👋, c'est au sujet de votre commande ${lead.product_name}.`)}`;
-  const telUrl = `tel:+${phone}`;
+  const openLivreurGroup = async () => {
+    try {
+      await navigator.clipboard?.writeText(buildLivreurMessage(wa));
+      toast.success('Message livreur copié 📋 — colle-le dans le groupe');
+    } catch {
+      toast.message('Ouverture du groupe livreur…');
+    }
+    window.open(LIVREUR_GROUP_URL, '_blank', 'noopener,noreferrer');
+  };
 
   return (
-    <div className="bg-white rounded-2xl border-2 border-rose-100 p-4 space-y-3 shadow-sm">
-      <div className="flex justify-between items-start gap-2">
+    <div className="bg-white rounded-2xl border-2 border-rose-100 shadow-sm overflow-hidden">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full text-left px-4 py-3 flex justify-between items-center gap-2 hover:bg-rose-50/50"
+      >
         <div className="min-w-0 flex-1">
-          <div className="font-extrabold text-rose-900 truncate flex items-center gap-1">
+          <div className="font-extrabold text-rose-900 truncate">
             {lead.first_name || 'Client'} {lead.last_name || ''}
-            {isValidated && <span className="text-[10px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.5 rounded">🔒</span>}
           </div>
           <div className="text-xs text-gray-600 truncate">{lead.product_name}</div>
-          <div className="text-xs text-gray-500 mt-0.5">{lead.city || '—'} · {new Date(lead.created_at).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })}</div>
+          <div className="text-[11px] text-gray-500 mt-0.5">
+            {lead.city || '—'} · {new Date(lead.created_at).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })}
+          </div>
         </div>
-        <span className={`text-xs font-bold px-2 py-1 rounded-full shrink-0 ${meta.cls}`}>{meta.emoji} {meta.label}</span>
-      </div>
+        <div className="flex flex-col items-end gap-1 shrink-0">
+          <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${badge.cls}`}>{badge.emoji} {badge.label}</span>
+          <span className="text-xs font-extrabold text-rose-700">{formatFCFA(lead.product_price)}</span>
+          <span className="text-[10px] text-rose-400">{open ? '▲ Fermer' : '▼ Ouvrir'}</span>
+        </div>
+      </button>
 
-      {isValidated && (
-        <div className="text-[11px] bg-amber-50 border border-amber-200 rounded-lg px-2 py-1 text-amber-900">
-          🔒 <b>Commande verrouillée.</b> Les infos client ne peuvent plus être modifiées. Contacte l'admin si nécessaire.
+      {open && (
+        <div className="border-t border-rose-100 p-3 space-y-3 bg-rose-50/40">
+          {/* Infos client */}
+          <div className="text-xs bg-white border border-rose-100 rounded-lg p-2 space-y-0.5">
+            <div>📞 <b>{lead.whatsapp || '—'}</b></div>
+            <div>📍 {[lead.city, lead.neighborhood, lead.address_detail].filter(Boolean).join(' · ') || '—'}</div>
+            {lead.offer_label && <div>🎁 {lead.offer_label}</div>}
+          </div>
+
+          {/* WhatsApp */}
+          <div className="grid grid-cols-2 gap-2">
+            {clientUrl ? (
+              <a href={clientUrl} target="_blank" rel="noreferrer"
+                 className="bg-green-600 hover:bg-green-700 text-white text-xs font-extrabold px-3 py-2.5 rounded-xl text-center">
+                💬 Confirmation client
+              </a>
+            ) : (
+              <span className="bg-gray-200 text-gray-500 text-xs font-extrabold px-3 py-2.5 rounded-xl text-center">
+                💬 Pas de WhatsApp
+              </span>
+            )}
+            <button onClick={openLivreurGroup}
+                    className="bg-cyan-700 hover:bg-cyan-800 text-white text-xs font-extrabold px-3 py-2.5 rounded-xl text-center">
+              🛵 Notif livreur
+            </button>
+          </div>
+
+          {/* Statuts */}
+          <div>
+            <div className="text-[11px] font-extrabold text-rose-900 uppercase mb-1.5">Statut de la commande</div>
+            <div className="grid grid-cols-3 gap-1.5">
+              {SIMPLE_STATUSES.map((s) => {
+                const active = s.to === lead.status || (s.to === 'valide' && lead.status === 'expediee');
+                return (
+                  <button
+                    key={s.to}
+                    disabled={busy || active}
+                    onClick={() => setStatus(s.to)}
+                    className={`text-xs text-white font-bold px-2 py-2 rounded-lg disabled:opacity-100 ${s.cls} ${active ? 'ring-2 ring-offset-1 ring-rose-400' : ''}`}
+                  >
+                    {s.emoji} {s.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       )}
-
-      {(lead as any).refusal_reason && (
-        <div className="text-[11px] bg-red-50 border border-red-200 rounded-lg px-2 py-1 text-red-900">
-          <b>Motif refus :</b> {(lead as any).refusal_reason}
-          {(lead as any).refusal_comment ? ` — ${(lead as any).refusal_comment}` : ''}
-        </div>
-      )}
-
-      <div className="flex flex-wrap gap-1.5 text-xs">
-        <a href={telUrl} className="bg-blue-600 text-white px-3 py-1.5 rounded-full font-bold">📞 Appeler</a>
-        <a href={waUrl} target="_blank" rel="noreferrer" className="bg-green-600 text-white px-3 py-1.5 rounded-full font-bold">💬 WhatsApp</a>
-        <button onClick={() => setNoteOpen((v) => !v)} className="bg-rose-100 text-rose-800 px-3 py-1.5 rounded-full font-bold">📝 Note</button>
-        <div className="ml-auto text-xs font-extrabold text-rose-700 self-center">{formatFCFA(lead.product_price)}</div>
-      </div>
-
-      {noteOpen && (
-        <div className="space-y-2">
-          <textarea
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-            placeholder="Ex: rappeler demain matin"
-            className="w-full px-3 py-2 border-2 border-rose-200 rounded-lg text-sm outline-none focus:border-rose-500"
-            rows={2}
-          />
-          <button disabled={busy} onClick={saveNote} className="w-full bg-rose-600 text-white font-bold py-1.5 rounded-lg text-sm disabled:opacity-50">
-            Ajouter
-          </button>
-        </div>
-      )}
-
-      {lead.notes && (
-        <div className="text-xs bg-rose-50 border border-rose-100 rounded-lg p-2 whitespace-pre-wrap text-gray-700">
-          {lead.notes}
-        </div>
-      )}
-
-      <div className="flex flex-wrap gap-1.5 pt-2 border-t border-rose-100">
-        {ACTIONS.map((a) => (
-          <button
-            key={a.to}
-            disabled={busy || a.to === lead.status}
-            onClick={() => setStatus(a.to)}
-            className={`text-xs text-white font-bold px-2.5 py-1 rounded-lg disabled:opacity-40 ${a.cls}`}
-          >
-            {a.label}
-          </button>
-        ))}
-      </div>
-
-      <RefusalModal
-        open={refusalFor !== null}
-        title={refusalFor ? `Motif : ${LEAD_STATUS_META[refusalFor].label}` : ''}
-        onCancel={() => setRefusalFor(null)}
-        onConfirm={confirmRefusal}
-      />
     </div>
   );
 }

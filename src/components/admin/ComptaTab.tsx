@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { findOfferByLabel, formatFCFA, orderProductCost } from '@/lib/products';
 import { useLivreurs, effectiveDeliveryFee } from '@/lib/livreurs';
+import { useCloseuses } from '@/lib/closeuses';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { PERIODS, filterByPeriod, type PeriodKey } from '@/lib/periods';
@@ -26,6 +27,7 @@ type Expense = {
   label: string;
   amount: number;
   notes: string | null;
+  closeuse_idx?: number | null;
 };
 
 const CATEGORIES = [
@@ -41,6 +43,7 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
   const [customFrom, setCustomFrom] = useState('');
   const [customTo, setCustomTo] = useState('');
   const { livreurs } = useLivreurs();
+  const { closeuses } = useCloseuses();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [form, setForm] = useState({
     expense_date: new Date().toISOString().slice(0, 10),
@@ -49,6 +52,7 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
     amount: '',
     amount_usd: '',
     notes: '',
+    closeuse_idx: '' as string,
   });
 
   const loadExpenses = async () => {
@@ -169,11 +173,12 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
       label: form.label.trim(),
       amount,
       notes: form.notes.trim() || null,
+      closeuse_idx: form.category === 'pub' && form.closeuse_idx ? Number(form.closeuse_idx) : null,
     });
     if (error) toast.error(error.message);
     else {
       toast.success('Dépense enregistrée');
-      setForm({ ...form, label: '', amount: '', amount_usd: '', notes: '' });
+      setForm({ ...form, label: '', amount: '', amount_usd: '', notes: '', closeuse_idx: '' });
       loadExpenses();
     }
   };
@@ -261,6 +266,18 @@ export function ComptaTab({ orders }: { orders: Order[] }) {
               </Field>
               <Field label="ou Montant (FCFA)">
                 <input type="number" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value, amount_usd: '' })} placeholder="Ex: 3275" className="ce-input" />
+              </Field>
+              <Field label="Closeuse (attribution rentabilité)" full>
+                <select
+                  value={form.closeuse_idx}
+                  onChange={(e) => setForm({ ...form, closeuse_idx: e.target.value })}
+                  className="ce-input"
+                >
+                  <option value="">— Non attribuée (répartie au prorata des leads) —</option>
+                  {closeuses.map((c) => (
+                    <option key={c.id} value={c.idx}>{c.emoji} {c.name}</option>
+                  ))}
+                </select>
               </Field>
             </>
           ) : (

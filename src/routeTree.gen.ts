@@ -14,14 +14,18 @@ import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as LivreurRouteImport } from './routes/livreur'
 import { Route as DiagnosticRouteImport } from './routes/diagnostic'
 import { Route as CloseuseRouteImport } from './routes/closeuse'
+import { Route as BoutiqueRouteImport } from './routes/boutique'
 import { Route as AntiDiabeteRouteImport } from './routes/anti-diabete'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LivreurIndexRouteImport } from './routes/livreur.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as LivreurBilanRouteImport } from './routes/livreur.bilan'
-import { Route as AdminHistoriqueRouteImport } from './routes/admin.historique'
+import { Route as CloseuseSlugTonicKoukaRouteImport } from './routes/$closeuseSlug.tonic-kouka'
+import { Route as CloseuseSlugKoukaRouteImport } from './routes/$closeuseSlug.kouka'
+import { Route as CloseuseSlugBoutiqueRouteImport } from './routes/$closeuseSlug.boutique'
 import { Route as CloseuseSlugAntiDiabeteRouteImport } from './routes/$closeuseSlug.anti-diabete'
+import { Route as CloseuseSlugProductSlugRouteImport } from './routes/$closeuseSlug.product.$slug'
 import { Route as ApiPublicHooksWeeklyReportRouteImport } from './routes/api/public/hooks/weekly-report'
 
 const TonicKoukaRoute = TonicKoukaRouteImport.update({
@@ -47,6 +51,11 @@ const DiagnosticRoute = DiagnosticRouteImport.update({
 const CloseuseRoute = CloseuseRouteImport.update({
   id: '/closeuse',
   path: '/closeuse',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BoutiqueRoute = BoutiqueRouteImport.update({
+  id: '/boutique',
+  path: '/boutique',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AntiDiabeteRoute = AntiDiabeteRouteImport.update({
@@ -79,14 +88,29 @@ const LivreurBilanRoute = LivreurBilanRouteImport.update({
   path: '/bilan',
   getParentRoute: () => LivreurRoute,
 } as any)
-const AdminHistoriqueRoute = AdminHistoriqueRouteImport.update({
-  id: '/historique',
-  path: '/historique',
-  getParentRoute: () => AdminRoute,
+const CloseuseSlugTonicKoukaRoute = CloseuseSlugTonicKoukaRouteImport.update({
+  id: '/$closeuseSlug/tonic-kouka',
+  path: '/$closeuseSlug/tonic-kouka',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CloseuseSlugKoukaRoute = CloseuseSlugKoukaRouteImport.update({
+  id: '/$closeuseSlug/kouka',
+  path: '/$closeuseSlug/kouka',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CloseuseSlugBoutiqueRoute = CloseuseSlugBoutiqueRouteImport.update({
+  id: '/$closeuseSlug/boutique',
+  path: '/$closeuseSlug/boutique',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const CloseuseSlugAntiDiabeteRoute = CloseuseSlugAntiDiabeteRouteImport.update({
   id: '/$closeuseSlug/anti-diabete',
   path: '/$closeuseSlug/anti-diabete',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CloseuseSlugProductSlugRoute = CloseuseSlugProductSlugRouteImport.update({
+  id: '/$closeuseSlug/product/$slug',
+  path: '/$closeuseSlug/product/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicHooksWeeklyReportRoute =
@@ -98,50 +122,62 @@ const ApiPublicHooksWeeklyReportRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
+  '/admin': typeof AdminRoute
   '/anti-diabete': typeof AntiDiabeteRoute
+  '/boutique': typeof BoutiqueRoute
   '/closeuse': typeof CloseuseRoute
   '/diagnostic': typeof DiagnosticRoute
   '/livreur': typeof LivreurRouteWithChildren
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
-  '/admin/historique': typeof AdminHistoriqueRoute
+  '/$closeuseSlug/boutique': typeof CloseuseSlugBoutiqueRoute
+  '/$closeuseSlug/kouka': typeof CloseuseSlugKoukaRoute
+  '/$closeuseSlug/tonic-kouka': typeof CloseuseSlugTonicKoukaRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur/': typeof LivreurIndexRoute
+  '/$closeuseSlug/product/$slug': typeof CloseuseSlugProductSlugRoute
   '/api/public/hooks/weekly-report': typeof ApiPublicHooksWeeklyReportRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
+  '/admin': typeof AdminRoute
   '/anti-diabete': typeof AntiDiabeteRoute
+  '/boutique': typeof BoutiqueRoute
   '/closeuse': typeof CloseuseRoute
   '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
-  '/admin/historique': typeof AdminHistoriqueRoute
+  '/$closeuseSlug/boutique': typeof CloseuseSlugBoutiqueRoute
+  '/$closeuseSlug/kouka': typeof CloseuseSlugKoukaRoute
+  '/$closeuseSlug/tonic-kouka': typeof CloseuseSlugTonicKoukaRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur': typeof LivreurIndexRoute
+  '/$closeuseSlug/product/$slug': typeof CloseuseSlugProductSlugRoute
   '/api/public/hooks/weekly-report': typeof ApiPublicHooksWeeklyReportRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
+  '/admin': typeof AdminRoute
   '/anti-diabete': typeof AntiDiabeteRoute
+  '/boutique': typeof BoutiqueRoute
   '/closeuse': typeof CloseuseRoute
   '/diagnostic': typeof DiagnosticRoute
   '/livreur': typeof LivreurRouteWithChildren
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
-  '/admin/historique': typeof AdminHistoriqueRoute
+  '/$closeuseSlug/boutique': typeof CloseuseSlugBoutiqueRoute
+  '/$closeuseSlug/kouka': typeof CloseuseSlugKoukaRoute
+  '/$closeuseSlug/tonic-kouka': typeof CloseuseSlugTonicKoukaRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur/': typeof LivreurIndexRoute
+  '/$closeuseSlug/product/$slug': typeof CloseuseSlugProductSlugRoute
   '/api/public/hooks/weekly-report': typeof ApiPublicHooksWeeklyReportRoute
 }
 export interface FileRouteTypes {
@@ -150,61 +186,78 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/anti-diabete'
+    | '/boutique'
     | '/closeuse'
     | '/diagnostic'
     | '/livreur'
     | '/thank-you'
     | '/tonic-kouka'
     | '/$closeuseSlug/anti-diabete'
-    | '/admin/historique'
+    | '/$closeuseSlug/boutique'
+    | '/$closeuseSlug/kouka'
+    | '/$closeuseSlug/tonic-kouka'
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur/'
+    | '/$closeuseSlug/product/$slug'
     | '/api/public/hooks/weekly-report'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/admin'
     | '/anti-diabete'
+    | '/boutique'
     | '/closeuse'
     | '/diagnostic'
     | '/thank-you'
     | '/tonic-kouka'
     | '/$closeuseSlug/anti-diabete'
-    | '/admin/historique'
+    | '/$closeuseSlug/boutique'
+    | '/$closeuseSlug/kouka'
+    | '/$closeuseSlug/tonic-kouka'
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur'
+    | '/$closeuseSlug/product/$slug'
     | '/api/public/hooks/weekly-report'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/anti-diabete'
+    | '/boutique'
     | '/closeuse'
     | '/diagnostic'
     | '/livreur'
     | '/thank-you'
     | '/tonic-kouka'
     | '/$closeuseSlug/anti-diabete'
-    | '/admin/historique'
+    | '/$closeuseSlug/boutique'
+    | '/$closeuseSlug/kouka'
+    | '/$closeuseSlug/tonic-kouka'
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur/'
+    | '/$closeuseSlug/product/$slug'
     | '/api/public/hooks/weekly-report'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRouteWithChildren
+  AdminRoute: typeof AdminRoute
   AntiDiabeteRoute: typeof AntiDiabeteRoute
+  BoutiqueRoute: typeof BoutiqueRoute
   CloseuseRoute: typeof CloseuseRoute
   DiagnosticRoute: typeof DiagnosticRoute
   LivreurRoute: typeof LivreurRouteWithChildren
   ThankYouRoute: typeof ThankYouRoute
   TonicKoukaRoute: typeof TonicKoukaRoute
   CloseuseSlugAntiDiabeteRoute: typeof CloseuseSlugAntiDiabeteRoute
+  CloseuseSlugBoutiqueRoute: typeof CloseuseSlugBoutiqueRoute
+  CloseuseSlugKoukaRoute: typeof CloseuseSlugKoukaRoute
+  CloseuseSlugTonicKoukaRoute: typeof CloseuseSlugTonicKoukaRoute
   ProductSlugRoute: typeof ProductSlugRoute
+  CloseuseSlugProductSlugRoute: typeof CloseuseSlugProductSlugRoute
   ApiPublicHooksWeeklyReportRoute: typeof ApiPublicHooksWeeklyReportRoute
 }
 
@@ -243,6 +296,13 @@ declare module '@tanstack/react-router' {
       path: '/closeuse'
       fullPath: '/closeuse'
       preLoaderRoute: typeof CloseuseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/boutique': {
+      id: '/boutique'
+      path: '/boutique'
+      fullPath: '/boutique'
+      preLoaderRoute: typeof BoutiqueRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/anti-diabete': {
@@ -287,18 +347,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LivreurBilanRouteImport
       parentRoute: typeof LivreurRoute
     }
-    '/admin/historique': {
-      id: '/admin/historique'
-      path: '/historique'
-      fullPath: '/admin/historique'
-      preLoaderRoute: typeof AdminHistoriqueRouteImport
-      parentRoute: typeof AdminRoute
+    '/$closeuseSlug/tonic-kouka': {
+      id: '/$closeuseSlug/tonic-kouka'
+      path: '/$closeuseSlug/tonic-kouka'
+      fullPath: '/$closeuseSlug/tonic-kouka'
+      preLoaderRoute: typeof CloseuseSlugTonicKoukaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$closeuseSlug/kouka': {
+      id: '/$closeuseSlug/kouka'
+      path: '/$closeuseSlug/kouka'
+      fullPath: '/$closeuseSlug/kouka'
+      preLoaderRoute: typeof CloseuseSlugKoukaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$closeuseSlug/boutique': {
+      id: '/$closeuseSlug/boutique'
+      path: '/$closeuseSlug/boutique'
+      fullPath: '/$closeuseSlug/boutique'
+      preLoaderRoute: typeof CloseuseSlugBoutiqueRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/$closeuseSlug/anti-diabete': {
       id: '/$closeuseSlug/anti-diabete'
       path: '/$closeuseSlug/anti-diabete'
       fullPath: '/$closeuseSlug/anti-diabete'
       preLoaderRoute: typeof CloseuseSlugAntiDiabeteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$closeuseSlug/product/$slug': {
+      id: '/$closeuseSlug/product/$slug'
+      path: '/$closeuseSlug/product/$slug'
+      fullPath: '/$closeuseSlug/product/$slug'
+      preLoaderRoute: typeof CloseuseSlugProductSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/hooks/weekly-report': {
@@ -310,16 +391,6 @@ declare module '@tanstack/react-router' {
     }
   }
 }
-
-interface AdminRouteChildren {
-  AdminHistoriqueRoute: typeof AdminHistoriqueRoute
-}
-
-const AdminRouteChildren: AdminRouteChildren = {
-  AdminHistoriqueRoute: AdminHistoriqueRoute,
-}
-
-const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface LivreurRouteChildren {
   LivreurBilanRoute: typeof LivreurBilanRoute
@@ -336,15 +407,20 @@ const LivreurRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRouteWithChildren,
+  AdminRoute: AdminRoute,
   AntiDiabeteRoute: AntiDiabeteRoute,
+  BoutiqueRoute: BoutiqueRoute,
   CloseuseRoute: CloseuseRoute,
   DiagnosticRoute: DiagnosticRoute,
   LivreurRoute: LivreurRouteWithChildren,
   ThankYouRoute: ThankYouRoute,
   TonicKoukaRoute: TonicKoukaRoute,
   CloseuseSlugAntiDiabeteRoute: CloseuseSlugAntiDiabeteRoute,
+  CloseuseSlugBoutiqueRoute: CloseuseSlugBoutiqueRoute,
+  CloseuseSlugKoukaRoute: CloseuseSlugKoukaRoute,
+  CloseuseSlugTonicKoukaRoute: CloseuseSlugTonicKoukaRoute,
   ProductSlugRoute: ProductSlugRoute,
+  CloseuseSlugProductSlugRoute: CloseuseSlugProductSlugRoute,
   ApiPublicHooksWeeklyReportRoute: ApiPublicHooksWeeklyReportRoute,
 }
 export const routeTree = rootRouteImport

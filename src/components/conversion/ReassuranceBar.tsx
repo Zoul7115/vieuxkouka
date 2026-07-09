@@ -3,7 +3,7 @@ const ITEMS = [
   { icon: '🚚', label: 'Livraison rapide' },
   { icon: '📞', label: 'Service client disponible' },
   { icon: '🤝', label: 'Accompagnement personnalisé' },
-  { icon: '🔒', label: 'Commande simple & sécurisée' },
+  { icon: '🛡️', label: 'Commande sans risque' },
 ];
 
 export function ReassuranceBar() {
