@@ -20,6 +20,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as LivreurIndexRouteImport } from './routes/livreur.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as LivreurBilanRouteImport } from './routes/livreur.bilan'
+import { Route as AdminHistoriqueRouteImport } from './routes/admin.historique'
 import { Route as CloseuseSlugAntiDiabeteRouteImport } from './routes/$closeuseSlug.anti-diabete'
 import { Route as ApiPublicHooksWeeklyReportRouteImport } from './routes/api/public/hooks/weekly-report'
 
@@ -78,6 +79,11 @@ const LivreurBilanRoute = LivreurBilanRouteImport.update({
   path: '/bilan',
   getParentRoute: () => LivreurRoute,
 } as any)
+const AdminHistoriqueRoute = AdminHistoriqueRouteImport.update({
+  id: '/historique',
+  path: '/historique',
+  getParentRoute: () => AdminRoute,
+} as any)
 const CloseuseSlugAntiDiabeteRoute = CloseuseSlugAntiDiabeteRouteImport.update({
   id: '/$closeuseSlug/anti-diabete',
   path: '/$closeuseSlug/anti-diabete',
@@ -92,7 +98,7 @@ const ApiPublicHooksWeeklyReportRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/anti-diabete': typeof AntiDiabeteRoute
   '/closeuse': typeof CloseuseRoute
   '/diagnostic': typeof DiagnosticRoute
@@ -100,6 +106,7 @@ export interface FileRoutesByFullPath {
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
+  '/admin/historique': typeof AdminHistoriqueRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur/': typeof LivreurIndexRoute
@@ -107,13 +114,14 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/anti-diabete': typeof AntiDiabeteRoute
   '/closeuse': typeof CloseuseRoute
   '/diagnostic': typeof DiagnosticRoute
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
+  '/admin/historique': typeof AdminHistoriqueRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur': typeof LivreurIndexRoute
@@ -122,7 +130,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/admin': typeof AdminRoute
+  '/admin': typeof AdminRouteWithChildren
   '/anti-diabete': typeof AntiDiabeteRoute
   '/closeuse': typeof CloseuseRoute
   '/diagnostic': typeof DiagnosticRoute
@@ -130,6 +138,7 @@ export interface FileRoutesById {
   '/thank-you': typeof ThankYouRoute
   '/tonic-kouka': typeof TonicKoukaRoute
   '/$closeuseSlug/anti-diabete': typeof CloseuseSlugAntiDiabeteRoute
+  '/admin/historique': typeof AdminHistoriqueRoute
   '/livreur/bilan': typeof LivreurBilanRoute
   '/product/$slug': typeof ProductSlugRoute
   '/livreur/': typeof LivreurIndexRoute
@@ -147,6 +156,7 @@ export interface FileRouteTypes {
     | '/thank-you'
     | '/tonic-kouka'
     | '/$closeuseSlug/anti-diabete'
+    | '/admin/historique'
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur/'
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/thank-you'
     | '/tonic-kouka'
     | '/$closeuseSlug/anti-diabete'
+    | '/admin/historique'
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/thank-you'
     | '/tonic-kouka'
     | '/$closeuseSlug/anti-diabete'
+    | '/admin/historique'
     | '/livreur/bilan'
     | '/product/$slug'
     | '/livreur/'
@@ -184,7 +196,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AdminRoute: typeof AdminRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AntiDiabeteRoute: typeof AntiDiabeteRoute
   CloseuseRoute: typeof CloseuseRoute
   DiagnosticRoute: typeof DiagnosticRoute
@@ -275,6 +287,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LivreurBilanRouteImport
       parentRoute: typeof LivreurRoute
     }
+    '/admin/historique': {
+      id: '/admin/historique'
+      path: '/historique'
+      fullPath: '/admin/historique'
+      preLoaderRoute: typeof AdminHistoriqueRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/$closeuseSlug/anti-diabete': {
       id: '/$closeuseSlug/anti-diabete'
       path: '/$closeuseSlug/anti-diabete'
@@ -292,6 +311,16 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminRouteChildren {
+  AdminHistoriqueRoute: typeof AdminHistoriqueRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminHistoriqueRoute: AdminHistoriqueRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 interface LivreurRouteChildren {
   LivreurBilanRoute: typeof LivreurBilanRoute
   LivreurIndexRoute: typeof LivreurIndexRoute
@@ -307,7 +336,7 @@ const LivreurRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AdminRoute: AdminRoute,
+  AdminRoute: AdminRouteWithChildren,
   AntiDiabeteRoute: AntiDiabeteRoute,
   CloseuseRoute: CloseuseRoute,
   DiagnosticRoute: DiagnosticRoute,
