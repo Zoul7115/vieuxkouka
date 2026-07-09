@@ -1,83 +1,127 @@
-# Plan — Synchronisation globale du CRM KOUKA
+# Architecture multi-closeuses
 
-Objectif : ajouter une **couche de synchronisation** sans casser l'existant. Le **lead = source de vérité**. Tout est propagé en temps réel via triggers DB + Supabase Realtime.
+Refonte additive — aucune page produit existante n'est cassée. Tout passe par de nouvelles routes et tables. Le système actuel (admin, livreur, closeuse v1, commandes directes) continue de fonctionner.
 
----
+## 1. Base de données (migration unique)
 
-## 1. Synchronisation Lead → Commande (DB triggers)
+**Évolutions sur `closeuses`** :
+- ajout `slug` (text, unique, ex: `fatou`) — généré depuis le nom
 
-Aujourd'hui : `updateLeadStatus` crée la commande quand `valide`, mais si la closeuse rebascule le lead en `discussion` / `refusee` / `annulee` / `perdue`, la commande reste `confirmed`.
+**Nouvelle table `leads`** (cycle de vie prospect → commande)
+- `id`, `closeuse_idx`, `closeuse_slug`, `product_slug`, `product_name`, `offer_label`, `product_price`
+- `first_name`, `last_name`, `whatsapp`, `country`, `city`, `neighborhood`, `address_detail`
+- `status` : `nouveau_lead` | `discussion` | `a_relancer` | `valide` | `expediee` | `livree` | `refusee` | `annulee` | `perdue`
+- `notes`, `client_ip`, `source`, `created_at`, `updated_at`
+- `validated_at` (timestamp) → quand le lead devient `valide`, on copie vers `orders`
+- `order_id` (uuid nullable) → lien vers la commande générée
 
-**Migration** : créer `sync_order_from_lead()` (trigger AFTER UPDATE OF status ON leads) qui mappe :
+**Nouvelle table `lead_events`** (audit/historique)
+- `id`, `lead_id`, `closeuse_idx`, `event_type` (status_change, note_added, edit, call, whatsapp), `from_status`, `to_status`, `payload jsonb`, `created_at`
 
-| Lead status        | Order status      |
-|--------------------|-------------------|
-| nouveau_lead       | pending           |
-| discussion         | pending           |
-| a_relancer         | pending           |
-| valide             | confirmed         |
-| expediee           | expediee          |
-| livree             | delivered         |
-| refusee            | cancelled         |
-| annulee            | cancelled         |
-| perdue             | cancelled         |
+**Évolutions sur `orders`** :
+- `closeuse_idx` existe déjà
+- ajout `closeuse_slug` (text) et `lead_id` (uuid) — pour traçabilité permanente
+- ajout `assigned_at` (timestamp)
 
-- Met à jour `orders.status` via `lead_id`.
-- Si statut "annulé" → déverrouille (`locked=false`) pour permettre une éventuelle re-validation ultérieure.
-- Si re-validation après annulation → relock + recrée `delivered_at` au besoin.
-- Reporte `refusal_reason` / `refusal_comment` sur la commande.
+**Nouvelle table `commission_settings`** (1 ligne)
+- `commission_per_validated_order` (int, défaut 1000)
+- `commission_per_delivered_order` (int, défaut 0)
 
-## 2. Stock automatique (déjà partiellement OK)
+**Nouvelle table `commission_payouts`** (clôture mensuelle)
+- `id`, `closeuse_idx`, `period_month` (date 1er du mois), `validated_count`, `delivered_count`, `amount_due`, `amount_paid`, `paid_at`, `notes`
 
-Le trigger `handle_order_stock_change` gère déjà `delivered`. Étendre :
+**Nouvelle table `audit_log`** (journal global)
+- `id`, `actor_type` (admin|closeuse|system), `actor_id`, `actor_name`, `entity_type` (lead|order|closeuse), `entity_id`, `action`, `payload jsonb`, `created_at`
 
-- **Confirmation** (`status = 'confirmed'`) → réserver le stock (sortie "Réservation · {order_number}").
-- **Retour à pending/cancelled** → ré-entrée automatique idempotente (par `motif` unique).
-- **Livraison** : conserver la logique existante mais éviter double déduction si déjà réservée → convertir la "Réservation" en "Livraison" (UPDATE motif au lieu d'INSERT).
+Toutes les tables ouvertes au public anon (cohérent avec le reste du projet — l'auth est gérée côté app).
 
-Garde-fou : index unique sur `stock_transactions(motif, type)` pour empêcher tout doublon.
+## 2. Routes publiques par closeuse
 
-## 3. Comptabilité unifiée
+Nouvelle route catch : `src/routes/$closeuseSlug.$productSlug.tsx`
+- Résout `closeuseSlug` → closeuse active (sinon 404)
+- Résout `productSlug` → produit (faiblesse-sexuelle, anti-diabete, sirop-kouka, tonic-kouka)
+- Rend exactement la même UI que la page produit existante, mais **toute commande créée passe par `leads`** avec `closeuse_idx` et `closeuse_slug` pré-remplis
+- URLs : `/fatou/faiblesse-sexuelle`, `/aicha/anti-diabete`, etc.
 
-Les vues admin (Bilan, Compta, Stats, Commissions) lisent `orders`. En propageant **toutes** les commandes closeuses dans `orders` avec les bons statuts (étape 1), la compta devient automatiquement cohérente. Vérifier que `BilanTab` / `ComptaTab` / `CommissionsTab` ne filtrent pas les commandes par `closeuse_idx IS NULL` — sinon enlever ce filtre.
+Composant `ProductForm` modifié pour accepter un prop optionnel `assignedCloseuse` → quand présent, écrit dans `leads` au lieu de `orders`.
 
-## 4. Realtime dashboard closeuse
+## 3. Dashboard closeuse (route `/closeuse`)
 
-`useLeads` est déjà abonné aux `leads`. Ajouter :
-- Abonnement aux `orders` filtré par `closeuse_idx` dans le dashboard (pour refléter changements admin → closeuse).
-- Abonnement aux `lead_relances` pour rafraîchir RelancesView automatiquement.
-- Toast discret à chaque nouveau lead entrant.
+Refonte du dashboard existant :
+- Onglets statuts : Nouveaux leads · Discussion · À relancer · Validées · Expédiées · Livrées · Refusées · Annulées · Perdues
+- Liste filtrée `WHERE closeuse_idx = me`
+- Carte lead : nom, téléphone, ville, produit, date, statut, notes
+- Actions : Modifier · Appeler (tel:) · WhatsApp (wa.me) · Valider · Refuser · Ajouter note
+- Lien public à partager : `vieuxkouka.lovable.app/{slug}/{produit}` (boutons copie rapide)
+- **Aucune donnée financière visible** (pas de commission, pas de CA global)
 
-## 5. Statuts unifiés admin/closeuse + carte commande complète
+Action "Valider" → passe `status=valide`, crée la `order` correspondante, log dans `lead_events` + `audit_log`.
 
-Côté closeuse, enrichir `LeadCard` (ou nouvelle `OrderCard` partagée) pour afficher quand le lead a une commande liée :
-- Référence (`order_number`), produit, offre, client, tél, ville, pays, date, montant, **statut commande** (badge même couleur que admin).
-- Historique : lire `lead_events` (déjà existant) → afficher les 5 derniers changements.
-- "Dernière activité" = `updated_at`.
+## 4. Dashboard admin — nouveaux onglets
 
-Réutiliser les couleurs/badges existants (`LEAD_STATUS_META`).
+Ajout dans `src/routes/admin.tsx` :
+1. **Commandes validées** (orders avec `closeuse_idx not null`)
+2. **Commandes livrées** (filtre rapide)
+3. **Commandes refusées** (leads `refusee` + orders annulées)
+4. **Commandes par closeuse** (groupé)
+5. **Performance closeuses** : leads, discussion, validées, expédiées, livrées, refusées, taux validation, taux livraison, dernière activité, classement. Filtres : aujourd'hui / 7j / 30j / custom
+6. **Commissions** : montant configurable, total dû par closeuse, page de clôture mensuelle ("Marquer comme payé"), historique
+7. **Commandes perdues / À relancer** : leads `perdue`/`a_relancer` avec actions de relance
 
-## 6. Historique global (audit)
+Onglet existants conservés intacts.
 
-`lead_events` existe déjà. Ajouter dans le trigger `sync_order_from_lead` un INSERT dans `lead_events` (event_type=`order_synced`, payload=`{old_order_status, new_order_status}`).
-Afficher cet historique dans la carte (étape 5).
+## 5. Notifications & audit
 
-## 7. Garde-fous
+- Badge "Nouvelle activité" sur dashboard closeuse (Realtime sur `leads WHERE closeuse_idx=me`)
+- Badge admin sur Realtime `leads INSERT`, `orders status change`
+- Page admin "Journal" filtrable (closeuse, produit, ville, téléphone, date, statut)
 
-- Trigger idempotent : check si le statut cible est déjà le bon avant UPDATE.
-- Unique partial index sur `orders(lead_id)` (un seul ordre par lead).
-- Unique sur `stock_transactions(motif)` pour bloquer double écriture.
-- Le trigger existant `lock_order_on_validation` reste, mais on autorise unlock automatique sur statut `cancelled` (étape 1).
+## 6. Détails techniques
 
----
+**Pas de breaking change** :
+- Routes existantes (`/`, `/anti-diabete`, `/tonic-kouka`, `/product/$slug`) → continuent à écrire dans `orders` directement (commandes directes / pub Facebook)
+- Seules les routes `/:closeuse/:produit` écrivent dans `leads`
+- Le système livreur, SAV, stock, compta : inchangés
 
-## Détails techniques (résumé)
+**Sécurité** :
+- Login closeuse custom conservé (table `closeuses` + `password_hash` SHA-256, déjà en place)
+- Filtrage par `closeuse_idx` côté client (cohérent avec l'archi existante 100% RLS-open)
+- Admin protégé par `requireAdminCode` existant
 
-- **1 migration SQL** : nouveau trigger `sync_order_from_lead`, extension de `handle_order_stock_change`, index uniques.
-- **Frontend** :
-  - `src/lib/leads.ts` : simplifier `updateLeadStatus` (la création de commande sur `valide` reste, mais la mise à jour de statut est désormais gérée par trigger ; on garde le code TS comme fallback safety).
-  - `src/routes/closeuse.tsx` : ajout abonnement realtime `orders` + `lead_relances`.
-  - `src/components/closeuse/LeadCard.tsx` : afficher infos commande liée + historique `lead_events`.
-- Pas de changement au dashboard admin (lit déjà `orders`, auto-sync).
+**Performance** :
+- Index sur `leads(closeuse_idx, status, created_at)`, `leads(whatsapp)`, `orders(closeuse_idx, status)`
+- Pagination 50 lignes par défaut
 
-Aucun module existant n'est supprimé ni renommé.
+## 7. Fichiers créés (≈14) / modifiés (≈6)
+
+Nouveaux :
+- `supabase/migrations/...` (1 migration unique)
+- `src/lib/leads.ts` (CRUD + types)
+- `src/lib/commissions.ts`
+- `src/lib/auditLog.ts`
+- `src/routes/$closeuseSlug.$productSlug.tsx`
+- `src/components/closeuse/LeadCard.tsx`
+- `src/components/closeuse/LeadList.tsx`
+- `src/components/closeuse/ShareLinks.tsx`
+- `src/components/admin/ValidatedOrdersTab.tsx`
+- `src/components/admin/DeliveredOrdersTab.tsx`
+- `src/components/admin/RefusedTab.tsx`
+- `src/components/admin/OrdersByCloseuseTab.tsx`
+- `src/components/admin/PerformanceTab.tsx`
+- `src/components/admin/CommissionsTab.tsx`
+- `src/components/admin/LostLeadsTab.tsx`
+- `src/components/admin/AuditLogTab.tsx`
+
+Modifiés :
+- `src/routes/closeuse.tsx` (nouveau dashboard)
+- `src/routes/admin.tsx` (ajout onglets)
+- `src/components/ProductForm.tsx` (mode lead vs order)
+- `src/components/admin/CloseusesTab.tsx` (ajout slug + lien partage)
+- `src/lib/closeuses.ts` (champ slug)
+- `src/lib/products.ts` (helper `findProductBySlug`)
+
+## 8. Livraison
+
+Vu la taille (≈20 fichiers, 1 migration lourde), je vais livrer en **une seule passe** comme demandé, mais la migration sera soumise en premier pour validation avant le code applicatif (les types Supabase sont régénérés après approbation).
+
+Si OK, je lance.

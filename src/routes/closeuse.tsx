@@ -53,27 +53,7 @@ function CloseusePage() {
     // Activity ping toutes les 5 min
     touchCloseuseActivity(session.idx);
     const itv = setInterval(() => touchCloseuseActivity(session.idx), 5 * 60 * 1000);
-
-    // Realtime : si l'admin change une commande de cette closeuse, refléter côté UI
-    const chOrders = supabase
-      .channel(`closeuse-orders-${session.idx}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders', filter: `closeuse_idx=eq.${session.idx}` }, () => {
-        // L'invalidation se fait via useLeads (status synchronisé par trigger) — ce canal sert juste à pousser un re-render.
-        window.dispatchEvent(new Event('closeuse:orders-updated'));
-      })
-      .subscribe();
-    const chRelances = supabase
-      .channel(`closeuse-relances-${session.idx}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'lead_relances', filter: `closeuse_idx=eq.${session.idx}` }, () => {
-        window.dispatchEvent(new Event('closeuse:relances-updated'));
-      })
-      .subscribe();
-
-    return () => {
-      clearInterval(itv);
-      supabase.removeChannel(chOrders);
-      supabase.removeChannel(chRelances);
-    };
+    return () => clearInterval(itv);
   }, [session]);
 
   if (!ready) return <div className="min-h-screen bg-rose-50 flex items-center justify-center text-rose-700">Chargement…</div>;

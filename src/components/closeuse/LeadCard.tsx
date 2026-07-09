@@ -1,20 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { type Lead, LEAD_STATUS_META, type LeadStatus, updateLeadStatus, appendLeadNote } from '@/lib/leads';
 import { formatFCFA } from '@/lib/products';
-import { supabase } from '@/integrations/supabase/client';
 import { RefusalModal } from './RefusalModal';
-
-const ORDER_STATUS_LABEL: Record<string, { label: string; cls: string }> = {
-  pending:   { label: 'En attente',  cls: 'bg-blue-100 text-blue-700' },
-  confirmed: { label: 'Confirmée',   cls: 'bg-emerald-100 text-emerald-700' },
-  expediee:  { label: 'Expédiée',    cls: 'bg-cyan-100 text-cyan-700' },
-  delivered: { label: 'Livrée',      cls: 'bg-green-100 text-green-700' },
-  cancelled: { label: 'Annulée',     cls: 'bg-red-100 text-red-700' },
-};
-
-type OrderInfo = { order_number: string | null; status: string | null; offer_label: string | null; country: string | null };
-type EventRow = { id: string; event_type: string; from_status: string | null; to_status: string | null; created_at: string };
 
 const ACTIONS: { to: LeadStatus; label: string; cls: string }[] = [
   { to: 'discussion', label: '💬 En discussion', cls: 'bg-amber-600 hover:bg-amber-700' },
@@ -30,43 +18,9 @@ export function LeadCard({ lead }: { lead: Lead }) {
   const [noteOpen, setNoteOpen] = useState(false);
   const [note, setNote] = useState('');
   const [refusalFor, setRefusalFor] = useState<LeadStatus | null>(null);
-  const [order, setOrder] = useState<OrderInfo | null>(null);
-  const [events, setEvents] = useState<EventRow[]>([]);
-  const [historyOpen, setHistoryOpen] = useState(false);
   const meta = LEAD_STATUS_META[lead.status] || LEAD_STATUS_META.nouveau_lead;
   const isValidated = ['valide', 'expediee', 'livree'].includes(lead.status);
   const REFUSAL_STATUSES: LeadStatus[] = ['refusee', 'annulee', 'perdue'];
-
-  useEffect(() => {
-    let alive = true;
-    (async () => {
-      if (lead.order_id) {
-        const { data } = await supabase
-          .from('orders')
-          .select('order_number,status,offer_label,country')
-          .eq('id', lead.order_id)
-          .maybeSingle();
-        if (alive) setOrder(data as OrderInfo | null);
-      }
-      const { data: evs } = await supabase
-        .from('lead_events')
-        .select('id,event_type,from_status,to_status,created_at')
-        .eq('lead_id', lead.id)
-        .order('created_at', { ascending: false })
-        .limit(8);
-      if (alive) setEvents((evs || []) as EventRow[]);
-    })();
-    // Realtime sur cette commande
-    if (!lead.order_id) return () => { alive = false; };
-    const ch = supabase
-      .channel(`order-${lead.order_id}`)
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'orders', filter: `id=eq.${lead.order_id}` }, (p) => {
-        setOrder((prev) => ({ ...(prev || {} as OrderInfo), ...(p.new as any) }));
-      })
-      .subscribe();
-    return () => { alive = false; supabase.removeChannel(ch); };
-  }, [lead.id, lead.order_id, lead.status, lead.updated_at]);
-
 
   const setStatus = async (to: LeadStatus) => {
     if (to === lead.status) return;
@@ -120,24 +74,6 @@ export function LeadCard({ lead }: { lead: Lead }) {
         <span className={`text-xs font-bold px-2 py-1 rounded-full shrink-0 ${meta.cls}`}>{meta.emoji} {meta.label}</span>
       </div>
 
-      {order && (
-        <div className="bg-rose-50 border border-rose-200 rounded-xl p-2 text-[11px] text-rose-900 space-y-1">
-          <div className="flex items-center justify-between gap-2 flex-wrap">
-            <span className="font-bold">📦 {order.order_number || '—'}</span>
-            {order.status && (
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${ORDER_STATUS_LABEL[order.status]?.cls || 'bg-gray-100 text-gray-700'}`}>
-                {ORDER_STATUS_LABEL[order.status]?.label || order.status}
-              </span>
-            )}
-          </div>
-          <div className="text-gray-700">
-            {order.offer_label || lead.product_name}
-            {order.country ? ` · ${order.country}` : ''}
-          </div>
-        </div>
-      )}
-
-
       {isValidated && (
         <div className="text-[11px] bg-amber-50 border border-amber-200 rounded-lg px-2 py-1 text-amber-900">
           🔒 <b>Commande verrouillée.</b> Les infos client ne peuvent plus être modifiées. Contacte l'admin si nécessaire.
@@ -155,26 +91,8 @@ export function LeadCard({ lead }: { lead: Lead }) {
         <a href={telUrl} className="bg-blue-600 text-white px-3 py-1.5 rounded-full font-bold">📞 Appeler</a>
         <a href={waUrl} target="_blank" rel="noreferrer" className="bg-green-600 text-white px-3 py-1.5 rounded-full font-bold">💬 WhatsApp</a>
         <button onClick={() => setNoteOpen((v) => !v)} className="bg-rose-100 text-rose-800 px-3 py-1.5 rounded-full font-bold">📝 Note</button>
-        <button onClick={() => setHistoryOpen((v) => !v)} className="bg-rose-100 text-rose-800 px-3 py-1.5 rounded-full font-bold">🕘 Historique</button>
         <div className="ml-auto text-xs font-extrabold text-rose-700 self-center">{formatFCFA(lead.product_price)}</div>
       </div>
-
-      {historyOpen && (
-        <div className="text-[11px] bg-white border border-rose-200 rounded-lg p-2 space-y-1 max-h-48 overflow-y-auto">
-          {events.length === 0 ? (
-            <div className="text-gray-500">Aucun événement.</div>
-          ) : events.map((e) => (
-            <div key={e.id} className="flex gap-2 text-gray-700">
-              <span className="text-gray-400 shrink-0">{new Date(e.created_at).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })}</span>
-              <span className="font-semibold">
-                {e.event_type === 'status_change' ? `${e.from_status || '—'} → ${e.to_status || '—'}` :
-                 e.event_type === 'order_synced' ? `commande: ${e.from_status || '—'} → ${e.to_status || '—'}` :
-                 e.event_type === 'note_added' ? '📝 note ajoutée' : e.event_type}
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
 
       {noteOpen && (
         <div className="space-y-2">
