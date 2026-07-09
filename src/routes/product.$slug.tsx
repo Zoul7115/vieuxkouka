@@ -5,7 +5,6 @@ import { RecommendedCureSection } from '@/components/RecommendedCureSection';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ComparisonTable } from '@/components/ComparisonTable';
 import { SocialProofChatSirop } from '@/components/sirop/SocialProofChatSirop';
-import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
 
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 
@@ -37,9 +36,9 @@ function SiropPage() {
   
 
   return (
-    <div className="bg-background pb-[170px] md:pb-0" style={{ paddingBottom: 'calc(170px + env(safe-area-inset-bottom))' }}>
+    <div className="bg-background pb-16 md:pb-0">
       <VisitTracker page="sirop-kouka" />
-      <StickyOfferBarRecommended product={product} stock={stock} unitLabel="flacons" />
+      {/* Sticky/Exit/Abandon retirés */}
 
       <div className="bg-vert text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
         🤐 100% discret · 🔥 Effet dès J2 · ⏰ Stock restant : <b className="text-[oklch(0.85_0.08_145)]">{stock}</b> flacons

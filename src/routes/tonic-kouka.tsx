@@ -6,7 +6,7 @@ import { VisitTracker } from '@/components/VisitTracker';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { TONIC_KOUKA } from '@/lib/products';
 import { SocialProofChatTonic } from '@/components/tonic/SocialProofChatTonic';
-import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
+import { StickyOfferBarTonic } from '@/components/tonic/StickyOfferBarTonic';
 import { useCtaVariant, trackCtaClick } from '@/hooks/useCtaVariant';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
@@ -48,7 +48,7 @@ function TonicKoukaPage() {
 
   return (
     <div className="bg-cream pb-[180px] sm:pb-32" style={{ paddingBottom: 'calc(180px + env(safe-area-inset-bottom))' }}>
-      <StickyOfferBarRecommended product={product} stock={stock} unitLabel="bouteilles" />
+      <StickyOfferBarTonic stock={stock} />
       <VisitTracker page="tonic-kouka" />
 
       {/* TOP BANNER */}
