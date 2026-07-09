@@ -1,4 +1,5 @@
-import { formatFCFA, isTwoPlusOneOffer, type Product } from '@/lib/products';
+import type { Product } from '@/lib/products';
+import { formatFCFA } from '@/lib/products';
 
 function scrollToOrder(offerId?: number) {
   try {
@@ -51,11 +52,6 @@ export function RecommendedCureSection({ product }: { product: Product }) {
               ⭐ OFFRE LA PLUS CHOISIE
             </div>
             <div className="text-xs font-extrabold text-rouge uppercase tracking-wide mb-2 mt-1">Offre recommandée {isPack ? `${reco.paidUnits}+${reco.bonusUnits} OFFERT${reco.bonusUnits > 1 ? 'S' : ''}` : ''}</div>
-            {isTwoPlusOneOffer(reco) && (
-              <div className="mb-2 inline-flex items-center gap-1 bg-vert-bg text-vert text-[11px] font-extrabold px-2.5 py-1 rounded-full">
-                🎁 + 1 Traitement complet de 40 jours OFFERT
-              </div>
-            )}
             <div className="text-lg font-extrabold text-foreground mb-1">{reco.units} {reco.units > 1 ? 'unités' : 'unité'} · Cure complète</div>
             <div className="flex items-baseline gap-2 mb-3">
               <span className="text-2xl font-extrabold text-rouge">{formatFCFA(reco.price)}</span>

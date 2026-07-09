@@ -309,8 +309,3 @@ export function orderProductCost(productName: string, units: number, slug?: stri
   const pa = PRODUCT_COSTS[productFamily(productName, slug)] ?? 2000;
   return pa * Math.max(1, units);
 }
-
-/** Offre de type "2 achetés + 1 offert" (3 unités, 2 payées, 1 bonus) */
-export function isTwoPlusOneOffer(o: Offer): boolean {
-  return o.units === 3 && o.paidUnits === 2 && o.bonusUnits === 1;
-}
