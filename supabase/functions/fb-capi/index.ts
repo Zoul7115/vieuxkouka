@@ -2,7 +2,7 @@
 // Reçoit: { event_name, event_id, value?, currency?, content_name?, user: { phone?, country?, city?, fbp?, fbc?, ip?, ua? }, event_source_url? }
 // Renvoie: { ok: true } ou { ok: false, error }
 
-const PIXEL_ID = '848736567802748';
+const PIXEL_ID = '908625378350649';
 const ACCESS_TOKEN = Deno.env.get('FB_CAPI_TOKEN') || '';
 
 const corsHeaders = {
