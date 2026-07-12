@@ -80,6 +80,7 @@ export function SalairesTab({ orders }: { orders: Order[] }) {
                 <th className="text-left py-2 px-1">Closeuse</th>
                 <th className="text-right py-2 px-1">Commandes</th>
                 <th className="text-right py-2 px-1">CA généré</th>
+                <th className="text-right py-2 px-1" title="Livraisons traitées via l'accès commandes admin">Prime admin</th>
                 <th className="text-right py-2 px-1">Salaire dû</th>
               </tr>
             </thead>
@@ -89,11 +90,12 @@ export function SalairesTab({ orders }: { orders: Order[] }) {
                   <td className="py-2 px-1 font-bold text-rose-700">{r.closeuse.emoji} {r.closeuse.name}</td>
                   <td className="text-right py-2 px-1">{r.count}</td>
                   <td className="text-right py-2 px-1">{formatFCFA(r.ca)}</td>
+                  <td className="text-right py-2 px-1 text-vert">{r.bonusCount > 0 ? `${r.bonusCount} × ${formatFCFA(PRIME_ADMIN_TRAITEMENT)} = ${formatFCFA(r.bonus)}` : '—'}</td>
                   <td className="text-right py-2 px-1 font-extrabold text-rose-700">{formatFCFA(r.salary)}</td>
                 </tr>
               ))}
               {rows.length === 0 && (
-                <tr><td colSpan={4} className="text-center py-6 text-muted-foreground">Aucune closeuse</td></tr>
+                <tr><td colSpan={5} className="text-center py-6 text-muted-foreground">Aucune closeuse</td></tr>
               )}
             </tbody>
             <tfoot>
@@ -101,13 +103,14 @@ export function SalairesTab({ orders }: { orders: Order[] }) {
                 <td className="py-2 px-1 text-vert">TOTAL</td>
                 <td className="text-right py-2 px-1">{totalCount}</td>
                 <td className="text-right py-2 px-1">—</td>
+                <td className="text-right py-2 px-1 text-vert">{formatFCFA(totalBonus)}</td>
                 <td className="text-right py-2 px-1 text-rose-700">{formatFCFA(totalSalary)}</td>
               </tr>
             </tfoot>
           </table>
         </div>
         <p className="text-xs text-muted-foreground mt-3">
-          Salaire = nombre de commandes livrées dans le mois × {formatFCFA(COMMISSION_PAR_COMMANDE)}. À verser le 1ᵉʳ du mois suivant.
+          Salaire = commandes livrées × {formatFCFA(COMMISSION_PAR_COMMANDE)} + prime admin ({formatFCFA(PRIME_ADMIN_TRAITEMENT)} par livraison traitée depuis l'accès commandes admin). À verser le 1ᵉʳ du mois suivant.
         </p>
       </div>
     </div>
