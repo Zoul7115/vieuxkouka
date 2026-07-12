@@ -33,6 +33,7 @@ function CloseusePage() {
   const [session, setSession] = useState<CloseuseSession | null>(null);
   const [ready, setReady] = useState(false);
   const [slug, setSlug] = useState<string | null>(null);
+  const [adminOrdersAccess, setAdminOrdersAccess] = useState(false);
 
   useEffect(() => {
     setSession(getStoredSession());
@@ -42,8 +43,10 @@ function CloseusePage() {
   useEffect(() => {
     if (!session) return;
     (async () => {
-      const { data } = await supabase.from('closeuses').select('slug').eq('id', session.id).maybeSingle();
-      setSlug((data as { slug: string } | null)?.slug ?? null);
+      const { data } = await supabase.from('closeuses').select('slug, admin_orders_access').eq('id', session.id).maybeSingle();
+      const row = data as { slug: string | null; admin_orders_access: boolean | null } | null;
+      setSlug(row?.slug ?? null);
+      setAdminOrdersAccess(!!row?.admin_orders_access);
     })();
     touchCloseuseActivity(session.idx);
     const itv = setInterval(() => touchCloseuseActivity(session.idx), 5 * 60 * 1000);
