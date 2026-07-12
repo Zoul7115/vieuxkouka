@@ -10,6 +10,7 @@ import { useLeads, type LeadStatus } from '@/lib/leads';
 import { useCloseuseOrders } from '@/lib/closeuse-orders';
 import { touchCloseuseActivity } from '@/lib/closeuseActivity';
 import { supabase } from '@/integrations/supabase/client';
+import { AdminOrdersPanel } from '@/components/closeuse/AdminOrdersPanel';
 
 export const Route = createFileRoute('/closeuse')({
   head: () => ({ meta: [{ title: 'KOUKA Closeuse' }, { name: 'theme-color', content: '#be185d' }] }),
