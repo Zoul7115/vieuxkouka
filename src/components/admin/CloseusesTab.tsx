@@ -171,6 +171,13 @@ export function CloseusesTab({ orders }: { orders: Order[] }) {
                     <button onClick={() => copyLink(slug)} className="text-xs bg-rose-600 text-white px-3 py-1 rounded-full font-bold">📋 Copier lien</button>
                     <button onClick={() => startEdit(c)} className="text-xs bg-rose-50 text-rose-700 px-3 py-1 rounded-full font-bold">✏️ Modifier</button>
                     <button onClick={() => resetPassword(c)} className="text-xs bg-amber-50 text-amber-700 px-3 py-1 rounded-full font-bold">🔑 Reset MDP</button>
+                    <button
+                      onClick={() => toggleAdminOrders(c)}
+                      title="Autoriser la closeuse à gérer toutes les commandes comme un admin"
+                      className={`text-xs px-3 py-1 rounded-full font-bold ${c.admin_orders_access ? 'bg-vert text-white' : 'bg-gray-100 text-gray-700'}`}
+                    >
+                      {c.admin_orders_access ? '🛡️ Accès commandes ✓' : '🛡️ Accès commandes'}
+                    </button>
                     <button onClick={() => toggle(c)} className="text-xs bg-gray-100 px-3 py-1 rounded-full font-bold">{c.active ? '⏸ Désactiver' : '▶ Activer'}</button>
                     <button onClick={() => remove(c)} className="text-xs bg-red-50 text-red-700 px-3 py-1 rounded-full font-bold">🗑 Supprimer</button>
                   </div>
