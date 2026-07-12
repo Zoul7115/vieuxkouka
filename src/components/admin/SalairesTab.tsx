@@ -29,22 +29,22 @@ export function SalairesTab({ orders }: { orders: Order[] }) {
     const start = new Date(year, m - 1, 1);
     const end = new Date(year, m, 1);
     return closeuses.map((c) => {
-      const myOrders = orders.filter((o) =>
-        o.closeuse_idx === c.idx &&
-        o.status === 'delivered' &&
-        o.delivered_at &&
-        new Date(o.delivered_at) >= start &&
-        new Date(o.delivered_at) < end,
-      );
+      const inMonth = (o: Order) => o.status === 'delivered' && o.delivered_at
+        && new Date(o.delivered_at) >= start && new Date(o.delivered_at) < end;
+      const myOrders = orders.filter((o) => o.closeuse_idx === c.idx && inMonth(o));
+      const myAdminDelivered = orders.filter((o) => o.delivered_by_closeuse_idx === c.idx && inMonth(o));
       const count = myOrders.length;
       const ca = myOrders.reduce((s, o) => s + o.product_price, 0);
-      const salary = count * COMMISSION_PAR_COMMANDE;
-      return { closeuse: c, count, ca, salary };
+      const bonusCount = myAdminDelivered.length;
+      const bonus = bonusCount * PRIME_ADMIN_TRAITEMENT;
+      const salary = count * COMMISSION_PAR_COMMANDE + bonus;
+      return { closeuse: c, count, ca, salary, bonusCount, bonus };
     });
   }, [closeuses, orders, selectedMonth]);
 
   const totalSalary = rows.reduce((s, r) => s + r.salary, 0);
   const totalCount = rows.reduce((s, r) => s + r.count, 0);
+  const totalBonus = rows.reduce((s, r) => s + r.bonus, 0);
   const isCurrent = selectedMonth === monthKey(now);
   const isPaymentDay = now.getDate() === 1;
 
