@@ -78,6 +78,13 @@ export function CloseusesTab({ orders }: { orders: Order[] }) {
     else toast.success('Mot de passe réinitialisé');
   };
 
+  const toggleAdminOrders = async (c: Closeuse) => {
+    const next = !c.admin_orders_access;
+    const { error } = await supabase.from('closeuses').update({ admin_orders_access: next } as any).eq('id', c.id);
+    if (error) toast.error(error.message);
+    else { toast.success(next ? `${c.name} a désormais accès aux commandes admin` : 'Accès commandes admin retiré'); reload(); }
+  };
+
   const remove = async (c: Closeuse) => {
     if (!confirm(`Supprimer ${c.name} ?`)) return;
     const { error } = await supabase.from('closeuses').delete().eq('id', c.id);
