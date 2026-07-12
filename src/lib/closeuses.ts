@@ -11,6 +11,7 @@ export type Closeuse = {
   slug?: string | null;
   password_hash?: string | null;
   last_login_at?: string | null;
+  admin_orders_access?: boolean | null;
 };
 
 export function slugify(name: string): string {
