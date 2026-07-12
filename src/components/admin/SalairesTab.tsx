@@ -2,7 +2,9 @@ import { useMemo, useState } from 'react';
 import { useCloseuses, COMMISSION_PAR_COMMANDE } from '@/lib/closeuses';
 import { formatFCFA } from '@/lib/products';
 
-type Order = { closeuse_idx?: number | null; status: string; delivered_at?: string | null; product_price: number };
+type Order = { closeuse_idx?: number | null; delivered_by_closeuse_idx?: number | null; status: string; delivered_at?: string | null; product_price: number };
+
+const PRIME_ADMIN_TRAITEMENT = 1000;
 
 function monthKey(d: Date) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
@@ -27,22 +29,22 @@ export function SalairesTab({ orders }: { orders: Order[] }) {
     const start = new Date(year, m - 1, 1);
     const end = new Date(year, m, 1);
     return closeuses.map((c) => {
-      const myOrders = orders.filter((o) =>
-        o.closeuse_idx === c.idx &&
-        o.status === 'delivered' &&
-        o.delivered_at &&
-        new Date(o.delivered_at) >= start &&
-        new Date(o.delivered_at) < end,
-      );
+      const inMonth = (o: Order) => o.status === 'delivered' && o.delivered_at
+        && new Date(o.delivered_at) >= start && new Date(o.delivered_at) < end;
+      const myOrders = orders.filter((o) => o.closeuse_idx === c.idx && inMonth(o));
+      const myAdminDelivered = orders.filter((o) => o.delivered_by_closeuse_idx === c.idx && inMonth(o));
       const count = myOrders.length;
       const ca = myOrders.reduce((s, o) => s + o.product_price, 0);
-      const salary = count * COMMISSION_PAR_COMMANDE;
-      return { closeuse: c, count, ca, salary };
+      const bonusCount = myAdminDelivered.length;
+      const bonus = bonusCount * PRIME_ADMIN_TRAITEMENT;
+      const salary = count * COMMISSION_PAR_COMMANDE + bonus;
+      return { closeuse: c, count, ca, salary, bonusCount, bonus };
     });
   }, [closeuses, orders, selectedMonth]);
 
   const totalSalary = rows.reduce((s, r) => s + r.salary, 0);
   const totalCount = rows.reduce((s, r) => s + r.count, 0);
+  const totalBonus = rows.reduce((s, r) => s + r.bonus, 0);
   const isCurrent = selectedMonth === monthKey(now);
   const isPaymentDay = now.getDate() === 1;
 
@@ -78,6 +80,7 @@ export function SalairesTab({ orders }: { orders: Order[] }) {
                 <th className="text-left py-2 px-1">Closeuse</th>
                 <th className="text-right py-2 px-1">Commandes</th>
                 <th className="text-right py-2 px-1">CA généré</th>
+                <th className="text-right py-2 px-1" title="Livraisons traitées via l'accès commandes admin">Prime admin</th>
                 <th className="text-right py-2 px-1">Salaire dû</th>
               </tr>
             </thead>
@@ -87,11 +90,12 @@ export function SalairesTab({ orders }: { orders: Order[] }) {
                   <td className="py-2 px-1 font-bold text-rose-700">{r.closeuse.emoji} {r.closeuse.name}</td>
                   <td className="text-right py-2 px-1">{r.count}</td>
                   <td className="text-right py-2 px-1">{formatFCFA(r.ca)}</td>
+                  <td className="text-right py-2 px-1 text-vert">{r.bonusCount > 0 ? `${r.bonusCount} × ${formatFCFA(PRIME_ADMIN_TRAITEMENT)} = ${formatFCFA(r.bonus)}` : '—'}</td>
                   <td className="text-right py-2 px-1 font-extrabold text-rose-700">{formatFCFA(r.salary)}</td>
                 </tr>
               ))}
               {rows.length === 0 && (
-                <tr><td colSpan={4} className="text-center py-6 text-muted-foreground">Aucune closeuse</td></tr>
+                <tr><td colSpan={5} className="text-center py-6 text-muted-foreground">Aucune closeuse</td></tr>
               )}
             </tbody>
             <tfoot>
@@ -99,13 +103,14 @@ export function SalairesTab({ orders }: { orders: Order[] }) {
                 <td className="py-2 px-1 text-vert">TOTAL</td>
                 <td className="text-right py-2 px-1">{totalCount}</td>
                 <td className="text-right py-2 px-1">—</td>
+                <td className="text-right py-2 px-1 text-vert">{formatFCFA(totalBonus)}</td>
                 <td className="text-right py-2 px-1 text-rose-700">{formatFCFA(totalSalary)}</td>
               </tr>
             </tfoot>
           </table>
         </div>
         <p className="text-xs text-muted-foreground mt-3">
-          Salaire = nombre de commandes livrées dans le mois × {formatFCFA(COMMISSION_PAR_COMMANDE)}. À verser le 1ᵉʳ du mois suivant.
+          Salaire = commandes livrées × {formatFCFA(COMMISSION_PAR_COMMANDE)} + prime admin ({formatFCFA(PRIME_ADMIN_TRAITEMENT)} par livraison traitée depuis l'accès commandes admin). À verser le 1ᵉʳ du mois suivant.
         </p>
       </div>
     </div>

@@ -10,6 +10,7 @@ import { useLeads, type LeadStatus } from '@/lib/leads';
 import { useCloseuseOrders } from '@/lib/closeuse-orders';
 import { touchCloseuseActivity } from '@/lib/closeuseActivity';
 import { supabase } from '@/integrations/supabase/client';
+import { AdminOrdersPanel } from '@/components/closeuse/AdminOrdersPanel';
 
 export const Route = createFileRoute('/closeuse')({
   head: () => ({ meta: [{ title: 'KOUKA Closeuse' }, { name: 'theme-color', content: '#be185d' }] }),
@@ -32,6 +33,7 @@ function CloseusePage() {
   const [session, setSession] = useState<CloseuseSession | null>(null);
   const [ready, setReady] = useState(false);
   const [slug, setSlug] = useState<string | null>(null);
+  const [adminOrdersAccess, setAdminOrdersAccess] = useState(false);
 
   useEffect(() => {
     setSession(getStoredSession());
@@ -41,8 +43,10 @@ function CloseusePage() {
   useEffect(() => {
     if (!session) return;
     (async () => {
-      const { data } = await supabase.from('closeuses').select('slug').eq('id', session.id).maybeSingle();
-      setSlug((data as { slug: string } | null)?.slug ?? null);
+      const { data } = await supabase.from('closeuses').select('slug, admin_orders_access').eq('id', session.id).maybeSingle();
+      const row = data as { slug: string | null; admin_orders_access: boolean | null } | null;
+      setSlug(row?.slug ?? null);
+      setAdminOrdersAccess(!!row?.admin_orders_access);
     })();
     touchCloseuseActivity(session.idx);
     const itv = setInterval(() => touchCloseuseActivity(session.idx), 5 * 60 * 1000);
@@ -57,7 +61,7 @@ function CloseusePage() {
   return (
     <div className="min-h-screen bg-rose-50">
       <header className="bg-rose-700 text-white px-4 py-3 sticky top-0 z-30 shadow-md">
-        <div className="flex justify-between items-center max-w-2xl mx-auto">
+        <div className="flex justify-between items-center max-w-5xl mx-auto">
           <div>
             <div className="text-xs opacity-80">Bonjour 👩‍💼</div>
             <div className="font-bold">{session.name}</div>
@@ -66,11 +70,48 @@ function CloseusePage() {
         </div>
       </header>
 
+      <CloseuseBody session={session} slug={slug} adminOrdersAccess={adminOrdersAccess} />
+    </div>
+  );
+}
+
+function CloseuseBody({ session, slug, adminOrdersAccess }: { session: CloseuseSession; slug: string | null; adminOrdersAccess: boolean }) {
+  const [view, setView] = useState<'closeuse' | 'admin'>('closeuse');
+
+  if (!adminOrdersAccess) {
+    return (
       <main className="max-w-2xl mx-auto px-3 py-4 pb-20 space-y-4">
         {slug && <ShareLinks slug={slug} />}
         <LeadList session={session} slug={slug} />
       </main>
-    </div>
+    );
+  }
+
+  return (
+    <main className={`${view === 'admin' ? 'max-w-5xl' : 'max-w-2xl'} mx-auto px-3 py-4 pb-20 space-y-4`}>
+      <div className="grid grid-cols-2 gap-2 bg-white p-1.5 rounded-2xl border-2 border-vert-bg shadow-sm sticky top-[60px] z-20">
+        <button
+          onClick={() => setView('closeuse')}
+          className={`px-3 py-2.5 rounded-xl text-xs font-extrabold transition ${view === 'closeuse' ? 'bg-rose-600 text-white shadow' : 'text-rose-700 hover:bg-rose-50'}`}
+        >
+          👩‍💼 Mon espace closeuse
+        </button>
+        <button
+          onClick={() => setView('admin')}
+          className={`px-3 py-2.5 rounded-xl text-xs font-extrabold transition ${view === 'admin' ? 'bg-vert text-white shadow' : 'text-vert hover:bg-vert-bg'}`}
+        >
+          🛡️ Commandes admin
+        </button>
+      </div>
+
+      {view === 'closeuse' && (
+        <>
+          {slug && <ShareLinks slug={slug} />}
+          <LeadList session={session} slug={slug} />
+        </>
+      )}
+      {view === 'admin' && <AdminOrdersPanel session={session} />}
+    </main>
   );
 }
 

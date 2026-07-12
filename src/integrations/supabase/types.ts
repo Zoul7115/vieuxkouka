@@ -113,6 +113,7 @@ export type Database = {
       closeuses: {
         Row: {
           active: boolean
+          admin_orders_access: boolean
           created_at: string
           daily_objective: number
           emoji: string | null
@@ -129,6 +130,7 @@ export type Database = {
         }
         Insert: {
           active?: boolean
+          admin_orders_access?: boolean
           created_at?: string
           daily_objective?: number
           emoji?: string | null
@@ -145,6 +147,7 @@ export type Database = {
         }
         Update: {
           active?: boolean
+          admin_orders_access?: boolean
           created_at?: string
           daily_objective?: number
           emoji?: string | null
@@ -588,6 +591,7 @@ export type Database = {
           country: string | null
           created_at: string | null
           delivered_at: string | null
+          delivered_by_closeuse_idx: number | null
           delivery_fee: number | null
           delivery_slot: string | null
           first_name: string | null
@@ -638,6 +642,7 @@ export type Database = {
           country?: string | null
           created_at?: string | null
           delivered_at?: string | null
+          delivered_by_closeuse_idx?: number | null
           delivery_fee?: number | null
           delivery_slot?: string | null
           first_name?: string | null
@@ -688,6 +693,7 @@ export type Database = {
           country?: string | null
           created_at?: string | null
           delivered_at?: string | null
+          delivered_by_closeuse_idx?: number | null
           delivery_fee?: number | null
           delivery_slot?: string | null
           first_name?: string | null
