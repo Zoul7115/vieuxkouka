@@ -44,7 +44,7 @@ export function AdminOrdersPanel({ session }: { session: CloseuseSession }) {
     const patch: Record<string, unknown> = { status };
     // Trace la closeuse qui a livré → prime de 1 000 FCFA
     if (status === 'delivered') patch.delivered_by_closeuse_idx = session.idx;
-    const { error } = await supabase.from('orders').update(patch).eq('id', id);
+    const { error } = await supabase.from('orders').update(patch as never).eq('id', id);
     if (error) toast.error(error.message);
     else { toast.success('Statut mis à jour'); load(true); }
   };
