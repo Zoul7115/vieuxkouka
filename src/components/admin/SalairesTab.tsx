@@ -2,7 +2,9 @@ import { useMemo, useState } from 'react';
 import { useCloseuses, COMMISSION_PAR_COMMANDE } from '@/lib/closeuses';
 import { formatFCFA } from '@/lib/products';
 
-type Order = { closeuse_idx?: number | null; status: string; delivered_at?: string | null; product_price: number };
+type Order = { closeuse_idx?: number | null; delivered_by_closeuse_idx?: number | null; status: string; delivered_at?: string | null; product_price: number };
+
+const PRIME_ADMIN_TRAITEMENT = 1000;
 
 function monthKey(d: Date) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
