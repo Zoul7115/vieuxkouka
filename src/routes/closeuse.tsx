@@ -61,7 +61,7 @@ function CloseusePage() {
   return (
     <div className="min-h-screen bg-rose-50">
       <header className="bg-rose-700 text-white px-4 py-3 sticky top-0 z-30 shadow-md">
-        <div className="flex justify-between items-center max-w-2xl mx-auto">
+        <div className="flex justify-between items-center max-w-5xl mx-auto">
           <div>
             <div className="text-xs opacity-80">Bonjour 👩‍💼</div>
             <div className="font-bold">{session.name}</div>
@@ -70,11 +70,48 @@ function CloseusePage() {
         </div>
       </header>
 
+      <CloseuseBody session={session} slug={slug} adminOrdersAccess={adminOrdersAccess} />
+    </div>
+  );
+}
+
+function CloseuseBody({ session, slug, adminOrdersAccess }: { session: CloseuseSession; slug: string | null; adminOrdersAccess: boolean }) {
+  const [view, setView] = useState<'closeuse' | 'admin'>('closeuse');
+
+  if (!adminOrdersAccess) {
+    return (
       <main className="max-w-2xl mx-auto px-3 py-4 pb-20 space-y-4">
         {slug && <ShareLinks slug={slug} />}
         <LeadList session={session} slug={slug} />
       </main>
-    </div>
+    );
+  }
+
+  return (
+    <main className={`${view === 'admin' ? 'max-w-5xl' : 'max-w-2xl'} mx-auto px-3 py-4 pb-20 space-y-4`}>
+      <div className="grid grid-cols-2 gap-2 bg-white p-1.5 rounded-2xl border-2 border-vert-bg shadow-sm sticky top-[60px] z-20">
+        <button
+          onClick={() => setView('closeuse')}
+          className={`px-3 py-2.5 rounded-xl text-xs font-extrabold transition ${view === 'closeuse' ? 'bg-rose-600 text-white shadow' : 'text-rose-700 hover:bg-rose-50'}`}
+        >
+          👩‍💼 Mon espace closeuse
+        </button>
+        <button
+          onClick={() => setView('admin')}
+          className={`px-3 py-2.5 rounded-xl text-xs font-extrabold transition ${view === 'admin' ? 'bg-vert text-white shadow' : 'text-vert hover:bg-vert-bg'}`}
+        >
+          🛡️ Commandes admin
+        </button>
+      </div>
+
+      {view === 'closeuse' && (
+        <>
+          {slug && <ShareLinks slug={slug} />}
+          <LeadList session={session} slug={slug} />
+        </>
+      )}
+      {view === 'admin' && <AdminOrdersPanel session={session} />}
+    </main>
   );
 }
 
