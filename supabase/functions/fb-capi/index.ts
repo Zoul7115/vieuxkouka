@@ -1,9 +1,11 @@
-// Facebook Conversions API — relai serveur pour fiabiliser le tracking
+// Facebook Conversions API — relai serveur pour fiabiliser le tracking (multi-pixel)
 // Reçoit: { event_name, event_id, value?, currency?, content_name?, user: { phone?, country?, city?, fbp?, fbc?, ip?, ua? }, event_source_url? }
-// Renvoie: { ok: true } ou { ok: false, error }
+// Renvoie: { ok: true, results: [...] }
 
-const PIXEL_ID = '908625378350649';
-const ACCESS_TOKEN = Deno.env.get('FB_CAPI_TOKEN') || '';
+const PIXELS: Array<{ id: string; token: string }> = [
+  { id: '908625378350649', token: Deno.env.get('FB_CAPI_TOKEN') || '' },
+  { id: '1046078838009117', token: Deno.env.get('FB_CAPI_TOKEN_2') || '' },
+].filter((p) => p.token);
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
