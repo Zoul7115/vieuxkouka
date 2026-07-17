@@ -25,8 +25,8 @@ function normalizePhone(p: string): string {
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
-  if (!ACCESS_TOKEN) {
-    return new Response(JSON.stringify({ ok: false, error: 'FB_CAPI_TOKEN missing' }), {
+  if (PIXELS.length === 0) {
+    return new Response(JSON.stringify({ ok: false, error: 'No FB_CAPI_TOKEN configured' }), {
       status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   }
