@@ -66,19 +66,22 @@ Deno.serve(async (req) => {
       }],
     };
 
-    const resp = await fetch(`https://graph.facebook.com/v18.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    const out = await resp.json();
-    if (!resp.ok) {
-      console.error('FB CAPI error', out);
-      return new Response(JSON.stringify({ ok: false, error: out }), {
-        status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-    return new Response(JSON.stringify({ ok: true, fb: out }), {
+    const results = await Promise.all(PIXELS.map(async ({ id, token }) => {
+      try {
+        const resp = await fetch(`https://graph.facebook.com/v18.0/${id}/events?access_token=${token}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const out = await resp.json();
+        if (!resp.ok) console.error('FB CAPI error', id, out);
+        return { id, ok: resp.ok, fb: out };
+      } catch (e) {
+        console.error('FB CAPI fetch failed', id, e);
+        return { id, ok: false, error: String(e) };
+      }
+    }));
+    return new Response(JSON.stringify({ ok: true, results }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (err) {
