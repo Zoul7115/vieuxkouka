@@ -1,9 +1,11 @@
-// Facebook Conversions API — relai serveur pour fiabiliser le tracking
+// Facebook Conversions API — relai serveur pour fiabiliser le tracking (multi-pixel)
 // Reçoit: { event_name, event_id, value?, currency?, content_name?, user: { phone?, country?, city?, fbp?, fbc?, ip?, ua? }, event_source_url? }
-// Renvoie: { ok: true } ou { ok: false, error }
+// Renvoie: { ok: true, results: [...] }
 
-const PIXEL_ID = '908625378350649';
-const ACCESS_TOKEN = Deno.env.get('FB_CAPI_TOKEN') || '';
+const PIXELS: Array<{ id: string; token: string }> = [
+  { id: '908625378350649', token: Deno.env.get('FB_CAPI_TOKEN') || '' },
+  { id: '1046078838009117', token: Deno.env.get('FB_CAPI_TOKEN_2') || '' },
+].filter((p) => p.token);
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -23,8 +25,8 @@ function normalizePhone(p: string): string {
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
-  if (!ACCESS_TOKEN) {
-    return new Response(JSON.stringify({ ok: false, error: 'FB_CAPI_TOKEN missing' }), {
+  if (PIXELS.length === 0) {
+    return new Response(JSON.stringify({ ok: false, error: 'No FB_CAPI_TOKEN configured' }), {
       status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   }
@@ -64,19 +66,22 @@ Deno.serve(async (req) => {
       }],
     };
 
-    const resp = await fetch(`https://graph.facebook.com/v18.0/${PIXEL_ID}/events?access_token=${ACCESS_TOKEN}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    const out = await resp.json();
-    if (!resp.ok) {
-      console.error('FB CAPI error', out);
-      return new Response(JSON.stringify({ ok: false, error: out }), {
-        status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
-    return new Response(JSON.stringify({ ok: true, fb: out }), {
+    const results = await Promise.all(PIXELS.map(async ({ id, token }) => {
+      try {
+        const resp = await fetch(`https://graph.facebook.com/v18.0/${id}/events?access_token=${token}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const out = await resp.json();
+        if (!resp.ok) console.error('FB CAPI error', id, out);
+        return { id, ok: resp.ok, fb: out };
+      } catch (e) {
+        console.error('FB CAPI fetch failed', id, e);
+        return { id, ok: false, error: String(e) };
+      }
+    }));
+    return new Response(JSON.stringify({ ok: true, results }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
   } catch (err) {
