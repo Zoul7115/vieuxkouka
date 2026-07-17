@@ -1,7 +1,9 @@
 // Helpers Facebook Pixel + Conversions API
-// Pixel ID: 848736567802748
+// Multi-pixel: init + track sur tous les pixels ci-dessous
 
-export const FB_PIXEL_ID = '908625378350649';
+export const FB_PIXEL_IDS = ['908625378350649', '1046078838009117'] as const;
+// Retour compat pour anciens imports
+export const FB_PIXEL_ID = FB_PIXEL_IDS[0];
 
 declare global {
   interface Window {
