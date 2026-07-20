@@ -840,7 +840,7 @@ export function AntiDiabetePage() {
               Recette traditionnelle burkinabè à base de plantes, transmise depuis plus de 60 ans.
             </p>
             <div className="flex items-center gap-3 pt-1">
-              <a href={`https://wa.me/22675308056`} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="w-9 h-9 rounded-full bg-[#25D366]/20 hover:bg-[#25D366]/40 flex items-center justify-center transition-colors">
+              <a href={`https://wa.me/22658444818`} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="w-9 h-9 rounded-full bg-[#25D366]/20 hover:bg-[#25D366]/40 flex items-center justify-center transition-colors">
                 💬
               </a>
               <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook" className="w-9 h-9 rounded-full bg-[#1877f2]/20 hover:bg-[#1877f2]/40 flex items-center justify-center transition-colors font-black">
@@ -854,8 +854,8 @@ export function AntiDiabetePage() {
             <div className="text-[11px] font-bold uppercase tracking-widest text-white/60 mb-3">Contact</div>
             <ul className="space-y-2 text-[13.5px] text-white/85">
               <li className="flex items-start gap-2"><span>📍</span><span>Ouagadougou, Burkina Faso</span></li>
-              <li className="flex items-start gap-2"><span>📞</span><span>+226 75 30 80 56</span></li>
-              <li className="flex items-start gap-2"><span>💬</span><a href="https://wa.me/22675308056" className="hover:text-white underline underline-offset-2 decoration-white/30">WhatsApp direct</a></li>
+              <li className="flex items-start gap-2"><span>📞</span><span>+226 58 44 48 18</span></li>
+              <li className="flex items-start gap-2"><span>💬</span><a href="https://wa.me/22658444818" className="hover:text-white underline underline-offset-2 decoration-white/30">WhatsApp direct</a></li>
               <li className="flex items-start gap-2"><span>f</span><a href="https://facebook.com" className="hover:text-white underline underline-offset-2 decoration-white/30">Page Facebook officielle</a></li>
             </ul>
           </div>
@@ -894,6 +894,9 @@ export function AntiDiabetePage() {
           </div>
         </div>
       </footer>
+
+      {/* Espace mobile pour ne pas masquer le contenu par les CTA flottants */}
+      <div className="md:hidden" aria-hidden="true" style={{ height: 'calc(48px + 12px + 20px + env(safe-area-inset-bottom, 0px))' }} />
 
       {/* Boutons flottants */}
       <FloatingWhatsApp />
