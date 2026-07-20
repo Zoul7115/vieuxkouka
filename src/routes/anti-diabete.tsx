@@ -275,69 +275,66 @@ export function AntiDiabetePage() {
         </div>
       </section>
 
-      {/* MINI-DIAGNOSTIC déplacé ici (juste après le hero) */}
-      <DiagnosticQuiz
-        title="Votre situation actuelle ?"
-        questions={[
-          'Diabète récemment diagnostiqué',
-          'Diabète ancien (plusieurs années)',
-          'Glycémie élevée / instable',
-          'Traitement actuel peu efficace',
-        ]}
-      />
-
-      {/* POURQUOI CES SYMPTÔMES MÉRITENT VOTRE ATTENTION */}
-      <section className="py-10 md:py-12 bg-bleu-bg">
-        <div className="container-kouka max-w-4xl px-4">
-          <div className="text-center mb-6">
-            <span className="text-rouge text-xs font-bold uppercase tracking-widest">⚠️ À ne pas ignorer</span>
-            <h2 className="text-bleu mt-2 text-xl md:text-2xl font-extrabold uppercase">
-              Pourquoi ces symptômes méritent votre attention ?
+      {/* SECTION 2 — VOUS VOUS RECONNAISSEZ PEUT-ÊTRE */}
+      <section className="py-12 md:py-16 bg-bleu-bg">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="text-center mb-8 md:mb-10">
+            <span className="anim-up inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-[11px] md:text-xs font-semibold px-3.5 py-1.5 rounded-full ring-1 ring-emerald-600/15">
+              🔎 VOUS VOUS RECONNAISSEZ PEUT-ÊTRE...
+            </span>
+            <h2 className="anim-up mt-3 text-bleu font-extrabold tracking-tight text-[24px] sm:text-[28px] md:text-[34px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+              Vous reconnaissez peut-être votre quotidien...
             </h2>
-            <p className="text-muted-foreground text-sm mt-2 max-w-xl mx-auto">
-              Ces signes peuvent fortement impacter votre confort et votre qualité de vie au quotidien.
+            <p className="anim-up text-[14.5px] md:text-[16px] text-slate-600 leading-[1.65] mt-3 max-w-2xl mx-auto" style={{ animationDelay: '160ms' }}>
+              Certaines personnes vivent ces situations tous les jours sans imaginer qu'elles peuvent être liées à une glycémie difficile à équilibrer.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             {[
-              { icon: '⚡', t: 'Picotements fréquents', d: 'Mains et pieds qui fourmillent' },
-              { icon: '🔥', t: 'Pieds qui chauffent', d: 'Sensation de brûlure persistante' },
-              { icon: '💧', t: 'Soif excessive', d: 'Bouche sèche en permanence' },
-              { icon: '🌙', t: 'Réveils fréquents', d: 'Pour uriner la nuit' },
-              { icon: '😴', t: 'Fatigue persistante', d: 'Même après une nuit complète' },
-              { icon: '👁️', t: 'Vision floue', d: 'Difficulté à voir net' },
-            ].map((s, i) => (
-              <div key={i} className="bg-white rounded-xl p-3 md:p-4 border border-bleu-light/40 shadow-sm">
-                <div className="text-2xl md:text-3xl mb-1.5">{s.icon}</div>
-                <div className="font-extrabold text-bleu text-sm md:text-base leading-tight">{s.t}</div>
-                <div className="text-[11px] md:text-xs text-muted-foreground mt-1 leading-snug">{s.d}</div>
+              { icon: '🦶', t: 'Tes pieds picotent ou brûlent lorsque tu marches ?', d: 'Ces sensations peuvent devenir de plus en plus gênantes au quotidien.' },
+              { icon: '🥤', t: 'Tu bois de l\'eau toute la journée sans vraiment calmer ta soif ?', d: 'Même après plusieurs verres, cette sensation revient rapidement.' },
+              { icon: '🌙', t: 'Tu te réveilles plusieurs fois chaque nuit pour aller uriner ?', d: 'Ton sommeil devient moins réparateur.' },
+              { icon: '😴', t: 'Tu te sens souvent fatigué malgré une bonne nuit ?', d: 'Tu manques d\'énergie pour tes activités quotidiennes.' },
+              { icon: '👀', t: 'Ta vision devient parfois floue ?', d: 'Lire ou regarder ton téléphone devient parfois plus difficile.' },
+              { icon: '📈', t: 'Ta glycémie reste difficile à équilibrer malgré tes efforts ?', d: 'Tu cherches une solution complémentaire à intégrer à ta routine.' },
+            ].map((c, i) => (
+              <div
+                key={i}
+                className="anim-up bg-white rounded-2xl p-5 md:p-6 border border-bleu-light/30 shadow-[0_4px_16px_rgba(0,0,0,0.05)] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all"
+                style={{ animationDelay: `${120 + i * 70}ms` }}
+              >
+                <div className="text-3xl md:text-4xl mb-2">{c.icon}</div>
+                <div className="font-extrabold text-bleu text-[15px] md:text-base leading-snug">{c.t}</div>
+                <div className="text-[13px] md:text-[14px] text-slate-600 mt-2 leading-relaxed">{c.d}</div>
               </div>
             ))}
           </div>
 
-          <div className="text-center mt-6">
-            <button onClick={scrollToOrder} className="bg-rouge text-white px-6 py-3.5 rounded-xl text-base font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform uppercase">
-              Découvrir la solution naturelle
-            </button>
+          <div className="mt-8 md:mt-10 max-w-3xl mx-auto anim-up" style={{ animationDelay: '600ms' }}>
+            <div className="bg-white rounded-2xl border border-bleu-light/30 shadow-sm p-5 md:p-6 flex gap-3 md:gap-4">
+              <span className="text-bleu text-xl md:text-2xl shrink-0">💙</span>
+              <p className="text-[14px] md:text-[15.5px] text-slate-700 leading-relaxed">
+                Ces signes peuvent progressivement rendre les gestes du quotidien plus difficiles : marcher confortablement, dormir paisiblement, travailler ou profiter pleinement de sa famille.
+              </p>
+            </div>
+
+            <div className="text-center mt-6">
+              <button
+                onClick={() => document.getElementById('smart-diagnostic')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-rouge text-white px-5 md:px-7 py-3.5 rounded-xl text-[14px] md:text-[15px] font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform"
+              >
+                Découvrir comment cette recette traditionnelle peut m'aider
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* GIF test glycémie — urgence visuelle */}
-      <section className="bg-white py-10 border-b border-bleu-light/20">
-        <div className="container-kouka max-w-2xl text-center">
-          <p className="text-xs uppercase tracking-widest text-bleu font-bold mb-3">🩸 Tu connais ce moment ?</p>
-          <div className="rounded-2xl overflow-hidden shadow-lg border-[3px] border-bleu-light/40 inline-block">
-            <img src="/images/anti-diabete-test-glycemie.gif" alt="Test de glycémie au doigt" className="w-full max-w-sm block mx-auto" />
-          </div>
-          <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-            Piqûre tous les jours. Chiffres qui montent. <strong className="text-foreground">Tu mérites mieux qu'une vie de seringues.</strong>
-          </p>
-        </div>
-      </section>
+      {/* SECTION 3 — MINI-DIAGNOSTIC INTELLIGENT */}
+      <SmartDiagnostic />
 
-      {/* Auto-diagnostic supprimé (doublon avec hero + mini-diagnostic) */}
+
 
       {/* SOLUTION — fond bleu profond, contraste fort */}
       <section className="py-14 bg-gradient-to-br from-bleu to-bleu-mid text-white">
