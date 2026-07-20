@@ -402,125 +402,221 @@ export function AntiDiabetePage() {
 
 
 
-      {/* SOLUTION — fond bleu profond, contraste fort */}
-      <section className="py-14 bg-gradient-to-br from-bleu to-bleu-mid text-white">
-        <div className="container-kouka max-w-3xl">
-          <div className="text-center mb-8">
-            <span className="text-bleu-light text-xs font-bold uppercase tracking-widest">🌿 La formule</span>
-            <h2 className="text-white mt-2">Poudre Anti-Diabète du Vieux KOUKA</h2>
-            <p className="text-white/85 max-w-xl mx-auto mt-3">
-              Racines, écorces, feuilles récoltées au Burkina. Une formule transmise depuis 60 ans pour <strong>réguler la glycémie à la racine</strong>.
-            </p>
+      {/* SECTION 5 — HISTOIRE DU VIEUX KOUKA (émotionnelle, fond bleu profond) */}
+      <section className="relative overflow-hidden py-16 md:py-24 bg-gradient-to-br from-bleu via-bleu-mid to-bleu text-white">
+        <div aria-hidden className="pointer-events-none absolute -top-16 -left-16 text-[280px] opacity-[0.05] select-none">🌿</div>
+        <div aria-hidden className="pointer-events-none absolute -bottom-24 -right-16 text-[320px] opacity-[0.04] select-none rotate-12">🌿</div>
+
+        <div className="max-w-6xl mx-auto px-6 md:px-10 relative">
+          <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
+            <span className="anim-up inline-flex items-center gap-2 bg-white/10 backdrop-blur text-white text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-white/20">
+              🌿 UNE HISTOIRE TRANSMISE DE GÉNÉRATION EN GÉNÉRATION
+            </span>
+            <h2 className="anim-up mt-5 text-white font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[38px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+              Depuis plus de 60 ans, une recette traditionnelle continue d'accompagner de nombreuses familles.
+            </h2>
           </div>
 
-          <div className="bg-white text-foreground rounded-3xl overflow-hidden shadow-2xl">
-            <img src="/images/vieux-kouka.jpg" alt="Le Vieux KOUKA, thérapeute traditionnel" className="w-full max-h-96 object-cover bg-bleu-bg" />
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="bg-bleu text-white w-10 h-10 rounded-full flex items-center justify-center font-extrabold">VK</div>
-                <div>
-                  <div className="font-extrabold text-bleu">Vieux KOUKA</div>
-                  <div className="text-xs text-muted-foreground">Thérapeute traditionnel · Région des Kuilsés 🇧🇫</div>
+          <div className="grid md:grid-cols-[42%_58%] gap-8 md:gap-12 items-center">
+            {/* Gauche — portrait */}
+            <div className="anim-up relative mx-auto max-w-md w-full" style={{ animationDelay: '160ms' }}>
+              <div aria-hidden className="absolute -inset-4 bg-gradient-to-br from-emerald-400/25 to-white/5 blur-3xl rounded-3xl" />
+              <div className="relative rounded-3xl overflow-hidden ring-1 ring-white/15 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.5)]">
+                <img src={portraitAsset.url} alt="Le Vieux KOUKA, tradithérapeute" className="w-full h-full object-cover aspect-[3/4]" />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                  <div className="text-white font-extrabold text-lg">Vieux KOUKA</div>
+                  <div className="text-white/80 text-xs">Tradithérapeute · Région des Kuilsés 🇧🇫</div>
                 </div>
               </div>
-              <p className="italic text-muted-foreground leading-relaxed text-sm">
-                "Héritier d'un savoir transmis par son grand-père il y a +60 ans, le Vieux KOUKA récolte chaque plante lui-même — selon la lune et la région où elle atteint sa pleine puissance."
+            </div>
+
+            {/* Droite — texte */}
+            <div className="space-y-5 text-white/90 leading-relaxed text-[15px] md:text-[17px]">
+              <p className="anim-up" style={{ animationDelay: '220ms' }}>
+                Cette recette est associée au savoir-faire du <strong className="text-white">Vieux KOUKA</strong>, tradithérapeute de la région des Kuilsés au Burkina Faso.
               </p>
+              <p className="anim-up" style={{ animationDelay: '300ms' }}>
+                Pendant des décennies, il a préparé cette formule à base de plantes selon les méthodes traditionnelles transmises dans sa famille.
+              </p>
+              <p className="anim-up" style={{ animationDelay: '380ms' }}>
+                Aujourd'hui, cette recette continue d'être utilisée par de nombreuses personnes dans le cadre de leur routine quotidienne.
+              </p>
+
+              {/* Petite carte info */}
+              <div className="anim-up grid sm:grid-cols-3 gap-2.5 pt-2" style={{ animationDelay: '460ms' }}>
+                {[
+                  { i: '📍', t: 'Région des Kuilsés' },
+                  { i: '🌿', t: 'Plus de 60 ans de savoir-faire' },
+                  { i: '👨‍👩‍👧‍👦', t: 'Recette transmise dans la famille' },
+                ].map((c) => (
+                  <div key={c.t} className="bg-white/10 backdrop-blur border border-white/15 rounded-xl px-3 py-2.5 text-[12.5px] md:text-[13px] text-white font-semibold flex items-center gap-2">
+                    <span className="text-lg">{c.i}</span>
+                    <span className="leading-snug">{c.t}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FAIT POUR VOUS SI */}
-      <section className="py-14 bg-gradient-to-b from-bleu-bg to-white">
-        <div className="container-kouka max-w-6xl">
-          <div className="text-center mb-10">
-            <span className="text-bleu text-xs font-bold uppercase tracking-widest">🩺 Vérifiez les signes</span>
-            <h2 className="text-bleu mt-2">Ce traitement est fait pour vous si :</h2>
+      {/* Transition douce vers section 6 */}
+      <div aria-hidden className="h-8 bg-gradient-to-b from-bleu to-white" />
+
+      {/* SECTION 6 — PRÉSENTATION DE LA RECETTE */}
+      <section className="py-16 md:py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
+            <span className="anim-up inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-emerald-600/15">
+              🌿 LA RECETTE
+            </span>
+            <h2 className="anim-up mt-5 text-bleu font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[38px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+              Pourquoi cette recette est-elle différente ?
+            </h2>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
             {[
-              { icon: '🩸', t: 'Vous êtes prédiabétique' },
-              { icon: '💉', t: 'Vous êtes diabétique de type 2' },
-              { icon: '📈', t: 'Votre glycémie est souvent élevée' },
-              { icon: '🚻', t: 'Vous urinez fréquemment' },
-              { icon: '💧', t: 'Vous avez constamment soif' },
-              { icon: '😩', t: 'Vous ressentez une fatigue inhabituelle' },
-              { icon: '🖐️', t: 'Vous avez les mains ou les pieds qui picotent' },
-              { icon: '👁️', t: 'Votre vision devient parfois floue' },
-            ].map((b) => (
+              { i: '🌱', t: 'Des plantes soigneusement sélectionnées', d: 'Chaque plante est choisie selon les pratiques traditionnelles.' },
+              { i: '👐', t: 'Préparation artisanale', d: 'La recette est préparée dans le respect du savoir-faire traditionnel.' },
+              { i: '📦', t: 'Conditionnement pratique', d: 'Le sachet permet une utilisation simple au quotidien.' },
+              { i: '💬', t: 'Accompagnement WhatsApp', d: "Tu n'es jamais seul pendant ta cure." },
+            ].map((c, i) => (
               <div
-                key={b.t}
-                className="bg-white border-2 border-bleu-light/40 rounded-2xl p-4 md:p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all flex flex-col items-start gap-2"
+                key={c.t}
+                className="anim-up group bg-gradient-to-br from-white to-bleu-bg/40 rounded-2xl p-5 md:p-6 border border-bleu-light/25 shadow-[0_4px_20px_-8px_rgba(30,64,175,0.15)] hover:-translate-y-1 hover:shadow-[0_12px_30px_-10px_rgba(30,64,175,0.25)] transition-all"
+                style={{ animationDelay: `${120 + i * 80}ms` }}
               >
-                <div className="w-10 h-10 rounded-xl bg-bleu-bg text-2xl flex items-center justify-center">{b.icon}</div>
-                <div className="flex items-start gap-2 text-sm md:text-base font-extrabold text-bleu leading-snug">
-                  <span className="text-emerald-600 mt-0.5">✅</span>
-                  <span>{b.t}</span>
-                </div>
+                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 text-2xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">{c.i}</div>
+                <div className="font-extrabold text-bleu text-[15px] md:text-base leading-snug">{c.t}</div>
+                <div className="text-[13px] md:text-[14px] text-slate-600 mt-2 leading-relaxed">{c.d}</div>
               </div>
             ))}
           </div>
 
-          <div className="mt-10 rounded-3xl border-2 border-bleu/30 bg-white shadow-xl p-6 md:p-8 text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-or/15 text-foreground border border-or/40 text-[11px] md:text-xs font-extrabold px-3 py-1.5 rounded-full mb-3">⭐ Recette traditionnelle</div>
-            <h3 className="text-bleu font-extrabold text-xl md:text-2xl">Poudre Anti-Diabète du Vieux KOUKA</h3>
-            <p className="text-foreground mt-3 leading-relaxed">
-              Recette traditionnelle à base de plantes africaines utilisée par de nombreuses familles.
-            </p>
-          </div>
-        </div>
-      </section>
+          {/* Illustration premium sous les cartes */}
+          <div className="anim-up mt-12 md:mt-16 relative max-w-3xl mx-auto" style={{ animationDelay: '500ms' }}>
+            <div className="relative rounded-3xl bg-gradient-to-br from-emerald-50 via-white to-bleu-bg/60 border border-emerald-200/60 shadow-[0_20px_40px_-20px_rgba(16,80,40,0.25)] px-6 py-10 md:px-12 md:py-14 overflow-hidden">
+              <div aria-hidden className="absolute -top-10 -left-6 text-[180px] opacity-[0.08] rotate-[-12deg]">🌿</div>
+              <div aria-hidden className="absolute -bottom-10 -right-4 text-[160px] opacity-[0.08] rotate-12">🍃</div>
+              <div aria-hidden className="absolute top-8 right-10 text-6xl opacity-30 rotate-6 select-none">🌱</div>
+              <div aria-hidden className="absolute bottom-8 left-8 text-5xl opacity-25 rotate-[-8deg] select-none">🪵</div>
 
-
-      {/* POSOLOGIE + bandeau bénéfices */}
-      <section className="py-12 bg-white">
-        <div className="container-kouka max-w-4xl">
-          <div className="grid md:grid-cols-2 gap-6 items-center">
-            <div className="bg-bleu-bg border-l-4 border-bleu rounded-r-2xl p-6">
-              <p className="text-xs uppercase tracking-widest text-bleu font-extrabold mb-2">💊 Posologie</p>
-              <p className="text-foreground text-base leading-relaxed">
-                <strong>Sucée une pincée de poudre avant et après chaque repas.</strong>
-              </p>
-              <p className="text-sm text-muted-foreground mt-3">
-                Simple, sans préparation. Tu gardes la pincée dans la bouche et tu laisses fondre.
-              </p>
-            </div>
-            <div className="rounded-2xl overflow-hidden shadow-lg border border-bleu-light/30">
-              <img src="/images/anti-diabete-bandeau.png" alt="Dites adieu aux variations de glycémie" className="w-full block" />
+              <div className="relative flex flex-col items-center">
+                <div aria-hidden className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-emerald-400/30 to-emerald-200/10 blur-3xl" />
+                </div>
+                <img
+                  src={sachetAsset.url}
+                  alt="Sachet Poudre Anti-Diabète du Vieux KOUKA"
+                  className="relative z-10 w-[60%] max-w-xs h-auto object-contain drop-shadow-[0_25px_35px_rgba(16,80,40,0.35)]"
+                />
+                <div className="relative z-10 mt-6 text-center">
+                  <div className="text-bleu font-extrabold text-lg md:text-xl">Poudre Anti-Diabète</div>
+                  <div className="text-slate-600 text-sm mt-1">Recette du Vieux KOUKA · 🇧🇫</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* TIMELINE — style chronologie médicale verticale */}
-      <section className="py-14 bg-white">
-        <div className="container-kouka max-w-3xl">
-          <div className="text-center mb-10">
-            <span className="text-bleu text-xs font-bold uppercase tracking-widest">📅 Suivi clinique</span>
-            <h2 className="text-bleu mt-2">En 7 jours, ta glycémie se stabilise</h2>
+      {/* SECTION 7 — POSOLOGIE PREMIUM */}
+      <section className="py-16 md:py-20 bg-gradient-to-b from-white to-bleu-bg/40">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
+            <span className="anim-up inline-flex items-center gap-2 bg-bleu-bg text-bleu text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-bleu/15">
+              💊 POSOLOGIE
+            </span>
+            <h2 className="anim-up mt-5 text-bleu font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[38px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+              Comment utiliser la poudre ?
+            </h2>
           </div>
 
-          <div className="relative pl-8 border-l-[3px] border-bleu/30">
+          <div className="grid md:grid-cols-3 gap-4 md:gap-6 relative">
             {[
-              { d: 'Jour 1-2', t: 'La soif diminue', desc: 'Tu bois moins, tu te lèves moins la nuit. Premier signe que ton corps régule.' },
-              { d: 'Jour 3-4', t: "L'énergie revient", desc: 'Fatigue lourde qui disparaît. Picotements en baisse. Tu te lèves en forme.' },
-              { d: 'Jour 5-6', t: 'Vision plus claire', desc: "Pics qui s'espacent, vision nette. Ton corps reprend le dessus." },
-              { d: 'Jour 7', t: 'Glycémie stabilisée', desc: 'En seulement 7 jours, glycémie maîtrisée et énergie restaurée — sans dépendance, sans effet secondaire.' },
-            ].map((x, i) => (
-              <div key={i} className="relative mb-8 last:mb-0">
-                <div className="absolute -left-[42px] w-6 h-6 rounded-full bg-bleu border-4 border-white shadow-md" />
-                <div className="bg-bleu-bg rounded-xl p-4 border border-bleu-light/30">
-                  <div className="text-[11px] font-extrabold text-bleu uppercase tracking-wider">{x.d}</div>
-                  <div className="font-extrabold text-foreground mt-1">{x.t}</div>
-                  <div className="text-sm text-muted-foreground mt-1 leading-relaxed">{x.desc}</div>
+              { n: '01', t: 'Prendre une petite pincée.', d: 'Un simple geste, entre les doigts, avant chaque repas.' },
+              { n: '02', t: 'La laisser fondre doucement dans la bouche', d: 'Avant et après chaque repas, sans préparation particulière.' },
+              { n: '03', t: 'Suivre les recommandations WhatsApp', d: 'Un accompagnement personnalisé pendant toute la durée de la cure.' },
+            ].map((s, i) => (
+              <div
+                key={s.n}
+                className="anim-up relative bg-white rounded-3xl border border-bleu-light/25 shadow-[0_10px_30px_-15px_rgba(30,64,175,0.25)] p-6 md:p-7 hover:-translate-y-1 hover:shadow-[0_18px_40px_-15px_rgba(30,64,175,0.35)] transition-all"
+                style={{ animationDelay: `${150 + i * 100}ms` }}
+              >
+                <div className="absolute -top-4 left-6 bg-gradient-to-br from-bleu to-bleu-mid text-white text-sm font-extrabold px-3.5 py-1.5 rounded-full shadow-lg">
+                  Étape {s.n}
+                </div>
+                <div className="pt-3">
+                  <div className="font-extrabold text-bleu text-[16px] md:text-[17px] leading-snug">{s.t}</div>
+                  <p className="text-[13.5px] md:text-[14.5px] text-slate-600 mt-2 leading-relaxed">{s.d}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="mt-6 bg-or/10 border-l-4 border-or rounded-r-xl p-4 text-sm">
-            <strong>⚠️ Important :</strong> ne stoppe pas brutalement tes médicaments. Continue à mesurer ta glycémie — tu verras les chiffres baisser progressivement.
+          <div className="anim-up mt-8 md:mt-10 max-w-2xl mx-auto" style={{ animationDelay: '500ms' }}>
+            <div className="bg-vert-bg border-l-4 border-vert rounded-r-2xl px-5 py-4 flex items-start gap-3 shadow-sm">
+              <span className="text-2xl">🌿</span>
+              <p className="text-[14.5px] md:text-[15.5px] text-slate-700 leading-relaxed font-medium">
+                Aucune préparation particulière n'est nécessaire.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 8 — TIMELINE DU SUIVI DE CURE */}
+      <section className="py-16 md:py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 md:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+            <span className="anim-up inline-flex items-center gap-2 bg-bleu-bg text-bleu text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-bleu/15">
+              📅 SUIVI DE LA CURE
+            </span>
+            <h2 className="anim-up mt-5 text-bleu font-extrabold tracking-tight text-[24px] sm:text-[30px] md:text-[36px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+              À quoi ressemble généralement le suivi de la cure ?
+            </h2>
+          </div>
+
+          <div className="relative pl-8 md:pl-10 border-l-[3px] border-bleu/25">
+            {[
+              { d: 'Début', t: 'Découverte de la routine', desc: 'Tu reçois ta cure et tu prends tes premières pincées. On te guide pas à pas.' },
+              { d: 'Premiers jours', t: 'Premières observations', desc: 'Certaines personnes disent ressentir les premiers changements dans leur quotidien.' },
+              { d: 'Pendant la cure', t: 'Accompagnement WhatsApp', desc: "L'accompagnement WhatsApp permet de répondre aux questions et d'encourager une utilisation régulière." },
+              { d: 'Fin de la cure', t: 'Bilan personnalisé', desc: 'Le bilan est réalisé avec le client afin de décider de la suite si nécessaire.' },
+            ].map((x, i) => (
+              <div key={i} className="anim-up relative mb-8 last:mb-0" style={{ animationDelay: `${150 + i * 100}ms` }}>
+                <div className="absolute -left-[42px] md:-left-[52px] w-7 h-7 rounded-full bg-gradient-to-br from-bleu to-bleu-mid border-4 border-white shadow-md flex items-center justify-center text-white text-[11px] font-extrabold">
+                  {i + 1}
+                </div>
+                <div className="bg-gradient-to-br from-white to-bleu-bg/50 rounded-2xl p-5 md:p-6 border border-bleu-light/25 shadow-[0_4px_16px_-6px_rgba(30,64,175,0.15)]">
+                  <div className="text-[11px] font-extrabold text-bleu/80 uppercase tracking-widest">{x.d}</div>
+                  <div className="font-extrabold text-bleu text-[16px] md:text-[17px] mt-1">{x.t}</div>
+                  <div className="text-[13.5px] md:text-[14.5px] text-slate-600 mt-1.5 leading-relaxed">{x.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Bloc jaune */}
+          <div className="anim-up mt-8 md:mt-10 max-w-2xl mx-auto" style={{ animationDelay: '600ms' }}>
+            <div className="bg-or/10 border-l-4 border-or rounded-r-2xl px-5 py-4 flex items-start gap-3 shadow-sm">
+              <span className="text-2xl shrink-0">⚠️</span>
+              <p className="text-[13.5px] md:text-[14.5px] text-slate-700 leading-relaxed">
+                Continuer à suivre les recommandations de votre professionnel de santé.<br />
+                <span className="text-slate-600">Ne jamais interrompre un traitement médical sans avis médical.</span>
+              </p>
+            </div>
+          </div>
+
+          {/* CTA final */}
+          <div className="text-center mt-10 md:mt-12 anim-up" style={{ animationDelay: '700ms' }}>
+            <button
+              onClick={scrollToTestimonies}
+              className="bg-rouge text-white px-6 md:px-8 py-4 rounded-2xl text-[15px] md:text-[16px] font-extrabold shadow-[0_10px_25px_-8px_rgba(198,40,40,0.5)] hover:-translate-y-0.5 transition-transform"
+            >
+              Découvrir les témoignages des clients
+            </button>
           </div>
         </div>
       </section>
