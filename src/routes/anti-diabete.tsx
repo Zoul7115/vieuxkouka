@@ -1067,8 +1067,7 @@ function OffersSection() {
     </section>
   );
 }
-  );
-}
+
 
 // SECTION 3 — Mini-diagnostic intelligent (recommandation dynamique)
 type DiagChoice = 'recent' | 'ancien' | 'instable' | 'traitement';
