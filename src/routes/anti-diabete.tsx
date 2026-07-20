@@ -8,6 +8,8 @@ import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { ANTI_DIABETE } from '@/lib/products';
 import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
 import { SocialProofChat } from '@/components/anti-diabete/SocialProofChat';
+import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
+import { FloatingOrderCTA } from '@/components/FloatingOrderCTA';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
