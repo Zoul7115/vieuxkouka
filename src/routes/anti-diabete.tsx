@@ -725,3 +725,97 @@ export function AntiDiabetePage() {
     </div>
   );
 }
+
+// SECTION 3 — Mini-diagnostic intelligent (recommandation dynamique)
+type DiagChoice = 'recent' | 'ancien' | 'instable' | 'traitement';
+
+const DIAG_OPTIONS: { id: DiagChoice; label: string }[] = [
+  { id: 'recent', label: 'Diabète récemment diagnostiqué' },
+  { id: 'ancien', label: 'Diabète ancien (plusieurs années)' },
+  { id: 'instable', label: 'Glycémie élevée / instable' },
+  { id: 'traitement', label: 'Traitement actuel peu efficace' },
+];
+
+const DIAG_RECOMMENDATIONS: Record<DiagChoice, string> = {
+  recent:
+    'Une prise en charge précoce et une bonne hygiène de vie sont importantes. Cette recette traditionnelle peut accompagner votre routine quotidienne.',
+  ancien:
+    "Lorsque les symptômes sont présents depuis longtemps, certaines personnes préfèrent une cure complète afin d'assurer un accompagnement plus durable.",
+  instable:
+    'Une glycémie difficile à équilibrer demande souvent une approche régulière. Notre cure complète est généralement la plus choisie.',
+  traitement:
+    "Certaines personnes utilisent cette recette traditionnelle en complément de leur suivi habituel. N'arrêtez jamais un traitement prescrit sans l'avis de votre professionnel de santé.",
+};
+
+function SmartDiagnostic() {
+  const [choice, setChoice] = useState<DiagChoice | null>(null);
+
+  return (
+    <section id="smart-diagnostic" className="py-12 md:py-16 bg-white">
+      <div className="max-w-3xl mx-auto px-4">
+        <div className="text-center mb-8">
+          <span className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-[11px] md:text-xs font-semibold px-3.5 py-1.5 rounded-full ring-1 ring-emerald-600/15">
+            🩺 MINI-DIAGNOSTIC
+          </span>
+          <h2 className="mt-3 text-bleu font-extrabold tracking-tight text-[24px] sm:text-[28px] md:text-[34px] leading-[1.2]">
+            Faisons le point sur ta situation
+          </h2>
+          <p className="text-[14.5px] md:text-[16px] text-slate-600 leading-[1.65] mt-3 max-w-xl mx-auto">
+            Réponds à cette question pour découvrir la recommandation qui correspond le mieux à ton profil.
+          </p>
+        </div>
+
+        <div className="grid gap-3">
+          {DIAG_OPTIONS.map((o) => {
+            const sel = choice === o.id;
+            return (
+              <button
+                key={o.id}
+                type="button"
+                onClick={() => setChoice(o.id)}
+                className={`flex items-center gap-3 text-left px-4 py-4 rounded-2xl border-2 transition-all bg-white ${
+                  sel
+                    ? 'border-bleu bg-bleu-bg shadow-[0_6px_18px_rgba(30,64,175,0.15)]'
+                    : 'border-bleu-light/40 hover:border-bleu-mid hover:-translate-y-0.5'
+                }`}
+              >
+                <span
+                  className={`w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-extrabold shrink-0 ${
+                    sel ? 'bg-bleu border-bleu text-white' : 'border-bleu-light/60 text-transparent'
+                  }`}
+                >
+                  ✓
+                </span>
+                <span className="font-bold text-bleu text-[14.5px] md:text-[15.5px]">{o.label}</span>
+              </button>
+            );
+          })}
+        </div>
+
+        {choice && (
+          <div className="mt-6 anim-up">
+            <div className="bg-vert-bg border-l-4 border-vert rounded-2xl p-5 md:p-6 shadow-sm">
+              <div className="text-[11px] uppercase tracking-widest text-vert font-extrabold mb-2">
+                ⭐ Recommandation personnalisée
+              </div>
+              <p className="text-[14.5px] md:text-[15.5px] text-slate-700 leading-relaxed flex gap-2">
+                <span className="shrink-0">🟢</span>
+                <span>{DIAG_RECOMMENDATIONS[choice]}</span>
+              </p>
+            </div>
+
+            <div className="text-center mt-6">
+              <button
+                onClick={() => document.getElementById('comprendre-section')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-rouge text-white px-5 md:px-7 py-3.5 rounded-xl text-[14px] md:text-[15px] font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform"
+              >
+                Voir comment agit la recette traditionnelle
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
