@@ -10,6 +10,7 @@ import { SocialProofChat } from '@/components/anti-diabete/SocialProofChat';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
+import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
 import sachetAsset from '@/assets/anti-diabete-sachet-cutout.png.asset.json';
 import portraitAsset from '@/assets/vieux-kouka-portrait.jpg.asset.json';
 import glucometreAsset from '@/assets/glucometre.png.asset.json';
@@ -891,10 +892,11 @@ export function AntiDiabetePage() {
         </div>
       </footer>
 
-      {/* Espace mobile pour ne pas masquer le contenu par les CTA flottants */}
-      <div className="md:hidden" aria-hidden="true" style={{ height: 'calc(48px + 12px + 20px + env(safe-area-inset-bottom, 0px))' }} />
+      {/* Espace mobile pour ne pas masquer le contenu par le CTA flottant */}
+      <div className="md:hidden" aria-hidden="true" style={{ height: 'calc(64px + 12px + 20px + env(safe-area-inset-bottom, 0px))' }} />
 
-      {/* Boutons flottants */}
+      {/* Barre d'offre flottante mobile : Commander */}
+      <StickyOfferBarRecommended product={product} stock={stock} />
     </div>
   );
 }
