@@ -6,7 +6,6 @@ import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
 import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { ANTI_DIABETE } from '@/lib/products';
-import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
 import { SocialProofChat } from '@/components/anti-diabete/SocialProofChat';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
@@ -53,8 +52,7 @@ export function AntiDiabetePage() {
   const stock = useDynamicStock('anti-diabete', 16);
 
   return (
-    <div className="bg-bleu-bg pb-32">
-      <StickyOfferBarRecommended product={product} stock={stock} unitLabel="sachets" />
+    <div className="bg-bleu-bg">
       <VisitTracker page="anti-diabete" />
 
       {/* BARRE SUPÉRIEURE — infos livraison/paiement */}
