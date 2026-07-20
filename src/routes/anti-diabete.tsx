@@ -9,6 +9,9 @@ import { SocialProofChat } from '@/components/anti-diabete/SocialProofChat';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
+import sachetAsset from '@/assets/anti-diabete-sachet.png.asset.json';
+import portraitAsset from '@/assets/vieux-kouka-portrait.jpg.asset.json';
+import glucometreAsset from '@/assets/glucometre.png.asset.json';
 
 
 function preselectAndScroll(offerId: number) {
@@ -52,95 +55,161 @@ export function AntiDiabetePage() {
       <StickyOfferBarRecommended product={product} stock={stock} unitLabel="sachets" />
       <VisitTracker page="anti-diabete" />
 
-      {/* Bandeau bleu médical */}
-      <div className="bg-bleu text-white text-center py-3 px-4 text-sm font-bold sticky top-0 z-40">
-        🩺 Traitement complet recommandé · Livraison Ouaga & Niamey · Stock limité : <b className="text-bleu-light">{stock}</b>
+      {/* BARRE SUPÉRIEURE — infos livraison/paiement */}
+      <div className="bg-bleu text-white text-[11px] md:text-sm font-semibold sticky top-0 z-40 animate-[fadeUp_.4s_ease_both]">
+        <div className="max-w-6xl mx-auto px-3 py-2 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-center">
+          <span className="inline-flex items-center gap-1.5">🚚 Livraison <b>GRATUITE</b> à Ouagadougou &amp; Niamey</span>
+          <span className="hidden md:inline text-white/40">|</span>
+          <span className="inline-flex items-center gap-1.5">📦 Burkina 1 000 F · Niger 1 500 F</span>
+          <span className="hidden md:inline text-white/40">|</span>
+          <span className="inline-flex items-center gap-1.5">💵 Paiement à la livraison</span>
+        </div>
       </div>
 
-      {/* HERO — Modifié selon les directives de continuité publicitaire */}
-      <section className="bg-gradient-to-b from-bleu-bg via-white to-bleu-bg py-8 md:py-12 border-b-[3px] border-bleu-light/40">
-        <div className="container-kouka max-w-4xl mx-auto px-4">
-          <div className="text-center mb-8">
-            <span className="inline-block bg-bleu text-white text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full mb-4 shadow-sm">
-              🩺 Recette traditionnelle · 60+ ans d'histoire
-            </span>
-            
-            <h1 className="text-rouge font-extrabold text-2xl md:text-3xl lg:text-4xl uppercase tracking-tight max-w-2xl mx-auto leading-tight mb-2">
-              VOUS RECONNAISSEZ L'UN DE CES SIGNES ?
-            </h1>
-            
-            {/* Boîte des Symptômes - Continuité Pub */}
-            <div className="bg-white border-2 border-rouge/30 rounded-2xl p-5 md:p-6 shadow-[0_8px_30px_rgb(198,40,40,0.06)] max-w-2xl mx-auto my-6">
-              <div className="grid grid-cols-2 gap-3 md:gap-4 text-left">
-                {[
-                  'Pieds qui picotent',
-                  'Pieds qui chauffent',
-                  'Urines fréquentes',
-                  'Soif excessive',
-                  'Fatigue constante',
-                  'Vision floue'
-                ].map((symp, index) => (
-                  <div key={index} className="flex items-center gap-2.5 bg-rouge-light/40 hover:bg-rouge-light/60 transition-colors py-2.5 px-3 rounded-xl border border-rouge/10">
-                    <span className="text-rouge font-extrabold text-lg">✓</span>
-                    <span className="text-foreground font-semibold text-xs md:text-sm leading-tight">{symp}</span>
-                  </div>
-                ))}
-              </div>
+      {/* HERO PREMIUM */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-white via-bleu-bg/40 to-white pt-8 md:pt-14 pb-10 md:pb-16">
+        {/* Feuilles décoratives */}
+        <div aria-hidden className="pointer-events-none absolute -top-10 -left-10 text-[180px] opacity-[0.06] select-none">🌿</div>
+        <div aria-hidden className="pointer-events-none absolute -bottom-16 -right-8 text-[220px] opacity-[0.05] select-none rotate-12">🌿</div>
+
+        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-[45%_55%] gap-8 md:gap-10 items-center relative">
+          {/* Colonne gauche — texte */}
+          <div className="space-y-5 md:space-y-6">
+            {/* Badge */}
+            <div className="anim-up" style={{ animationDelay: '0ms' }}>
+              <span className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-[11px] md:text-xs font-semibold px-3.5 py-1.5 rounded-full ring-1 ring-emerald-600/15">
+                🌿 RECETTE TRADITIONNELLE DU VIEUX KOUKA
+              </span>
             </div>
 
-            {/* Texte d'accroche */}
-            <div className="max-w-2xl mx-auto space-y-4 text-left md:text-center mt-6 text-foreground/90">
-              <p className="text-base md:text-lg font-bold text-bleu bg-bleu-bg/50 py-2.5 px-4 rounded-xl border border-bleu/10 inline-block w-full">
-                Ces symptômes sont fréquemment observés chez les personnes souffrant d'un excès de sucre dans le sang.
+            {/* Titre */}
+            <h1
+              className="anim-up font-extrabold text-bleu leading-[1.15] tracking-tight text-[26px] sm:text-[32px] md:text-[38px] lg:text-[42px] max-w-[560px]"
+              style={{ animationDelay: '80ms', fontWeight: 700 }}
+            >
+              Retrouvez une glycémie plus stable naturellement grâce à une recette traditionnelle burkinabè transmise depuis plus de 60 ans.
+            </h1>
+
+            {/* Sous-titre */}
+            <p className="anim-up text-[15px] md:text-[18px] text-slate-600 leading-[1.65] max-w-[560px]" style={{ animationDelay: '160ms' }}>
+              Des centaines de familles au Burkina Faso et au Niger utilisent déjà la Poudre Anti-Diabète du Vieux KOUKA dans le cadre de leur routine quotidienne.
+              <br />
+              <span className="text-slate-500 text-sm md:text-[15px]">Paiement uniquement à la livraison • Accompagnement WhatsApp • Livraison rapide.</span>
+            </p>
+
+            {/* Bloc émotionnel */}
+            <div className="anim-up bg-bleu-bg/60 border border-bleu/10 rounded-2xl p-4 md:p-5 flex gap-3 max-w-[560px]" style={{ animationDelay: '240ms' }}>
+              <span className="text-bleu text-xl shrink-0 mt-0.5">💙</span>
+              <p className="text-[13.5px] md:text-[15px] text-slate-700 leading-relaxed">
+                Chaque jour, des personnes souffrent de picotements, d'une soif excessive, de réveils nocturnes répétés et d'une glycémie difficile à équilibrer.
+                <br />
+                <span className="text-slate-600">Si vous vous reconnaissez, cette recette traditionnelle mérite peut-être votre attention.</span>
               </p>
-              <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
-                Depuis plus de 60 ans, la recette traditionnelle du <strong className="text-foreground font-extrabold">Vieux Kouka</strong> aide de nombreuses personnes confrontées aux problèmes liés à l'excès de sucre dans le sang.
+            </div>
+
+            {/* Bloc confiance */}
+            <div className="anim-up max-w-[560px]" style={{ animationDelay: '320ms' }}>
+              <p className="text-bleu font-bold text-sm md:text-base mb-3">
+                Pourquoi des centaines de familles nous font confiance ?
               </p>
+              <ul className="grid gap-2">
+                {[
+                  'Plus de 60 ans de savoir-faire traditionnel',
+                  'Paiement uniquement à la livraison',
+                  'Livraison rapide Burkina Faso & Niger',
+                  'Accompagnement personnalisé sur WhatsApp',
+                ].map((t) => (
+                  <li key={t} className="flex items-start gap-2.5 text-[13.5px] md:text-[15px] text-slate-700">
+                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 font-bold text-xs shrink-0 mt-0.5">✓</span>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Bénéfices — grille */}
+            <div className="anim-up grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-[560px]" style={{ animationDelay: '380ms' }}>
+              {[
+                'Aide à retrouver une glycémie plus stable',
+                'Aide à réduire les picotements des mains et des pieds',
+                'Aide à diminuer les sensations de brûlure',
+                'Aide à réduire la soif excessive',
+                'Aide à diminuer les envies fréquentes d\'uriner',
+                'Recette traditionnelle à base de plantes',
+              ].map((b) => (
+                <div key={b} className="bg-white rounded-xl border border-slate-200/70 p-3 shadow-[0_1px_3px_rgba(0,0,0,0.04)] flex items-start gap-2.5">
+                  <span className="text-emerald-600 font-bold text-base leading-none mt-0.5">✓</span>
+                  <span className="text-[12.5px] md:text-[13.5px] text-slate-700 leading-snug">{b}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA */}
+            <div className="anim-up flex flex-col gap-3 max-w-[560px] pt-1" style={{ animationDelay: '400ms' }}>
+              <button
+                onClick={scrollToOrder}
+                className="w-full bg-rouge hover:bg-rouge/90 text-white py-4 md:py-4.5 rounded-2xl text-base md:text-[17px] font-extrabold shadow-[0_10px_25px_-8px_rgba(198,40,40,0.5)] hover:-translate-y-0.5 active:translate-y-0 transition-all uppercase tracking-wide"
+              >
+                Je commande mon traitement complet
+              </button>
+              <button
+                onClick={scrollToTestimonies}
+                className="w-full bg-white hover:bg-slate-50 text-bleu border-2 border-bleu py-3 md:py-3.5 rounded-2xl text-sm md:text-base font-bold transition-colors"
+              >
+                Voir les témoignages
+              </button>
+            </div>
+
+            {/* Badges */}
+            <div className="anim-up flex flex-wrap gap-2 pt-1 max-w-[560px]" style={{ animationDelay: '400ms' }}>
+              {[
+                { i: '🚚', t: 'Livraison rapide' },
+                { i: '💵', t: 'Paiement à la livraison' },
+                { i: '📱', t: 'Confirmation WhatsApp' },
+                { i: '🇧🇫', t: 'Burkina Faso' },
+                { i: '🇳🇪', t: 'Niger' },
+                { i: '🌿', t: 'Produit naturel' },
+              ].map((b) => (
+                <span key={b.t} className="inline-flex items-center gap-1.5 bg-white border border-slate-200 shadow-[0_1px_2px_rgba(0,0,0,0.03)] rounded-full px-3 py-1.5 text-[11.5px] md:text-xs font-semibold text-slate-700">
+                  <span>{b.i}</span>{b.t}
+                </span>
+              ))}
             </div>
           </div>
 
-          <div className="grid md:grid-cols-12 gap-8 items-center mt-8 pt-4 border-t border-dashed border-bleu-light/50">
-            {/* Visuel Produit */}
-            <div className="md:col-span-5 flex flex-col items-center">
-              <div className="relative bg-white rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.05)] border-2 border-bleu-light/30 max-w-[280px] md:max-w-full">
-                <img src={product.heroImage} alt={product.name} className="w-full h-auto object-contain" />
-                <div className="absolute -bottom-3 right-4 bg-bleu text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow-sm">
-                  100% Naturel
+          {/* Colonne droite — image hero */}
+          <div className="anim-up relative order-first md:order-last" style={{ animationDelay: '400ms' }}>
+            <div className="relative mx-auto max-w-[520px] aspect-[4/5]">
+              {/* Glow vert */}
+              <div aria-hidden className="absolute inset-6 rounded-full bg-emerald-400/25 blur-3xl" />
+              {/* Feuilles arrière-plan */}
+              <div aria-hidden className="absolute top-4 left-2 text-6xl opacity-20 rotate-[-18deg] select-none">🌿</div>
+              <div aria-hidden className="absolute bottom-10 right-4 text-5xl opacity-20 rotate-12 select-none">🍃</div>
+
+              {/* Sachet — élément principal */}
+              <img
+                src={sachetAsset.url}
+                alt="Poudre Anti-Diabète du Vieux KOUKA"
+                className="relative z-10 w-[78%] h-auto object-contain drop-shadow-[0_25px_40px_rgba(0,0,0,0.18)] mx-auto"
+              />
+
+              {/* Portrait Vieux Kouka */}
+              <div className="absolute z-20 top-6 right-0 md:right-2 w-[36%] aspect-[3/4] rounded-2xl overflow-hidden ring-4 ring-white shadow-xl">
+                <img src={portraitAsset.url} alt="Le Vieux KOUKA" className="w-full h-full object-cover" />
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
+                  <div className="text-white text-[10px] md:text-[11px] font-bold leading-tight">Vieux KOUKA</div>
+                  <div className="text-white/80 text-[9px] md:text-[10px]">Tradithérapeute</div>
                 </div>
               </div>
-            </div>
 
-            {/* Actions et Réassurance */}
-            <div className="md:col-span-7 space-y-6">
-              {/* Bloc de réassurance */}
-              <div className="bg-emerald-50/50 border border-emerald-500/20 rounded-2xl p-4 md:p-5 space-y-2.5 shadow-sm">
-                {[
-                  'Paiement à la livraison',
-                  'Livraison partout au Burkina Faso',
-                  'Produit naturel inspiré du savoir-faire traditionnel'
-                ].map((reassur, index) => (
-                  <div key={index} className="flex items-start gap-2 text-left">
-                    <span className="text-emerald-600 font-bold mt-0.5 text-base leading-none">✓</span>
-                    <span className="text-emerald-900/90 font-medium text-xs md:text-sm leading-snug">{reassur}</span>
-                  </div>
-                ))}
+              {/* Glucomètre — élément de contexte */}
+              <div className="absolute z-20 bottom-2 right-6 w-[30%] rounded-xl overflow-hidden bg-white/90 backdrop-blur ring-1 ring-slate-200 shadow-lg p-1.5">
+                <img src={glucometreAsset.url} alt="Contrôle glycémie" className="w-full h-auto object-contain rounded-md" />
               </div>
 
-              {/* Boutons d'action */}
-              <div className="flex flex-col gap-3">
-                <button
-                  onClick={scrollToOrder}
-                  className="w-full bg-rouge hover:bg-rouge-mid text-white py-4 md:py-4.5 rounded-xl text-base md:text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 active:translate-y-0 transition-all uppercase tracking-wide px-4"
-                >
-                  JE DÉCOUVRE LA POUDRE DU VIEUX KOUKA
-                </button>
-                
-                <button
-                  onClick={scrollToTestimonies}
-                  className="w-full bg-white hover:bg-slate-50 text-bleu border-2 border-bleu py-3 md:py-3.5 rounded-xl text-sm md:text-base font-extrabold transition-all uppercase"
-                >
-                  VOIR LES TÉMOIGNAGES
-                </button>
+              {/* Badge naturel */}
+              <div className="absolute z-30 top-2 left-0 md:-left-2 bg-emerald-600 text-white text-[10px] md:text-xs font-extrabold px-3 py-1.5 rounded-full shadow-lg rotate-[-6deg]">
+                100% NATUREL
               </div>
             </div>
           </div>
