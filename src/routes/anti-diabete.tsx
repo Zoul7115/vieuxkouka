@@ -8,6 +8,8 @@ import { useDynamicStock } from '@/hooks/useDynamicStock';
 import { ANTI_DIABETE } from '@/lib/products';
 import { StickyOfferBarRecommended } from '@/components/StickyOfferBarRecommended';
 import { SocialProofChat } from '@/components/anti-diabete/SocialProofChat';
+import { FloatingWhatsApp } from '@/components/FloatingWhatsApp';
+import { FloatingOrderCTA } from '@/components/FloatingOrderCTA';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
@@ -626,203 +628,448 @@ export function AntiDiabetePage() {
         <SocialProofChat />
       </div>
 
-      <section className="py-8 bg-bleu-bg">
-        <div className="container-kouka max-w-3xl">
-          <div className="bg-white border-2 border-bleu rounded-2xl p-5 text-center">
-            <p className="font-extrabold text-bleu mb-1">💵 Paiement uniquement à la livraison</p>
-            <p className="text-sm">Tu ne paies <strong>RIEN à l'avance</strong>. Le livreur passe chez toi, tu vérifies le colis, et tu règles <strong>cash à la réception</strong>. Aucun risque.</p>
-          </div>
-
-          <div className="text-center mt-6">
-            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              Commander le traitement complet
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* COMPARATIF — style tableau clinique */}
-      <section className="py-14 bg-white">
-        <div className="container-kouka max-w-3xl">
-          <div className="text-center mb-8">
-            <span className="text-bleu text-xs font-bold uppercase tracking-widest">⚖️ Comparatif</span>
-            <h2 className="text-bleu mt-2">Pourquoi cette poudre plutôt qu'autre chose ?</h2>
-          </div>
-
-          <div className="overflow-x-auto rounded-2xl border-2 border-bleu-light/30 shadow-sm">
-            <table className="w-full text-sm border-collapse min-w-[520px]">
-              <thead>
-                <tr className="bg-bleu text-white">
-                  <th className="text-left px-3 py-3 font-bold">Critère</th>
-                  <th className="px-3 py-3 font-extrabold bg-bleu-mid">Poudre Anti-Diabète</th>
-                  <th className="px-3 py-3 font-bold">Antidiabétiques</th>
-                  <th className="px-3 py-3 font-bold">Suivi clinique</th>
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  ['Coût total cure', '25 000 F', '15 000 F/mois à vie', '30 000 F/sem.'],
-                  ['Traite la cause', '✅ Oui', '❌ Calme', '⚠️ Surveille'],
-                  ['Effets secondaires', '✅ Aucun', '⚠️ Foie / reins', 'Aucun'],
-                  ['Dépendance', '✅ Aucune', '❌ À vie', '—'],
-                  ['Énergie restaurée', '✅ Oui', '❌ Non', '❌ Non'],
-                  ['Discrétion', '✅ 100%', 'Pharmacie', 'Clinique'],
-                  ['Paiement', '✅ À la livraison', '❌ D\'avance', '❌ D\'avance'],
-                ].map((r, i) => (
-                  <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-bleu-bg/40'}>
-                    <td className="px-3 py-3 font-bold text-foreground">{r[0]}</td>
-                    <td className="px-3 py-3 text-center font-bold text-bleu bg-bleu-bg/60">{r[1]}</td>
-                    <td className="px-3 py-3 text-center text-muted-foreground">{r[2]}</td>
-                    <td className="px-3 py-3 text-center text-muted-foreground">{r[3]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-14 bg-bleu-bg">
-        <div className="container-kouka max-w-3xl">
-          <div className="text-center mb-6">
-            <span className="text-bleu text-xs font-bold uppercase tracking-widest">❓ FAQ</span>
-            <h2 className="text-bleu mt-2">Questions fréquentes</h2>
-          </div>
-          <FAQ
-            items={[
-              { q: "J'ai peur que ça ne fonctionne pas", a: "Beaucoup de clients voient leur glycémie se stabiliser après la cure complète. Suis le programme recommandé (3 sachets) et donne au produit le temps d'agir en profondeur." },
-              { q: "J'ai déjà essayé plusieurs produits sans résultat", a: "Les produits classiques traitent le symptôme. La Poudre Anti-Diabète du Vieux KOUKA agit sur le pancréas et la régulation naturelle de l'insuline." },
-              { q: "Je peux arrêter mes médicaments ?", a: "<strong>Non, pas brutalement.</strong> Continue ton traitement et mesure ta glycémie. Tu verras les chiffres baisser progressivement. Parle ensuite à ton médecin." },
-              { q: "En combien de temps je vois les résultats ?", a: "<strong>Dès la 1ère semaine :</strong> la soif diminue. <strong>Après 2-3 semaines :</strong> énergie restaurée, picotements qui disparaissent, glycémie stabilisée." },
-              { q: "Y a-t-il des effets secondaires ?", a: "Aucun. 100% naturelle — racines, écorces, feuilles africaines. Aucune dépendance." },
-              { q: "Comment je paie ?", a: "<strong>Cash à la livraison uniquement.</strong> Tu reçois, tu vérifies, tu paies." },
-              { q: "La livraison est-elle discrète ?", a: "Oui — emballage neutre, sans logo. Personne ne devine ce que tu as commandé." },
-              { q: "Et si ça ne marche pas pour moi ?", a: "Contacte-nous : nous t'accompagnons et étudions chaque situation. Notre objectif est ta satisfaction." },
-            ]}
-          />
-          <div className="text-center mt-6">
-            <button onClick={scrollToOrder} className="bg-rouge text-white px-8 py-4 rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.40)] hover:-translate-y-0.5 transition-transform">
-              Commander le traitement complet
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* VALUE STACK — Pourquoi commander maintenant */}
-      <section className="py-12 bg-gradient-to-b from-white to-bleu-bg">
-        <div className="container-kouka max-w-3xl">
-          <div className="text-center mb-6">
-            <span className="text-bleu text-xs font-bold uppercase tracking-widest">🎁 Ce que tu reçois</span>
-            <h2 className="text-bleu mt-2">Tout est inclus dans ta cure complète</h2>
-          </div>
-          <div className="bg-white rounded-3xl p-6 shadow-xl border-2 border-bleu-light/40">
-            <ul className="divide-y divide-bleu-light/30">
-              {[
-                { t: '3 sachets de Poudre Anti-Diabète', v: '25 000 F' },
-                { t: 'Posologie personnalisée par WhatsApp', v: 'Offert' },
-                { t: 'Suivi pendant toute la cure', v: 'Offert' },
-                { t: 'Livraison à domicile (Ouaga & Niamey)', v: 'Offert' },
-                { t: 'Paiement à la livraison — zéro risque', v: '✓' },
-              ].map((x, i) => (
-                <li key={i} className="flex items-center justify-between py-3">
-                  <span className="text-sm font-semibold text-foreground flex items-center gap-2">
-                    <span className="text-bleu">✓</span> {x.t}
-                  </span>
-                  <span className="text-sm font-extrabold text-bleu whitespace-nowrap">{x.v}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-4 pt-4 border-t-2 border-bleu flex items-center justify-between">
-              <span className="font-extrabold text-foreground">Total à payer</span>
-              <span className="text-3xl font-extrabold text-bleu">25 000 F</span>
-            </div>
-          </div>
-
-          {/* Trust row */}
-          <div className="grid grid-cols-3 gap-3 mt-6">
-            <div className="bg-white rounded-xl p-3 border border-bleu-light/40 text-center">
-              <div className="text-2xl">🚚</div>
-              <div className="text-[11px] font-bold text-bleu mt-1">Livraison rapide</div>
-            </div>
-            <div className="bg-white rounded-xl p-3 border border-bleu-light/40 text-center">
-              <div className="text-2xl">💵</div>
-              <div className="text-[11px] font-bold text-bleu mt-1">Cash à la livraison</div>
-            </div>
-            <div className="bg-white rounded-xl p-3 border border-bleu-light/40 text-center">
-              <div className="text-2xl">🤝</div>
-              <div className="text-[11px] font-bold text-bleu mt-1">Suivi WhatsApp</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Section "Programme complet" supprimée — doublon avec "Tout est inclus" */}
-
-      <OfferComparisonTable product={product} />
-
-      <ReassuranceBar />
-
-      {/* Bloc 2+1 isolé supprimé — déjà présent dans "Comparez les 3 offres" */}
-
-      {/* COMMENT SE PASSE LA COMMANDE */}
-      <section className="py-10 bg-white">
-        <div className="container-kouka max-w-3xl px-4">
-          <div className="text-center mb-6">
-            <span className="text-bleu text-xs font-bold uppercase tracking-widest">📦 Processus simple</span>
-            <h2 className="text-bleu mt-2 text-xl md:text-2xl font-extrabold uppercase">
-              Comment se passe la commande ?
+      {/* SECTION 11 — COMPARATIF PREMIUM */}
+      <section className="py-16 md:py-20 bg-gradient-to-b from-white to-bleu-bg/40">
+        <div className="max-w-5xl mx-auto px-4 md:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
+            <span className="anim-up inline-flex items-center gap-2 bg-bleu-bg text-bleu text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-bleu/15">
+              ⚖️ COMPARATIF
+            </span>
+            <h2 className="anim-up mt-5 text-bleu font-extrabold tracking-tight text-[24px] sm:text-[30px] md:text-[36px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+              Pourquoi de nombreuses familles choisissent la recette du Vieux KOUKA ?
             </h2>
           </div>
 
-          <ol className="grid gap-3 md:gap-4">
-            {[
-              { n: '1', t: 'Remplissez le formulaire', d: 'Nom, numéro, ville — 30 secondes' },
-              { n: '2', t: 'Nous vous appelons', d: 'Un conseiller vous contacte rapidement' },
-              { n: '3', t: 'Nous confirmons votre commande', d: 'Adresse et offre validées' },
-              { n: '4', t: 'Nous expédions votre colis', d: 'Emballage discret et soigné' },
-              { n: '5', t: 'Vous payez à la livraison', d: 'Cash, à la réception du colis' },
-            ].map((s) => (
-              <li key={s.n} className="flex items-start gap-3 bg-bleu-bg rounded-2xl p-3.5 md:p-4 border border-bleu-light/40">
-                <div className="shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-full bg-bleu text-white font-extrabold flex items-center justify-center shadow">{s.n}</div>
-                <div className="min-w-0">
-                  <div className="font-extrabold text-bleu text-sm md:text-base leading-tight">{s.t}</div>
-                  <div className="text-xs md:text-sm text-muted-foreground mt-0.5">{s.d}</div>
-                </div>
-              </li>
-            ))}
-          </ol>
+          {/* Version desktop — tableau */}
+          <div className="hidden md:block anim-up" style={{ animationDelay: '160ms' }}>
+            <div className="rounded-3xl border border-bleu-light/25 shadow-[0_10px_30px_-15px_rgba(30,64,175,0.25)] overflow-hidden bg-white">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-gradient-to-r from-bleu to-bleu-mid text-white">
+                    <th className="text-left px-5 py-4 font-bold text-sm">Caractéristique</th>
+                    <th className="px-5 py-4 font-extrabold text-sm bg-white/5">Recette du Vieux KOUKA</th>
+                    <th className="px-5 py-4 font-bold text-sm text-white/85">Autres solutions traditionnelles</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    ['🌿 Préparation traditionnelle', '✅', 'Variable'],
+                    ['📱 Accompagnement WhatsApp', '✅', 'Rare'],
+                    ['💵 Paiement à la livraison', '✅', 'Pas toujours'],
+                    ['🚚 Livraison Burkina + Niger', '✅', 'Variable'],
+                    ['👨‍👩‍👧‍👦 Recette familiale', '✅', 'Variable'],
+                    ['📞 Assistance après réception', '✅', 'Rare'],
+                  ].map((r, i) => (
+                    <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-bleu-bg/30'}>
+                      <td className="px-5 py-4 font-bold text-slate-800 text-[14.5px]">{r[0]}</td>
+                      <td className="px-5 py-4 text-center bg-emerald-50/40">
+                        <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-emerald-500 text-white font-extrabold shadow-sm">{r[1]}</span>
+                      </td>
+                      <td className="px-5 py-4 text-center text-slate-500 font-medium text-[14px]">{r[2]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
 
-          {/* Badges réassurance supprimés — doublon avec <ReassuranceBar /> plus haut */}
+          {/* Version mobile — cartes empilées */}
+          <div className="md:hidden space-y-3">
+            {[
+              ['🌿 Préparation traditionnelle', '✅', 'Variable'],
+              ['📱 Accompagnement WhatsApp', '✅', 'Rare'],
+              ['💵 Paiement à la livraison', '✅', 'Pas toujours'],
+              ['🚚 Livraison Burkina + Niger', '✅', 'Variable'],
+              ['👨‍👩‍👧‍👦 Recette familiale', '✅', 'Variable'],
+              ['📞 Assistance après réception', '✅', 'Rare'],
+            ].map((r, i) => (
+              <div key={i} className="anim-up bg-white rounded-2xl border border-bleu-light/25 shadow-[0_4px_16px_-6px_rgba(30,64,175,0.15)] p-4" style={{ animationDelay: `${100 + i * 60}ms` }}>
+                <div className="font-extrabold text-bleu text-[14px] mb-3">{r[0]}</div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2.5 text-center">
+                    <div className="text-[10px] font-bold text-emerald-700 uppercase tracking-wide">Vieux KOUKA</div>
+                    <div className="mt-1 inline-flex items-center justify-center w-7 h-7 rounded-full bg-emerald-500 text-white font-extrabold text-sm">{r[1]}</div>
+                  </div>
+                  <div className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-center">
+                    <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wide">Autres</div>
+                    <div className="mt-1 text-slate-600 text-[13px] font-semibold">{r[2]}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Transition avant le formulaire */}
-      <section className="py-6 bg-gradient-to-b from-white to-bleu-bg">
-        <div className="container-kouka max-w-2xl px-4 text-center">
-          <p className="text-bleu text-lg md:text-xl font-extrabold leading-tight">
-            ⏱️ Tu es à 2 minutes de commencer ta cure.
-          </p>
-          <p className="text-foreground text-sm md:text-base mt-2 leading-relaxed">
-            Remplis tes infos — on te contacte sur <strong>WhatsApp sous 2h</strong> pour confirmer ta livraison.
-          </p>
-          <p className="text-rouge text-sm font-bold mt-2">💵 Tu ne paies rien maintenant.</p>
+      {/* SECTION 12 — FAQ */}
+      <section className="py-16 md:py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-4 md:px-6">
+          <div className="text-center mb-8 md:mb-10">
+            <span className="anim-up inline-flex items-center gap-2 bg-bleu-bg text-bleu text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-bleu/15">
+              ❓ FAQ
+            </span>
+            <h2 className="anim-up mt-5 text-bleu font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[36px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+              Questions fréquentes
+            </h2>
+          </div>
+
+          <div className="theme-bleu anim-up" style={{ animationDelay: '160ms' }}>
+            <FAQ
+              items={[
+                {
+                  q: 'Puis-je continuer mon traitement médical ?',
+                  a: 'Oui, mais ne modifiez jamais un traitement prescrit sans demander l\'avis de votre médecin.',
+                },
+                {
+                  q: 'En combien de temps vais-je recevoir mon colis ?',
+                  a: 'À Ouagadougou et Niamey, votre colis arrive généralement sous <strong>24 à 48h</strong>. Ailleurs au Burkina et au Niger, comptez <strong>2 à 4 jours ouvrés</strong>.',
+                },
+                {
+                  q: 'Comment se passe le paiement ?',
+                  a: '<strong>Paiement uniquement à la livraison.</strong> Vous vérifiez votre colis, puis vous réglez cash au livreur. Aucune avance.',
+                },
+                {
+                  q: 'Pourquoi recommandez-vous souvent la cure complète ?',
+                  a: 'Parce qu\'elle permet une utilisation régulière sur toute la durée conseillée, ce qui laisse au corps le temps de bien s\'adapter à la routine.',
+                },
+                {
+                  q: 'Comment utiliser la poudre ?',
+                  a: 'Prenez une petite pincée et laissez-la fondre doucement dans la bouche <strong>avant et après chaque repas</strong>. Aucune préparation particulière.',
+                },
+                {
+                  q: 'Livrez-vous partout au Burkina Faso ?',
+                  a: 'Oui, nous livrons <strong>partout au Burkina Faso</strong>. Livraison gratuite à Ouagadougou, 1 000 F ailleurs.',
+                },
+                {
+                  q: 'Livrez-vous partout au Niger ?',
+                  a: 'Oui, nous livrons <strong>partout au Niger</strong>. Livraison gratuite à Niamey, 1 500 F pour les autres villes.',
+                },
+                {
+                  q: 'Puis-je poser mes questions sur WhatsApp ?',
+                  a: 'Bien sûr. Un conseiller est disponible sur WhatsApp pour répondre à toutes vos questions avant et pendant votre cure.',
+                },
+              ]}
+            />
+          </div>
+
+          <div className="text-center mt-8 anim-up" style={{ animationDelay: '260ms' }}>
+            <button
+              onClick={scrollToOrder}
+              className="bg-rouge text-white px-6 md:px-8 py-4 rounded-2xl text-[15px] md:text-[16px] font-extrabold shadow-[0_10px_25px_-8px_rgba(198,40,40,0.5)] hover:-translate-y-0.5 transition-transform"
+            >
+              Commander le traitement complet
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 13 — LES OFFRES */}
+      <OffersSection />
+
+      {/* SECTION 14 — FORMULAIRE (intro + timeline + confidentialité) */}
+      <section className="py-14 md:py-16 bg-white">
+        <div className="max-w-3xl mx-auto px-4 md:px-6">
+          <div className="text-center mb-8 md:mb-10">
+            <span className="anim-up inline-flex items-center gap-2 bg-bleu-bg text-bleu text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-bleu/15">
+              📝 FORMULAIRE
+            </span>
+            <h2 className="anim-up mt-5 text-bleu font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[36px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+              Finalisez votre commande
+            </h2>
+            <p className="anim-up text-[14.5px] md:text-[16px] text-slate-600 leading-relaxed mt-4 max-w-xl mx-auto" style={{ animationDelay: '160ms' }}>
+              Un conseiller vous contactera rapidement afin de confirmer votre commande avant l'expédition.
+            </p>
+          </div>
+
+          {/* Timeline horizontale desktop / verticale mobile */}
+          <div className="anim-up max-w-2xl mx-auto mb-8" style={{ animationDelay: '220ms' }}>
+            <ol className="grid md:grid-cols-4 gap-3 md:gap-2 relative">
+              {[
+                { i: '📝', t: 'Vous remplissez le formulaire' },
+                { i: '📞', t: 'Nous vous appelons' },
+                { i: '📦', t: 'Votre colis est préparé' },
+                { i: '💵', t: 'Vous payez à la livraison' },
+              ].map((s, i) => (
+                <li key={i} className="relative flex md:flex-col items-center gap-3 md:gap-2 bg-gradient-to-br from-white to-bleu-bg/50 border border-bleu-light/25 rounded-2xl px-4 py-3 md:py-4 shadow-[0_4px_16px_-8px_rgba(30,64,175,0.15)]">
+                  <div className="shrink-0 w-10 h-10 rounded-full bg-bleu text-white font-extrabold flex items-center justify-center text-lg shadow">
+                    {s.i}
+                  </div>
+                  <div className="text-[13px] md:text-[13px] font-bold text-bleu leading-snug md:text-center">{s.t}</div>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          {/* Confidentialité */}
+          <div className="anim-up max-w-xl mx-auto mb-6" style={{ animationDelay: '300ms' }}>
+            <div className="flex items-center gap-3 justify-center bg-emerald-50/70 border border-emerald-200 rounded-2xl px-4 py-3 shadow-sm">
+              <span className="text-2xl">🔒</span>
+              <p className="text-[13px] md:text-[14px] font-semibold text-emerald-800 leading-snug">
+                Vos informations restent strictement confidentielles.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
       <ProductForm product={product} />
 
-
-      
-
-      <section className="py-8 bg-white border-t border-bleu-light/20">
-        <div className="container-kouka text-center">
-          <Link to="/" className="text-bleu font-bold text-sm">← Voir aussi : Poudre KOUKA (hémorroïdes & ulcères)</Link>
+      {/* SECTION 15 — FOOTER PROFESSIONNEL */}
+      <footer className="mt-8 bg-gradient-to-b from-bleu-mid to-bleu text-white">
+        {/* Bande réassurance finale */}
+        <div className="border-b border-white/10 bg-white/5">
+          <div className="max-w-6xl mx-auto px-4 py-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+            {[
+              { i: '🚚', t: 'Livraison rapide' },
+              { i: '💵', t: 'Paiement à la livraison' },
+              { i: '📱', t: 'Assistance WhatsApp' },
+            ].map((r) => (
+              <div key={r.t} className="inline-flex items-center justify-center gap-2 text-[13px] md:text-[14px] font-bold text-white/90">
+                <span className="text-lg">{r.i}</span>
+                {r.t}
+              </div>
+            ))}
+          </div>
         </div>
-      </section>
+
+        <div className="max-w-6xl mx-auto px-4 md:px-6 py-10 md:py-14 grid gap-8 md:grid-cols-4">
+          {/* Bloc logo */}
+          <div className="space-y-3">
+            <div className="text-2xl font-extrabold tracking-tight">🌿 Vieux KOUKA</div>
+            <p className="text-white/70 text-[13.5px] leading-relaxed">
+              Recette traditionnelle burkinabè à base de plantes, transmise depuis plus de 60 ans.
+            </p>
+            <div className="flex items-center gap-3 pt-1">
+              <a href={`https://wa.me/22675308056`} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="w-9 h-9 rounded-full bg-[#25D366]/20 hover:bg-[#25D366]/40 flex items-center justify-center transition-colors">
+                💬
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noreferrer" aria-label="Facebook" className="w-9 h-9 rounded-full bg-[#1877f2]/20 hover:bg-[#1877f2]/40 flex items-center justify-center transition-colors font-black">
+                f
+              </a>
+            </div>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <div className="text-[11px] font-bold uppercase tracking-widest text-white/60 mb-3">Contact</div>
+            <ul className="space-y-2 text-[13.5px] text-white/85">
+              <li className="flex items-start gap-2"><span>📍</span><span>Ouagadougou, Burkina Faso</span></li>
+              <li className="flex items-start gap-2"><span>📞</span><span>+226 75 30 80 56</span></li>
+              <li className="flex items-start gap-2"><span>💬</span><a href="https://wa.me/22675308056" className="hover:text-white underline underline-offset-2 decoration-white/30">WhatsApp direct</a></li>
+              <li className="flex items-start gap-2"><span>f</span><a href="https://facebook.com" className="hover:text-white underline underline-offset-2 decoration-white/30">Page Facebook officielle</a></li>
+            </ul>
+          </div>
+
+          {/* Zones de livraison */}
+          <div>
+            <div className="text-[11px] font-bold uppercase tracking-widest text-white/60 mb-3">Zones de livraison</div>
+            <ul className="space-y-2 text-[13.5px] text-white/85">
+              <li>🇧🇫 Partout au Burkina Faso</li>
+              <li>🇳🇪 Partout au Niger</li>
+              <li className="text-white/70 text-[12.5px] pt-1">Livraison gratuite à Ouagadougou &amp; Niamey</li>
+            </ul>
+          </div>
+
+          {/* Liens utiles */}
+          <div>
+            <div className="text-[11px] font-bold uppercase tracking-widest text-white/60 mb-3">Liens utiles</div>
+            <ul className="space-y-2 text-[13.5px] text-white/85">
+              <li><Link to="/" className="hover:text-white underline underline-offset-2 decoration-white/30">Poudre KOUKA (hémorroïdes &amp; ulcères)</Link></li>
+              <li><Link to="/anti-diabete" className="hover:text-white underline underline-offset-2 decoration-white/30">Poudre Anti-Diabète</Link></li>
+              <li><a href="#" className="hover:text-white underline underline-offset-2 decoration-white/30">Mentions de confidentialité</a></li>
+              <li><a href="#" className="hover:text-white underline underline-offset-2 decoration-white/30">Conditions générales</a></li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bas de footer */}
+        <div className="border-t border-white/10">
+          <div className="max-w-6xl mx-auto px-4 py-5 flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
+            <p className="text-[13px] text-white/75 italic max-w-2xl">
+              Merci pour la confiance que vous accordez à la recette traditionnelle du Vieux KOUKA.
+            </p>
+            <p className="text-[11.5px] text-white/50">
+              © {new Date().getFullYear()} Vieux KOUKA · Tous droits réservés
+            </p>
+          </div>
+        </div>
+      </footer>
+
+      {/* Boutons flottants */}
+      <FloatingWhatsApp />
+      <FloatingOrderCTA label="🛒 Commander" />
     </div>
   );
 }
+
+/* ============================================================
+ * SECTION 13 — LES OFFRES (composant local)
+ * ============================================================ */
+
+function OffersSection() {
+  const product = ANTI_DIABETE;
+  const discovery = product.offers.find((o) => o.units === 1) ?? product.offers[0];
+  const reco = product.offers.find((o) => o.recommended) ?? product.offers[1] ?? product.offers[0];
+  const family = product.offers.find((o) => o.bestValue) ?? product.offers[product.offers.length - 1];
+
+  const fmt = (n: number) => new Intl.NumberFormat('fr-FR').format(n) + ' F';
+
+  const offers = [
+    {
+      key: 'discovery',
+      title: 'Découverte',
+      units: discovery.units,
+      unitLabel: 'sachet',
+      price: discovery.price,
+      oldPrice: discovery.oldPrice,
+      offerId: discovery.id,
+      subtitle: 'Pour découvrir la recette.',
+      perks: [
+        '1 sachet pour tester',
+        'Livraison rapide',
+        'Paiement à la livraison',
+      ],
+      cta: 'Choisir cette offre',
+      variant: 'muted' as const,
+    },
+    {
+      key: 'complete',
+      title: 'Cure complète',
+      units: reco.units,
+      unitLabel: 'sachets',
+      price: reco.price,
+      oldPrice: reco.oldPrice,
+      offerId: reco.id,
+      subtitle: 'La formule la plus choisie par nos clients.',
+      perks: [
+        'Cure complète recommandée',
+        'Accompagnement WhatsApp personnalisé',
+        'Meilleur équilibre qualité / prix',
+        'Livraison prioritaire',
+      ],
+      cta: 'Je choisis la cure complète',
+      variant: 'featured' as const,
+      ribbon: '⭐ La plus choisie',
+    },
+    {
+      key: 'family',
+      title: 'Cure familiale',
+      units: family.units,
+      unitLabel: 'sachets',
+      price: family.price,
+      oldPrice: family.oldPrice,
+      offerId: family.id,
+      subtitle: 'Meilleur rapport quantité/prix.',
+      perks: [
+        '5 sachets — cure longue durée',
+        'Idéal pour toute la famille',
+        'Économie maximale',
+        'Suivi WhatsApp inclus',
+      ],
+      cta: 'Choisir la cure familiale',
+      variant: 'premium' as const,
+    },
+  ];
+
+  return (
+    <section className="py-16 md:py-24 bg-gradient-to-b from-bleu-bg/40 via-white to-bleu-bg/40">
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
+        <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+          <span className="anim-up inline-flex items-center gap-2 bg-rouge/10 text-rouge text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-rouge/20">
+            🎯 NOS OFFRES
+          </span>
+          <h2 className="anim-up mt-5 text-bleu font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[38px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+            Choisissez la cure qui correspond à votre situation
+          </h2>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-5 md:gap-6 items-stretch">
+          {offers.map((o, i) => {
+            const featured = o.variant === 'featured';
+            return (
+              <div
+                key={o.key}
+                className={[
+                  'anim-up relative flex flex-col rounded-3xl p-6 md:p-7 transition-all',
+                  featured
+                    ? 'bg-gradient-to-br from-emerald-50 via-white to-emerald-50/60 border-2 border-emerald-500 shadow-[0_20px_50px_-15px_rgba(16,185,129,0.35)] md:-translate-y-2 md:scale-[1.03]'
+                    : 'bg-white border border-bleu-light/25 shadow-[0_8px_25px_-12px_rgba(30,64,175,0.2)] hover:-translate-y-1 hover:shadow-[0_16px_35px_-12px_rgba(30,64,175,0.28)]',
+                ].join(' ')}
+                style={{ animationDelay: `${100 + i * 100}ms` }}
+              >
+                {o.ribbon && (
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white text-[11.5px] md:text-xs font-extrabold px-4 py-1.5 rounded-full shadow-md whitespace-nowrap">
+                    {o.ribbon}
+                  </div>
+                )}
+
+                <div className="text-center">
+                  <div className={`text-[11px] font-extrabold uppercase tracking-widest ${featured ? 'text-emerald-700' : 'text-bleu/70'}`}>
+                    {o.title}
+                  </div>
+                  <div className={`mt-2 font-extrabold ${featured ? 'text-bleu text-[24px] md:text-[26px]' : 'text-bleu text-[20px] md:text-[22px]'}`}>
+                    {o.units} {o.unitLabel}
+                  </div>
+                  <p className="text-slate-600 text-[13px] md:text-[13.5px] mt-1 leading-snug">{o.subtitle}</p>
+
+                  <div className="mt-4 flex items-baseline gap-2 justify-center">
+                    <span className={`font-extrabold ${featured ? 'text-rouge text-[30px] md:text-[34px]' : 'text-bleu text-[24px] md:text-[26px]'}`}>
+                      {fmt(o.price)}
+                    </span>
+                    {o.oldPrice > o.price && (
+                      <span className="text-slate-400 line-through text-[13px] md:text-[14px]">{fmt(o.oldPrice)}</span>
+                    )}
+                  </div>
+                </div>
+
+                <ul className="mt-5 space-y-2 flex-1">
+                  {o.perks.map((p) => (
+                    <li key={p} className="flex items-start gap-2 text-[13.5px] md:text-[14px] text-slate-700 leading-snug">
+                      <span className={`shrink-0 mt-0.5 inline-flex items-center justify-center w-5 h-5 rounded-full text-white font-bold text-xs ${featured ? 'bg-emerald-600' : 'bg-bleu'}`}>
+                        ✓
+                      </span>
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  onClick={() => preselectAndScroll(o.offerId)}
+                  className={[
+                    'mt-6 w-full py-4 rounded-2xl font-extrabold text-[15px] md:text-[16px] transition-all',
+                    featured
+                      ? 'bg-rouge text-white shadow-[0_10px_25px_-8px_rgba(198,40,40,0.5)] hover:-translate-y-0.5'
+                      : 'bg-rouge/90 text-white shadow-[0_6px_18px_-8px_rgba(198,40,40,0.45)] hover:bg-rouge hover:-translate-y-0.5',
+                  ].join(' ')}
+                >
+                  {o.cta}
+                </button>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Bande de confiance sous les cartes */}
+        <div className="anim-up mt-10 md:mt-12 max-w-4xl mx-auto" style={{ animationDelay: '500ms' }}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              { i: '🚚', t: 'Paiement uniquement à la livraison' },
+              { i: '📱', t: 'Confirmation par WhatsApp' },
+              { i: '🇧🇫', t: 'Burkina Faso' },
+              { i: '🇳🇪', t: 'Niger' },
+            ].map((r) => (
+              <div key={r.t} className="bg-white rounded-2xl border border-bleu-light/25 shadow-[0_4px_16px_-8px_rgba(30,64,175,0.15)] px-3 py-3 md:px-4 flex md:flex-col items-center gap-2 md:text-center">
+                <span className="text-2xl md:text-3xl shrink-0">{r.i}</span>
+                <span className="text-[12px] md:text-[12.5px] font-bold text-bleu leading-tight">{r.t}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 // SECTION 3 — Mini-diagnostic intelligent (recommandation dynamique)
 type DiagChoice = 'recent' | 'ancien' | 'instable' | 'traitement';
