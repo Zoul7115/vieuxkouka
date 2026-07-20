@@ -9,7 +9,7 @@ import { SocialProofChat } from '@/components/anti-diabete/SocialProofChat';
 import { DiagnosticQuiz } from '@/components/conversion/DiagnosticQuiz';
 import { OfferComparisonTable } from '@/components/conversion/OfferComparisonTable';
 import { ReassuranceBar } from '@/components/conversion/ReassuranceBar';
-import sachetAsset from '@/assets/anti-diabete-sachet.png.asset.json';
+import sachetAsset from '@/assets/anti-diabete-sachet-cutout.png.asset.json';
 import portraitAsset from '@/assets/vieux-kouka-portrait.jpg.asset.json';
 import glucometreAsset from '@/assets/glucometre.png.asset.json';
 
@@ -100,11 +100,17 @@ export function AntiDiabetePage() {
             {/* Bloc émotionnel */}
             <div className="anim-up bg-bleu-bg/60 border border-bleu/10 rounded-2xl p-4 md:p-5 flex gap-3 max-w-[560px]" style={{ animationDelay: '240ms' }}>
               <span className="text-bleu text-xl shrink-0 mt-0.5">💙</span>
-              <p className="text-[13.5px] md:text-[15px] text-slate-700 leading-relaxed">
-                Chaque jour, des personnes souffrent de picotements, d'une soif excessive, de réveils nocturnes répétés et d'une glycémie difficile à équilibrer.
-                <br />
-                <span className="text-slate-600">Si vous vous reconnaissez, cette recette traditionnelle mérite peut-être votre attention.</span>
-              </p>
+              <div className="text-[13.5px] md:text-[15px] text-slate-700 leading-relaxed space-y-2">
+                <p>
+                  Chaque jour, des personnes souffrent de picotements, d'une soif excessive, de réveils nocturnes répétés et d'une glycémie difficile à équilibrer.
+                </p>
+                <p className="text-slate-600">
+                  Si vous vous reconnaissez, cette recette traditionnelle mérite peut-être votre attention.
+                </p>
+                <p className="mt-2 border-l-2 border-bleu/40 pl-3 italic text-slate-700 font-medium">
+                  Ces signes peuvent progressivement affecter votre qualité de vie s'ils persistent.
+                </p>
+              </div>
             </div>
 
             {/* Bloc confiance */}
@@ -136,12 +142,38 @@ export function AntiDiabetePage() {
                 'Aide à réduire la soif excessive',
                 'Aide à diminuer les envies fréquentes d\'uriner',
                 'Recette traditionnelle à base de plantes',
-              ].map((b) => (
-                <div key={b} className="bg-white rounded-xl border border-slate-200/70 p-3 shadow-[0_1px_3px_rgba(0,0,0,0.04)] flex items-start gap-2.5">
-                  <span className="text-emerald-600 font-bold text-base leading-none mt-0.5">✓</span>
-                  <span className="text-[12.5px] md:text-[13.5px] text-slate-700 leading-snug">{b}</span>
-                </div>
-              ))}
+              ].map((b, i) => {
+                const featured = i === 0;
+                return (
+                  <div
+                    key={b}
+                    className={
+                      featured
+                        ? 'bg-emerald-50/70 rounded-xl border-2 border-emerald-500/60 p-3.5 shadow-[0_4px_14px_-6px_rgba(16,185,129,0.35)] flex items-start gap-2.5 sm:col-span-2'
+                        : 'bg-white rounded-xl border border-slate-200/70 p-3 shadow-[0_1px_3px_rgba(0,0,0,0.04)] flex items-start gap-2.5'
+                    }
+                  >
+                    <span
+                      className={
+                        featured
+                          ? 'inline-flex items-center justify-center w-6 h-6 rounded-full bg-emerald-600 text-white font-bold text-sm leading-none shrink-0 mt-0.5'
+                          : 'text-emerald-600 font-bold text-base leading-none mt-0.5'
+                      }
+                    >
+                      ✓
+                    </span>
+                    <span
+                      className={
+                        featured
+                          ? 'text-[13.5px] md:text-[15px] text-emerald-900 font-semibold leading-snug'
+                          : 'text-[12.5px] md:text-[13.5px] text-slate-700 leading-snug'
+                      }
+                    >
+                      {b}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
 
             {/* CTA */}
@@ -180,25 +212,30 @@ export function AntiDiabetePage() {
           {/* Colonne droite — image hero */}
           <div className="anim-up relative order-first md:order-last" style={{ animationDelay: '400ms' }}>
             <div className="relative mx-auto max-w-[520px] aspect-[4/5]">
-              {/* Glow vert */}
-              <div aria-hidden className="absolute inset-6 rounded-full bg-emerald-400/25 blur-3xl" />
+              {/* Halo vert premium */}
+              <div aria-hidden className="absolute inset-4 rounded-full bg-gradient-to-br from-emerald-400/35 via-emerald-500/25 to-emerald-300/10 blur-3xl" />
+              <div aria-hidden className="absolute inset-16 rounded-full bg-emerald-300/20 blur-2xl" />
               {/* Feuilles arrière-plan */}
               <div aria-hidden className="absolute top-4 left-2 text-6xl opacity-20 rotate-[-18deg] select-none">🌿</div>
               <div aria-hidden className="absolute bottom-10 right-4 text-5xl opacity-20 rotate-12 select-none">🍃</div>
 
-              {/* Sachet — élément principal */}
+              {/* Sachet — élément principal (détouré) */}
               <img
                 src={sachetAsset.url}
                 alt="Poudre Anti-Diabète du Vieux KOUKA"
-                className="relative z-10 w-[78%] h-auto object-contain drop-shadow-[0_25px_40px_rgba(0,0,0,0.18)] mx-auto"
+                className="relative z-10 w-[82%] h-auto object-contain drop-shadow-[0_30px_45px_rgba(16,80,40,0.28)] mx-auto"
               />
 
               {/* Portrait Vieux Kouka */}
-              <div className="absolute z-20 top-6 right-0 md:right-2 w-[36%] aspect-[3/4] rounded-2xl overflow-hidden ring-4 ring-white shadow-xl">
-                <img src={portraitAsset.url} alt="Le Vieux KOUKA" className="w-full h-full object-cover" />
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
-                  <div className="text-white text-[10px] md:text-[11px] font-bold leading-tight">Vieux KOUKA</div>
-                  <div className="text-white/80 text-[9px] md:text-[10px]">Tradithérapeute</div>
+              <div className="absolute z-20 top-4 right-0 md:right-2 w-[40%] rounded-2xl overflow-hidden ring-4 ring-white shadow-xl bg-white">
+                <div className="aspect-[3/4] w-full">
+                  <img src={portraitAsset.url} alt="Le Vieux KOUKA" className="w-full h-full object-cover" />
+                </div>
+                <div className="px-2 py-1.5 bg-white">
+                  <div className="text-bleu text-[11px] md:text-[12px] font-extrabold leading-tight">Vieux KOUKA</div>
+                  <div className="text-slate-600 text-[9.5px] md:text-[10.5px] font-medium">Tradithérapeute</div>
+                  <div className="text-slate-500 text-[9px] md:text-[10px] mt-0.5">Région des Kuilsés • Burkina Faso</div>
+                  <div className="text-emerald-700 text-[9px] md:text-[10px] font-semibold mt-0.5">🌿 +60 ans de savoir-faire</div>
                 </div>
               </div>
 
