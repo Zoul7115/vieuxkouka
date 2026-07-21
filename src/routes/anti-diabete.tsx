@@ -469,7 +469,7 @@ export function AntiDiabetePage() {
             </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {[
               { i: '🌱', t: 'Des plantes soigneusement sélectionnées', d: 'Chaque plante est choisie selon les pratiques traditionnelles.' },
               { i: '👐', t: 'Préparation artisanale', d: 'La recette est préparée dans le respect du savoir-faire traditionnel.' },
@@ -478,12 +478,12 @@ export function AntiDiabetePage() {
             ].map((c, i) => (
               <div
                 key={c.t}
-                className="anim-up group bg-gradient-to-br from-white to-bleu-bg/40 rounded-2xl p-5 md:p-6 border border-bleu-light/25 shadow-[0_4px_20px_-8px_rgba(30,64,175,0.15)] hover:-translate-y-1 hover:shadow-[0_12px_30px_-10px_rgba(30,64,175,0.25)] transition-all"
+                className="anim-up group text-center md:text-left"
                 style={{ animationDelay: `${120 + i * 80}ms` }}
               >
-                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 text-2xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">{c.i}</div>
-                <div className="font-extrabold text-bleu text-[15px] md:text-base leading-snug">{c.t}</div>
-                <div className="text-[13px] md:text-[14px] text-slate-600 mt-2 leading-relaxed">{c.d}</div>
+                <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 text-3xl flex items-center justify-center mb-5 mx-auto md:mx-0 group-hover:scale-105 transition-transform">{c.i}</div>
+                <div className="font-extrabold text-bleu text-[16px] md:text-[17px] leading-snug">{c.t}</div>
+                <div className="text-[14px] md:text-[15px] text-slate-600 mt-2.5 leading-relaxed">{c.d}</div>
               </div>
             ))}
           </div>
