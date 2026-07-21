@@ -966,28 +966,28 @@ function OffersSection() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-bleu-bg/40 via-white to-bleu-bg/40">
+    <section className="py-20 md:py-28 bg-white">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
-        <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+        <div className="text-center max-w-2xl mx-auto mb-14 md:mb-20">
           <span className="anim-up inline-flex items-center gap-2 bg-rouge/10 text-rouge text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-rouge/20">
             🎯 NOS OFFRES
           </span>
-          <h2 className="anim-up mt-5 text-bleu font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[38px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+          <h2 className="anim-up mt-6 text-bleu font-extrabold tracking-tight text-[28px] sm:text-[34px] md:text-[42px] leading-[1.15]" style={{ animationDelay: '80ms' }}>
             Choisissez la cure qui correspond à votre situation
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-5 md:gap-6 items-stretch">
+        <div className="grid md:grid-cols-3 gap-6 md:gap-8 items-stretch">
           {offers.map((o, i) => {
             const featured = o.variant === 'featured';
             return (
               <div
                 key={o.key}
                 className={[
-                  'anim-up relative flex flex-col rounded-3xl p-6 md:p-7 transition-all',
+                  'anim-up relative flex flex-col rounded-[28px] transition-all',
                   featured
-                    ? 'bg-gradient-to-br from-emerald-50 via-white to-emerald-50/60 border-2 border-emerald-500 shadow-[0_20px_50px_-15px_rgba(16,185,129,0.35)] md:-translate-y-2 md:scale-[1.03]'
-                    : 'bg-white border border-bleu-light/25 shadow-[0_8px_25px_-12px_rgba(30,64,175,0.2)] hover:-translate-y-1 hover:shadow-[0_16px_35px_-12px_rgba(30,64,175,0.28)]',
+                    ? 'bg-white p-8 md:p-10 shadow-[0_30px_70px_-20px_rgba(30,64,175,0.35)] ring-1 ring-emerald-500/25 md:-translate-y-4 md:scale-[1.06] z-10'
+                    : 'bg-white p-6 md:p-7 shadow-[0_10px_30px_-15px_rgba(30,64,175,0.20)] hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(30,64,175,0.28)] opacity-95',
                 ].join(' ')}
                 style={{ animationDelay: `${100 + i * 100}ms` }}
               >
