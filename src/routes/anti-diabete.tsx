@@ -458,13 +458,13 @@ export function AntiDiabetePage() {
       <div aria-hidden className="h-8 bg-gradient-to-b from-bleu to-white" />
 
       {/* SECTION 6 — PRÉSENTATION DE LA RECETTE */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-20 md:py-28 bg-white">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
+          <div className="text-center max-w-3xl mx-auto mb-14 md:mb-20">
             <span className="anim-up inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-emerald-600/15">
               🌿 LA RECETTE
             </span>
-            <h2 className="anim-up mt-5 text-bleu font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[38px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+            <h2 className="anim-up mt-6 text-bleu font-extrabold tracking-tight text-[28px] sm:text-[34px] md:text-[42px] leading-[1.15]" style={{ animationDelay: '80ms' }}>
               Pourquoi cette recette est-elle différente ?
             </h2>
           </div>
