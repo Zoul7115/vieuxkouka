@@ -254,44 +254,42 @@ export function AntiDiabetePage() {
         </div>
       </section>
 
-      {/* BANDEAU PREMIUM RÉASSURANCE — sous le Hero */}
-      <section className="bg-white py-6 border-b border-bleu-light/20">
-        <div className="container-kouka max-w-5xl px-4">
-          <div className="bg-gradient-to-br from-bleu-bg via-white to-bleu-bg rounded-2xl border-2 border-bleu/15 shadow-sm p-4 md:p-5">
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
-              {[
-                { icon: '🌿', label: 'Recette traditionnelle du Vieux Kouka' },
-                { icon: '🚚', label: 'Livraison partout au Burkina Faso' },
-                { icon: '💰', label: 'Paiement à la livraison' },
-                { icon: '💬', label: 'Confirmation WhatsApp sous 2h' },
-                { icon: '⭐', label: 'Clients satisfaits partout au Burkina' },
-              ].map((r, i) => (
-                <div key={i} className="flex md:flex-col items-center md:text-center gap-2 bg-white rounded-xl border border-bleu-light/30 p-3 shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
-                  <span className="text-2xl md:text-3xl shrink-0">{r.icon}</span>
-                  <span className="text-[11px] md:text-xs font-bold text-bleu leading-tight">{r.label}</span>
-                </div>
-              ))}
-            </div>
+      {/* BANDEAU RÉASSURANCE — épuré, sans cartes */}
+      <section className="bg-white py-10 md:py-12">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-4">
+            {[
+              { icon: '🌿', label: 'Recette traditionnelle du Vieux Kouka' },
+              { icon: '🚚', label: 'Livraison partout au Burkina Faso' },
+              { icon: '💰', label: 'Paiement à la livraison' },
+              { icon: '💬', label: 'Confirmation WhatsApp sous 2h' },
+              { icon: '⭐', label: 'Clients satisfaits partout au Burkina' },
+            ].map((r, i) => (
+              <div key={i} className="flex md:flex-col items-center md:text-center gap-3">
+                <span className="text-3xl md:text-4xl shrink-0">{r.icon}</span>
+                <span className="text-[12px] md:text-[13px] font-semibold text-slate-700 leading-snug">{r.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* SECTION 2 — VOUS VOUS RECONNAISSEZ PEUT-ÊTRE */}
-      <section className="py-12 md:py-16 bg-bleu-bg">
+      <section className="py-20 md:py-28 bg-bleu-bg/60">
         <div className="max-w-5xl mx-auto px-4">
-          <div className="text-center mb-8 md:mb-10">
+          <div className="text-center mb-12 md:mb-16">
             <span className="anim-up inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-[11px] md:text-xs font-semibold px-3.5 py-1.5 rounded-full ring-1 ring-emerald-600/15">
               🔎 VOUS VOUS RECONNAISSEZ PEUT-ÊTRE...
             </span>
-            <h2 className="anim-up mt-3 text-bleu font-extrabold tracking-tight text-[24px] sm:text-[28px] md:text-[34px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+            <h2 className="anim-up mt-4 text-bleu font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[40px] leading-[1.15]" style={{ animationDelay: '80ms' }}>
               Vous reconnaissez peut-être votre quotidien...
             </h2>
-            <p className="anim-up text-[14.5px] md:text-[16px] text-slate-600 leading-[1.65] mt-3 max-w-2xl mx-auto" style={{ animationDelay: '160ms' }}>
+            <p className="anim-up text-[15px] md:text-[17px] text-slate-600 leading-[1.7] mt-4 max-w-2xl mx-auto" style={{ animationDelay: '160ms' }}>
               Certaines personnes vivent ces situations tous les jours sans imaginer qu'elles peuvent être liées à une glycémie difficile à équilibrer.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {[
               { icon: '🦶', t: 'Tes pieds picotent ou brûlent lorsque tu marches ?', d: 'Ces sensations peuvent devenir de plus en plus gênantes au quotidien.' },
               { icon: '🥤', t: 'Tu bois de l\'eau toute la journée sans vraiment calmer ta soif ?', d: 'Même après plusieurs verres, cette sensation revient rapidement.' },
@@ -302,28 +300,26 @@ export function AntiDiabetePage() {
             ].map((c, i) => (
               <div
                 key={i}
-                className="anim-up bg-white rounded-2xl p-5 md:p-6 border border-bleu-light/30 shadow-[0_4px_16px_rgba(0,0,0,0.05)] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all"
+                className="anim-up bg-white rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_-20px_rgba(30,64,175,0.20)] hover:-translate-y-1 hover:shadow-[0_18px_50px_-20px_rgba(30,64,175,0.28)] transition-all"
                 style={{ animationDelay: `${120 + i * 70}ms` }}
               >
-                <div className="text-3xl md:text-4xl mb-2">{c.icon}</div>
-                <div className="font-extrabold text-bleu text-[15px] md:text-base leading-snug">{c.t}</div>
-                <div className="text-[13px] md:text-[14px] text-slate-600 mt-2 leading-relaxed">{c.d}</div>
+                <div className="text-4xl md:text-5xl mb-4">{c.icon}</div>
+                <div className="font-extrabold text-bleu text-[16px] md:text-[17px] leading-snug">{c.t}</div>
+                <div className="text-[13.5px] md:text-[14.5px] text-slate-600 mt-3 leading-relaxed">{c.d}</div>
               </div>
             ))}
           </div>
 
-          <div className="mt-8 md:mt-10 max-w-3xl mx-auto anim-up" style={{ animationDelay: '600ms' }}>
-            <div className="bg-white rounded-2xl border border-bleu-light/30 shadow-sm p-5 md:p-6 flex gap-3 md:gap-4">
-              <span className="text-bleu text-xl md:text-2xl shrink-0">💙</span>
-              <p className="text-[14px] md:text-[15.5px] text-slate-700 leading-relaxed">
-                Ces signes peuvent progressivement rendre les gestes du quotidien plus difficiles : marcher confortablement, dormir paisiblement, travailler ou profiter pleinement de sa famille.
-              </p>
-            </div>
+          <div className="mt-14 md:mt-16 max-w-3xl mx-auto anim-up text-center" style={{ animationDelay: '600ms' }}>
+            <p className="text-[16px] md:text-[18px] text-slate-700 leading-relaxed italic max-w-2xl mx-auto">
+              <span className="text-bleu text-2xl align-middle mr-1">💙</span>
+              Ces signes peuvent progressivement rendre les gestes du quotidien plus difficiles : marcher confortablement, dormir paisiblement, travailler ou profiter pleinement de sa famille.
+            </p>
 
-            <div className="text-center mt-6">
+            <div className="mt-8">
               <button
                 onClick={() => document.getElementById('smart-diagnostic')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-rouge text-white px-5 md:px-7 py-3.5 rounded-xl text-[14px] md:text-[15px] font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform"
+                className="bg-rouge text-white px-6 md:px-8 py-4 rounded-2xl text-[14.5px] md:text-[15.5px] font-extrabold shadow-[0_12px_28px_-10px_rgba(198,40,40,0.5)] hover:-translate-y-0.5 transition-transform"
               >
                 Découvrir comment cette recette traditionnelle peut m'aider
               </button>
@@ -336,31 +332,31 @@ export function AntiDiabetePage() {
       <SmartDiagnostic />
 
       {/* SECTION 4 — COMPRENDRE POURQUOI CES SIGNES APPARAISSENT */}
-      <section id="comprendre-section" className="py-12 md:py-16 bg-white">
+      <section id="comprendre-section" className="py-20 md:py-28 bg-white">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-8 md:mb-10">
+          <div className="text-center mb-14 md:mb-16">
             <span className="anim-up inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-[11px] md:text-xs font-semibold px-3.5 py-1.5 rounded-full ring-1 ring-emerald-600/15">
               🌿 COMPRENDRE
             </span>
-            <h2 className="anim-up mt-3 text-bleu font-extrabold tracking-tight text-[24px] sm:text-[28px] md:text-[34px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+            <h2 className="anim-up mt-4 text-bleu font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[40px] leading-[1.15]" style={{ animationDelay: '80ms' }}>
               Pourquoi ces signes apparaissent-ils ?
             </h2>
-            <p className="anim-up text-[14.5px] md:text-[16px] text-slate-600 leading-[1.65] mt-3 max-w-2xl mx-auto" style={{ animationDelay: '160ms' }}>
+            <p className="anim-up text-[15px] md:text-[17px] text-slate-600 leading-[1.7] mt-4 max-w-2xl mx-auto" style={{ animationDelay: '160ms' }}>
               Lorsque le sucre circule durablement en excès dans le sang, certaines personnes peuvent ressentir différents inconforts au quotidien.
             </p>
           </div>
 
-          {/* Infographie */}
-          <div className="max-w-md mx-auto flex flex-col items-center gap-2">
-            <div className="anim-up w-full bg-bleu text-white rounded-2xl px-5 py-4 text-center shadow-[0_6px_20px_rgba(30,64,175,0.25)]" style={{ animationDelay: '220ms' }}>
+          {/* Infographie — plus aérée */}
+          <div className="max-w-lg mx-auto flex flex-col items-center gap-3">
+            <div className="anim-up w-full bg-gradient-to-br from-bleu to-bleu-mid text-white rounded-3xl px-6 py-6 text-center shadow-[0_20px_50px_-20px_rgba(30,64,175,0.45)]" style={{ animationDelay: '220ms' }}>
               <div className="text-[11px] uppercase tracking-widest text-white/70 font-bold">Étape 1</div>
-              <div className="font-extrabold text-[16px] md:text-[18px] mt-1">Glycémie difficile à équilibrer</div>
+              <div className="font-extrabold text-[18px] md:text-[20px] mt-1.5">Glycémie difficile à équilibrer</div>
             </div>
-            <div className="text-bleu/60 text-2xl">↓</div>
+            <div className="text-bleu/40 text-3xl leading-none">↓</div>
 
-            <div className="anim-up w-full bg-bleu-bg border border-bleu-light/30 rounded-2xl px-5 py-4 shadow-sm" style={{ animationDelay: '300ms' }}>
-              <div className="text-[11px] uppercase tracking-widest text-bleu/70 font-bold text-center">Étape 2 — Effets ressentis</div>
-              <div className="mt-3 grid grid-cols-1 gap-2">
+            <div className="anim-up w-full" style={{ animationDelay: '300ms' }}>
+              <div className="text-[11px] uppercase tracking-widest text-bleu/70 font-bold text-center mb-4">Étape 2 — Effets ressentis</div>
+              <div className="flex flex-wrap justify-center gap-2.5">
                 {[
                   { icon: '😴', label: 'Fatigue' },
                   { icon: '🥤', label: 'Soif' },
@@ -368,27 +364,26 @@ export function AntiDiabetePage() {
                   { icon: '🦶', label: 'Picotements' },
                   { icon: '👀', label: 'Vision floue' },
                 ].map((s, i) => (
-                  <div key={i} className="bg-white rounded-xl px-4 py-2.5 flex items-center gap-3 border border-bleu-light/20">
-                    <span className="text-xl">{s.icon}</span>
-                    <span className="font-bold text-bleu text-[14.5px]">{s.label}</span>
+                  <div key={i} className="bg-bleu-bg/70 rounded-full px-4 py-2.5 flex items-center gap-2">
+                    <span className="text-lg">{s.icon}</span>
+                    <span className="font-semibold text-bleu text-[14px]">{s.label}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Bloc vert */}
-          <div className="mt-8 md:mt-10 anim-up" style={{ animationDelay: '400ms' }}>
-            <div className="bg-vert-bg border-l-4 border-vert rounded-2xl p-5 md:p-6 shadow-sm max-w-2xl mx-auto">
-              <p className="text-[14.5px] md:text-[15.5px] text-slate-700 leading-relaxed">
-                L'objectif de la recette traditionnelle du <strong className="text-vert">Vieux KOUKA</strong> est d'accompagner l'organisme dans sa recherche d'un meilleur équilibre, tout en restant complémentaire d'une bonne hygiène de vie et du suivi médical.
-              </p>
-            </div>
+          {/* Citation centrale — sans encadré carte */}
+          <div className="mt-16 md:mt-20 anim-up text-center max-w-2xl mx-auto" style={{ animationDelay: '400ms' }}>
+            <div className="text-vert text-4xl leading-none mb-3">🌿</div>
+            <p className="text-[16px] md:text-[19px] text-slate-700 leading-[1.7] italic">
+              L'objectif de la recette traditionnelle du <strong className="text-vert not-italic">Vieux KOUKA</strong> est d'accompagner l'organisme dans sa recherche d'un meilleur équilibre, tout en restant complémentaire d'une bonne hygiène de vie et du suivi médical.
+            </p>
 
-            <div className="text-center mt-6">
+            <div className="mt-10">
               <button
                 onClick={scrollToOrder}
-                className="bg-rouge text-white px-5 md:px-7 py-3.5 rounded-xl text-[14px] md:text-[15px] font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform"
+                className="bg-rouge text-white px-6 md:px-8 py-4 rounded-2xl text-[14.5px] md:text-[15.5px] font-extrabold shadow-[0_12px_28px_-10px_rgba(198,40,40,0.5)] hover:-translate-y-0.5 transition-transform"
               >
                 Découvrir la recette du Vieux KOUKA
               </button>
@@ -463,18 +458,18 @@ export function AntiDiabetePage() {
       <div aria-hidden className="h-8 bg-gradient-to-b from-bleu to-white" />
 
       {/* SECTION 6 — PRÉSENTATION DE LA RECETTE */}
-      <section className="py-16 md:py-20 bg-white">
+      <section className="py-20 md:py-28 bg-white">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <div className="text-center max-w-3xl mx-auto mb-10 md:mb-14">
+          <div className="text-center max-w-3xl mx-auto mb-14 md:mb-20">
             <span className="anim-up inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-emerald-600/15">
               🌿 LA RECETTE
             </span>
-            <h2 className="anim-up mt-5 text-bleu font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[38px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+            <h2 className="anim-up mt-6 text-bleu font-extrabold tracking-tight text-[28px] sm:text-[34px] md:text-[42px] leading-[1.15]" style={{ animationDelay: '80ms' }}>
               Pourquoi cette recette est-elle différente ?
             </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {[
               { i: '🌱', t: 'Des plantes soigneusement sélectionnées', d: 'Chaque plante est choisie selon les pratiques traditionnelles.' },
               { i: '👐', t: 'Préparation artisanale', d: 'La recette est préparée dans le respect du savoir-faire traditionnel.' },
@@ -483,12 +478,12 @@ export function AntiDiabetePage() {
             ].map((c, i) => (
               <div
                 key={c.t}
-                className="anim-up group bg-gradient-to-br from-white to-bleu-bg/40 rounded-2xl p-5 md:p-6 border border-bleu-light/25 shadow-[0_4px_20px_-8px_rgba(30,64,175,0.15)] hover:-translate-y-1 hover:shadow-[0_12px_30px_-10px_rgba(30,64,175,0.25)] transition-all"
+                className="anim-up group text-center md:text-left"
                 style={{ animationDelay: `${120 + i * 80}ms` }}
               >
-                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 text-2xl flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">{c.i}</div>
-                <div className="font-extrabold text-bleu text-[15px] md:text-base leading-snug">{c.t}</div>
-                <div className="text-[13px] md:text-[14px] text-slate-600 mt-2 leading-relaxed">{c.d}</div>
+                <div className="w-16 h-16 rounded-2xl bg-emerald-100 text-emerald-700 text-3xl flex items-center justify-center mb-5 mx-auto md:mx-0 group-hover:scale-105 transition-transform">{c.i}</div>
+                <div className="font-extrabold text-bleu text-[16px] md:text-[17px] leading-snug">{c.t}</div>
+                <div className="text-[14px] md:text-[15px] text-slate-600 mt-2.5 leading-relaxed">{c.d}</div>
               </div>
             ))}
           </div>
@@ -508,7 +503,7 @@ export function AntiDiabetePage() {
                 <img
                   src={sachetAsset.url}
                   alt="Sachet Poudre Anti-Diabète du Vieux KOUKA"
-                  className="relative z-10 w-[60%] max-w-xs h-auto object-contain drop-shadow-[0_25px_35px_rgba(16,80,40,0.35)]"
+                  className="relative z-10 w-[75%] max-w-md md:max-w-lg h-auto object-contain drop-shadow-[0_25px_35px_rgba(16,80,40,0.35)]"
                 />
                 <div className="relative z-10 mt-6 text-center">
                   <div className="text-bleu font-extrabold text-lg md:text-xl">Poudre Anti-Diabète</div>
@@ -521,7 +516,7 @@ export function AntiDiabetePage() {
       </section>
 
       {/* SECTION 7 — POSOLOGIE PREMIUM */}
-      <section className="py-16 md:py-20 bg-gradient-to-b from-white to-bleu-bg/40">
+      <section className="py-20 md:py-28 bg-bleu-bg/40">
         <div className="max-w-5xl mx-auto px-4 md:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
             <span className="anim-up inline-flex items-center gap-2 bg-bleu-bg text-bleu text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-bleu/15">
@@ -626,7 +621,7 @@ export function AntiDiabetePage() {
       </div>
 
       {/* SECTION 11 — COMPARATIF PREMIUM */}
-      <section className="py-16 md:py-20 bg-gradient-to-b from-white to-bleu-bg/40">
+      <section className="py-20 md:py-28 bg-bleu-bg/40">
         <div className="max-w-5xl mx-auto px-4 md:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
             <span className="anim-up inline-flex items-center gap-2 bg-bleu-bg text-bleu text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-bleu/15">
@@ -971,28 +966,28 @@ function OffersSection() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-bleu-bg/40 via-white to-bleu-bg/40">
+    <section className="py-20 md:py-28 bg-white">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
-        <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14">
+        <div className="text-center max-w-2xl mx-auto mb-14 md:mb-20">
           <span className="anim-up inline-flex items-center gap-2 bg-rouge/10 text-rouge text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-rouge/20">
             🎯 NOS OFFRES
           </span>
-          <h2 className="anim-up mt-5 text-bleu font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[38px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+          <h2 className="anim-up mt-6 text-bleu font-extrabold tracking-tight text-[28px] sm:text-[34px] md:text-[42px] leading-[1.15]" style={{ animationDelay: '80ms' }}>
             Choisissez la cure qui correspond à votre situation
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-5 md:gap-6 items-stretch">
+        <div className="grid md:grid-cols-3 gap-6 md:gap-8 items-stretch">
           {offers.map((o, i) => {
             const featured = o.variant === 'featured';
             return (
               <div
                 key={o.key}
                 className={[
-                  'anim-up relative flex flex-col rounded-3xl p-6 md:p-7 transition-all',
+                  'anim-up relative flex flex-col rounded-[28px] transition-all',
                   featured
-                    ? 'bg-gradient-to-br from-emerald-50 via-white to-emerald-50/60 border-2 border-emerald-500 shadow-[0_20px_50px_-15px_rgba(16,185,129,0.35)] md:-translate-y-2 md:scale-[1.03]'
-                    : 'bg-white border border-bleu-light/25 shadow-[0_8px_25px_-12px_rgba(30,64,175,0.2)] hover:-translate-y-1 hover:shadow-[0_16px_35px_-12px_rgba(30,64,175,0.28)]',
+                    ? 'bg-white p-8 md:p-10 shadow-[0_30px_70px_-20px_rgba(30,64,175,0.35)] ring-1 ring-emerald-500/25 md:-translate-y-4 md:scale-[1.06] z-10'
+                    : 'bg-white p-6 md:p-7 shadow-[0_10px_30px_-15px_rgba(30,64,175,0.20)] hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(30,64,175,0.28)] opacity-95',
                 ].join(' ')}
                 style={{ animationDelay: `${100 + i * 100}ms` }}
               >
