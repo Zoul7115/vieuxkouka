@@ -332,31 +332,31 @@ export function AntiDiabetePage() {
       <SmartDiagnostic />
 
       {/* SECTION 4 — COMPRENDRE POURQUOI CES SIGNES APPARAISSENT */}
-      <section id="comprendre-section" className="py-12 md:py-16 bg-white">
+      <section id="comprendre-section" className="py-20 md:py-28 bg-white">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-8 md:mb-10">
+          <div className="text-center mb-14 md:mb-16">
             <span className="anim-up inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-[11px] md:text-xs font-semibold px-3.5 py-1.5 rounded-full ring-1 ring-emerald-600/15">
               🌿 COMPRENDRE
             </span>
-            <h2 className="anim-up mt-3 text-bleu font-extrabold tracking-tight text-[24px] sm:text-[28px] md:text-[34px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+            <h2 className="anim-up mt-4 text-bleu font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[40px] leading-[1.15]" style={{ animationDelay: '80ms' }}>
               Pourquoi ces signes apparaissent-ils ?
             </h2>
-            <p className="anim-up text-[14.5px] md:text-[16px] text-slate-600 leading-[1.65] mt-3 max-w-2xl mx-auto" style={{ animationDelay: '160ms' }}>
+            <p className="anim-up text-[15px] md:text-[17px] text-slate-600 leading-[1.7] mt-4 max-w-2xl mx-auto" style={{ animationDelay: '160ms' }}>
               Lorsque le sucre circule durablement en excès dans le sang, certaines personnes peuvent ressentir différents inconforts au quotidien.
             </p>
           </div>
 
-          {/* Infographie */}
-          <div className="max-w-md mx-auto flex flex-col items-center gap-2">
-            <div className="anim-up w-full bg-bleu text-white rounded-2xl px-5 py-4 text-center shadow-[0_6px_20px_rgba(30,64,175,0.25)]" style={{ animationDelay: '220ms' }}>
+          {/* Infographie — plus aérée */}
+          <div className="max-w-lg mx-auto flex flex-col items-center gap-3">
+            <div className="anim-up w-full bg-gradient-to-br from-bleu to-bleu-mid text-white rounded-3xl px-6 py-6 text-center shadow-[0_20px_50px_-20px_rgba(30,64,175,0.45)]" style={{ animationDelay: '220ms' }}>
               <div className="text-[11px] uppercase tracking-widest text-white/70 font-bold">Étape 1</div>
-              <div className="font-extrabold text-[16px] md:text-[18px] mt-1">Glycémie difficile à équilibrer</div>
+              <div className="font-extrabold text-[18px] md:text-[20px] mt-1.5">Glycémie difficile à équilibrer</div>
             </div>
-            <div className="text-bleu/60 text-2xl">↓</div>
+            <div className="text-bleu/40 text-3xl leading-none">↓</div>
 
-            <div className="anim-up w-full bg-bleu-bg border border-bleu-light/30 rounded-2xl px-5 py-4 shadow-sm" style={{ animationDelay: '300ms' }}>
-              <div className="text-[11px] uppercase tracking-widest text-bleu/70 font-bold text-center">Étape 2 — Effets ressentis</div>
-              <div className="mt-3 grid grid-cols-1 gap-2">
+            <div className="anim-up w-full" style={{ animationDelay: '300ms' }}>
+              <div className="text-[11px] uppercase tracking-widest text-bleu/70 font-bold text-center mb-4">Étape 2 — Effets ressentis</div>
+              <div className="flex flex-wrap justify-center gap-2.5">
                 {[
                   { icon: '😴', label: 'Fatigue' },
                   { icon: '🥤', label: 'Soif' },
@@ -364,27 +364,26 @@ export function AntiDiabetePage() {
                   { icon: '🦶', label: 'Picotements' },
                   { icon: '👀', label: 'Vision floue' },
                 ].map((s, i) => (
-                  <div key={i} className="bg-white rounded-xl px-4 py-2.5 flex items-center gap-3 border border-bleu-light/20">
-                    <span className="text-xl">{s.icon}</span>
-                    <span className="font-bold text-bleu text-[14.5px]">{s.label}</span>
+                  <div key={i} className="bg-bleu-bg/70 rounded-full px-4 py-2.5 flex items-center gap-2">
+                    <span className="text-lg">{s.icon}</span>
+                    <span className="font-semibold text-bleu text-[14px]">{s.label}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Bloc vert */}
-          <div className="mt-8 md:mt-10 anim-up" style={{ animationDelay: '400ms' }}>
-            <div className="bg-vert-bg border-l-4 border-vert rounded-2xl p-5 md:p-6 shadow-sm max-w-2xl mx-auto">
-              <p className="text-[14.5px] md:text-[15.5px] text-slate-700 leading-relaxed">
-                L'objectif de la recette traditionnelle du <strong className="text-vert">Vieux KOUKA</strong> est d'accompagner l'organisme dans sa recherche d'un meilleur équilibre, tout en restant complémentaire d'une bonne hygiène de vie et du suivi médical.
-              </p>
-            </div>
+          {/* Citation centrale — sans encadré carte */}
+          <div className="mt-16 md:mt-20 anim-up text-center max-w-2xl mx-auto" style={{ animationDelay: '400ms' }}>
+            <div className="text-vert text-4xl leading-none mb-3">🌿</div>
+            <p className="text-[16px] md:text-[19px] text-slate-700 leading-[1.7] italic">
+              L'objectif de la recette traditionnelle du <strong className="text-vert not-italic">Vieux KOUKA</strong> est d'accompagner l'organisme dans sa recherche d'un meilleur équilibre, tout en restant complémentaire d'une bonne hygiène de vie et du suivi médical.
+            </p>
 
-            <div className="text-center mt-6">
+            <div className="mt-10">
               <button
                 onClick={scrollToOrder}
-                className="bg-rouge text-white px-5 md:px-7 py-3.5 rounded-xl text-[14px] md:text-[15px] font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform"
+                className="bg-rouge text-white px-6 md:px-8 py-4 rounded-2xl text-[14.5px] md:text-[15.5px] font-extrabold shadow-[0_12px_28px_-10px_rgba(198,40,40,0.5)] hover:-translate-y-0.5 transition-transform"
               >
                 Découvrir la recette du Vieux KOUKA
               </button>
