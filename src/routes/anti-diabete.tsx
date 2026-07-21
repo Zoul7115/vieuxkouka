@@ -275,21 +275,21 @@ export function AntiDiabetePage() {
       </section>
 
       {/* SECTION 2 — VOUS VOUS RECONNAISSEZ PEUT-ÊTRE */}
-      <section className="py-12 md:py-16 bg-bleu-bg">
+      <section className="py-20 md:py-28 bg-bleu-bg/60">
         <div className="max-w-5xl mx-auto px-4">
-          <div className="text-center mb-8 md:mb-10">
+          <div className="text-center mb-12 md:mb-16">
             <span className="anim-up inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 text-[11px] md:text-xs font-semibold px-3.5 py-1.5 rounded-full ring-1 ring-emerald-600/15">
               🔎 VOUS VOUS RECONNAISSEZ PEUT-ÊTRE...
             </span>
-            <h2 className="anim-up mt-3 text-bleu font-extrabold tracking-tight text-[24px] sm:text-[28px] md:text-[34px] leading-[1.2]" style={{ animationDelay: '80ms' }}>
+            <h2 className="anim-up mt-4 text-bleu font-extrabold tracking-tight text-[26px] sm:text-[32px] md:text-[40px] leading-[1.15]" style={{ animationDelay: '80ms' }}>
               Vous reconnaissez peut-être votre quotidien...
             </h2>
-            <p className="anim-up text-[14.5px] md:text-[16px] text-slate-600 leading-[1.65] mt-3 max-w-2xl mx-auto" style={{ animationDelay: '160ms' }}>
+            <p className="anim-up text-[15px] md:text-[17px] text-slate-600 leading-[1.7] mt-4 max-w-2xl mx-auto" style={{ animationDelay: '160ms' }}>
               Certaines personnes vivent ces situations tous les jours sans imaginer qu'elles peuvent être liées à une glycémie difficile à équilibrer.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {[
               { icon: '🦶', t: 'Tes pieds picotent ou brûlent lorsque tu marches ?', d: 'Ces sensations peuvent devenir de plus en plus gênantes au quotidien.' },
               { icon: '🥤', t: 'Tu bois de l\'eau toute la journée sans vraiment calmer ta soif ?', d: 'Même après plusieurs verres, cette sensation revient rapidement.' },
@@ -300,28 +300,26 @@ export function AntiDiabetePage() {
             ].map((c, i) => (
               <div
                 key={i}
-                className="anim-up bg-white rounded-2xl p-5 md:p-6 border border-bleu-light/30 shadow-[0_4px_16px_rgba(0,0,0,0.05)] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all"
+                className="anim-up bg-white rounded-3xl p-7 md:p-8 shadow-[0_10px_40px_-20px_rgba(30,64,175,0.20)] hover:-translate-y-1 hover:shadow-[0_18px_50px_-20px_rgba(30,64,175,0.28)] transition-all"
                 style={{ animationDelay: `${120 + i * 70}ms` }}
               >
-                <div className="text-3xl md:text-4xl mb-2">{c.icon}</div>
-                <div className="font-extrabold text-bleu text-[15px] md:text-base leading-snug">{c.t}</div>
-                <div className="text-[13px] md:text-[14px] text-slate-600 mt-2 leading-relaxed">{c.d}</div>
+                <div className="text-4xl md:text-5xl mb-4">{c.icon}</div>
+                <div className="font-extrabold text-bleu text-[16px] md:text-[17px] leading-snug">{c.t}</div>
+                <div className="text-[13.5px] md:text-[14.5px] text-slate-600 mt-3 leading-relaxed">{c.d}</div>
               </div>
             ))}
           </div>
 
-          <div className="mt-8 md:mt-10 max-w-3xl mx-auto anim-up" style={{ animationDelay: '600ms' }}>
-            <div className="bg-white rounded-2xl border border-bleu-light/30 shadow-sm p-5 md:p-6 flex gap-3 md:gap-4">
-              <span className="text-bleu text-xl md:text-2xl shrink-0">💙</span>
-              <p className="text-[14px] md:text-[15.5px] text-slate-700 leading-relaxed">
-                Ces signes peuvent progressivement rendre les gestes du quotidien plus difficiles : marcher confortablement, dormir paisiblement, travailler ou profiter pleinement de sa famille.
-              </p>
-            </div>
+          <div className="mt-14 md:mt-16 max-w-3xl mx-auto anim-up text-center" style={{ animationDelay: '600ms' }}>
+            <p className="text-[16px] md:text-[18px] text-slate-700 leading-relaxed italic max-w-2xl mx-auto">
+              <span className="text-bleu text-2xl align-middle mr-1">💙</span>
+              Ces signes peuvent progressivement rendre les gestes du quotidien plus difficiles : marcher confortablement, dormir paisiblement, travailler ou profiter pleinement de sa famille.
+            </p>
 
-            <div className="text-center mt-6">
+            <div className="mt-8">
               <button
                 onClick={() => document.getElementById('smart-diagnostic')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-rouge text-white px-5 md:px-7 py-3.5 rounded-xl text-[14px] md:text-[15px] font-extrabold shadow-[0_6px_20px_rgba(198,40,40,0.35)] hover:-translate-y-0.5 transition-transform"
+                className="bg-rouge text-white px-6 md:px-8 py-4 rounded-2xl text-[14.5px] md:text-[15.5px] font-extrabold shadow-[0_12px_28px_-10px_rgba(198,40,40,0.5)] hover:-translate-y-0.5 transition-transform"
               >
                 Découvrir comment cette recette traditionnelle peut m'aider
               </button>
