@@ -503,7 +503,7 @@ export function AntiDiabetePage() {
                 <img
                   src={sachetAsset.url}
                   alt="Sachet Poudre Anti-Diabète du Vieux KOUKA"
-                  className="relative z-10 w-[60%] max-w-xs h-auto object-contain drop-shadow-[0_25px_35px_rgba(16,80,40,0.35)]"
+                  className="relative z-10 w-[75%] max-w-md md:max-w-lg h-auto object-contain drop-shadow-[0_25px_35px_rgba(16,80,40,0.35)]"
                 />
                 <div className="relative z-10 mt-6 text-center">
                   <div className="text-bleu font-extrabold text-lg md:text-xl">Poudre Anti-Diabète</div>
@@ -516,7 +516,7 @@ export function AntiDiabetePage() {
       </section>
 
       {/* SECTION 7 — POSOLOGIE PREMIUM */}
-      <section className="py-16 md:py-20 bg-gradient-to-b from-white to-bleu-bg/40">
+      <section className="py-20 md:py-28 bg-bleu-bg/40">
         <div className="max-w-5xl mx-auto px-4 md:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
             <span className="anim-up inline-flex items-center gap-2 bg-bleu-bg text-bleu text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-bleu/15">
@@ -621,7 +621,7 @@ export function AntiDiabetePage() {
       </div>
 
       {/* SECTION 11 — COMPARATIF PREMIUM */}
-      <section className="py-16 md:py-20 bg-gradient-to-b from-white to-bleu-bg/40">
+      <section className="py-20 md:py-28 bg-bleu-bg/40">
         <div className="max-w-5xl mx-auto px-4 md:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10 md:mb-12">
             <span className="anim-up inline-flex items-center gap-2 bg-bleu-bg text-bleu text-[11px] md:text-xs font-semibold px-4 py-1.5 rounded-full ring-1 ring-bleu/15">
