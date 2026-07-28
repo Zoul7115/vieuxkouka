@@ -85,7 +85,7 @@ export function WhyTrustSection() {
         className="pointer-events-none absolute -bottom-40 -right-32 h-[26rem] w-[26rem] rounded-full bg-bleu-bg blur-3xl opacity-50"
       />
 
-      <div className="relative mx-auto w-full max-w-6xl px-5 py-28 sm:px-8 lg:py-36">
+      <div className="relative mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
         {/* En-tête */}
         <div
           ref={headerRef}

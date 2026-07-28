@@ -166,7 +166,7 @@ export function FAQSection() {
           ref={listRef}
           type="single"
           collapsible
-          className={cn('mt-14 space-y-5 sm:mt-16 lg:mt-20')}
+          className={cn('mt-14 space-y-5 sm:mt-12 lg:mt-14')}
           defaultValue="faq-0"
         >
           {FAQS.map((item, i) => (

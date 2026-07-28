@@ -254,7 +254,7 @@ export function TemoignagesSection() {
         className="pointer-events-none absolute -top-32 left-[-10rem] h-[26rem] w-[26rem] rounded-full bg-bleu-bg blur-3xl opacity-60"
       />
 
-      <div className="container-kouka relative py-24 sm:py-28 lg:py-36">
+      <div className="container-kouka relative py-16 sm:py-20 lg:py-24">
         {/* Titre */}
         <div
           ref={headerRef}
@@ -275,7 +275,7 @@ export function TemoignagesSection() {
         </div>
 
         {/* BLOC 1 — Avis marquants (carrousel) */}
-        <div ref={avisRef} className="mt-16 lg:mt-20">
+        <div ref={avisRef} className="mt-12 lg:mt-14">
           <div
             className={`mb-8 text-center sm:mb-10 ${
               avisIn ? 'animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-both' : 'opacity-0'
@@ -298,7 +298,7 @@ export function TemoignagesSection() {
         </div>
 
         {/* BLOC 2 — Conversations WhatsApp */}
-        <div ref={waRef} className="mt-24 lg:mt-32">
+        <div ref={waRef} className="mt-14 lg:mt-16">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
               <h3 className="font-body text-[1.8rem] font-extrabold leading-[1.2] text-foreground sm:text-[2.2rem]">
@@ -355,7 +355,7 @@ export function TemoignagesSection() {
         </div>
 
         {/* BLOC 3 — Audios */}
-        <div ref={audioRef} className="mt-24 lg:mt-32">
+        <div ref={audioRef} className="mt-14 lg:mt-16">
           <h3 className="font-body text-[1.8rem] font-extrabold leading-[1.2] text-foreground sm:text-[2.2rem]">
             Écoutez leurs témoignages
           </h3>

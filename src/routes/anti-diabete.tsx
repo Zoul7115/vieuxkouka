@@ -211,7 +211,7 @@ function ProblemSection() {
         className="pointer-events-none absolute -bottom-40 -right-32 h-[26rem] w-[26rem] rounded-full bg-bleu-bg blur-3xl opacity-50"
       />
 
-      <div className="relative mx-auto w-full max-w-6xl px-5 py-24 sm:px-8 lg:py-32">
+      <div className="relative mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
         <header className="mx-auto max-w-3xl text-center">
           <h2 className="font-body text-[2rem] font-extrabold leading-[1.1] tracking-tight text-foreground sm:text-[2.5rem] lg:text-[3.2rem]">
             Vous vivez peut-être ces problèmes tous les jours…
@@ -389,7 +389,7 @@ function TimelineSection() {
         className="pointer-events-none absolute -bottom-24 -right-24 h-[24rem] w-[24rem] rounded-full bg-bleu-bg blur-3xl opacity-50"
       />
 
-      <div className="relative mx-auto w-full max-w-4xl px-5 py-28 sm:px-8 lg:py-36">
+      <div className="relative mx-auto w-full max-w-4xl px-5 py-16 sm:px-8 lg:py-24">
         <div
           ref={headerRef}
           className={`mx-auto max-w-3xl text-center ${
@@ -407,7 +407,7 @@ function TimelineSection() {
         </div>
 
         {/* Ligne du temps */}
-        <div className="relative mt-20 sm:mt-24">
+        <div className="relative mt-12 sm:mt-14">
           {/* Ligne verticale */}
           <div
             aria-hidden
@@ -504,7 +504,7 @@ function SolutionSection() {
         className="pointer-events-none absolute -top-32 right-[-10rem] h-[28rem] w-[28rem] rounded-full bg-bleu-bg blur-3xl opacity-50"
       />
 
-      <div className="relative mx-auto w-full max-w-6xl px-5 py-28 sm:px-8 lg:py-36">
+      <div className="relative mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 lg:py-24">
         {/* En-tête */}
         <div
           ref={headerRef}
@@ -643,7 +643,7 @@ function SolutionSection() {
         </div>
 
         {/* BLOC 3 — Confiance */}
-        <div ref={b3Ref} className="mt-28 lg:mt-36">
+        <div ref={b3Ref} className="mt-14 lg:mt-16">
           <h3
             className={`mx-auto max-w-3xl text-center font-body text-[1.9rem] font-extrabold leading-[1.2] text-foreground sm:text-[2.4rem] ${
               b3In ? 'animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both' : 'opacity-0'
