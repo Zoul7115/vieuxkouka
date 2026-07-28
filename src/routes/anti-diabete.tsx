@@ -445,6 +445,203 @@ function TimelineSection() {
 }
 
 
+const KOUKA_POINTS = ['Traitement traditionnel', 'Cure de 40 jours', 'Préparé avec soin'];
+
+const TRAITEMENT_POINTS = [
+  '3 sachets pour une cure de 40 jours',
+  "Conseils d'utilisation",
+  'Utilisation simple à la maison',
+  'Accompagnement si besoin',
+];
+
+const CONFIANCE_CARDS = [
+  { icon: '🌿', title: 'Préparé avec soin', text: 'Chaque traitement est préparé avec attention.' },
+  { icon: '🏺', title: 'Traitement traditionnel', text: 'Un savoir transmis depuis de nombreuses années.' },
+  { icon: '💵', title: 'Paiement à la livraison', text: 'Vous payez uniquement lorsque vous recevez votre commande.' },
+  { icon: '🚚', title: 'Livraison rapide', text: 'Votre commande est expédiée rapidement.' },
+];
+
+function CheckItem({ text, index, show }: { text: string; index: number; show: boolean }) {
+  return (
+    <li
+      className={`flex items-start gap-3.5 ${
+        show ? 'animate-in fade-in slide-in-from-bottom-2 duration-500 fill-mode-both' : 'opacity-0'
+      }`}
+      style={show ? { animationDelay: `${200 + index * 120}ms` } : undefined}
+    >
+      <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-bleu-bg text-sm font-bold text-bleu">
+        ✔
+      </span>
+      <span className="text-lg leading-[1.7] text-foreground sm:text-xl">{text}</span>
+    </li>
+  );
+}
+
+function SolutionSection() {
+  const { ref: headerRef, inView: headerIn } = useInView<HTMLDivElement>(0.2);
+  const { ref: b1Ref, inView: b1In } = useInView<HTMLDivElement>(0.15);
+  const { ref: b2Ref, inView: b2In } = useInView<HTMLDivElement>(0.15);
+  const { ref: b3Ref, inView: b3In } = useInView<HTMLDivElement>(0.1);
+  const { ref: trRef, inView: trIn } = useInView<HTMLDivElement>(0.3);
+
+  return (
+    <section className="relative isolate overflow-hidden bg-white">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 right-[-10rem] h-[28rem] w-[28rem] rounded-full bg-bleu-bg blur-3xl opacity-50"
+      />
+
+      <div className="relative mx-auto w-full max-w-6xl px-5 py-28 sm:px-8 lg:py-36">
+        {/* En-tête */}
+        <div
+          ref={headerRef}
+          className={`mx-auto max-w-3xl text-center ${
+            headerIn ? 'animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both' : 'opacity-0'
+          }`}
+        >
+          <h2 className="font-body text-[2.1rem] font-extrabold leading-[1.14] tracking-tight text-foreground sm:text-[2.8rem] lg:text-[3.2rem]">
+            Vous n&apos;êtes pas obligé de vivre comme ça.
+            <br className="hidden sm:block" />{' '}
+            <span className="text-bleu">Découvrez la Poudre Anti-Diabète du Vieux Kouka.</span>
+          </h2>
+          <p className="mx-auto mt-8 max-w-2xl text-lg leading-[1.8] text-muted-foreground sm:text-xl">
+            Depuis plusieurs années, le Vieux Kouka accompagne des personnes vivant avec le diabète grâce à son
+            traitement traditionnel de 40 jours.
+          </p>
+        </div>
+
+        {/* BLOC 1 — Le Vieux Kouka */}
+        <div ref={b1Ref} className="mt-24 grid items-center gap-12 lg:mt-28 lg:grid-cols-2 lg:gap-16">
+          <div
+            className={
+              b1In ? 'animate-in fade-in slide-in-from-left-6 duration-700 fill-mode-both' : 'opacity-0'
+            }
+          >
+            <div className="overflow-hidden rounded-[2rem] bg-bleu-bg shadow-[0_30px_70px_-35px_rgba(25,118,210,0.55)] ring-1 ring-bleu/10">
+              <img
+                src={portraitKouka.url}
+                alt="Le Vieux Kouka, préparateur du traitement traditionnel anti-diabète"
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+
+          <div
+            className={
+              b1In
+                ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 delay-150 fill-mode-both'
+                : 'opacity-0'
+            }
+          >
+            <span className="inline-flex items-center gap-2 rounded-full bg-bleu-bg px-4 py-2 text-sm font-bold text-bleu sm:text-base">
+              Plus de 30 ans d&apos;expérience
+            </span>
+            <h3 className="mt-6 font-body text-[1.9rem] font-extrabold leading-[1.15] text-foreground sm:text-[2.3rem]">
+              Qui est le Vieux Kouka ?
+            </h3>
+            <p className="mt-5 text-lg leading-[1.85] text-muted-foreground sm:text-xl">
+              Depuis de nombreuses années, le Vieux Kouka partage son savoir traditionnel avec des personnes vivant
+              avec le diabète. Son objectif est d&apos;accompagner chaque personne avec un traitement préparé avec
+              soin et un suivi sérieux.
+            </p>
+            <ul className="mt-8 space-y-4">
+              {KOUKA_POINTS.map((p, i) => (
+                <CheckItem key={p} text={p} index={i} show={b1In} />
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* BLOC 2 — Le traitement */}
+        <div ref={b2Ref} className="mt-24 grid items-center gap-12 lg:mt-32 lg:grid-cols-2 lg:gap-16">
+          <div
+            className={`${
+              b2In ? 'animate-in fade-in slide-in-from-left-6 duration-700 fill-mode-both' : 'opacity-0'
+            }`}
+          >
+            <div className="overflow-hidden rounded-[2rem] bg-bleu-bg shadow-[0_30px_70px_-35px_rgba(25,118,210,0.55)] ring-1 ring-bleu/10">
+              <img
+                src={sachetPremium.url}
+                alt="Sachet de Poudre Anti-Diabète du Vieux Kouka"
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+
+          <div
+            className={`lg:order-first ${
+              b2In
+                ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 delay-150 fill-mode-both'
+                : 'opacity-0'
+            }`}
+          >
+            <h3 className="font-body text-[1.9rem] font-extrabold leading-[1.15] text-foreground sm:text-[2.3rem]">
+              Ce que vous recevez
+            </h3>
+            <ul className="mt-8 space-y-4">
+              {TRAITEMENT_POINTS.map((p, i) => (
+                <CheckItem key={p} text={p} index={i} show={b2In} />
+              ))}
+            </ul>
+            <span className="mt-9 inline-flex items-center gap-2 rounded-full bg-rouge/10 px-5 py-2.5 text-base font-bold text-rouge">
+              Traitement complet de 40 jours
+            </span>
+          </div>
+        </div>
+
+        {/* BLOC 3 — Confiance */}
+        <div ref={b3Ref} className="mt-28 lg:mt-36">
+          <h3
+            className={`mx-auto max-w-3xl text-center font-body text-[1.9rem] font-extrabold leading-[1.2] text-foreground sm:text-[2.4rem] ${
+              b3In ? 'animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both' : 'opacity-0'
+            }`}
+          >
+            Pourquoi tant de personnes lui font confiance ?
+          </h3>
+
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-7">
+            {CONFIANCE_CARDS.map((card, i) => (
+              <div
+                key={card.title}
+                className={`group rounded-[1.75rem] bg-white p-8 shadow-[0_18px_45px_-30px_rgba(15,23,42,0.45)] ring-1 ring-bleu/10 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-28px_rgba(25,118,210,0.45)] ${
+                  b3In ? 'animate-in fade-in duration-700 fill-mode-both' : 'opacity-0'
+                }`}
+                style={b3In ? { animationDelay: `${150 + i * 130}ms` } : undefined}
+              >
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-bleu-bg text-2xl">
+                  {card.icon}
+                </div>
+                <h4 className="mt-6 font-body text-xl font-extrabold leading-snug text-foreground sm:text-[1.35rem]">
+                  {card.title}
+                </h4>
+                <p className="mt-3 text-base leading-[1.75] text-muted-foreground sm:text-lg">{card.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Transition vers les témoignages */}
+        <div
+          ref={trRef}
+          className={`mx-auto mt-24 max-w-2xl text-center lg:mt-32 ${
+            trIn ? 'animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both' : 'opacity-0'
+          }`}
+        >
+          <p className="text-xl font-bold leading-[1.6] text-foreground sm:text-2xl">
+            Mais le mieux, c&apos;est encore d&apos;écouter ceux qui l&apos;ont déjà essayé.
+          </p>
+          <p className="mt-4 text-lg leading-[1.75] text-muted-foreground sm:text-xl">
+            Voici ce que racontent les personnes qui ont suivi la cure.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
 export function AntiDiabetePage() {
   return (
     <main className="bg-card font-body">
@@ -457,10 +654,13 @@ export function AntiDiabetePage() {
 
       <TimelineSection />
 
+      <SolutionSection />
+
       <section id="order-section">
         <ProductForm product={ANTI_DIABETE} />
       </section>
     </main>
   );
 }
+
 
