@@ -58,12 +58,15 @@ const TRUST_CARDS = [
 ];
 
 const BADGES = [
-  '🌙 Dormir plus tranquillement',
-  '💧 Avoir moins soif',
-  '🚶 Se sentir moins fatiguées',
-  '🦶 Retrouver plus de confort au niveau des pieds',
-  '📉 Retrouver une glycémie plus stable',
+  { icon: '🌙', text: 'Dormir toute la nuit sans se lever plusieurs fois' },
+  { icon: '💧', text: 'Boire normalement sans avoir toujours soif' },
+  { icon: '🚶', text: 'Retrouver plus d’énergie pendant la journée' },
+  { icon: '🚽', text: 'Aller moins souvent aux toilettes' },
+  { icon: '🦶', text: 'Marcher plus facilement, sans cette gêne dans les pieds' },
+  { icon: '📉', text: 'Retrouver une glycémie plus stable' },
+  { icon: '😊', text: 'Retrouver le plaisir de vivre plus sereinement' },
 ];
+
 
 export function WhyTrustSection() {
   const { ref: headerRef, inView: headerIn } = useInView<HTMLDivElement>(0.2);
