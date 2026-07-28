@@ -373,7 +373,7 @@ export function TemoignagesSection() {
         {/* BLOC 4 — Réassurance */}
         <div
           ref={noteRef}
-          className={`mt-20 rounded-[1.75rem] bg-bleu-bg/70 p-8 text-center ring-1 ring-bleu/10 sm:p-10 lg:mt-16 ${
+          className={`mt-12 rounded-[1.75rem] bg-bleu-bg/70 p-8 text-center ring-1 ring-bleu/10 sm:p-10 lg:mt-16 ${
             noteIn ? 'animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-both' : 'opacity-0'
           }`}
         >

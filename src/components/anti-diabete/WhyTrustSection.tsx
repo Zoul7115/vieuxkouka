@@ -133,7 +133,7 @@ export function WhyTrustSection() {
         <div
           ref={badgesRef}
           className={cn(
-            'mt-16 rounded-[2rem] bg-bleu-bg/80 p-8 ring-1 ring-bleu/10 sm:mt-14 sm:p-12 lg:p-16',
+            'mt-12 rounded-[2rem] bg-bleu-bg/80 p-8 ring-1 ring-bleu/10 sm:mt-14 sm:p-12 lg:p-16',
             badgesIn ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 fill-mode-both' : 'opacity-0'
           )}
         >
@@ -166,7 +166,7 @@ export function WhyTrustSection() {
         <div
           ref={finalRef}
           className={cn(
-            'mt-16 rounded-[2rem] bg-bleu-bg p-9 ring-1 ring-bleu/10 sm:mt-14 sm:p-14',
+            'mt-12 rounded-[2rem] bg-bleu-bg p-9 ring-1 ring-bleu/10 sm:mt-14 sm:p-14',
             finalIn ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 fill-mode-both' : 'opacity-0'
           )}
         >

@@ -178,7 +178,7 @@ export function FAQSection() {
         <div
           ref={ctaRef}
           className={cn(
-            'mt-16 rounded-[2rem] bg-bleu p-8 text-center shadow-[0_24px_60px_-28px_rgba(25,118,210,0.5)] ring-1 ring-white/10 sm:mt-14 sm:p-12 lg:mt-24',
+            'mt-12 rounded-[2rem] bg-bleu p-8 text-center shadow-[0_24px_60px_-28px_rgba(25,118,210,0.5)] ring-1 ring-white/10 sm:mt-14 sm:p-12 lg:mt-16',
             ctaIn ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 delay-200 fill-mode-both' : 'opacity-0'
           )}
         >

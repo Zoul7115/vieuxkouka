@@ -427,7 +427,7 @@ function TimelineSection() {
         {/* Bloc de transition bleu clair */}
         <div
           ref={blockRef}
-          className={`mt-16 rounded-[2rem] bg-bleu-bg p-9 text-center shadow-[0_24px_60px_-28px_rgba(25,118,210,0.5)] ring-1 ring-bleu/10 sm:mt-14 sm:p-14 ${
+          className={`mt-12 rounded-[2rem] bg-bleu-bg p-9 text-center shadow-[0_24px_60px_-28px_rgba(25,118,210,0.5)] ring-1 ring-bleu/10 sm:mt-14 sm:p-14 ${
             blockInView
               ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 delay-200 fill-mode-both'
               : 'opacity-0'
