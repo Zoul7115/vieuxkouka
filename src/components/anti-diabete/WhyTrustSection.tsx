@@ -133,24 +133,34 @@ export function WhyTrustSection() {
         <div
           ref={badgesRef}
           className={cn(
-            'mt-16 rounded-[2rem] bg-bleu-bg/80 p-8 ring-1 ring-bleu/10 sm:mt-20 sm:p-12',
+            'mt-16 rounded-[2rem] bg-bleu-bg/80 p-8 ring-1 ring-bleu/10 sm:mt-20 sm:p-12 lg:p-16',
             badgesIn ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 fill-mode-both' : 'opacity-0'
           )}
         >
-          <h3 className="text-center font-body text-xl font-extrabold text-foreground sm:text-2xl">
-            Avec cette cure, beaucoup de personnes espèrent :
+          <h3 className="text-center font-body text-xl font-extrabold leading-snug text-foreground sm:text-2xl lg:text-[1.75rem]">
+            Beaucoup de personnes prennent cette cure pour retrouver petit à petit :
           </h3>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            {BADGES.map((badge) => (
-              <span
-                key={badge}
-                className="inline-flex items-center rounded-full bg-white px-5 py-2.5 text-sm font-bold text-foreground shadow-sm ring-1 ring-bleu/10 sm:text-base"
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3 lg:gap-5">
+            {BADGES.map((badge, i) => (
+              <div
+                key={badge.text}
+                className={cn(
+                  'group flex items-center gap-4 rounded-[1.25rem] bg-white px-5 py-5 shadow-[0_10px_30px_-14px_rgba(15,40,80,0.25)] ring-1 ring-bleu/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_22px_45px_-20px_rgba(25,118,210,0.35)] sm:px-6 sm:py-6',
+                  badgesIn ? 'animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both' : 'opacity-0'
+                )}
+                style={badgesIn ? { animationDelay: `${i * 100}ms` } : undefined}
               >
-                {badge}
-              </span>
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-bleu-bg text-[1.35rem] shadow-sm transition-transform duration-300 group-hover:scale-110 sm:h-12 sm:w-12 sm:text-[1.5rem]">
+                  {badge.icon}
+                </span>
+                <span className="text-base font-bold leading-snug text-foreground sm:text-lg">
+                  {badge.text}
+                </span>
+              </div>
             ))}
           </div>
         </div>
+
 
         {/* Bloc final bleu clair */}
         <div
