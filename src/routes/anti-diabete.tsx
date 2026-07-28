@@ -433,8 +433,10 @@ function TimelineSection() {
   );
 }
 
+export function AntiDiabetePage() {
   return (
     <main className="bg-card font-body">
+
       <VisitTracker page="anti-diabete" />
 
       <Hero />
