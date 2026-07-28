@@ -7,6 +7,8 @@ import { VisitTracker } from '@/components/VisitTracker';
 import { FAQSection } from '@/components/anti-diabete/FAQSection';
 import { CureCompleteSection } from '@/components/anti-diabete/CureCompleteSection';
 import { TemoignagesSection } from '@/components/anti-diabete/TemoignagesSection';
+import { WhyTrustSection } from '@/components/anti-diabete/WhyTrustSection';
+
 import { ANTI_DIABETE } from '@/lib/products';
 import heroKouka from '@/assets/kouka-hero-medical.png.asset.json';
 import pbNuit from '@/assets/pb-nuit.png.asset.json';
@@ -705,7 +707,10 @@ export function AntiDiabetePage() {
 
       <SolutionSection />
 
+      <WhyTrustSection />
+
       <TemoignagesSection />
+
 
       <FAQSection />
 
