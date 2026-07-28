@@ -180,7 +180,7 @@ export function CureCompleteSection() {
             <button
               type="button"
               onClick={() => selectOffer(21)}
-              className="mt-8 w-full rounded-xl bg-white px-6 py-4 text-base font-bold text-foreground ring-1 ring-border transition-all duration-300 hover:-translate-y-0.5 hover:bg-bleu-bg"
+              className="mt-auto pt-0 mt-8 w-full rounded-xl bg-white px-6 py-4 text-base font-bold text-foreground ring-1 ring-border transition-all duration-300 hover:-translate-y-0.5 hover:bg-bleu-bg"
             >
               Choisir cette offre
             </button>
@@ -261,7 +261,7 @@ export function CureCompleteSection() {
             <button
               type="button"
               onClick={() => selectOffer(23)}
-              className="mt-8 w-full rounded-xl bg-bleu px-6 py-4 text-base font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
+              className="mt-auto w-full rounded-xl bg-bleu mt-8 px-6 py-4 text-base font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
             >
               Choisir cette formule
             </button>
