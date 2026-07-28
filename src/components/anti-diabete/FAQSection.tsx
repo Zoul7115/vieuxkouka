@@ -141,7 +141,7 @@ export function FAQSection() {
         className="pointer-events-none -bottom-40 right-[-10rem] h-[26rem] w-[26rem] rounded-full bg-bleu-bg blur-3xl opacity-50"
       />
 
-      <div className="container-kouka relative py-24 sm:py-28 lg:py-36">
+      <div className="relative mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
         {/* En-tête */}
         <div
           ref={headerRef}
