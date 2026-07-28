@@ -4,6 +4,12 @@ import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ANTI_DIABETE } from '@/lib/products';
 import heroKouka from '@/assets/kouka-hero-medical.png.asset.json';
+import pbNuit from '@/assets/pb-nuit.png.asset.json';
+import pbSoif from '@/assets/pb-soif.png.asset.json';
+import pbFatigue from '@/assets/pb-fatigue.png.asset.json';
+import pbGlucometre from '@/assets/pb-glucometre.png.asset.json';
+import pbPieds from '@/assets/pb-pieds.png.asset.json';
+import pbPlaie from '@/assets/pb-plaie.png.asset.json';
 
 export const Route = createFileRoute('/anti-diabete')({
   head: () => ({
@@ -102,12 +108,147 @@ function Hero() {
   );
 }
 
+type Pb = { img: string; alt: string; title: string; text: string; pos?: string };
+
+const PROBLEMES: Record<string, Pb> = {
+  nuit: {
+    img: pbNuit.url,
+    alt: "Homme assis sur son lit, réveillé plusieurs fois dans la nuit",
+    title: 'Vous vous levez plusieurs fois dans la nuit ?',
+    text: "Vous n'arrivez plus à dormir tranquillement parce que vous allez souvent aux toilettes.",
+    pos: 'object-center',
+  },
+  soif: {
+    img: pbSoif.url,
+    alt: "Femme buvant un verre d'eau dans sa cuisine",
+    title: 'Vous avez toujours soif ?',
+    text: "Même après avoir bu de l'eau, vous avez encore envie de boire.",
+    pos: 'object-top',
+  },
+  fatigue: {
+    img: pbFatigue.url,
+    alt: 'Homme fatigué assis sur son canapé',
+    title: 'Vous êtes souvent fatigué ?',
+    text: "Vous manquez d'énergie, même pour faire les petites choses de la journée.",
+    pos: 'object-top',
+  },
+  sucre: {
+    img: pbGlucometre.url,
+    alt: 'Homme regardant le résultat de son glucomètre',
+    title: 'Votre taux de sucre reste élevé ?',
+    text: 'Vous faites attention, mais les résultats ne changent presque pas.',
+    pos: 'object-top',
+  },
+  pieds: {
+    img: pbPieds.url,
+    alt: 'Homme tenant son pied douloureux au bord du lit',
+    title: 'Vos pieds vous brûlent ou vous picotent ?',
+    text: 'Ces douleurs deviennent de plus en plus difficiles à supporter.',
+    pos: 'object-center',
+  },
+  plaie: {
+    img: pbPlaie.url,
+    alt: 'Petite plaie recouverte d’un pansement sous le pied',
+    title: 'Vos plaies mettent du temps à guérir ?',
+    text: 'Même une petite blessure peut mettre plusieurs jours à disparaître.',
+    pos: 'object-center',
+  },
+};
+
+function PbCard({
+  item,
+  className = '',
+  ratio = 'aspect-[4/5]',
+}: {
+  item: Pb;
+  className?: string;
+  ratio?: string;
+}) {
+  return (
+    <figure
+      className={`group relative overflow-hidden rounded-3xl bg-bleu-bg shadow-[0_10px_30px_-18px_rgba(15,40,80,0.45)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_22px_50px_-22px_rgba(15,40,80,0.45)] ${ratio} ${className}`}
+    >
+      <img
+        src={item.img}
+        alt={item.alt}
+        loading="lazy"
+        className={`absolute inset-0 h-full w-full object-cover ${item.pos ?? 'object-center'} transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]`}
+      />
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 via-black/35 to-transparent"
+      />
+      <figcaption className="absolute inset-x-0 bottom-0 p-5 sm:p-6 lg:p-7">
+        <h3 className="font-body text-lg font-extrabold leading-snug text-white drop-shadow-sm sm:text-xl lg:text-[1.4rem]">
+          {item.title}
+        </h3>
+        <p className="mt-2 max-w-md text-sm leading-relaxed text-white/85 sm:text-base">
+          {item.text}
+        </p>
+      </figcaption>
+    </figure>
+  );
+}
+
+function ProblemSection() {
+  return (
+    <section className="relative isolate overflow-hidden bg-card">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 left-1/2 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-bleu-bg blur-3xl opacity-60"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-40 -right-32 h-[26rem] w-[26rem] rounded-full bg-bleu-bg blur-3xl opacity-50"
+      />
+
+      <div className="relative mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
+        <header className="mx-auto max-w-3xl text-center">
+          <h2 className="font-body text-[1.9rem] font-extrabold leading-[1.12] tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            Le diabète vous fait peut-être vivre tout ça…
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Le diabète ne fait pas seulement monter le taux de sucre. Petit à
+            petit, il peut rendre les choses simples beaucoup plus difficiles.
+          </p>
+        </header>
+
+        {/* Composition éditoriale */}
+        <div className="mt-14 grid gap-5 sm:gap-6 lg:mt-20 lg:grid-cols-3">
+          <PbCard
+            item={PROBLEMES.nuit}
+            className="lg:col-span-2 lg:aspect-auto lg:h-full lg:min-h-[34rem]"
+          />
+          <div className="grid gap-5 sm:gap-6">
+            <PbCard item={PROBLEMES.sucre} ratio="aspect-[4/5] lg:aspect-[4/3]" />
+            <PbCard item={PROBLEMES.soif} ratio="aspect-[4/5] lg:aspect-[4/3]" />
+          </div>
+        </div>
+
+        <div className="mt-5 grid gap-5 sm:gap-6 lg:mt-6 lg:grid-cols-3">
+          <PbCard item={PROBLEMES.fatigue} />
+          <PbCard item={PROBLEMES.pieds} />
+          <PbCard item={PROBLEMES.plaie} />
+        </div>
+
+        <p className="mx-auto mt-14 max-w-3xl text-center text-lg font-bold leading-relaxed text-foreground sm:text-xl lg:mt-20 lg:text-2xl">
+          Si vous vivez plusieurs de ces problèmes, il ne faut pas attendre que
+          la situation <span className="text-bleu">s’aggrave</span>.
+        </p>
+      </div>
+    </section>
+  );
+}
+
 export function AntiDiabetePage() {
   return (
     <main className="bg-card font-body">
       <VisitTracker page="anti-diabete" />
 
       <Hero />
+
+      <ProblemSection />
+
 
       <section id="order-section">
         <ProductForm product={ANTI_DIABETE} />
