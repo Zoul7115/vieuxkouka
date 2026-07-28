@@ -23,7 +23,7 @@ export const Route = createFileRoute('/anti-diabete')({
 
 function Hero() {
   return (
-    <section className="relative isolate overflow-hidden bg-background min-h-[100svh] flex items-center">
+    <section className="relative isolate overflow-hidden bg-card min-h-[100svh] flex items-center">
       {/* Formes bleues très discrètes */}
       <div
         aria-hidden
@@ -61,7 +61,7 @@ function Hero() {
               🌿 Traitement traditionnel reconnu depuis plusieurs années
             </span>
 
-            <h1 className="mt-6 text-[2.1rem] leading-[1.08] font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem] animate-in fade-in slide-in-from-bottom-2 duration-500 delay-75 fill-mode-both">
+            <h1 className="mt-6 text-[2.1rem] leading-[1.08] font-body font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem] animate-in fade-in slide-in-from-bottom-2 duration-500 delay-75 fill-mode-both">
               <span className="text-bleu">Guérir</span> du diabète en un temps
               record avec le traitement traditionnel du{' '}
               <span className="text-bleu">Vieux Kouka</span>
@@ -104,7 +104,7 @@ function Hero() {
 
 export function AntiDiabetePage() {
   return (
-    <main className="bg-background">
+    <main className="bg-card font-body">
       <VisitTracker page="anti-diabete" />
 
       <Hero />
