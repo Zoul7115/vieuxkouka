@@ -15,7 +15,7 @@ function useInView<T extends HTMLElement>(threshold = 0.15) {
           observer.disconnect();
         }
       },
-      { threshold, rootMargin: '0px 0px -40px 0px' }
+      { threshold, rootMargin: '0px 0px 180px 0px' }
     );
     observer.observe(el);
     return () => observer.disconnect();
