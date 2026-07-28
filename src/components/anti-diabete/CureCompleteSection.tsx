@@ -177,13 +177,15 @@ export function CureCompleteSection() {
                 </li>
               ))}
             </ul>
+            <div className="mt-auto pt-8">
             <button
               type="button"
               onClick={() => selectOffer(21)}
-              className="mt-auto pt-8 w-full rounded-xl bg-white px-6 py-4 text-base font-bold text-foreground ring-1 ring-border transition-all duration-300 hover:-translate-y-0.5 hover:bg-bleu-bg"
+              className="w-full rounded-xl bg-white px-6 py-4 text-base font-bold text-foreground ring-1 ring-border transition-all duration-300 hover:-translate-y-0.5 hover:bg-bleu-bg"
             >
               Choisir cette offre
             </button>
+            </div>
           </div>
 
           {/* Offre 2 — recommandée */}
@@ -258,13 +260,15 @@ export function CureCompleteSection() {
                 </li>
               ))}
             </ul>
+            <div className="mt-auto pt-8">
             <button
               type="button"
               onClick={() => selectOffer(23)}
-              className="mt-auto pt-8 w-full rounded-xl bg-bleu px-6 py-4 text-base font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
+              className="w-full rounded-xl bg-bleu px-6 py-4 text-base font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
             >
               Choisir cette formule
             </button>
+            </div>
           </div>
         </div>
       </div>
