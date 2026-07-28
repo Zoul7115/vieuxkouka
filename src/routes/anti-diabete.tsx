@@ -88,7 +88,7 @@ export function AntiDiabetePage() {
               className="anim-up font-extrabold text-bleu leading-[1.15] tracking-tight text-[26px] sm:text-[32px] md:text-[38px] lg:text-[42px] max-w-[560px]"
               style={{ animationDelay: '80ms', fontWeight: 700 }}
             >
-              Retrouvez une glycémie plus stable naturellement grâce à une recette traditionnelle burkinabè transmise depuis plus de 60 ans.
+              Guérir du diabète en un temps record avec le traitement traditionnel du Vieux Kouka
             </h1>
 
             {/* Sous-titre */}
