@@ -8,6 +8,7 @@ import { FAQSection } from '@/components/anti-diabete/FAQSection';
 import { CureCompleteSection } from '@/components/anti-diabete/CureCompleteSection';
 import { TemoignagesSection } from '@/components/anti-diabete/TemoignagesSection';
 import { WhyTrustSection } from '@/components/anti-diabete/WhyTrustSection';
+import { StickyOrderBar } from '@/components/anti-diabete/StickyOrderBar';
 
 import { ANTI_DIABETE } from '@/lib/products';
 import heroKouka from '@/assets/kouka-hero-medical.png.asset.json';
