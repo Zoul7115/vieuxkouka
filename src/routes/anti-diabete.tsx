@@ -533,30 +533,6 @@ function SolutionSection() {
                 className="h-full w-full object-cover"
               />
             </div>
-
-            {/* Mini-galerie : son univers */}
-            <div className="mt-5 grid grid-cols-3 gap-4">
-              {GALERIE_KOUKA.map((g, i) => (
-                <div
-                  key={g.alt}
-                  className={`aspect-square overflow-hidden rounded-2xl bg-bleu-bg ring-1 ring-bleu/10 ${
-                    b1In ? 'animate-in fade-in duration-700 fill-mode-both' : 'opacity-0'
-                  }`}
-                  style={b1In ? { animationDelay: `${250 + i * 120}ms` } : undefined}
-                >
-                  {g.url ? (
-                    <img
-                      src={g.url}
-                      alt={g.alt}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center text-2xl opacity-60">🌿</div>
-                  )}
-                </div>
-              ))}
-            </div>
           </div>
 
           <div
