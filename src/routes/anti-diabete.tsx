@@ -696,7 +696,7 @@ function SolutionSection() {
 
 export function AntiDiabetePage() {
   return (
-    <main className="bg-card font-body">
+    <main className="bg-card font-body pb-28 sm:pb-32">
 
       <VisitTracker page="anti-diabete" />
 
@@ -720,6 +720,8 @@ export function AntiDiabetePage() {
       <section id="order-section">
         <ProductForm product={ANTI_DIABETE} />
       </section>
+
+      <StickyOrderBar />
     </main>
   );
 }
