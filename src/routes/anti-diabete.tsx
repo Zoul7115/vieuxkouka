@@ -76,7 +76,7 @@ function Hero() {
               🌿 Traitement traditionnel reconnu depuis plusieurs années
             </span>
 
-            <h1 className="mt-6 text-[2.1rem] leading-[1.08] font-body font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem] animate-in fade-in slide-in-from-bottom-2 duration-500 delay-75 fill-mode-both">
+            <h1 className="mt-6 text-[2.1rem] leading-[1.18] sm:leading-[1.2] font-body font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem] animate-in fade-in slide-in-from-bottom-2 duration-500 delay-75 fill-mode-both">
               <span className="text-bleu">Guérir</span> du diabète en un temps
               record avec le traitement traditionnel du{' '}
               <span className="text-bleu">Vieux Kouka</span>
