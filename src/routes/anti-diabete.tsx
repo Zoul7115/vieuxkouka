@@ -513,7 +513,7 @@ function SolutionSection() {
         </div>
 
         {/* BLOC 1 — Le Vieux Kouka */}
-        <div ref={b1Ref} className="mt-24 grid items-center gap-12 lg:mt-28 lg:grid-cols-2 lg:gap-16">
+        <div ref={b1Ref} className="mt-24 grid items-start gap-12 lg:mt-28 lg:grid-cols-2 lg:gap-16">
           <div
             className={
               b1In ? 'animate-in fade-in slide-in-from-left-6 duration-700 fill-mode-both' : 'opacity-0'
@@ -526,6 +526,30 @@ function SolutionSection() {
                 loading="lazy"
                 className="h-full w-full object-cover"
               />
+            </div>
+
+            {/* Mini-galerie : son univers */}
+            <div className="mt-5 grid grid-cols-3 gap-4">
+              {GALERIE_KOUKA.map((g, i) => (
+                <div
+                  key={g.alt}
+                  className={`aspect-square overflow-hidden rounded-2xl bg-bleu-bg ring-1 ring-bleu/10 ${
+                    b1In ? 'animate-in fade-in duration-700 fill-mode-both' : 'opacity-0'
+                  }`}
+                  style={b1In ? { animationDelay: `${250 + i * 120}ms` } : undefined}
+                >
+                  {g.url ? (
+                    <img
+                      src={g.url}
+                      alt={g.alt}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-2xl opacity-60">🌿</div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
 
@@ -540,20 +564,58 @@ function SolutionSection() {
               Plus de 30 ans d&apos;expérience
             </span>
             <h3 className="mt-6 font-body text-[1.9rem] font-extrabold leading-[1.15] text-foreground sm:text-[2.3rem]">
-              Qui est le Vieux Kouka ?
+              L&apos;histoire du Vieux Kouka
             </h3>
-            <p className="mt-5 text-lg leading-[1.85] text-muted-foreground sm:text-xl">
-              Depuis de nombreuses années, le Vieux Kouka partage son savoir traditionnel avec des personnes vivant
-              avec le diabète. Son objectif est d&apos;accompagner chaque personne avec un traitement préparé avec
-              soin et un suivi sérieux.
+            <p className="mt-8 text-lg leading-[1.9] text-muted-foreground sm:text-xl">
+              Le Vieux Kouka est originaire de la région des Kuilsés, au Burkina Faso. Depuis de nombreuses années,
+              il prépare des traitements traditionnels grâce au savoir qu&apos;il a appris au fil du temps. Pour
+              préparer sa poudre anti-diabète, il choisit avec soin des racines, des écorces et d&apos;autres
+              ingrédients venant du Burkina Faso, de la Côte d&apos;Ivoire et du Bénin. Chaque préparation est
+              réalisée avec beaucoup d&apos;attention afin d&apos;offrir un traitement traditionnel de qualité.
             </p>
-            <ul className="mt-8 space-y-4">
-              {KOUKA_POINTS.map((p, i) => (
-                <CheckItem key={p} text={p} index={i} show={b1In} />
+
+            {/* Citation */}
+            <figure
+              className={`mt-10 rounded-[1.5rem] border border-bleu/15 bg-bleu-bg/50 px-7 py-7 ${
+                b1In
+                  ? 'animate-in fade-in slide-in-from-bottom-3 duration-700 delay-300 fill-mode-both'
+                  : 'opacity-0'
+              }`}
+            >
+              <blockquote className="text-lg italic leading-[1.8] text-foreground sm:text-xl">
+                «&nbsp;Chaque traitement est préparé avec le même soin, parce que chaque personne mérite toute mon
+                attention.&nbsp;»
+              </blockquote>
+              <figcaption className="mt-4 text-base font-bold text-bleu">— Vieux Kouka</figcaption>
+            </figure>
+
+            {/* 3 cartes premium */}
+            <div className="mt-12 grid gap-5 sm:grid-cols-3">
+              {KOUKA_CARDS.map((c, i) => (
+                <div
+                  key={c.title}
+                  className={`rounded-[1.5rem] bg-white p-6 shadow-[0_18px_45px_-30px_rgba(15,23,42,0.45)] ring-1 ring-bleu/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_26px_55px_-28px_rgba(25,118,210,0.45)] ${
+                    b1In ? 'animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-both' : 'opacity-0'
+                  }`}
+                  style={b1In ? { animationDelay: `${450 + i * 150}ms` } : undefined}
+                >
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-bleu-bg text-xl">
+                    {c.icon}
+                  </div>
+                  <h4 className="mt-4 font-body text-lg font-extrabold text-foreground">{c.title}</h4>
+                  <div className="mt-2 space-y-1">
+                    {c.lines.map((l) => (
+                      <p key={l} className="text-base leading-[1.6] text-muted-foreground">
+                        {l}
+                      </p>
+                    ))}
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
+
 
         {/* BLOC 2 — Le traitement */}
         <div ref={b2Ref} className="mt-24 grid items-center gap-12 lg:mt-32 lg:grid-cols-2 lg:gap-16">
