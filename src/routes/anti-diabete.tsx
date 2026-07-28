@@ -14,8 +14,6 @@ import pbPieds from '@/assets/pb-pieds.png.asset.json';
 import pbPlaie from '@/assets/pb-plaie.png.asset.json';
 import portraitKouka from '@/assets/vieux-kouka-portrait-premium.png.asset.json';
 import sachetPremium from '@/assets/sachet-anti-diabete-premium.png.asset.json';
-import preparation1 from '@/assets/kouka-preparation-1.jpeg.asset.json';
-import preparation2 from '@/assets/kouka-preparation-2.jpeg.asset.json';
 
 export const Route = createFileRoute('/anti-diabete')({
   head: () => ({
@@ -455,11 +453,6 @@ const KOUKA_CARDS: { icon: string; title: string; lines: string[] }[] = [
   { icon: '⏳', title: 'Expérience', lines: ['Plus de 30 ans de savoir-faire'] },
 ];
 
-const GALERIE_KOUKA: { url: string | null; alt: string }[] = [
-  { url: preparation1.url, alt: 'Racines et écorces sélectionnées' },
-  { url: preparation2.url, alt: 'Préparation traditionnelle des ingrédients' },
-  { url: null, alt: 'Ingrédients naturels' },
-];
 
 
 const TRAITEMENT_POINTS = [
