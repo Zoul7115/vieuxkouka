@@ -373,7 +373,7 @@ export function TemoignagesSection() {
         {/* BLOC 4 — Réassurance */}
         <div
           ref={noteRef}
-          className={`mt-20 rounded-[1.75rem] bg-bleu-bg/70 p-8 text-center ring-1 ring-bleu/10 sm:p-10 lg:mt-28 ${
+          className={`mt-20 rounded-[1.75rem] bg-bleu-bg/70 p-8 text-center ring-1 ring-bleu/10 sm:p-10 lg:mt-16 ${
             noteIn ? 'animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-both' : 'opacity-0'
           }`}
         >
@@ -384,7 +384,7 @@ export function TemoignagesSection() {
         </div>
 
         {/* Transition vers la FAQ */}
-        <div className="mx-auto mt-20 max-w-2xl text-center lg:mt-24">
+        <div className="mx-auto mt-12 max-w-2xl text-center lg:mt-16">
           <p className="text-xl font-bold leading-[1.6] text-foreground sm:text-2xl">
             Vous avez encore des questions ?
           </p>

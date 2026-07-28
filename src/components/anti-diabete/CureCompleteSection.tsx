@@ -70,7 +70,7 @@ export function CureCompleteSection() {
         className="pointer-events-none absolute -top-32 right-[-8rem] h-[26rem] w-[26rem] rounded-full bg-bleu-bg blur-3xl opacity-60"
       />
 
-      <div className="relative mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
+      <div className="relative mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
         {/* En-tête */}
         <div
           ref={headerRef}
@@ -92,7 +92,7 @@ export function CureCompleteSection() {
         </div>
 
         {/* 3 cartes */}
-        <div ref={cardsRef} className="mt-14 grid gap-6 sm:mt-16 md:grid-cols-3 lg:mt-20 lg:gap-8">
+        <div ref={cardsRef} className="mt-14 grid gap-6 sm:mt-12 md:grid-cols-3 lg:mt-14 lg:gap-8">
           {RAISONS.map((r, i) => (
             <div
               key={r.title}
@@ -113,7 +113,7 @@ export function CureCompleteSection() {
         <div
           ref={adviceRef}
           className={cn(
-            'mt-14 rounded-[2.25rem] bg-bleu-bg/80 p-8 ring-1 ring-bleu/10 sm:mt-16 sm:p-12 lg:p-14',
+            'mt-14 rounded-[2.25rem] bg-bleu-bg/80 p-8 ring-1 ring-bleu/10 sm:mt-12 sm:p-12 lg:p-14',
             adviceIn ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 fill-mode-both' : 'opacity-0'
           )}
         >
@@ -140,7 +140,7 @@ export function CureCompleteSection() {
         <div
           ref={offersHeadRef}
           className={cn(
-            'mx-auto mt-20 max-w-2xl text-center sm:mt-24',
+            'mx-auto mt-12 max-w-2xl text-center sm:mt-24',
             offersHeadIn ? 'animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both' : 'opacity-0'
           )}
         >

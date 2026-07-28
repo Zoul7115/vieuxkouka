@@ -222,7 +222,7 @@ function ProblemSection() {
         </header>
 
         {/* Composition éditoriale */}
-        <div className="mt-16 grid gap-6 sm:gap-7 lg:mt-24 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:gap-7 lg:mt-16 lg:grid-cols-3">
           <PbCard
             item={PROBLEMES.nuit}
             className="lg:col-span-2 lg:aspect-auto lg:h-full lg:min-h-[34rem]"
@@ -239,7 +239,7 @@ function ProblemSection() {
           <PbCard item={PROBLEMES.plaie} />
         </div>
 
-        <p className="mx-auto mt-16 max-w-3xl text-center text-lg font-bold leading-[1.6] text-foreground sm:text-xl lg:mt-24 lg:text-2xl">
+        <p className="mx-auto mt-12 max-w-3xl text-center text-lg font-bold leading-[1.6] text-foreground sm:text-xl lg:mt-16 lg:text-2xl">
           Si vous vivez plusieurs de ces problèmes, il est peut-être temps d’agir.
         </p>
       </div>
@@ -427,7 +427,7 @@ function TimelineSection() {
         {/* Bloc de transition bleu clair */}
         <div
           ref={blockRef}
-          className={`mt-16 rounded-[2rem] bg-bleu-bg p-9 text-center shadow-[0_24px_60px_-28px_rgba(25,118,210,0.5)] ring-1 ring-bleu/10 sm:mt-24 sm:p-14 ${
+          className={`mt-16 rounded-[2rem] bg-bleu-bg p-9 text-center shadow-[0_24px_60px_-28px_rgba(25,118,210,0.5)] ring-1 ring-bleu/10 sm:mt-14 sm:p-14 ${
             blockInView
               ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 delay-200 fill-mode-both'
               : 'opacity-0'
@@ -524,7 +524,7 @@ function SolutionSection() {
         </div>
 
         {/* BLOC 1 — Le Vieux Kouka */}
-        <div ref={b1Ref} className="mt-24 grid items-start gap-12 lg:mt-28 lg:grid-cols-2 lg:gap-16">
+        <div ref={b1Ref} className="mt-14 grid items-start gap-12 lg:mt-16 lg:grid-cols-2 lg:gap-16">
           <div
             className={
               b1In ? 'animate-in fade-in slide-in-from-left-6 duration-700 fill-mode-both' : 'opacity-0'
@@ -605,7 +605,7 @@ function SolutionSection() {
 
 
         {/* BLOC 2 — Le traitement */}
-        <div ref={b2Ref} className="mt-24 grid items-center gap-12 lg:mt-32 lg:grid-cols-2 lg:gap-16">
+        <div ref={b2Ref} className="mt-14 grid items-center gap-12 lg:mt-16 lg:grid-cols-2 lg:gap-16">
           <div
             className={`${
               b2In ? 'animate-in fade-in slide-in-from-left-6 duration-700 fill-mode-both' : 'opacity-0'
@@ -676,7 +676,7 @@ function SolutionSection() {
         {/* Transition vers les témoignages */}
         <div
           ref={trRef}
-          className={`mx-auto mt-24 max-w-2xl text-center lg:mt-32 ${
+          className={`mx-auto mt-14 max-w-2xl text-center lg:mt-16 ${
             trIn ? 'animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both' : 'opacity-0'
           }`}
         >

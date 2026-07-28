@@ -141,7 +141,7 @@ export function FAQSection() {
         className="pointer-events-none -bottom-40 right-[-10rem] h-[26rem] w-[26rem] rounded-full bg-bleu-bg blur-3xl opacity-50"
       />
 
-      <div className="relative mx-auto w-full max-w-6xl px-4 py-24 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
+      <div className="relative mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
         {/* En-tête */}
         <div
           ref={headerRef}
@@ -178,7 +178,7 @@ export function FAQSection() {
         <div
           ref={ctaRef}
           className={cn(
-            'mt-16 rounded-[2rem] bg-bleu p-8 text-center shadow-[0_24px_60px_-28px_rgba(25,118,210,0.5)] ring-1 ring-white/10 sm:mt-20 sm:p-12 lg:mt-24',
+            'mt-16 rounded-[2rem] bg-bleu p-8 text-center shadow-[0_24px_60px_-28px_rgba(25,118,210,0.5)] ring-1 ring-white/10 sm:mt-14 sm:p-12 lg:mt-24',
             ctaIn ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 delay-200 fill-mode-both' : 'opacity-0'
           )}
         >

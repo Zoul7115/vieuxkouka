@@ -105,7 +105,7 @@ export function WhyTrustSection() {
         {/* 6 cartes */}
         <div
           ref={cardsRef}
-          className="mt-16 grid gap-6 sm:grid-cols-2 lg:mt-24 lg:grid-cols-3 lg:gap-7"
+          className="mt-12 grid gap-6 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-7"
         >
           {TRUST_CARDS.map((card, i) => (
             <div
@@ -133,7 +133,7 @@ export function WhyTrustSection() {
         <div
           ref={badgesRef}
           className={cn(
-            'mt-16 rounded-[2rem] bg-bleu-bg/80 p-8 ring-1 ring-bleu/10 sm:mt-20 sm:p-12 lg:p-16',
+            'mt-16 rounded-[2rem] bg-bleu-bg/80 p-8 ring-1 ring-bleu/10 sm:mt-14 sm:p-12 lg:p-16',
             badgesIn ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 fill-mode-both' : 'opacity-0'
           )}
         >
@@ -166,7 +166,7 @@ export function WhyTrustSection() {
         <div
           ref={finalRef}
           className={cn(
-            'mt-16 rounded-[2rem] bg-bleu-bg p-9 ring-1 ring-bleu/10 sm:mt-20 sm:p-14',
+            'mt-16 rounded-[2rem] bg-bleu-bg p-9 ring-1 ring-bleu/10 sm:mt-14 sm:p-14',
             finalIn ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 fill-mode-both' : 'opacity-0'
           )}
         >
