@@ -383,15 +383,6 @@ export function TemoignagesSection() {
           </p>
         </div>
 
-        {/* Transition vers la FAQ */}
-        <div className="mx-auto mt-12 max-w-2xl text-center lg:mt-16">
-          <p className="text-xl font-bold leading-[1.6] text-foreground sm:text-2xl">
-            Vous avez encore des questions ?
-          </p>
-          <p className="mt-4 text-lg leading-[1.75] text-muted-foreground sm:text-xl">
-            Consultez les réponses aux questions les plus fréquentes juste en dessous.
-          </p>
-        </div>
       </div>
 
       {/* Lightbox */}
