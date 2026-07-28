@@ -389,7 +389,7 @@ export function TemoignagesSection() {
             Vous avez encore des questions ?
           </p>
           <p className="mt-4 text-lg leading-[1.75] text-muted-foreground sm:text-xl">
-            Voici les réponses aux questions que nos clients nous posent le plus souvent.
+            Consultez les réponses aux questions les plus fréquentes juste en dessous.
           </p>
         </div>
       </div>
