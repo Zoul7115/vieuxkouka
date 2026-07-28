@@ -12,6 +12,8 @@ import pbFatigue from '@/assets/pb-fatigue.png.asset.json';
 import pbGlucometre from '@/assets/pb-glucometre.png.asset.json';
 import pbPieds from '@/assets/pb-pieds.png.asset.json';
 import pbPlaie from '@/assets/pb-plaie.png.asset.json';
+import portraitKouka from '@/assets/vieux-kouka-portrait-premium.png.asset.json';
+import sachetPremium from '@/assets/sachet-anti-diabete-premium.png.asset.json';
 
 export const Route = createFileRoute('/anti-diabete')({
   head: () => ({
