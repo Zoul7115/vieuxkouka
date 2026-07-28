@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 
 import waAvis1 from '@/assets/wa-avis-1.jpg.asset.json';
 import waAvis2 from '@/assets/wa-avis-2.jpg.asset.json';
@@ -31,10 +33,14 @@ function useInView<T extends HTMLElement>(threshold = 0.15) {
 }
 
 const AVIS = [
-  { quote: 'La soif a beaucoup diminué.', place: 'Bobo-Dioulasso · Burkina Faso' },
-  { quote: 'Cette nuit, je me suis levée une seule fois.', place: 'Bobo-Dioulasso · Burkina Faso' },
-  { quote: 'Vos produits sont super bons.', place: 'Burkina Faso' },
-  { quote: 'Avant, j’allais uriner toutes les 10 minutes. Maintenant c’est calme.', place: 'Burkina Faso' },
+  { quote: 'Vos produits sont super bons.', place: 'Cliente • Burkina Faso' },
+  { quote: "Avant, j'allais uriner toutes les 10 minutes. Maintenant c'est calme.", place: 'Cliente • Burkina Faso' },
+  { quote: 'La soif a beaucoup diminué. Hier nuit, je me suis levée une seule fois.', place: 'Cliente • Burkina Faso' },
+  { quote: 'Je me sens beaucoup mieux qu\'avant. Je dors mieux et je suis moins fatiguée pendant la journée.', place: 'Cliente • Burkina Faso' },
+  { quote: 'Au début, j\'avais des doutes. Aujourd\'hui, je suis contente d\'avoir essayé le traitement.', place: 'Cliente • Burkina Faso' },
+  { quote: 'J\'avais toujours la bouche sèche et je buvais de l\'eau sans arrêt. Maintenant, ça a beaucoup diminué.', place: 'Client • Burkina Faso' },
+  { quote: 'Je suis encore le traitement, mais je vois déjà une différence. Je continue avec confiance.', place: 'Cliente • Burkina Faso' },
+  { quote: 'Après quelques semaines, je me sens déjà beaucoup mieux. Merci au Vieux Kouka pour ses conseils.', place: 'Client • Burkina Faso' },
 ];
 
 const CAPTURES = [
@@ -143,6 +149,79 @@ function AudioCard({
   );
 }
 
+function AvisCarousel() {
+  const autoplay = useRef(Autoplay({ delay: 4500, stopOnInteraction: false, stopOnMouseEnter: true }));
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, align: 'start', dragFree: false },
+    [autoplay.current]
+  );
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(false);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setCanPrev(emblaApi.canScrollPrev());
+    setCanNext(emblaApi.canScrollNext());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+  }, [emblaApi, onSelect]);
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  return (
+    <div className="relative group">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex touch-pan-y">
+          {AVIS.map((a, i) => (
+            <div
+              key={i}
+              className="min-w-0 flex-[0_0_100%] pr-5 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
+            >
+              <figure className="flex h-full flex-col rounded-[1.75rem] bg-white p-7 shadow-[0_18px_45px_-30px_rgba(15,23,42,0.45)] ring-1 ring-bleu/10 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-28px_rgba(25,118,210,0.45)]">
+                <div className="text-lg tracking-wide" aria-label="5 étoiles sur 5">
+                  ⭐⭐⭐⭐⭐
+                </div>
+                <blockquote className="mt-5 flex-1 text-lg font-bold leading-[1.6] text-foreground">
+                  « {a.quote} »
+                </blockquote>
+                <figcaption className="mt-6 text-sm font-semibold text-muted-foreground">📍 {a.place}</figcaption>
+              </figure>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Flèches de navigation */}
+      <div className="mt-8 flex items-center justify-center gap-3">
+        <button
+          type="button"
+          onClick={scrollPrev}
+          disabled={!canPrev}
+          aria-label="Témoignage précédent"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-xl text-bleu shadow-sm ring-1 ring-bleu/15 transition-all hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          ←
+        </button>
+        <button
+          type="button"
+          onClick={scrollNext}
+          disabled={!canNext}
+          aria-label="Témoignage suivant"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-xl text-bleu shadow-sm ring-1 ring-bleu/15 transition-all hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          →
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function TemoignagesSection() {
   const { ref: headerRef, inView: headerIn } = useInView<HTMLDivElement>(0.2);
   const { ref: avisRef, inView: avisIn } = useInView<HTMLDivElement>(0.1);
@@ -195,25 +274,27 @@ export function TemoignagesSection() {
           </p>
         </div>
 
-        {/* BLOC 1 — Avis marquants */}
-        <div ref={avisRef} className="mt-16 grid gap-6 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4">
-          {AVIS.map((a, i) => (
-            <figure
-              key={a.quote}
-              className={`flex h-full flex-col rounded-[1.75rem] bg-white p-7 shadow-[0_18px_45px_-30px_rgba(15,23,42,0.45)] ring-1 ring-bleu/10 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-28px_rgba(25,118,210,0.45)] ${
-                avisIn ? 'animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-both' : 'opacity-0'
-              }`}
-              style={avisIn ? { animationDelay: `${120 + i * 120}ms` } : undefined}
-            >
-              <div className="text-lg tracking-wide" aria-label="5 étoiles sur 5">
-                ⭐⭐⭐⭐⭐
-              </div>
-              <blockquote className="mt-5 flex-1 text-lg font-bold leading-[1.6] text-foreground">
-                « {a.quote} »
-              </blockquote>
-              <figcaption className="mt-6 text-sm font-semibold text-muted-foreground">{a.place}</figcaption>
-            </figure>
-          ))}
+        {/* BLOC 1 — Avis marquants (carrousel) */}
+        <div ref={avisRef} className="mt-16 lg:mt-20">
+          <div
+            className={`mb-8 text-center sm:mb-10 ${
+              avisIn ? 'animate-in fade-in slide-in-from-bottom-3 duration-700 fill-mode-both' : 'opacity-0'
+            }`}
+          >
+            <h3 className="font-body text-[1.6rem] font-extrabold leading-[1.2] text-foreground sm:text-[2rem]">
+              Ce que disent nos clients
+            </h3>
+            <p className="mx-auto mt-3 max-w-xl text-base leading-[1.75] text-muted-foreground sm:text-lg">
+              De vrais retours d&apos;expérience de personnes qui ont suivi le traitement.
+            </p>
+          </div>
+          <div
+            className={
+              avisIn ? 'animate-in fade-in slide-in-from-bottom-3 duration-700 delay-150 fill-mode-both' : 'opacity-0'
+            }
+          >
+            <AvisCarousel />
+          </div>
         </div>
 
         {/* BLOC 2 — Conversations WhatsApp */}
