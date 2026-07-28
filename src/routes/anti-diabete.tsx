@@ -192,7 +192,7 @@ function PbCard({
 
 function ProblemSection() {
   return (
-    <section className="relative isolate overflow-hidden bg-card">
+    <section className="relative isolate overflow-hidden bg-gradient-to-b from-white via-white to-bleu-bg/60">
       <div
         aria-hidden
         className="pointer-events-none absolute -top-32 left-1/2 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-bleu-bg blur-3xl opacity-60"
@@ -202,38 +202,36 @@ function ProblemSection() {
         className="pointer-events-none absolute -bottom-40 -right-32 h-[26rem] w-[26rem] rounded-full bg-bleu-bg blur-3xl opacity-50"
       />
 
-      <div className="relative mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
+      <div className="relative mx-auto w-full max-w-6xl px-5 py-24 sm:px-8 lg:py-32">
         <header className="mx-auto max-w-3xl text-center">
-          <h2 className="font-body text-[1.9rem] font-extrabold leading-[1.12] tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-            Le diabète vous fait peut-être vivre tout ça…
+          <h2 className="font-body text-[2rem] font-extrabold leading-[1.1] tracking-tight text-foreground sm:text-[2.5rem] lg:text-[3.2rem]">
+            Vous vivez peut-être ces problèmes tous les jours…
           </h2>
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Le diabète ne fait pas seulement monter le taux de sucre. Petit à
-            petit, il peut rendre les choses simples beaucoup plus difficiles.
+          <p className="mx-auto mt-7 max-w-2xl text-base leading-[1.7] text-muted-foreground sm:text-lg lg:text-xl">
+            Le diabète peut vous fatiguer, vous empêcher de bien dormir et vous compliquer la vie.
           </p>
         </header>
 
         {/* Composition éditoriale */}
-        <div className="mt-14 grid gap-5 sm:gap-6 lg:mt-20 lg:grid-cols-3">
+        <div className="mt-16 grid gap-6 sm:gap-7 lg:mt-24 lg:grid-cols-3">
           <PbCard
             item={PROBLEMES.nuit}
             className="lg:col-span-2 lg:aspect-auto lg:h-full lg:min-h-[34rem]"
           />
-          <div className="grid gap-5 sm:gap-6">
+          <div className="grid gap-6 sm:gap-7">
             <PbCard item={PROBLEMES.sucre} ratio="aspect-[4/5] lg:aspect-[4/3]" />
             <PbCard item={PROBLEMES.soif} ratio="aspect-[4/5] lg:aspect-[4/3]" />
           </div>
         </div>
 
-        <div className="mt-5 grid gap-5 sm:gap-6 lg:mt-6 lg:grid-cols-3">
+        <div className="mt-6 grid gap-6 sm:gap-7 lg:mt-8 lg:grid-cols-3">
           <PbCard item={PROBLEMES.fatigue} />
           <PbCard item={PROBLEMES.pieds} />
           <PbCard item={PROBLEMES.plaie} />
         </div>
 
-        <p className="mx-auto mt-14 max-w-3xl text-center text-lg font-bold leading-relaxed text-foreground sm:text-xl lg:mt-20 lg:text-2xl">
-          Si vous vivez plusieurs de ces problèmes, il ne faut pas attendre que
-          la situation <span className="text-bleu">s’aggrave</span>.
+        <p className="mx-auto mt-16 max-w-3xl text-center text-lg font-bold leading-[1.6] text-foreground sm:text-xl lg:mt-24 lg:text-2xl">
+          Si vous vivez plusieurs de ces problèmes, il est peut-être temps d’agir.
         </p>
       </div>
     </section>
