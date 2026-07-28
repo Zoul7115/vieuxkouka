@@ -93,7 +93,7 @@ export function AntiDiabetePage() {
 
             {/* Sous-titre */}
             <p className="anim-up text-[15px] md:text-[18px] text-slate-600 leading-[1.65] max-w-[560px]" style={{ animationDelay: '160ms' }}>
-              Des centaines de familles au Burkina Faso et au Niger utilisent déjà la Poudre Anti-Diabète du Vieux KOUKA dans le cadre de leur routine quotidienne.
+              Découvrez comment le traitement traditionnel du Vieux Kouka peut vous aider à stabiliser votre glycémie, à éliminer progressivement les symptômes du diabète et à retrouver une meilleure santé grâce à un traitement complet de 40 jours.
               <br />
               <span className="text-slate-500 text-sm md:text-[15px]">Paiement uniquement à la livraison • Accompagnement WhatsApp • Livraison rapide.</span>
             </p>
