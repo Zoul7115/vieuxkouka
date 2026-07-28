@@ -14,8 +14,6 @@ import pbPieds from '@/assets/pb-pieds.png.asset.json';
 import pbPlaie from '@/assets/pb-plaie.png.asset.json';
 import portraitKouka from '@/assets/vieux-kouka-portrait-premium.png.asset.json';
 import sachetPremium from '@/assets/sachet-anti-diabete-premium.png.asset.json';
-import preparation1 from '@/assets/kouka-preparation-1.jpeg.asset.json';
-import preparation2 from '@/assets/kouka-preparation-2.jpeg.asset.json';
 
 export const Route = createFileRoute('/anti-diabete')({
   head: () => ({
@@ -455,11 +453,6 @@ const KOUKA_CARDS: { icon: string; title: string; lines: string[] }[] = [
   { icon: '⏳', title: 'Expérience', lines: ['Plus de 30 ans de savoir-faire'] },
 ];
 
-const GALERIE_KOUKA: { url: string | null; alt: string }[] = [
-  { url: preparation1.url, alt: 'Racines et écorces sélectionnées' },
-  { url: preparation2.url, alt: 'Préparation traditionnelle des ingrédients' },
-  { url: null, alt: 'Ingrédients naturels' },
-];
 
 
 const TRAITEMENT_POINTS = [
@@ -539,30 +532,6 @@ function SolutionSection() {
                 loading="lazy"
                 className="h-full w-full object-cover"
               />
-            </div>
-
-            {/* Mini-galerie : son univers */}
-            <div className="mt-5 grid grid-cols-3 gap-4">
-              {GALERIE_KOUKA.map((g, i) => (
-                <div
-                  key={g.alt}
-                  className={`aspect-square overflow-hidden rounded-2xl bg-bleu-bg ring-1 ring-bleu/10 ${
-                    b1In ? 'animate-in fade-in duration-700 fill-mode-both' : 'opacity-0'
-                  }`}
-                  style={b1In ? { animationDelay: `${250 + i * 120}ms` } : undefined}
-                >
-                  {g.url ? (
-                    <img
-                      src={g.url}
-                      alt={g.alt}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center text-2xl opacity-60">🌿</div>
-                  )}
-                </div>
-              ))}
             </div>
           </div>
 
