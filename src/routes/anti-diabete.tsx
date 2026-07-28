@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
+import { FAQSection } from '@/components/anti-diabete/FAQSection';
 import { TemoignagesSection } from '@/components/anti-diabete/TemoignagesSection';
 import { ANTI_DIABETE } from '@/lib/products';
 import heroKouka from '@/assets/kouka-hero-medical.png.asset.json';
@@ -704,6 +705,8 @@ export function AntiDiabetePage() {
       <SolutionSection />
 
       <TemoignagesSection />
+
+      <FAQSection />
 
       <section id="order-section">
         <ProductForm product={ANTI_DIABETE} />
