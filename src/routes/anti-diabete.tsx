@@ -702,6 +702,8 @@ export function AntiDiabetePage() {
 
       <SolutionSection />
 
+      <TemoignagesSection />
+
       <section id="order-section">
         <ProductForm product={ANTI_DIABETE} />
       </section>
