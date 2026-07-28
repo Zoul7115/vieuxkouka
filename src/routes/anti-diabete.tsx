@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
+import { TemoignagesSection } from '@/components/anti-diabete/TemoignagesSection';
 import { ANTI_DIABETE } from '@/lib/products';
 import heroKouka from '@/assets/kouka-hero-medical.png.asset.json';
 import pbNuit from '@/assets/pb-nuit.png.asset.json';
