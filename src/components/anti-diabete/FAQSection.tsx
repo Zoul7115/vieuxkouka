@@ -138,7 +138,7 @@ export function FAQSection() {
       />
       <div
         aria-hidden
-        className="pointer-events-none -bottom-40 right-[-10rem] h-[26rem] w-[26rem] rounded-full bg-bleu-bg blur-3xl opacity-50"
+        className="pointer-events-none absolute -bottom-40 right-[-10rem] h-[26rem] w-[26rem] rounded-full bg-bleu-bg blur-3xl opacity-50"
       />
 
       <div className="relative mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
