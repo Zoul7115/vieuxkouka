@@ -8,6 +8,7 @@ import { FAQSection } from '@/components/anti-diabete/FAQSection';
 import { CureCompleteSection } from '@/components/anti-diabete/CureCompleteSection';
 import { TemoignagesSection } from '@/components/anti-diabete/TemoignagesSection';
 import { WhyTrustSection } from '@/components/anti-diabete/WhyTrustSection';
+import { StickyOrderBar } from '@/components/anti-diabete/StickyOrderBar';
 
 import { ANTI_DIABETE } from '@/lib/products';
 import heroKouka from '@/assets/kouka-hero-medical.png.asset.json';
@@ -695,7 +696,7 @@ function SolutionSection() {
 
 export function AntiDiabetePage() {
   return (
-    <main className="bg-card font-body">
+    <main className="bg-card font-body pb-28 sm:pb-32">
 
       <VisitTracker page="anti-diabete" />
 
@@ -719,6 +720,8 @@ export function AntiDiabetePage() {
       <section id="order-section">
         <ProductForm product={ANTI_DIABETE} />
       </section>
+
+      <StickyOrderBar />
     </main>
   );
 }
