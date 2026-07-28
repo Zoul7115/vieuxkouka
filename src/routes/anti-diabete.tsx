@@ -249,6 +249,7 @@ export function AntiDiabetePage() {
 
       <ProblemSection />
 
+      <TimelineSection />
 
       <section id="order-section">
         <ProductForm product={ANTI_DIABETE} />
@@ -256,3 +257,4 @@ export function AntiDiabetePage() {
     </main>
   );
 }
+
