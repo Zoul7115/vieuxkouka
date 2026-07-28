@@ -1,4 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { useEffect, useRef, useState } from 'react';
+
 
 import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
