@@ -237,7 +237,11 @@ function ProblemSection() {
         </p>
       </div>
     </section>
+  );
+}
+
 function useInView<T extends HTMLElement>(threshold = 0.15) {
+
   const ref = useRef<T>(null);
   const [inView, setInView] = useState(false);
 
