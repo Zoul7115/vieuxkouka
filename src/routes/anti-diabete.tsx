@@ -114,43 +114,43 @@ const PROBLEMES: Record<string, Pb> = {
   nuit: {
     img: pbNuit.url,
     alt: "Homme assis sur son lit, réveillé plusieurs fois dans la nuit",
-    title: 'Vous vous levez plusieurs fois dans la nuit ?',
-    text: "Vous n'arrivez plus à dormir tranquillement parce que vous allez souvent aux toilettes.",
+    title: 'Vous vous levez souvent la nuit ?',
+    text: 'Vous vous réveillez plusieurs fois pour aller aux toilettes.',
     pos: 'object-center',
   },
   soif: {
     img: pbSoif.url,
     alt: "Femme buvant un verre d'eau dans sa cuisine",
     title: 'Vous avez toujours soif ?',
-    text: "Même après avoir bu de l'eau, vous avez encore envie de boire.",
+    text: "Vous buvez de l'eau, mais vous avez toujours soif.",
     pos: 'object-top',
   },
   fatigue: {
     img: pbFatigue.url,
     alt: 'Homme fatigué assis sur son canapé',
-    title: 'Vous êtes souvent fatigué ?',
-    text: "Vous manquez d'énergie, même pour faire les petites choses de la journée.",
+    title: 'Vous êtes toujours fatigué ?',
+    text: 'Même les petites choses vous fatiguent.',
     pos: 'object-top',
   },
   sucre: {
     img: pbGlucometre.url,
     alt: 'Homme regardant le résultat de son glucomètre',
-    title: 'Votre taux de sucre reste élevé ?',
-    text: 'Vous faites attention, mais les résultats ne changent presque pas.',
+    title: 'Votre taux de sucre ne baisse pas ?',
+    text: 'Malgré tous vos efforts, rien ne change.',
     pos: 'object-top',
   },
   pieds: {
     img: pbPieds.url,
     alt: 'Homme tenant son pied douloureux au bord du lit',
-    title: 'Vos pieds vous brûlent ou vous picotent ?',
-    text: 'Ces douleurs deviennent de plus en plus difficiles à supporter.',
+    title: 'Vos pieds vous brûlent ou vous font mal ?',
+    text: 'La douleur devient de plus en plus difficile à supporter.',
     pos: 'object-center',
   },
   plaie: {
     img: pbPlaie.url,
     alt: 'Petite plaie recouverte d’un pansement sous le pied',
-    title: 'Vos plaies mettent du temps à guérir ?',
-    text: 'Même une petite blessure peut mettre plusieurs jours à disparaître.',
+    title: 'Vos blessures mettent du temps à guérir ?',
+    text: 'Même une petite blessure met beaucoup de temps à guérir.',
     pos: 'object-center',
   },
 };
@@ -166,23 +166,23 @@ function PbCard({
 }) {
   return (
     <figure
-      className={`group relative overflow-hidden rounded-3xl bg-bleu-bg shadow-[0_10px_30px_-18px_rgba(15,40,80,0.45)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_22px_50px_-22px_rgba(15,40,80,0.45)] ${ratio} ${className}`}
+      className={`group relative overflow-hidden rounded-3xl bg-bleu-bg shadow-[0_10px_30px_-18px_rgba(15,40,80,0.45)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_22px_50px_-22px_rgba(15,40,80,0.55)] ${ratio} ${className}`}
     >
       <img
         src={item.img}
         alt={item.alt}
         loading="lazy"
-        className={`absolute inset-0 h-full w-full object-cover ${item.pos ?? 'object-center'} transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]`}
+        className={`absolute inset-0 h-full w-full object-cover ${item.pos ?? 'object-center'} transition-transform duration-700 ease-out group-hover:scale-[1.04]`}
       />
       <div
         aria-hidden
-        className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/75 via-black/35 to-transparent"
+        className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-black/85 via-black/45 to-transparent"
       />
       <figcaption className="absolute inset-x-0 bottom-0 p-5 sm:p-6 lg:p-7">
-        <h3 className="font-body text-lg font-extrabold leading-snug text-white drop-shadow-sm sm:text-xl lg:text-[1.4rem]">
+        <h3 className="font-body text-lg font-extrabold leading-snug text-white drop-shadow-sm sm:text-[1.35rem] lg:text-[1.5rem]">
           {item.title}
         </h3>
-        <p className="mt-2 max-w-md text-sm leading-relaxed text-white/85 sm:text-base">
+        <p className="mt-2.5 max-w-md text-sm leading-relaxed text-white/90 sm:text-base lg:text-[1.05rem]">
           {item.text}
         </p>
       </figcaption>
