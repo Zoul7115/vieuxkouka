@@ -316,38 +316,49 @@ function TimelineStepItem({
     index === 0
       ? ''
       : index === 1
-        ? 'delay-100'
+        ? 'delay-150'
         : index === 2
-          ? 'delay-200'
+          ? 'delay-300'
           : index === 3
-            ? 'delay-300'
-            : 'delay-400';
+            ? 'delay-500'
+            : 'delay-700';
+
+  // Progression visuelle très discrète : les cercles gagnent en intensité
+  const intensity = [
+    'bg-bleu/85 ring-bleu/10',
+    'bg-bleu/90 ring-bleu/15',
+    'bg-bleu ring-bleu/20',
+    'bg-bleu ring-bleu/25',
+    'bg-bleu ring-bleu/35',
+  ][index] ?? 'bg-bleu ring-bleu/20';
 
   return (
     <div
       ref={ref}
-      className={`relative flex gap-5 sm:gap-8 ${isLast ? '' : 'pb-10 sm:pb-14'} ${
-        inView ? `animate-in fade-in slide-in-from-bottom-5 duration-700 fill-mode-both ${delayClass}` : 'opacity-0'
+      className={`relative flex gap-6 sm:gap-9 ${isLast ? '' : 'pb-14 sm:pb-20'} ${
+        inView ? `animate-in fade-in slide-in-from-bottom-6 duration-700 fill-mode-both ${delayClass}` : 'opacity-0'
       }`}
     >
       {/* Icône dans un cercle bleu */}
       <div className="relative z-10 flex-shrink-0">
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-bleu text-2xl text-white shadow-[0_8px_24px_-10px_rgba(25,118,210,0.45)] transition-transform duration-300 hover:scale-110 sm:h-16 sm:w-16">
+        <div
+          className={`flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-full text-3xl text-white shadow-[0_10px_30px_-10px_rgba(25,118,210,0.5)] ring-4 transition-transform duration-300 hover:scale-110 sm:h-[5.25rem] sm:w-[5.25rem] sm:text-[2.1rem] ${intensity}`}
+        >
           {step.icon}
         </div>
       </div>
 
       {/* Contenu texte */}
-      <div className="flex-1 pt-1 sm:pt-2">
+      <div className="min-w-0 flex-1 pt-2 sm:pt-4">
         {step.label && (
-          <span className="mb-1 block text-xs font-bold uppercase tracking-wider text-bleu/70 sm:text-sm">
+          <span className="mb-2 block text-sm font-bold uppercase tracking-wider text-bleu/70 sm:text-base">
             {step.label}
           </span>
         )}
-        <h3 className="font-body text-lg font-extrabold leading-tight text-foreground sm:text-xl lg:text-[1.4rem]">
+        <h3 className="font-body text-xl font-extrabold leading-snug text-foreground sm:text-2xl lg:text-[1.7rem]">
           {step.title}
         </h3>
-        <p className="mt-1.5 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg">
+        <p className="mt-2.5 max-w-lg text-lg leading-[1.75] text-muted-foreground sm:text-xl">
           {step.text}
         </p>
       </div>
@@ -371,29 +382,29 @@ function TimelineSection() {
         className="pointer-events-none absolute -bottom-24 -right-24 h-[24rem] w-[24rem] rounded-full bg-bleu-bg blur-3xl opacity-50"
       />
 
-      <div className="relative mx-auto w-full max-w-3xl px-5 py-24 sm:px-8 lg:py-32">
+      <div className="relative mx-auto w-full max-w-4xl px-5 py-28 sm:px-8 lg:py-36">
         <div
           ref={headerRef}
-          className={`mx-auto max-w-2xl text-center ${
+          className={`mx-auto max-w-3xl text-center ${
             headerInView
               ? 'animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both'
               : 'opacity-0'
           }`}
         >
-          <h2 className="font-body text-[2rem] font-extrabold leading-[1.1] tracking-tight text-foreground sm:text-[2.5rem] lg:text-[3rem]">
+          <h2 className="font-body text-[2.4rem] font-extrabold leading-[1.08] tracking-tight text-foreground sm:text-[3rem] lg:text-[3.6rem]">
             Le diabète n&apos;attend pas...
           </h2>
-          <p className="mx-auto mt-6 max-w-xl text-base leading-[1.7] text-muted-foreground sm:text-lg lg:text-xl">
+          <p className="mx-auto mt-8 max-w-2xl text-lg leading-[1.75] text-muted-foreground sm:text-xl lg:text-[1.4rem]">
             Quand on laisse les choses continuer, les problèmes peuvent devenir de plus en plus difficiles à supporter.
           </p>
         </div>
 
         {/* Ligne du temps */}
-        <div className="relative mt-16 sm:mt-20">
+        <div className="relative mt-20 sm:mt-24">
           {/* Ligne verticale */}
           <div
             aria-hidden
-            className="absolute left-7 top-3 bottom-3 w-0.5 bg-gradient-to-b from-bleu/20 via-bleu/15 to-bleu/20 sm:left-8"
+            className="absolute left-[2.15rem] top-4 bottom-4 w-1 rounded-full bg-gradient-to-b from-bleu/15 via-bleu/30 to-bleu/60 sm:left-[2.5rem]"
           />
 
           {TIMELINE_STEPS.map((step, index) => (
@@ -409,21 +420,21 @@ function TimelineSection() {
         {/* Bloc de transition bleu clair */}
         <div
           ref={blockRef}
-          className={`mt-10 rounded-3xl bg-bleu-bg p-7 text-center shadow-[0_12px_40px_-24px_rgba(25,118,210,0.35)] sm:mt-14 sm:p-10 ${
+          className={`mt-16 rounded-[2rem] bg-bleu-bg p-9 text-center shadow-[0_24px_60px_-28px_rgba(25,118,210,0.5)] ring-1 ring-bleu/10 sm:mt-24 sm:p-14 ${
             blockInView
               ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 delay-200 fill-mode-both'
               : 'opacity-0'
           }`}
         >
-          <p className="font-body text-lg font-extrabold text-foreground sm:text-xl">
+          <p className="font-body text-2xl font-extrabold text-foreground sm:text-[2rem]">
             La bonne nouvelle ?
           </p>
-          <p className="mx-auto mt-2 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="mx-auto mt-3 max-w-lg text-lg leading-[1.7] text-muted-foreground sm:text-xl">
             Il n&apos;est peut-être pas trop tard pour agir.
           </p>
           <a
             href="#order-section"
-            className="mt-6 inline-flex items-center justify-center rounded-xl bg-white px-7 py-3.5 text-sm font-bold text-bleu shadow-sm ring-1 ring-bleu/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-bleu hover:text-white hover:shadow-lg hover:ring-bleu/20 sm:text-base"
+            className="mt-9 inline-flex items-center justify-center rounded-xl bg-rouge px-8 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-rouge/25 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl sm:text-lg"
           >
             Découvrir la solution
           </a>
@@ -432,6 +443,7 @@ function TimelineSection() {
     </section>
   );
 }
+
 
 export function AntiDiabetePage() {
   return (
