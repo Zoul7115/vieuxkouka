@@ -4,6 +4,12 @@ import { ProductForm } from '@/components/ProductForm';
 import { VisitTracker } from '@/components/VisitTracker';
 import { ANTI_DIABETE } from '@/lib/products';
 import heroKouka from '@/assets/kouka-hero-medical.png.asset.json';
+import pbNuit from '@/assets/pb-nuit.png.asset.json';
+import pbSoif from '@/assets/pb-soif.png.asset.json';
+import pbFatigue from '@/assets/pb-fatigue.png.asset.json';
+import pbGlucometre from '@/assets/pb-glucometre.png.asset.json';
+import pbPieds from '@/assets/pb-pieds.png.asset.json';
+import pbPlaie from '@/assets/pb-plaie.png.asset.json';
 
 export const Route = createFileRoute('/anti-diabete')({
   head: () => ({
