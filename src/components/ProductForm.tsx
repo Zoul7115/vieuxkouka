@@ -239,7 +239,8 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
   };
 
   const submit = async () => {
-    if (!validate()) {
+    const validationErrors = setErrorsFromValidation();
+    if (Object.keys(validationErrors).length > 0) {
       const labels: Record<string, string> = {
         fullName: 'Prénom & Nom',
         countryCode: 'Pays',
@@ -250,16 +251,7 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
         available: 'Confirmer ta disponibilité',
         cashConfirmed: 'Confirmer que tu auras le cash',
       };
-      const e: Record<string, string> = {};
-      if (!form.fullName.trim() || form.fullName.trim().length < 2) e.fullName = '1';
-      if (!form.countryCode) e.countryCode = '1';
-      if (!/^[0-9]{6,12}$/.test(form.whatsapp.replace(/\s/g, ''))) e.whatsapp = '1';
-      if (!form.city.trim()) e.city = '1';
-      // deliverySlot optional
-      if (form.horsOuaga && !form.carTransport.trim()) e.carTransport = '1';
-      if (!form.available) e.available = '1';
-      if (!form.cashConfirmed) e.cashConfirmed = '1';
-      const missing = Object.keys(e).map((k) => labels[k]).filter(Boolean);
+      const missing = Object.keys(validationErrors).map((k) => labels[k]).filter(Boolean);
       const firstMissing = missing[0] || 'un champ';
       toast.error(`⚠️ ${firstMissing} manquant`, {
         description:
@@ -268,10 +260,17 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             : 'Complète ce champ pour valider ta commande.',
         duration: 6000,
       });
-      setTimeout(() => {
-        const el = document.querySelector('.border-rouge');
-        el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 100);
+      // Scroll vers le premier champ invalide avec son message d'erreur
+      const fieldOrder = ['fullName', 'countryCode', 'whatsapp', 'city', 'carTransport', 'available', 'cashConfirmed'];
+      const firstErrorKey = fieldOrder.find((k) => validationErrors[k]) || Object.keys(validationErrors)[0];
+      if (firstErrorKey) {
+        setTimeout(() => {
+          const el = document.querySelector(`[data-field="${firstErrorKey}"]`) ||
+            document.querySelector(`[name="${firstErrorKey}"]`) ||
+            document.querySelector('.border-rouge');
+          el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      }
       return;
     }
     setSubmitting(true);
