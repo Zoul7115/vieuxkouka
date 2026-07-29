@@ -125,8 +125,8 @@ export function FAQSection() {
   const { ref: listRef, inView: listIn } = useInView<HTMLDivElement>(0.1);
   const { ref: ctaRef, inView: ctaIn } = useInView<HTMLDivElement>(0.2);
 
-  const scrollToOrder = () => {
-    const el = document.getElementById('order-section');
+  const scrollToOffers = () => {
+    const el = document.getElementById('offres') ?? document.getElementById('order-section');
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
