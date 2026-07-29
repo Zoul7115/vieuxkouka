@@ -492,13 +492,14 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             </div>
           </Field>
 
-          <Field label="WhatsApp" required error={errors.whatsapp}>
+          <Field label="WhatsApp" required error={errors.whatsapp} fieldKey="whatsapp">
             <div className="flex gap-2">
               <div className="px-3.5 py-3.5 bg-cream-2 border-2 border-vert-bg rounded-xl font-bold min-w-[72px] text-center">
                 {country.prefix}
               </div>
               <input
                 type="tel"
+                name="whatsapp"
                 value={form.whatsapp}
                 onChange={(e) => update('whatsapp', e.target.value)}
                 placeholder="58 44 48 18"
