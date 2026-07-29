@@ -239,11 +239,7 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
   };
 
   const submit = async () => {
-    if (typeof window !== 'undefined') {
-      (window as any).__submit_called__ = true;
-    }
     const validationErrors = setErrorsFromValidation();
-    console.log('validationErrors', validationErrors);
     if (Object.keys(validationErrors).length > 0) {
       const labels: Record<string, string> = {
         fullName: 'Prénom & Nom',
