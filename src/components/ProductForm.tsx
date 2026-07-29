@@ -202,6 +202,19 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
     }
   };
 
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [formInView, setFormInView] = useState(false);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => setFormInView(e?.isIntersecting ?? false), {
+      threshold: 0,
+      rootMargin: '-10% 0px -10% 0px',
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   const validate = () => {
     const e: Record<string, string> = {};
     if (!form.fullName.trim() || form.fullName.trim().length < 2) e.fullName = 'Obligatoire';
