@@ -556,9 +556,10 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
           )}
 
           {form.horsOuaga && (
-            <Field label="Compagnie de transport + ville" required error={errors.carTransport}>
+            <Field label="Compagnie de transport + ville" required error={errors.carTransport} fieldKey="carTransport">
               <input
                 type="text"
+                name="carTransport"
                 value={form.carTransport}
                 onChange={(e) => update('carTransport', e.target.value)}
                 placeholder="Ex : STAF Koudougou ou SARAMAYYA Bobo-Dioulasso"
