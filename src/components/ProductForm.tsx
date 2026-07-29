@@ -470,7 +470,7 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             />
           </Field>
 
-          <Field label="Pays" required error={errors.countryCode}>
+          <Field label="Pays" required error={errors.countryCode} fieldKey="countryCode">
             <div className="grid grid-cols-2 gap-2">
               {[
                 { code: 'BF', label: '🇧🇫 Burkina Faso' },
