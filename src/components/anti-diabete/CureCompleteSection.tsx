@@ -138,9 +138,10 @@ export function CureCompleteSection() {
 
         {/* ── Offres ── */}
         <div
+          id="offres"
           ref={offersHeadRef}
           className={cn(
-            'mx-auto mt-12 max-w-2xl text-center sm:mt-14',
+            'mx-auto mt-12 max-w-2xl scroll-mt-24 text-center sm:mt-14',
             offersHeadIn ? 'animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both' : 'opacity-0'
           )}
         >
