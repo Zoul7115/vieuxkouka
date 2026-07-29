@@ -125,8 +125,8 @@ export function FAQSection() {
   const { ref: listRef, inView: listIn } = useInView<HTMLDivElement>(0.1);
   const { ref: ctaRef, inView: ctaIn } = useInView<HTMLDivElement>(0.2);
 
-  const scrollToOrder = () => {
-    const el = document.getElementById('order-section');
+  const scrollToOffers = () => {
+    const el = document.getElementById('offres') ?? document.getElementById('order-section');
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
@@ -190,7 +190,7 @@ export function FAQSection() {
           </p>
           <button
             type="button"
-            onClick={scrollToOrder}
+            onClick={scrollToOffers}
             className="mt-9 inline-flex items-center justify-center rounded-xl bg-rouge px-8 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-rouge/25 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl sm:text-lg"
           >
             Je commande maintenant
