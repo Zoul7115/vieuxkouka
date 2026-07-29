@@ -672,7 +672,7 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
         </div>
 
         <button
-          onClick={submit}
+          onClick={() => { if (typeof window !== 'undefined') (window as any).__button_clicked__ = true; submit(); }}
           disabled={submitting}
           className="block w-full max-w-[480px] mx-auto py-5 px-5 bg-vert-mid text-white rounded-xl shadow-[0_6px_20px_rgba(46,125,50,0.4)] hover:bg-vert hover:-translate-y-0.5 transition-all disabled:opacity-55 disabled:cursor-not-allowed disabled:transform-none"
         >
