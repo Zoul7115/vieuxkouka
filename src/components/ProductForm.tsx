@@ -622,6 +622,24 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
           ))}
         </div>
       </div>
+
+      {/* Bouton de validation flottant — actif uniquement sur la section formulaire */}
+      <div
+        className={`fixed inset-x-0 bottom-0 z-[60] px-3 pb-3 sm:pb-4 transition-all duration-300 ease-out ${
+          formInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
+        aria-hidden={!formInView}
+      >
+        <button
+          onClick={submit}
+          disabled={submitting}
+          className="block w-full max-w-[480px] mx-auto p-5 bg-vert-mid text-white rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.4)] hover:bg-vert hover:-translate-y-0.5 transition-all disabled:opacity-55 disabled:cursor-not-allowed disabled:transform-none"
+        >
+          <span className="transition-opacity duration-200">
+            {submitting ? '⏳ Envoi en cours…' : `🌿 COMMANDER • ${formatFCFA(finalPrice)}`}
+          </span>
+        </button>
+      </div>
     </section>
   );
 }
