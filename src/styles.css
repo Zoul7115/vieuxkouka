@@ -202,6 +202,18 @@
   @keyframes pulseRing { 0%{box-shadow:0 0 0 0 rgba(46,125,50,.55);} 70%{box-shadow:0 0 0 16px rgba(46,125,50,0);} 100%{box-shadow:0 0 0 0 rgba(46,125,50,0);} }
   .pulse-ring { animation: pulseRing 1.8s ease-out infinite; }
 
+  /* CTA rouges — micro-animations discrètes (hover desktop, appui mobile) */
+  button.bg-rouge, a.bg-rouge {
+    transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+  }
+  @media (hover: hover) {
+    button.bg-rouge:hover, a.bg-rouge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(198,40,40,.30);
+    }
+  }
+  button.bg-rouge:active, a.bg-rouge:active { transform: scale(.975); }
+
   /* Theme override: remap green tokens to medical blue (used on Anti-Diabète page) */
   .theme-bleu {
     --vert: var(--bleu);

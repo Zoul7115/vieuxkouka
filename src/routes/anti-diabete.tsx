@@ -9,6 +9,8 @@ import { CureCompleteSection } from '@/components/anti-diabete/CureCompleteSecti
 import { TemoignagesSection } from '@/components/anti-diabete/TemoignagesSection';
 import { WhyTrustSection } from '@/components/anti-diabete/WhyTrustSection';
 import { StickyOrderBar } from '@/components/anti-diabete/StickyOrderBar';
+import { ScrollProgress } from '@/components/anti-diabete/ScrollProgress';
+import { DeliveryCountries } from '@/components/anti-diabete/DeliveryCountries';
 
 import { ANTI_DIABETE } from '@/lib/products';
 import heroKouka from '@/assets/kouka-hero-medical.png.asset.json';
@@ -33,6 +35,7 @@ export const Route = createFileRoute('/anti-diabete')({
       { property: 'og:image', content: ANTI_DIABETE.heroImage },
       { name: 'twitter:image', content: ANTI_DIABETE.heroImage },
     ],
+    links: [{ rel: 'preload', as: 'image', href: heroKouka.url, fetchpriority: 'high' }],
   }),
   component: AntiDiabetePage,
 });
@@ -182,6 +185,7 @@ function PbCard({
         src={item.img}
         alt={item.alt}
         loading="lazy"
+        decoding="async"
         className={`absolute inset-0 h-full w-full object-cover ${item.pos ?? 'object-center'} transition-transform duration-700 ease-out group-hover:scale-[1.04]`}
       />
       <div
@@ -542,6 +546,7 @@ function SolutionSection() {
                 src={portraitKouka.url}
                 alt="Le Vieux Kouka, préparateur du traitement traditionnel anti-diabète"
                 loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover"
               />
             </div>
@@ -623,6 +628,7 @@ function SolutionSection() {
                 src={sachetPremium.url}
                 alt="Sachet de Poudre Anti-Diabète du Vieux Kouka"
                 loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover"
               />
             </div>
@@ -704,6 +710,8 @@ export function AntiDiabetePage() {
   return (
     <main className="bg-card font-body pb-28 sm:pb-32">
 
+      <ScrollProgress />
+
       <VisitTracker page="anti-diabete" />
 
       <Hero />
@@ -718,6 +726,8 @@ export function AntiDiabetePage() {
 
       <TemoignagesSection />
 
+
+      <DeliveryCountries />
 
       <FAQSection />
 
