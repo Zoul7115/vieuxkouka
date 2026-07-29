@@ -641,6 +641,30 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
         }`}
         aria-hidden={!formInView}
       >
+        {/* Bandeau d'information guidant le visiteur */}
+        <div className="max-w-[480px] mx-auto mb-2">
+          <div
+            className={`rounded-xl px-4 py-2.5 border transition-all duration-300 flex items-center gap-2.5 ${
+              isFormComplete
+                ? 'bg-green-50 border-green-200 text-green-800'
+                : 'bg-white/95 border-white/50 text-foreground/90 shadow-sm'
+            }`}
+          >
+            <span className="text-lg flex-shrink-0">{isFormComplete ? '✅' : '📋'}</span>
+            <div className="text-sm leading-snug">
+              {isFormComplete ? (
+                <span className="font-semibold">
+                  <span className="font-extrabold">Parfait !</span> Vos informations sont complètes. Vous pouvez maintenant envoyer votre commande.
+                </span>
+              ) : (
+                <span>
+                  <span className="font-extrabold text-vert-mid">Étape 2 sur 2</span> — Remplissez le formulaire ci-dessus, puis cliquez sur le bouton ci-dessous pour envoyer votre commande.
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
         <button
           onClick={submit}
           disabled={submitting}
