@@ -239,7 +239,9 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
   };
 
   const submit = async () => {
-    console.log('SUBMIT called', form, submitting);
+    if (typeof window !== 'undefined') {
+      (window as any).__submit_called__ = true;
+    }
     const validationErrors = setErrorsFromValidation();
     console.log('validationErrors', validationErrors);
     if (Object.keys(validationErrors).length > 0) {
