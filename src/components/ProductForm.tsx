@@ -568,9 +568,10 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             </Field>
           )}
 
-          <label className="flex items-start gap-3 cursor-pointer mb-2">
+          <label className="flex items-start gap-3 cursor-pointer mb-2" data-field="available">
             <input
               type="checkbox"
+              name="available"
               checked={form.available}
               onChange={(e) => update('available', e.target.checked)}
               className="w-5 h-5 mt-0.5 accent-vert-mid"
