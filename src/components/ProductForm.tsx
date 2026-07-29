@@ -660,33 +660,35 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
         aria-hidden={!formInView}
       >
         {/* Bandeau d'information guidant le visiteur */}
-        <div className="max-w-[480px] mx-auto mb-2">
-          <div
-            className={`rounded-xl px-4 py-2.5 border transition-all duration-300 flex items-center gap-2.5 ${
-              isFormComplete
-                ? 'bg-green-50 border-green-200 text-green-800'
-                : 'bg-white/95 border-white/50 text-foreground/90 shadow-sm'
-            }`}
-          >
-            <span className="text-lg flex-shrink-0">{isFormComplete ? '✅' : '📋'}</span>
-            <div className="text-sm leading-snug">
-              {isFormComplete ? (
-                <span className="font-semibold">
-                  <span className="font-extrabold">Parfait !</span> Vos informations sont complètes. Vous pouvez maintenant envoyer votre commande.
-                </span>
-              ) : (
-                <span>
-                  <span className="font-extrabold text-vert-mid">Étape 2 sur 2</span> — Remplissez le formulaire ci-dessus, puis cliquez sur le bouton ci-dessous pour envoyer votre commande.
-                </span>
-              )}
+        {(() => {
+          const banner = isFormComplete
+            ? { icon: '✅', title: 'Tout est prêt !', body: 'Il ne vous reste plus qu\'à cliquer sur le bouton ci-dessous pour envoyer votre commande.', style: 'bg-green-50 border-green-200 text-green-800' as const }
+            : bottomInView
+              ? { icon: '✅', title: 'Étape 2 sur 2', body: 'Vérifiez vos informations, puis cliquez sur le bouton ci-dessous pour envoyer votre commande.', style: 'bg-white/95 border-white/50 text-foreground/90 shadow-sm' as const }
+              : { icon: '📋', title: '', body: 'Remplissez les informations ci-dessous pour préparer votre commande.', style: 'bg-white/80 border-white/40 text-foreground/80 shadow-sm' as const };
+          return (
+            <div className="max-w-[480px] mx-auto mb-2">
+              <div className={`rounded-xl px-4 py-2.5 border transition-all duration-300 flex items-start gap-2.5 ${banner.style}`}>
+                <span className="text-lg flex-shrink-0 mt-0.5">{banner.icon}</span>
+                <div className="text-sm leading-snug">
+                  {banner.title ? (
+                    <span className="font-semibold">
+                      <span className="font-extrabold">{banner.title}</span>{' '}
+                      {banner.body}
+                    </span>
+                  ) : (
+                    <span>{banner.body}</span>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          );
+        })()}
 
         <button
           onClick={submit}
           disabled={submitting}
-          className="block w-full max-w-[480px] mx-auto py-5 px-5 bg-vert-mid text-white rounded-xl shadow-[0_6px_20px_rgba(46,125,50,0.4)] hover:bg-vert hover:-translate-y-0.5 transition-all disabled:opacity-55 disabled:cursor-not-allowed disabled:transform-none"
+          className="block w-full max-w-[480px] mx-auto py-5 px-5 bg-rouge text-white rounded-xl shadow-[0_6px_20px_rgba(198,40,40,0.4)] hover:brightness-110 hover:-translate-y-0.5 transition-all disabled:opacity-55 disabled:cursor-not-allowed disabled:transform-none"
         >
           <span className="block text-lg font-extrabold leading-tight transition-opacity duration-200">
             {submitting ? '⏳ Envoi en cours…' : `🌿 Commander ${offer.paidUnits} ${productLabel}${offer.paidUnits > 1 ? 's' : ''} • ${formatFCFA(productPrice)}`}
@@ -697,6 +699,7 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             </span>
           )}
         </button>
+
       </div>
     </section>
   );
