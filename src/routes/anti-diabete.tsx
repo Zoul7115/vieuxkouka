@@ -95,7 +95,7 @@ function Hero() {
                 href="#solution"
                 className="inline-flex items-center justify-center rounded-xl bg-rouge px-8 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-rouge/25 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl sm:text-lg"
               >
-                Je découvre le traitement
+                Voir la solution naturelle
               </a>
             </div>
 
@@ -522,10 +522,16 @@ function SolutionSection() {
             Depuis plusieurs années, le Vieux Kouka accompagne des personnes vivant avec le diabète grâce à son
             traitement traditionnel de 40 jours.
           </p>
+          <a
+            href="#histoire-kouka"
+            className="mt-9 inline-flex items-center justify-center rounded-xl bg-rouge px-8 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-rouge/25 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl sm:text-lg"
+          >
+            Je découvre le traitement
+          </a>
         </div>
 
         {/* BLOC 1 — Le Vieux Kouka */}
-        <div ref={b1Ref} className="mt-14 grid items-start gap-12 lg:mt-16 lg:grid-cols-2 lg:gap-16">
+        <div id="histoire-kouka" ref={b1Ref} className="mt-14 scroll-mt-20 grid items-start gap-12 lg:mt-16 lg:grid-cols-2 lg:gap-16">
           <div
             className={
               b1In ? 'animate-in fade-in slide-in-from-left-6 duration-700 fill-mode-both' : 'opacity-0'
