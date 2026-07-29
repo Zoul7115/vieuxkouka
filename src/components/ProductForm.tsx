@@ -667,16 +667,18 @@ function Field({
   required,
   error,
   hint,
+  fieldKey,
   children,
 }: {
   label: string;
   required?: boolean;
   error?: string;
   hint?: string;
+  fieldKey?: string;
   children: React.ReactNode;
 }) {
   return (
-    <div className="mb-4">
+    <div className="mb-4" data-field={fieldKey}>
       <label className="block text-sm font-bold text-muted-foreground mb-1.5">
         {label} {required && <span className="text-rouge">*</span>}
       </label>
