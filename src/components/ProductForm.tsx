@@ -581,60 +581,63 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             </Field>
           )}
 
-          <label className="flex items-start gap-3 cursor-pointer mb-2" data-field="available">
-            <input
-              type="checkbox"
-              name="available"
-              checked={form.available}
-              onChange={(e) => update('available', e.target.checked)}
-              className="w-5 h-5 mt-0.5 accent-vert-mid"
-            />
-            <span className="text-base text-muted-foreground leading-relaxed">
-              <strong>Je suis disponible</strong> pour recevoir ma commande dans les <strong>24-48h</strong> et joignable sur WhatsApp.
-            </span>
-          </label>
-          {errors.available && <div className="text-rouge text-sm mb-3">{errors.available}</div>}
+          <div ref={bottomFormRef}>
+            <label className="flex items-start gap-3 cursor-pointer mb-2" data-field="available">
+              <input
+                type="checkbox"
+                name="available"
+                checked={form.available}
+                onChange={(e) => update('available', e.target.checked)}
+                className="w-5 h-5 mt-0.5 accent-vert-mid"
+              />
+              <span className="text-base text-muted-foreground leading-relaxed">
+                <strong>Je suis disponible</strong> pour recevoir ma commande dans les <strong>24-48h</strong> et joignable sur WhatsApp.
+              </span>
+            </label>
+            {errors.available && <div className="text-rouge text-sm mb-3">{errors.available}</div>}
 
-          <label className="flex items-start gap-3 cursor-pointer mb-2 bg-vert-bg/40 border-2 border-vert-bg rounded-xl p-3" data-field="cashConfirmed">
-            <input
-              type="checkbox"
-              name="cashConfirmed"
-              checked={form.cashConfirmed}
-              onChange={(e) => update('cashConfirmed', e.target.checked)}
-              className="w-5 h-5 mt-0.5 accent-vert-mid"
-            />
-            <span className="text-base text-foreground leading-relaxed">
-              💵 <strong>Je confirme que j'aurai bien {formatFCFA(finalPrice)} en cash</strong> prêts le jour de la livraison.
-            </span>
-          </label>
-          {errors.cashConfirmed && <div className="text-rouge text-sm mb-3">{errors.cashConfirmed}</div>}
+            <label className="flex items-start gap-3 cursor-pointer mb-2 bg-vert-bg/40 border-2 border-vert-bg rounded-xl p-3" data-field="cashConfirmed">
+              <input
+                type="checkbox"
+                name="cashConfirmed"
+                checked={form.cashConfirmed}
+                onChange={(e) => update('cashConfirmed', e.target.checked)}
+                className="w-5 h-5 mt-0.5 accent-vert-mid"
+              />
+              <span className="text-base text-foreground leading-relaxed">
+                💵 <strong>Je confirme que j'aurai bien {formatFCFA(finalPrice)} en cash</strong> prêts le jour de la livraison.
+              </span>
+            </label>
+            {errors.cashConfirmed && <div className="text-rouge text-sm mb-3">{errors.cashConfirmed}</div>}
 
-          {/* Trust markers JUSTE avant le CTA — lève les dernières objections */}
-          <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
-            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
-              <span>💵</span><span>Tu paies SEULEMENT à la livraison</span>
+            {/* Trust markers JUSTE avant le CTA — lève les dernières objections */}
+            <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
+              <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+                <span>💵</span><span>Tu paies SEULEMENT à la livraison</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+                <span>📦</span><span>Colis neutre, 100% discret</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+                <span>🛡️</span><span>Remboursé si pas satisfait</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
+                <span>📞</span><span>Appel WhatsApp sous 2h</span>
+              </div>
             </div>
-            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
-              <span>📦</span><span>Colis neutre, 100% discret</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
-              <span>🛡️</span><span>Remboursé si pas satisfait</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-vert-bg/60 border border-vert-bg rounded-lg px-2 py-1.5 font-semibold text-vert">
-              <span>📞</span><span>Appel WhatsApp sous 2h</span>
-            </div>
+
+            <button
+              onClick={submit}
+              disabled={submitting}
+              className={`w-full p-5 bg-vert-mid text-white rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.4)] hover:bg-vert hover:-translate-y-0.5 transition-all disabled:opacity-55 disabled:cursor-not-allowed disabled:transform-none mt-2 ${formInView ? 'hidden' : ''}`}
+            >
+              {submitting ? '⏳ Envoi en cours…' : `🌿 COMMANDER — PAYER À LA LIVRAISON · ${formatFCFA(finalPrice)}`}
+            </button>
+            <p className={`text-center text-xs text-muted-foreground mt-2 font-semibold ${formInView ? 'hidden' : ''}`}>
+              🔒 Tes infos restent confidentielles · Aucun débit en ligne
+            </p>
           </div>
 
-          <button
-            onClick={submit}
-            disabled={submitting}
-            className={`w-full p-5 bg-vert-mid text-white rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.4)] hover:bg-vert hover:-translate-y-0.5 transition-all disabled:opacity-55 disabled:cursor-not-allowed disabled:transform-none mt-2 ${formInView ? 'hidden' : ''}`}
-          >
-            {submitting ? '⏳ Envoi en cours…' : `🌿 COMMANDER — PAYER À LA LIVRAISON · ${formatFCFA(finalPrice)}`}
-          </button>
-          <p className={`text-center text-xs text-muted-foreground mt-2 font-semibold ${formInView ? 'hidden' : ''}`}>
-            🔒 Tes infos restent confidentielles · Aucun débit en ligne
-          </p>
         </div>
 
         <div className="flex gap-2 justify-center flex-wrap mt-4">
