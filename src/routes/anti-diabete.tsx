@@ -92,7 +92,7 @@ function Hero() {
 
             <div className="mt-9 animate-in fade-in slide-in-from-bottom-2 duration-500 delay-300 fill-mode-both">
               <a
-                href="#order-section"
+                href="#solution"
                 className="inline-flex items-center justify-center rounded-xl bg-rouge px-8 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-rouge/25 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl sm:text-lg"
               >
                 Je découvre le traitement
@@ -441,7 +441,7 @@ function TimelineSection() {
             Il n&apos;est peut-être pas trop tard pour agir.
           </p>
           <a
-            href="#order-section"
+            href="#solution"
             className="mt-9 inline-flex items-center justify-center rounded-xl bg-rouge px-8 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-rouge/25 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl sm:text-lg"
           >
             Découvrir la solution
@@ -499,7 +499,7 @@ function SolutionSection() {
   const { ref: trRef, inView: trIn } = useInView<HTMLDivElement>(0.3);
 
   return (
-    <section className="relative isolate overflow-hidden bg-white">
+    <section id="solution" className="relative isolate scroll-mt-16 overflow-hidden bg-white">
       <div
         aria-hidden
         className="pointer-events-none absolute -top-32 right-[-10rem] h-[28rem] w-[28rem] rounded-full bg-bleu-bg blur-3xl opacity-50"
