@@ -226,8 +226,16 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
     if (form.horsOuaga && !form.carTransport.trim()) e.carTransport = 'Indiquez la compagnie + ville';
     if (!form.available) e.available = 'Confirmation obligatoire';
     if (!form.cashConfirmed) e.cashConfirmed = 'Confirme que tu auras le cash prêt';
+    return e;
+  };
+
+  const errorsObj = validate();
+  const isFormComplete = Object.keys(errorsObj).length === 0;
+
+  const setErrorsFromValidation = () => {
+    const e = validate();
     setErrors(e);
-    return Object.keys(e).length === 0;
+    return e;
   };
 
   const submit = async () => {
