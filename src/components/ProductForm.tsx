@@ -519,7 +519,7 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             />
           </Field>
 
-          <Field label="Quand veux-tu être livré ? (facultatif)" error={errors.deliverySlot}>
+          <Field label="Quand veux-tu être livré ? (facultatif)" error={errors.deliverySlot} fieldKey="deliverySlot">
             <div className="grid grid-cols-2 gap-2">
               {DELIVERY_SLOTS.map((s) => (
                 <button
