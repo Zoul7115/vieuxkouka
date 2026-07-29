@@ -8,6 +8,7 @@ import waAvis3 from '@/assets/wa-avis-3.jpg.asset.json';
 import audio12 from '@/assets/temoignage-12.mp3.asset.json';
 import audio13 from '@/assets/temoignage-13.mp3.asset.json';
 import audio14 from '@/assets/temoignage-14.mp3.asset.json';
+import audio15 from '@/assets/temoignage-15.mp3.asset.json';
 
 function useInView<T extends HTMLElement>(threshold = 0.15) {
   const ref = useRef<T>(null);
@@ -53,6 +54,7 @@ const AUDIOS = [
   { src: audio12.url, label: 'Témoignage client', note: 'Message vocal reçu sur WhatsApp' },
   { src: audio13.url, label: 'Témoignage client', note: 'Message vocal reçu sur WhatsApp' },
   { src: audio14.url, label: 'Témoignage client', note: 'Message vocal reçu sur WhatsApp' },
+  { src: audio15.url, label: 'Témoignage client', note: '« Les picotements ont diminué, je reprends la cure complète » — Message vocal WhatsApp' },
 ];
 
 function fmt(t: number) {
