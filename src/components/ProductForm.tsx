@@ -226,12 +226,21 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
     if (form.horsOuaga && !form.carTransport.trim()) e.carTransport = 'Indiquez la compagnie + ville';
     if (!form.available) e.available = 'Confirmation obligatoire';
     if (!form.cashConfirmed) e.cashConfirmed = 'Confirme que tu auras le cash prêt';
+    return e;
+  };
+
+  const errorsObj = validate();
+  const isFormComplete = Object.keys(errorsObj).length === 0;
+
+  const setErrorsFromValidation = () => {
+    const e = validate();
     setErrors(e);
-    return Object.keys(e).length === 0;
+    return e;
   };
 
   const submit = async () => {
-    if (!validate()) {
+    const validationErrors = setErrorsFromValidation();
+    if (Object.keys(validationErrors).length > 0) {
       const labels: Record<string, string> = {
         fullName: 'Prénom & Nom',
         countryCode: 'Pays',
@@ -242,16 +251,7 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
         available: 'Confirmer ta disponibilité',
         cashConfirmed: 'Confirmer que tu auras le cash',
       };
-      const e: Record<string, string> = {};
-      if (!form.fullName.trim() || form.fullName.trim().length < 2) e.fullName = '1';
-      if (!form.countryCode) e.countryCode = '1';
-      if (!/^[0-9]{6,12}$/.test(form.whatsapp.replace(/\s/g, ''))) e.whatsapp = '1';
-      if (!form.city.trim()) e.city = '1';
-      // deliverySlot optional
-      if (form.horsOuaga && !form.carTransport.trim()) e.carTransport = '1';
-      if (!form.available) e.available = '1';
-      if (!form.cashConfirmed) e.cashConfirmed = '1';
-      const missing = Object.keys(e).map((k) => labels[k]).filter(Boolean);
+      const missing = Object.keys(validationErrors).map((k) => labels[k]).filter(Boolean);
       const firstMissing = missing[0] || 'un champ';
       toast.error(`⚠️ ${firstMissing} manquant`, {
         description:
@@ -260,10 +260,17 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             : 'Complète ce champ pour valider ta commande.',
         duration: 6000,
       });
-      setTimeout(() => {
-        const el = document.querySelector('.border-rouge');
-        el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 100);
+      // Scroll vers le premier champ invalide avec son message d'erreur
+      const fieldOrder = ['fullName', 'countryCode', 'whatsapp', 'city', 'carTransport', 'available', 'cashConfirmed'];
+      const firstErrorKey = fieldOrder.find((k) => validationErrors[k]) || Object.keys(validationErrors)[0];
+      if (firstErrorKey) {
+        setTimeout(() => {
+          const el = document.querySelector(`[data-field="${firstErrorKey}"]`) ||
+            document.querySelector(`[name="${firstErrorKey}"]`) ||
+            document.querySelector('.border-rouge');
+          el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      }
       return;
     }
     setSubmitting(true);
@@ -452,9 +459,10 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
         {/* PreFormWhatsApp retiré : détournait vers WhatsApp avant la soumission */}
 
         <div className="bg-white rounded-2xl p-6 sm:p-9 shadow-[0_8px_32px_rgba(0,0,0,0.12)] max-w-[480px] mx-auto">
-          <Field label="Prénom & Nom" required error={errors.fullName}>
+          <Field label="Prénom & Nom" required error={errors.fullName} fieldKey="fullName">
             <input
               type="text"
+              name="fullName"
               value={form.fullName}
               onChange={(e) => update('fullName', e.target.value)}
               placeholder="Ibrahim Diallo"
@@ -462,7 +470,7 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             />
           </Field>
 
-          <Field label="Pays" required error={errors.countryCode}>
+          <Field label="Pays" required error={errors.countryCode} fieldKey="countryCode">
             <div className="grid grid-cols-2 gap-2">
               {[
                 { code: 'BF', label: '🇧🇫 Burkina Faso' },
@@ -484,13 +492,14 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             </div>
           </Field>
 
-          <Field label="WhatsApp" required error={errors.whatsapp}>
+          <Field label="WhatsApp" required error={errors.whatsapp} fieldKey="whatsapp">
             <div className="flex gap-2">
               <div className="px-3.5 py-3.5 bg-cream-2 border-2 border-vert-bg rounded-xl font-bold min-w-[72px] text-center">
                 {country.prefix}
               </div>
               <input
                 type="tel"
+                name="whatsapp"
                 value={form.whatsapp}
                 onChange={(e) => update('whatsapp', e.target.value)}
                 placeholder="58 44 48 18"
@@ -499,9 +508,10 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             </div>
           </Field>
 
-          <Field label="Ville / Quartier" required error={errors.city}>
+          <Field label="Ville / Quartier" required error={errors.city} fieldKey="city">
             <input
               type="text"
+              name="city"
               value={form.city}
               onChange={(e) => update('city', e.target.value)}
               placeholder={form.countryCode === 'NE' ? 'Niamey / Plateau' : 'Ouagadougou / Tanghin'}
@@ -509,7 +519,7 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             />
           </Field>
 
-          <Field label="Quand veux-tu être livré ? (facultatif)" error={errors.deliverySlot}>
+          <Field label="Quand veux-tu être livré ? (facultatif)" error={errors.deliverySlot} fieldKey="deliverySlot">
             <div className="grid grid-cols-2 gap-2">
               {DELIVERY_SLOTS.map((s) => (
                 <button
@@ -546,9 +556,10 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
           )}
 
           {form.horsOuaga && (
-            <Field label="Compagnie de transport + ville" required error={errors.carTransport}>
+            <Field label="Compagnie de transport + ville" required error={errors.carTransport} fieldKey="carTransport">
               <input
                 type="text"
+                name="carTransport"
                 value={form.carTransport}
                 onChange={(e) => update('carTransport', e.target.value)}
                 placeholder="Ex : STAF Koudougou ou SARAMAYYA Bobo-Dioulasso"
@@ -557,9 +568,10 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             </Field>
           )}
 
-          <label className="flex items-start gap-3 cursor-pointer mb-2">
+          <label className="flex items-start gap-3 cursor-pointer mb-2" data-field="available">
             <input
               type="checkbox"
+              name="available"
               checked={form.available}
               onChange={(e) => update('available', e.target.checked)}
               className="w-5 h-5 mt-0.5 accent-vert-mid"
@@ -570,9 +582,10 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
           </label>
           {errors.available && <div className="text-rouge text-sm mb-3">{errors.available}</div>}
 
-          <label className="flex items-start gap-3 cursor-pointer mb-2 bg-vert-bg/40 border-2 border-vert-bg rounded-xl p-3">
+          <label className="flex items-start gap-3 cursor-pointer mb-2 bg-vert-bg/40 border-2 border-vert-bg rounded-xl p-3" data-field="cashConfirmed">
             <input
               type="checkbox"
+              name="cashConfirmed"
               checked={form.cashConfirmed}
               onChange={(e) => update('cashConfirmed', e.target.checked)}
               className="w-5 h-5 mt-0.5 accent-vert-mid"
@@ -630,6 +643,30 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
         }`}
         aria-hidden={!formInView}
       >
+        {/* Bandeau d'information guidant le visiteur */}
+        <div className="max-w-[480px] mx-auto mb-2">
+          <div
+            className={`rounded-xl px-4 py-2.5 border transition-all duration-300 flex items-center gap-2.5 ${
+              isFormComplete
+                ? 'bg-green-50 border-green-200 text-green-800'
+                : 'bg-white/95 border-white/50 text-foreground/90 shadow-sm'
+            }`}
+          >
+            <span className="text-lg flex-shrink-0">{isFormComplete ? '✅' : '📋'}</span>
+            <div className="text-sm leading-snug">
+              {isFormComplete ? (
+                <span className="font-semibold">
+                  <span className="font-extrabold">Parfait !</span> Vos informations sont complètes. Vous pouvez maintenant envoyer votre commande.
+                </span>
+              ) : (
+                <span>
+                  <span className="font-extrabold text-vert-mid">Étape 2 sur 2</span> — Remplissez le formulaire ci-dessus, puis cliquez sur le bouton ci-dessous pour envoyer votre commande.
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
         <button
           onClick={submit}
           disabled={submitting}
@@ -659,16 +696,18 @@ function Field({
   required,
   error,
   hint,
+  fieldKey,
   children,
 }: {
   label: string;
   required?: boolean;
   error?: string;
   hint?: string;
+  fieldKey?: string;
   children: React.ReactNode;
 }) {
   return (
-    <div className="mb-4">
+    <div className="mb-4" data-field={fieldKey}>
       <label className="block text-sm font-bold text-muted-foreground mb-1.5">
         {label} {required && <span className="text-rouge">*</span>}
       </label>
