@@ -602,11 +602,11 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
           <button
             onClick={submit}
             disabled={submitting}
-            className="w-full p-5 bg-vert-mid text-white rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.4)] hover:bg-vert hover:-translate-y-0.5 transition-all disabled:opacity-55 disabled:cursor-not-allowed disabled:transform-none mt-2"
+            className={`w-full p-5 bg-vert-mid text-white rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.4)] hover:bg-vert hover:-translate-y-0.5 transition-all disabled:opacity-55 disabled:cursor-not-allowed disabled:transform-none mt-2 ${formInView ? 'hidden' : ''}`}
           >
             {submitting ? '⏳ Envoi en cours…' : `🌿 COMMANDER — PAYER À LA LIVRAISON · ${formatFCFA(finalPrice)}`}
           </button>
-          <p className="text-center text-xs text-muted-foreground mt-2 font-semibold">
+          <p className={`text-center text-xs text-muted-foreground mt-2 font-semibold ${formInView ? 'hidden' : ''}`}>
             🔒 Tes infos restent confidentielles · Aucun débit en ligne
           </p>
         </div>
