@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { OfferSelector } from './OfferSelector';
 import { useAssignedCloseuse } from '@/lib/assignedCloseuseContext';
@@ -202,6 +202,19 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
     }
   };
 
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [formInView, setFormInView] = useState(false);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => setFormInView(e?.isIntersecting ?? false), {
+      threshold: 0,
+      rootMargin: '-10% 0px -10% 0px',
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   const validate = () => {
     const e: Record<string, string> = {};
     if (!form.fullName.trim() || form.fullName.trim().length < 2) e.fullName = 'Obligatoire';
@@ -377,8 +390,9 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
   const isAntiDiabete = product.slug === 'anti-diabete';
   return (
     <section
+      ref={sectionRef}
       id="order-section"
-      className={`bg-vert py-14 px-0 ${isAntiDiabete ? 'theme-bleu' : ''}`}
+      className={`bg-vert py-14 pb-28 sm:pb-32 px-0 ${isAntiDiabete ? 'theme-bleu' : ''}`}
       style={{ background: 'linear-gradient(180deg, var(--vert-mid), var(--vert))' }}
     >
       <div className="container-kouka">
@@ -607,6 +621,24 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             </span>
           ))}
         </div>
+      </div>
+
+      {/* Bouton de validation flottant — actif uniquement sur la section formulaire */}
+      <div
+        className={`fixed inset-x-0 bottom-0 z-[60] px-3 pb-3 sm:pb-4 transition-all duration-300 ease-out ${
+          formInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
+        aria-hidden={!formInView}
+      >
+        <button
+          onClick={submit}
+          disabled={submitting}
+          className="block w-full max-w-[480px] mx-auto p-5 bg-vert-mid text-white rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.4)] hover:bg-vert hover:-translate-y-0.5 transition-all disabled:opacity-55 disabled:cursor-not-allowed disabled:transform-none"
+        >
+          <span className="transition-opacity duration-200">
+            {submitting ? '⏳ Envoi en cours…' : `🌿 COMMANDER • ${formatFCFA(finalPrice)}`}
+          </span>
+        </button>
       </div>
     </section>
   );
