@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { OfferSelector } from './OfferSelector';
 import { useAssignedCloseuse } from '@/lib/assignedCloseuseContext';
@@ -377,8 +377,9 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
   const isAntiDiabete = product.slug === 'anti-diabete';
   return (
     <section
+      ref={sectionRef}
       id="order-section"
-      className={`bg-vert py-14 px-0 ${isAntiDiabete ? 'theme-bleu' : ''}`}
+      className={`bg-vert py-14 pb-28 sm:pb-32 px-0 ${isAntiDiabete ? 'theme-bleu' : ''}`}
       style={{ background: 'linear-gradient(180deg, var(--vert-mid), var(--vert))' }}
     >
       <div className="container-kouka">
