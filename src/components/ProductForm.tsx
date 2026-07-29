@@ -508,9 +508,10 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
             </div>
           </Field>
 
-          <Field label="Ville / Quartier" required error={errors.city}>
+          <Field label="Ville / Quartier" required error={errors.city} fieldKey="city">
             <input
               type="text"
+              name="city"
               value={form.city}
               onChange={(e) => update('city', e.target.value)}
               placeholder={form.countryCode === 'NE' ? 'Niamey / Plateau' : 'Ouagadougou / Tanghin'}
