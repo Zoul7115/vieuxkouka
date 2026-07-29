@@ -633,11 +633,16 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
         <button
           onClick={submit}
           disabled={submitting}
-          className="block w-full max-w-[480px] mx-auto p-5 bg-vert-mid text-white rounded-xl text-lg font-extrabold shadow-[0_6px_20px_rgba(46,125,50,0.4)] hover:bg-vert hover:-translate-y-0.5 transition-all disabled:opacity-55 disabled:cursor-not-allowed disabled:transform-none"
+          className="block w-full max-w-[480px] mx-auto py-5 px-5 bg-vert-mid text-white rounded-xl shadow-[0_6px_20px_rgba(46,125,50,0.4)] hover:bg-vert hover:-translate-y-0.5 transition-all disabled:opacity-55 disabled:cursor-not-allowed disabled:transform-none"
         >
-          <span className="transition-opacity duration-200">
-            {submitting ? '⏳ Envoi en cours…' : `🌿 COMMANDER • ${formatFCFA(finalPrice)}`}
+          <span className="block text-lg font-extrabold leading-tight transition-opacity duration-200">
+            {submitting ? '⏳ Envoi en cours…' : `🌿 Commander ${offer.paidUnits} ${productLabel}${offer.paidUnits > 1 ? 's' : ''} • ${formatFCFA(productPrice)}`}
           </span>
+          {!submitting && offer.bonusUnits > 0 && (
+            <span className="block text-base font-bold mt-1 opacity-90 transition-opacity duration-200">
+              🎁 + {offer.bonusUnits} {productLabel}{offer.bonusUnits > 1 ? 's' : ''} offert{offer.bonusUnits > 1 ? 's' : ''} gratuitement
+            </span>
+          )}
         </button>
       </div>
     </section>
