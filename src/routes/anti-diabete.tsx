@@ -185,7 +185,7 @@ function PbCard({
         src={item.img}
         alt={item.alt}
         loading="lazy"
-                decoding="async"
+        decoding="async"
         className={`absolute inset-0 h-full w-full object-cover ${item.pos ?? 'object-center'} transition-transform duration-700 ease-out group-hover:scale-[1.04]`}
       />
       <div
