@@ -459,9 +459,10 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
         {/* PreFormWhatsApp retiré : détournait vers WhatsApp avant la soumission */}
 
         <div className="bg-white rounded-2xl p-6 sm:p-9 shadow-[0_8px_32px_rgba(0,0,0,0.12)] max-w-[480px] mx-auto">
-          <Field label="Prénom & Nom" required error={errors.fullName}>
+          <Field label="Prénom & Nom" required error={errors.fullName} fieldKey="fullName">
             <input
               type="text"
+              name="fullName"
               value={form.fullName}
               onChange={(e) => update('fullName', e.target.value)}
               placeholder="Ibrahim Diallo"
