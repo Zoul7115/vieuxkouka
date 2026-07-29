@@ -122,7 +122,7 @@ export function WhyTrustSection() {
               <h3 className="mt-6 font-body text-xl font-extrabold leading-snug text-foreground sm:text-[1.35rem]">
                 {card.title}
               </h3>
-              <p className="mt-3 text-base leading-[1.8] text-muted-foreground sm:text-lg">
+              <p className="mt-3 text-[1.05rem] leading-[1.8] text-muted-foreground sm:text-lg">
                 {card.text}
               </p>
             </div>
@@ -153,7 +153,7 @@ export function WhyTrustSection() {
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-bleu-bg text-[1.35rem] shadow-sm transition-transform duration-300 group-hover:scale-110 sm:h-12 sm:w-12 sm:text-[1.5rem]">
                   {badge.icon}
                 </span>
-                <span className="text-base font-bold leading-snug text-foreground sm:text-lg">
+                <span className="text-[1.05rem] font-bold leading-snug text-foreground sm:text-lg">
                   {badge.text}
                 </span>
               </div>

@@ -193,7 +193,7 @@ export function FAQSection() {
             onClick={scrollToOffers}
             className="mt-9 inline-flex items-center justify-center rounded-xl bg-rouge px-8 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-rouge/25 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl sm:text-lg"
           >
-            Je choisis mon offre
+            Je commande maintenant
           </button>
         </div>
       </div>
