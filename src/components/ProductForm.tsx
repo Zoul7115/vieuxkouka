@@ -582,9 +582,10 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
           </label>
           {errors.available && <div className="text-rouge text-sm mb-3">{errors.available}</div>}
 
-          <label className="flex items-start gap-3 cursor-pointer mb-2 bg-vert-bg/40 border-2 border-vert-bg rounded-xl p-3">
+          <label className="flex items-start gap-3 cursor-pointer mb-2 bg-vert-bg/40 border-2 border-vert-bg rounded-xl p-3" data-field="cashConfirmed">
             <input
               type="checkbox"
+              name="cashConfirmed"
               checked={form.cashConfirmed}
               onChange={(e) => update('cashConfirmed', e.target.checked)}
               className="w-5 h-5 mt-0.5 accent-vert-mid"
