@@ -103,8 +103,8 @@ export function CureCompleteSection() {
               style={cardsIn ? { animationDelay: `${i * 120}ms` } : undefined}
             >
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-bleu-bg text-2xl">{r.icon}</div>
-              <h3 className="mt-6 font-body text-xl font-extrabold leading-snug text-foreground">{r.title}</h3>
-              <p className="mt-3 text-base leading-[1.8] text-muted-foreground">{r.text}</p>
+              <h3 className="mt-6 font-body text-[1.35rem] font-extrabold leading-snug text-foreground">{r.title}</h3>
+              <p className="mt-3 text-[1.05rem] leading-[1.8] text-muted-foreground">{r.text}</p>
             </div>
           ))}
         </div>
@@ -164,13 +164,13 @@ export function CureCompleteSection() {
               offersIn ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 fill-mode-both' : 'opacity-0'
             )}
           >
-            <span className="inline-flex w-fit items-center rounded-full bg-muted px-3 py-1.5 text-xs font-bold text-muted-foreground">
+            <span className="inline-flex w-fit items-center rounded-full bg-muted px-3 py-1.5 text-sm font-bold text-muted-foreground">
               Idéal pour découvrir le traitement
             </span>
-            <h4 className="mt-5 font-body text-xl font-extrabold text-foreground">Offre Découverte</h4>
-            <p className="mt-1 text-sm font-semibold text-muted-foreground">1 sachet</p>
+            <h4 className="mt-5 font-body text-[1.4rem] font-extrabold text-foreground">Offre Découverte</h4>
+            <p className="mt-1 text-base font-semibold text-muted-foreground">1 sachet</p>
             <p className="mt-4 font-body text-3xl font-extrabold text-foreground">12 500 FCFA</p>
-            <ul className="mt-6 space-y-3 text-[15px] leading-relaxed text-muted-foreground">
+            <ul className="mt-6 space-y-3 text-[1.05rem] leading-relaxed text-muted-foreground">
               {['Pour découvrir le traitement', 'Petit budget', 'Quantité limitée'].map((a) => (
                 <li key={a} className="flex items-start gap-2.5">
                   <span className="text-bleu">✔</span>
@@ -196,16 +196,16 @@ export function CureCompleteSection() {
               offersIn ? 'animate-in fade-in zoom-in-95 duration-700 delay-100 fill-mode-both' : 'opacity-0'
             )}
           >
-            <span className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-rouge px-4 py-1.5 text-xs font-extrabold text-primary-foreground shadow-lg shadow-rouge/30 animate-pulse">
+            <span className="absolute -top-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-rouge px-4 py-1.5 text-sm font-extrabold text-primary-foreground shadow-lg shadow-rouge/30 animate-pulse">
               ⭐ OFFRE LA PLUS CHOISIE
             </span>
             <h4 className="mt-4 font-body text-2xl font-extrabold text-foreground">Cure Complète</h4>
-            <p className="mt-1 text-sm font-semibold text-rouge">2 sachets achetés + 1 sachet offert</p>
+            <p className="mt-1 text-base font-semibold text-rouge">2 sachets achetés + 1 sachet offert</p>
             <div className="mt-4 flex items-baseline gap-3">
               <span className="font-body text-4xl font-extrabold text-foreground">25 000 FCFA</span>
               <span className="text-base text-muted-foreground line-through">37 500</span>
             </div>
-            <ul className="mt-6 space-y-3 text-[15px] leading-relaxed text-foreground">
+            <ul className="mt-6 space-y-3 text-[1.05rem] leading-relaxed text-foreground">
               {[
                 'Cure complète de 40 jours',
                 'Aucun risque de rupture du traitement',
@@ -219,7 +219,7 @@ export function CureCompleteSection() {
                 </li>
               ))}
             </ul>
-            <div className="mt-6 rounded-xl bg-bleu-bg px-4 py-3 text-center text-[13px] font-bold leading-relaxed text-bleu">
+            <div className="mt-6 rounded-xl bg-bleu-bg px-4 py-3 text-center text-sm font-bold leading-relaxed text-bleu">
               🛡️ Cure complète • Pas de rupture de traitement • Paiement à la livraison
             </div>
             <button
@@ -229,7 +229,7 @@ export function CureCompleteSection() {
             >
               Je choisis cette offre
             </button>
-            <p className="mt-3 text-center text-xs text-muted-foreground">
+            <p className="mt-3 text-center text-sm text-muted-foreground">
               La majorité de nos clients choisissent cette formule.
             </p>
           </div>
@@ -241,13 +241,13 @@ export function CureCompleteSection() {
               offersIn ? 'animate-in fade-in slide-in-from-bottom-5 duration-700 delay-200 fill-mode-both' : 'opacity-0'
             )}
           >
-            <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-bleu px-4 py-1.5 text-xs font-extrabold text-white shadow-md">
+            <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-bleu px-4 py-1.5 text-sm font-extrabold text-white shadow-md">
               💎 ÉCONOMIE MAXIMALE
             </span>
-            <h4 className="mt-4 font-body text-xl font-extrabold text-foreground">Cure Longue Durée</h4>
-            <p className="mt-1 text-sm font-semibold text-bleu">3 sachets achetés + 2 sachets offerts</p>
+            <h4 className="mt-4 font-body text-[1.4rem] font-extrabold text-foreground">Cure Longue Durée</h4>
+            <p className="mt-1 text-base font-semibold text-bleu">3 sachets achetés + 2 sachets offerts</p>
             <p className="mt-4 font-body text-3xl font-extrabold text-foreground">38 000 FCFA</p>
-            <ul className="mt-6 space-y-3 text-[15px] leading-relaxed text-muted-foreground">
+            <ul className="mt-6 space-y-3 text-[1.05rem] leading-relaxed text-muted-foreground">
               {[
                 '2 sachets offerts',
                 'Stock longue durée',
