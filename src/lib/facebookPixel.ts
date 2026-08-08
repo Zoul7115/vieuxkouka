@@ -1,7 +1,7 @@
 // Helpers Facebook Pixel + Conversions API
 // Multi-pixel: init + track sur tous les pixels ci-dessous
 
-export const FB_PIXEL_IDS = ['908625378350649', '1046078838009117', '2514762605713856', '27561738260186463'] as const;
+export const FB_PIXEL_IDS = ['1386103566593894'] as const;
 // Retour compat pour anciens imports
 export const FB_PIXEL_ID = FB_PIXEL_IDS[0];
 
