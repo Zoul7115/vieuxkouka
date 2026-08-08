@@ -3,7 +3,7 @@
 // Renvoie: { ok: true, results: [...] }
 
 const PIXELS: Array<{ id: string; token: string }> = [
-  { id: '1386103566593894', token: Deno.env.get('FB_CAPI_TOKEN') || '' },
+  { id: '1386103566593894', token: Deno.env.get('FB_CAPI_TOKEN_5') || '' },
 ].filter((p) => p.token);
 
 const corsHeaders = {
