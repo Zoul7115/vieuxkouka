@@ -3,10 +3,7 @@
 // Renvoie: { ok: true, results: [...] }
 
 const PIXELS: Array<{ id: string; token: string }> = [
-  { id: '908625378350649', token: Deno.env.get('FB_CAPI_TOKEN') || '' },
-  { id: '1046078838009117', token: Deno.env.get('FB_CAPI_TOKEN_2') || '' },
-  { id: '2514762605713856', token: Deno.env.get('FB_CAPI_TOKEN_3') || '' },
-  { id: '27561738260186463', token: Deno.env.get('FB_CAPI_TOKEN_4') || '' },
+  { id: '1386103566593894', token: Deno.env.get('FB_CAPI_TOKEN') || '' },
 ].filter((p) => p.token);
 
 const corsHeaders = {
