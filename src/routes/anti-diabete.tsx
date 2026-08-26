@@ -699,7 +699,10 @@ export function AntiDiabetePage() {
         <ProductForm product={ANTI_DIABETE} />
       </section>
 
-      <StickyOrderBar />
+      <div className="hidden md:block">
+        <StickyOrderBar />
+      </div>
+      <MobileOrderBar />
     </main>
   );
 }
