@@ -9,6 +9,7 @@ import { CureCompleteSection } from '@/components/anti-diabete/CureCompleteSecti
 import { TemoignagesSection } from '@/components/anti-diabete/TemoignagesSection';
 import { WhyTrustSection } from '@/components/anti-diabete/WhyTrustSection';
 import { StickyOrderBar } from '@/components/anti-diabete/StickyOrderBar';
+import { MobileOrderBar } from '@/components/anti-diabete/MobileOrderBar';
 import { ScrollProgress } from '@/components/anti-diabete/ScrollProgress';
 import { DeliveryCountries } from '@/components/anti-diabete/DeliveryCountries';
 
