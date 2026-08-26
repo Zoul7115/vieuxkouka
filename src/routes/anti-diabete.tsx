@@ -77,20 +77,19 @@ function Hero() {
           {/* Texte */}
           <div className="order-2 lg:order-1">
             <span className="inline-flex items-center gap-2 rounded-full bg-bleu-bg px-4 py-2 text-xs font-bold text-bleu sm:text-sm animate-in fade-in duration-500 fill-mode-both">
-              🌿 Traitement traditionnel reconnu depuis plusieurs années
+              ✓ Déjà +500 clients à Ouaga et Niamey
             </span>
 
             <h1 className="mt-6 text-[2.1rem] leading-[1.18] sm:leading-[1.2] font-body font-extrabold tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem] animate-in fade-in slide-in-from-bottom-2 duration-500 delay-75 fill-mode-both">
-              <span className="text-bleu">Guérir</span> du diabète en un temps
-              record avec le traitement traditionnel du{' '}
+              Fatigué de vivre avec le diabète ? Découvrez la cure traditionnelle
+              de 40 jours du{' '}
               <span className="text-bleu">Vieux Kouka</span>
             </h1>
 
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg animate-in fade-in duration-500 delay-150 fill-mode-both">
-              Découvrez comment le traitement traditionnel du Vieux Kouka peut
-              vous aider à stabiliser votre glycémie, à éliminer les symptômes du
-              diabète et à retrouver une meilleure santé grâce à un traitement
-              complet de 40 jours.
+              Une poudre 100 % plantes et racines, préparée selon une recette
+              secrète des Koulsés. Pas un calmant : une vraie cure de 40 jours,
+              avec un suivi WhatsApp du premier au dernier jour.
             </p>
 
             <div className="mt-9 animate-in fade-in slide-in-from-bottom-2 duration-500 delay-300 fill-mode-both">
@@ -98,15 +97,15 @@ function Hero() {
                 href="#solution"
                 className="inline-flex items-center justify-center rounded-xl bg-rouge px-8 py-4 text-base font-bold text-primary-foreground shadow-lg shadow-rouge/25 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl sm:text-lg"
               >
-                Voir la solution naturelle
+                Je découvre la cure de 40 jours
               </a>
             </div>
 
             <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted-foreground animate-in fade-in duration-500 delay-500 fill-mode-both">
               {[
                 'Paiement à la livraison',
-                'Traitement complet de 40 jours',
-                'Livraison rapide',
+                'Livraison gratuite Ouaga et Niamey',
+                'Suivi WhatsApp inclus',
               ].map((t) => (
                 <li key={t} className="flex items-center gap-2">
                   <span className="text-bleu font-bold">✔</span>
