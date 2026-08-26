@@ -649,37 +649,6 @@ function SolutionSection() {
           </div>
         </div>
 
-        {/* BLOC 3 — Confiance */}
-        <div ref={b3Ref} className="mt-14 lg:mt-16">
-          <h3
-            className={`mx-auto max-w-3xl text-center font-body text-[1.9rem] font-extrabold leading-[1.2] text-foreground sm:text-[2.4rem] ${
-              b3In ? 'animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both' : 'opacity-0'
-            }`}
-          >
-            Pourquoi tant de personnes lui font confiance ?
-          </h3>
-
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-7">
-            {CONFIANCE_CARDS.map((card, i) => (
-              <div
-                key={card.title}
-                className={`group rounded-[1.75rem] bg-white p-8 shadow-[0_18px_45px_-30px_rgba(15,23,42,0.45)] ring-1 ring-bleu/10 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-28px_rgba(25,118,210,0.45)] ${
-                  b3In ? 'animate-in fade-in duration-700 fill-mode-both' : 'opacity-0'
-                }`}
-                style={b3In ? { animationDelay: `${150 + i * 130}ms` } : undefined}
-              >
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-bleu-bg text-2xl">
-                  {card.icon}
-                </div>
-                <h4 className="mt-6 font-body text-xl font-extrabold leading-snug text-foreground sm:text-[1.35rem]">
-                  {card.title}
-                </h4>
-                <p className="mt-3 text-base leading-[1.75] text-muted-foreground sm:text-lg">{card.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Transition vers les témoignages */}
         <div
           ref={trRef}
