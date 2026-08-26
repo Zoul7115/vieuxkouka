@@ -222,10 +222,14 @@ export function CureCompleteSection() {
             <div className="mt-6 rounded-xl bg-bleu-bg px-4 py-3 text-center text-sm font-bold leading-relaxed text-bleu">
               🛡️ Cure complète • Pas de rupture de traitement • Paiement à la livraison
             </div>
+            <div className="mt-4 flex items-center justify-center gap-1.5 text-xs font-extrabold text-rouge">
+              <span>⏰</span>
+              Il reste peu de sachets sur ce lot
+            </div>
             <button
               type="button"
               onClick={() => selectOffer(22)}
-              className="mt-7 w-full rounded-xl bg-rouge px-6 py-4 text-base font-extrabold text-primary-foreground shadow-lg shadow-rouge/25 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl sm:text-lg"
+              className="mt-4 w-full rounded-xl bg-rouge px-6 py-4 text-base font-extrabold text-primary-foreground shadow-lg shadow-rouge/25 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl sm:text-lg"
             >
               Je choisis cette offre
             </button>
