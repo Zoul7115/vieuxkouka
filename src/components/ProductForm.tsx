@@ -486,10 +486,16 @@ function AntiDiabeteOfferSelector({
           Remplis le formulaire — on te contacte sous 2h sur WhatsApp pour confirmer ta livraison.
         </p>
 
-        <OfferSelector offers={product.offers} selectedId={offer.id} onSelect={(o) => {
-          setOffer(o);
-          trackFB('AddToCart', { value: o.price, currency: 'XOF', content_name: `${product.name} · ${o.label}` });
-        }} />
+        {isAntiDiabete ? (
+          <AntiDiabeteOfferSelector offer={offer} setOffer={setOffer} product={product} />
+        ) : (
+          <OfferSelector offers={product.offers} selectedId={offer.id} onSelect={(o) => {
+            setOffer(o);
+            trackFB('AddToCart', { value: o.price, currency: 'XOF', content_name: `${product.name} · ${o.label}` });
+          }} />
+        )}
+
+        
 
         
 
