@@ -472,12 +472,6 @@ const TRAITEMENT_POINTS = [
   'Accompagnement si besoin',
 ];
 
-const CONFIANCE_CARDS = [
-  { icon: '🌿', title: 'Préparé avec soin', text: 'Chaque traitement est préparé avec attention.' },
-  { icon: '🏺', title: 'Traitement traditionnel', text: 'Un savoir transmis depuis de nombreuses années.' },
-  { icon: '💵', title: 'Paiement à la livraison', text: 'Vous payez uniquement lorsque vous recevez votre commande.' },
-  { icon: '🚚', title: 'Livraison rapide', text: 'Votre commande est expédiée rapidement.' },
-];
 
 function CheckItem({ text, index, show }: { text: string; index: number; show: boolean }) {
   return (
