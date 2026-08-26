@@ -1,0 +1,17 @@
+[build]
+  command = "npm run build"
+  publish = "dist/client"
+
+[build.environment]
+  NODE_VERSION = "20"
+  # TanStack Start est une app SSR : le serveur est compilé par Nitro.
+  # Le preset "netlify" génère la fonction serverless + les redirections.
+  NITRO_PRESET = "netlify"
+
+# Filet de sécurité : toute route non trouvée dans les fichiers statiques
+# est envoyée au serveur SSR (Nitro écrit ses propres règles prioritaires).
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = false
