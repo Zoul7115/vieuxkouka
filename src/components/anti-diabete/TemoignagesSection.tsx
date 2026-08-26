@@ -34,9 +34,9 @@ function useInView<T extends HTMLElement>(threshold = 0.15) {
 }
 
 const AVIS = [
-  { quote: 'Vos produits sont super bons.', place: 'Cliente • Burkina Faso' },
-  { quote: "Avant, j'allais uriner toutes les 10 minutes. Maintenant c'est calme.", place: 'Cliente • Burkina Faso' },
-  { quote: 'La soif a beaucoup diminué. Hier nuit, je me suis levée une seule fois.', place: 'Cliente • Burkina Faso' },
+  { quote: 'Vos produits sont super bons.', place: 'Ali T. – Ouagadougou' },
+  { quote: "Avant, j'allais uriner toutes les 10 minutes. Maintenant c'est calme.", place: 'Fatimata S. – Niamey' },
+  { quote: 'La soif a beaucoup diminué. Hier nuit, je me suis levée une seule fois.', place: 'Boureima K. – Ouagadougou' },
   { quote: 'Je me sens beaucoup mieux qu\'avant. Je dors mieux et je suis moins fatiguée pendant la journée.', place: 'Cliente • Burkina Faso' },
   { quote: 'Au début, j\'avais des doutes. Aujourd\'hui, je suis contente d\'avoir essayé le traitement.', place: 'Cliente • Burkina Faso' },
   { quote: 'J\'avais toujours la bouche sèche et je buvais de l\'eau sans arrêt. Maintenant, ça a beaucoup diminué.', place: 'Client • Burkina Faso' },
