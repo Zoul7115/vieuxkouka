@@ -493,7 +493,6 @@ function SolutionSection() {
   const { ref: headerRef, inView: headerIn } = useInView<HTMLDivElement>(0.2);
   const { ref: b1Ref, inView: b1In } = useInView<HTMLDivElement>(0.15);
   const { ref: b2Ref, inView: b2In } = useInView<HTMLDivElement>(0.15);
-  const { ref: b3Ref, inView: b3In } = useInView<HTMLDivElement>(0.1);
   const { ref: trRef, inView: trIn } = useInView<HTMLDivElement>(0.3);
 
   return (
