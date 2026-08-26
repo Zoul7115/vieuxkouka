@@ -37,7 +37,6 @@ export function MobileOrderBar() {
         show ? 'translate-y-0' : 'translate-y-full pointer-events-none',
       ].join(' ')}
       aria-hidden={!show}
-      data-at-form={String(atForm)}
       style={{ paddingBottom: 'max(env(safe-area-inset-bottom), 8px)' }}
     >
       <div className="container-kouka flex items-center justify-between gap-3 py-3 px-4">
