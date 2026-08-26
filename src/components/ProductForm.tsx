@@ -407,6 +407,67 @@ export function ProductForm({ product, assignedCloseuse: assignedProp }: { produ
     }
   };
 
+function AntiDiabeteOfferSelector({
+  offer,
+  setOffer,
+  product,
+}: {
+  offer: Offer;
+  setOffer: (o: Offer) => void;
+  product: Product;
+}) {
+  const discovery = product.offers.find((o) => o.id === 21)!;
+  const recommended = product.offers.find((o) => o.id === 22)!;
+  const productLabel = /sirop/i.test(product.name) ? 'flacon' : 'sachet';
+
+  return (
+    <div className="max-w-[480px] mx-auto mb-6">
+      <button
+        type="button"
+        onClick={() => {
+          setOffer(recommended);
+          trackFB('AddToCart', { value: recommended.price, currency: 'XOF', content_name: `${product.name} · ${recommended.label}` });
+        }}
+        className={`relative block w-full text-left rounded-2xl bg-white p-6 border-[3px] transition-all duration-300 ${
+          offer.id === 22
+            ? 'border-rouge shadow-[0_6px_22px_rgba(198,40,40,0.20)]'
+            : 'border-rouge/40 opacity-90 hover:border-rouge'
+        }`}
+      >
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-rouge text-white text-[11px] font-extrabold px-3 py-1 rounded-full whitespace-nowrap shadow">
+          ⭐ OFFRE LA PLUS CHOISIE
+        </span>
+        <h4 className="font-body text-lg font-extrabold text-foreground leading-tight">{recommended.label}</h4>
+        <p className="mt-1 text-sm font-bold text-rouge">2 sachets achetés + 1 sachet offert</p>
+        <div className="mt-4 flex items-baseline gap-3">
+          <span className="font-body text-3xl font-extrabold text-vert">{formatFCFA(recommended.price)}</span>
+          <span className="text-base text-muted-foreground line-through">{formatFCFA(recommended.oldPrice)}</span>
+        </div>
+        {recommended.saving && (
+          <div className="mt-2 text-xs text-rouge font-extrabold">🎁 {recommended.saving}</div>
+        )}
+        <div className="mt-5 rounded-xl bg-bleu-bg px-4 py-3 text-center text-sm font-bold leading-relaxed text-bleu">
+          🛡️ Cure complète • Pas de rupture • Paiement à la livraison
+        </div>
+        <div className="mt-4 w-full rounded-xl bg-rouge px-6 py-4 text-center text-base font-extrabold text-primary-foreground shadow-lg shadow-rouge/25">
+          {offer.id === 22 ? '✓ SÉLECTIONNÉ' : 'Je choisis cette offre'}
+        </div>
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          setOffer(discovery);
+          trackFB('AddToCart', { value: discovery.price, currency: 'XOF', content_name: `${product.name} · ${discovery.label}` });
+        }}
+        className="mt-4 block w-full text-center text-sm font-semibold text-muted-foreground underline underline-offset-2 hover:text-rouge transition-colors"
+      >
+        Je préfère d'abord tester avec 1 {productLabel} ({formatFCFA(discovery.price)})
+      </button>
+    </div>
+  );
+}
+
   const isAntiDiabete = product.slug === 'anti-diabete';
   return (
     <section
