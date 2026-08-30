@@ -66,7 +66,7 @@ export const Route = createRootRoute({
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/icons/icon-192.png" },
     ],
-    scripts: [],
+    scripts: [{ children: FB_PIXEL_SNIPPET }],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -88,10 +88,28 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const firstRender = useRef(true);
+
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return; // le PageView initial est déjà envoyé par le snippet
+    }
+    const fbq = (window as unknown as { fbq?: (...a: unknown[]) => void }).fbq;
+    if (typeof fbq === 'function') fbq('track', 'PageView');
+  }, [pathname]);
+
   return (
     <>
+      <noscript
+        dangerouslySetInnerHTML={{
+          __html: `<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${FB_PIXEL_ID}&ev=PageView&noscript=1" />`,
+        }}
+      />
       <Outlet />
       <Toaster position="top-center" richColors />
     </>
   );
+
 }
