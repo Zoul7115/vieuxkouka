@@ -49,13 +49,6 @@ export function AudioVieuxKouka({
             supabase.from('visits').insert({ page: `audio_played_${productSlug}`, source: 'audio' }).then(() => {});
           });
         } catch {/* noop */}
-        // Facebook Pixel
-        try {
-          const w = window as unknown as { fbq?: (...args: unknown[]) => void };
-          if (typeof w.fbq === 'function') {
-            w.fbq('trackCustom', 'AudioPlayed', { product: productSlug });
-          }
-        } catch {/* noop */}
       }
     }
   };
