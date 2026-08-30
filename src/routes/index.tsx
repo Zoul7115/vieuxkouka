@@ -524,7 +524,7 @@ export function HomePage() {
             </ul>
             <div className="mt-4 pt-4 border-t-2 border-vert flex items-center justify-between">
               <span className="font-extrabold text-foreground">Total à payer</span>
-              <span className="text-3xl font-extrabold text-vert">25 000 F</span>
+              <span className="text-3xl font-extrabold text-vert">20 000 F</span>
             </div>
           </div>
         </div>
