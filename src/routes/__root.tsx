@@ -52,9 +52,7 @@ export const Route = createRootRoute({
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/icons/icon-192.png" },
     ],
-    scripts: [
-      { children: FB_PIXEL_SCRIPT },
-    ],
+    scripts: [],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -66,7 +64,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
-        <noscript dangerouslySetInnerHTML={{ __html: FB_PIXEL_IDS.map((id) => `<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${id}&ev=PageView&noscript=1" />`).join('') }} />
       </head>
       <body>
         {children}
@@ -77,10 +74,6 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  // Track PageView via CAPI à chaque navigation (le pixel client le fait déjà au load initial)
-  useEffect(() => {
-    trackFB('PageView');
-  }, []);
   return (
     <>
       <Outlet />
