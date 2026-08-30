@@ -508,7 +508,7 @@ export function HomePage() {
           <div className="bg-white rounded-3xl p-6 shadow-xl border-2 border-vert-bg">
             <ul className="divide-y divide-vert-bg">
               {[
-                { t: '3 sachets de Poudre du Vieux Kouka', v: '25 000 F' },
+                { t: '3 sachets de Poudre du Vieux Kouka', v: '20 000 F' },
                 { t: 'Posologie personnalisée par WhatsApp', v: 'Offert' },
                 { t: 'Suivi pendant toute la cure', v: 'Offert' },
                 { t: 'Livraison à domicile (Ouaga & Niamey)', v: 'Offert' },
@@ -524,7 +524,7 @@ export function HomePage() {
             </ul>
             <div className="mt-4 pt-4 border-t-2 border-vert flex items-center justify-between">
               <span className="font-extrabold text-foreground">Total à payer</span>
-              <span className="text-3xl font-extrabold text-vert">25 000 F</span>
+              <span className="text-3xl font-extrabold text-vert">20 000 F</span>
             </div>
           </div>
         </div>
