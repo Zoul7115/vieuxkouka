@@ -508,7 +508,7 @@ export function HomePage() {
           <div className="bg-white rounded-3xl p-6 shadow-xl border-2 border-vert-bg">
             <ul className="divide-y divide-vert-bg">
               {[
-                { t: '3 sachets de Poudre du Vieux Kouka', v: '25 000 F' },
+                { t: '3 sachets de Poudre du Vieux Kouka', v: '20 000 F' },
                 { t: 'Posologie personnalisée par WhatsApp', v: 'Offert' },
                 { t: 'Suivi pendant toute la cure', v: 'Offert' },
                 { t: 'Livraison à domicile (Ouaga & Niamey)', v: 'Offert' },
